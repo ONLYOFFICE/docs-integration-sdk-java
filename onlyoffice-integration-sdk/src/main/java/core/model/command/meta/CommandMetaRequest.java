@@ -20,7 +20,7 @@ public class CommandMetaRequest extends CommandAuthorizedBase {
     @JsonIgnore
     @NotNull
     private URI address;
-    @org.jetbrains.annotations.NotNull
+    @NotNull
     @Length(min = 3)
     private String key;
     @NotNull
