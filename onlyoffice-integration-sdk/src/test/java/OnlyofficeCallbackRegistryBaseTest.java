@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+// TODO: Replace with mocks
 public class OnlyofficeCallbackRegistryBaseTest {
     private final OnlyofficeCallbackRegistry registry = new OnlyofficeCallbackRegistryBase();
     @Test

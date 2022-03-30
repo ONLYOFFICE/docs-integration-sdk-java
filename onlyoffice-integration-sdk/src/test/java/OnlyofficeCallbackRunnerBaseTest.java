@@ -6,8 +6,9 @@ import core.model.callback.Callback;
 import core.processor.OnlyofficeCallbackProcessor;
 import core.processor.OnlyofficeCallbackProcessorBase;
 import core.processor.OnlyofficePreProcessor;
-import core.processor.configuration.OnlyofficeDefaultProcessorCustomMapConfiguration;
-import core.processor.implementation.OnlyofficeCallbackPreProcessorBase;
+import core.processor.configuration.OnlyofficeDefaultPrePostProcessorCustomMapConfiguration;
+import core.processor.configuration.OnlyofficeProcessorCustomMapConfigurationBase;
+import core.processor.implementation.OnlyofficeCallbackDefaultPreProcessor;
 import core.runner.OnlyofficeCallbackRunner;
 import core.runner.OnlyofficeCallbackRunnerBase;
 import core.security.OnlyofficeJwtManager;
@@ -24,12 +25,14 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+//TODO: Replace with mocks
 public class OnlyofficeCallbackRunnerBaseTest {
     private final OnlyofficeCallbackRegistry callbackRegistry = new OnlyofficeCallbackRegistryBase();
     private final OnlyofficeJwtManager jwtManager = new OnlyofficeJwtManagerBase();
-    private final OnlyofficeDefaultProcessorCustomMapConfiguration configuration = new OnlyofficeDefaultProcessorCustomMapConfiguration();
-    private final OnlyofficeCallbackProcessor callbackProcessor = new OnlyofficeCallbackProcessorBase(callbackRegistry);
-    private final OnlyofficePreProcessor<Callback> callbackOnlyofficePreProcessor = new OnlyofficeCallbackPreProcessorBase(configuration, jwtManager);
+    private final OnlyofficeProcessorCustomMapConfigurationBase configuration = new OnlyofficeProcessorCustomMapConfigurationBase();
+    private final OnlyofficeCallbackProcessor callbackProcessor = new OnlyofficeCallbackProcessorBase(callbackRegistry, configuration, jwtManager);
+    private final OnlyofficeDefaultPrePostProcessorCustomMapConfiguration defaultConfiguration = new OnlyofficeDefaultPrePostProcessorCustomMapConfiguration();
+    private final OnlyofficePreProcessor<Callback> callbackOnlyofficePreProcessor = new OnlyofficeCallbackDefaultPreProcessor(defaultConfiguration, jwtManager);
     private final OnlyofficeCallbackRunner callbackRunner = new OnlyofficeCallbackRunnerBase(callbackProcessor, List.of(callbackOnlyofficePreProcessor), new ArrayList<>());
 
     @BeforeEach
@@ -60,10 +63,8 @@ public class OnlyofficeCallbackRunnerBaseTest {
                 .builder()
                 .status(2)
                 .custom(Map.of(
-                        configuration.getBeforeMapKey(), Map.of(
-                                configuration.getSecretKey(), "secret",
-                                configuration.getTokenKey(), token
-                        )
+                        configuration.getSecretKey(), "secret",
+                        configuration.getTokenKey(), token
                 ))
                 .build();
         assertDoesNotThrow(() -> this.callbackRunner.run(callback));
@@ -79,9 +80,7 @@ public class OnlyofficeCallbackRunnerBaseTest {
                 .status(2)
                 .token(token)
                 .custom(Map.of(
-                        configuration.getBeforeMapKey(), Map.of(
-                                configuration.getSecretKey(), "secret"
-                        )
+                        configuration.getSecretKey(), "secret"
                 ))
                 .build();
         assertDoesNotThrow(() -> this.callbackRunner.run(callback));
@@ -119,9 +118,7 @@ public class OnlyofficeCallbackRunnerBaseTest {
                 .builder()
                 .status(2)
                 .custom(Map.of(
-                        configuration.getBeforeMapKey(), Map.of(
-                                configuration.getSecretKey(), "secret"
-                        )
+                        configuration.getSecretKey(), "secret"
                 ))
                 .build();
         assertDoesNotThrow(() -> this.callbackRunner.run(callback));
@@ -136,10 +133,8 @@ public class OnlyofficeCallbackRunnerBaseTest {
                 .builder()
                 .status(2)
                 .custom(Map.of(
-                        configuration.getBeforeMapKey(), Map.of(
-                                "random", "secret",
-                                configuration.getTokenKey(), token
-                        )
+                        "random", "secret",
+                        configuration.getTokenKey(), token
                 ))
                 .build();
         assertDoesNotThrow(() -> this.callbackRunner.run(callback));
@@ -154,10 +149,8 @@ public class OnlyofficeCallbackRunnerBaseTest {
                 .builder()
                 .status(2)
                 .custom(Map.of(
-                        configuration.getBeforeMapKey(), Map.of(
-                                configuration.getSecretKey(), "secret",
-                                "invalid", token
-                        )
+                        configuration.getSecretKey(), "secret",
+                        "invalid", token
                 ))
                 .build();
         assertDoesNotThrow(() -> this.callbackRunner.run(callback));
@@ -172,10 +165,8 @@ public class OnlyofficeCallbackRunnerBaseTest {
                 .builder()
                 .status(2)
                 .custom(Map.of(
-                        configuration.getBeforeMapKey(), Map.of(
-                                configuration.getSecretKey(), "invalid",
-                                configuration.getTokenKey(), token
-                        )
+                        configuration.getSecretKey(), "invalid",
+                        configuration.getTokenKey(), token
                 ))
                 .build();
         assertThrows(JWTVerificationException.class, () -> this.callbackRunner.run(callback));

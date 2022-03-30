@@ -4,11 +4,10 @@ import core.model.config.document.Document;
 import core.model.config.editor.Editor;
 import core.processor.OnlyofficeEditorProcessor;
 import core.processor.OnlyofficeEditorProcessorBase;
-import core.processor.OnlyofficePostProcessor;
 import core.processor.OnlyofficePreProcessor;
-import core.processor.configuration.OnlyofficeDefaultProcessorCustomMapConfiguration;
-import core.processor.implementation.OnlyofficeEditorPostProcessorBase;
-import core.processor.implementation.OnlyofficeEditorPreProcessorBase;
+import core.processor.configuration.OnlyofficeDefaultPrePostProcessorCustomMapConfiguration;
+import core.processor.configuration.OnlyofficeProcessorCustomMapConfigurationBase;
+import core.processor.implementation.OnlyofficeEditorDefaultPreProcessor;
 import core.runner.OnlyofficeEditorRunner;
 import core.runner.OnlyofficeEditorRunnerBase;
 import core.security.OnlyofficeJwtManager;
@@ -28,18 +27,19 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+// TODO: Replace with mocks
 public class OnlyofficeEditorRunnerBaseTest {
     private final OnlyofficeJwtManager jwtSecurity = new OnlyofficeJwtManagerBase();
     private final OnlyofficeFileUtil onlyofficeFileUtil = new OnlyofficeFileUtilBase();
     private final OnlyofficeConfigUtil configUtil = new OnlyofficeConfigUtilBase(onlyofficeFileUtil);
-    private final OnlyofficeDefaultProcessorCustomMapConfiguration configuration = new OnlyofficeDefaultProcessorCustomMapConfiguration();
-    private final OnlyofficeEditorProcessor onlyofficeEditorProcessor = new OnlyofficeEditorProcessorBase(configUtil);
-    private final OnlyofficePreProcessor<Config> configOnlyofficePreProcessor = new OnlyofficeEditorPreProcessorBase(configuration, jwtSecurity);
-    private final OnlyofficePostProcessor<Config> configOnlyofficePostProcessor = new OnlyofficeEditorPostProcessorBase(configuration, jwtSecurity);
+    private final OnlyofficeProcessorCustomMapConfigurationBase configuration = new OnlyofficeProcessorCustomMapConfigurationBase();
+    private final OnlyofficeEditorProcessor onlyofficeEditorProcessor = new OnlyofficeEditorProcessorBase(configUtil, configuration, jwtSecurity);
+    private final OnlyofficeDefaultPrePostProcessorCustomMapConfiguration defaultConfiguration = new OnlyofficeDefaultPrePostProcessorCustomMapConfiguration();
+    private final OnlyofficePreProcessor<Config> configOnlyofficePreProcessor = new OnlyofficeEditorDefaultPreProcessor(defaultConfiguration, jwtSecurity);
     private final OnlyofficeEditorRunner onlyofficeEditorRunner = new OnlyofficeEditorRunnerBase(
             onlyofficeEditorProcessor,
             List.of(configOnlyofficePreProcessor),
-            List.of(configOnlyofficePostProcessor)
+            List.of()
     );
 
     @Test
@@ -77,14 +77,12 @@ public class OnlyofficeEditorRunnerBaseTest {
                 .document(doc)
                 .editorConfig(editor)
                 .custom(Map.of(
-                        configuration.getBeforeMapKey(), Map.of(
-                                configuration.getSecretKey(), "secret",
-                                configuration.getTokenKey(), token,
-                                configuration.getAutoFillerKey(), af
+                        defaultConfiguration.getBeforeMapKey(), Map.of(
+                                defaultConfiguration.getSecretKey(), "secret",
+                                defaultConfiguration.getTokenKey(), token,
+                                defaultConfiguration.getAutoFillerKey(), af
                         ),
-                        configuration.getAfterMapKey(), Map.of(
-                                configuration.getSecretKey(), "secret"
-                        )
+                        configuration.getSecretKey(), "secret"
                 ))
                 .build();
         Config processedConfig = this.onlyofficeEditorRunner.run(config);

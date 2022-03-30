@@ -9,6 +9,7 @@ import core.util.OnlyofficeFileUtilBase;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+//TODO: Replace with mocks
 public class OnlyofficeConfigUtilBaseTest {
     private final OnlyofficeFileUtil fileUtil = new OnlyofficeFileUtilBase();
     private final OnlyofficeConfigUtil configUtil = new OnlyofficeConfigUtilBase(fileUtil);

@@ -17,6 +17,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+//TODO: Replace with mocks
 public class OnlyofficeCommandClientBaseTest {
     private final OnlyofficeJwtManager jwtManager = new OnlyofficeJwtManagerBase();
     private final ObjectMapper objectMapper = new ObjectMapper();

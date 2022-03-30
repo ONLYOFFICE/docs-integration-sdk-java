@@ -2,10 +2,7 @@ package core.model.callback;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,5 +29,11 @@ public class Callback {
     private Boolean notmodified;
     @JsonIgnore
     @Builder.Default
+    @Setter(AccessLevel.NONE)
     private Map<String, Object> custom = new HashMap<>();
+
+    public Callback setCustom(Map<String, Object> custom) {
+        this.custom = custom;
+        return this;
+    }
 }

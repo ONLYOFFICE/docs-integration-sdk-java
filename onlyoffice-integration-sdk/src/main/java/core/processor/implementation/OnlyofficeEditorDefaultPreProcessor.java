@@ -5,7 +5,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import core.model.OnlyofficeModelAutoFiller;
 import core.model.config.Config;
 import core.processor.OnlyofficePreProcessor;
-import core.processor.configuration.OnlyofficeDefaultProcessorCustomMapConfiguration;
+import core.processor.configuration.OnlyofficeDefaultPrePostProcessorCustomMapConfiguration;
 import core.security.OnlyofficeJwtManager;
 import exception.OnlyofficeProcessBeforeException;
 import lombok.RequiredArgsConstructor;
@@ -13,10 +13,16 @@ import lombok.RequiredArgsConstructor;
 import java.util.Map;
 
 @RequiredArgsConstructor
-public class OnlyofficeEditorPreProcessorBase implements OnlyofficePreProcessor<Config> {
-    private final OnlyofficeDefaultProcessorCustomMapConfiguration configuration;
+public class OnlyofficeEditorDefaultPreProcessor implements OnlyofficePreProcessor<Config> {
+    private final OnlyofficeDefaultPrePostProcessorCustomMapConfiguration configuration;
     private final OnlyofficeJwtManager jwtManager;
 
+    /**
+     *
+     * @param config
+     * @throws OnlyofficeProcessBeforeException
+     * @throws JWTVerificationException
+     */
     public void processBefore(Config config) throws OnlyofficeProcessBeforeException, JWTVerificationException {
         if (config == null) return;
         Map<String, Object> custom = config.getCustom();
@@ -28,7 +34,7 @@ public class OnlyofficeEditorPreProcessorBase implements OnlyofficePreProcessor<
         Map<String, Object> jwtMap;
         try {
             jwtMap = (Map<String, Object>) custom.get(beforeMapKey);
-        } catch (Exception e) {
+        } catch (ClassCastException e) {
             return;
         }
 
@@ -58,7 +64,7 @@ public class OnlyofficeEditorPreProcessorBase implements OnlyofficePreProcessor<
             OnlyofficeModelAutoFiller<Config> filler;
             try {
                 filler = (OnlyofficeModelAutoFiller<Config>) autoFiller;
-            } catch (Exception e) {
+            } catch (ClassCastException e) {
                 this.jwtManager.verify(token.toString(), secret.toString());
                 return;
             }

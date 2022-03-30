@@ -18,6 +18,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+//TODO: Replace with mocks
 public class OnlyofficeConvertClientBaseTest {
     private final URI addressJwt = new URI(System.getenv("jwt_document_server")+"/ConvertService.ashx");
     private final URI address = new URI(System.getenv("document_server")+"/ConvertService.ashx");
