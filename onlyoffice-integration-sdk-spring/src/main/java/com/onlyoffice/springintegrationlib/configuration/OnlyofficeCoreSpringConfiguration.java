@@ -1,14 +1,17 @@
 package com.onlyoffice.springintegrationlib.configuration;
 
+import client.OnlyofficeCommandClient;
+import client.OnlyofficeConverterClient;
+import core.OnlyofficeIntegrationSDK;
 import core.callback.OnlyofficeCallbackRegistry;
 import core.callback.OnlyofficeCallbackRegistryBase;
 import core.model.callback.Callback;
 import core.model.config.Config;
 import core.processor.*;
-import core.processor.configuration.OnlyofficeDefaultProcessorCustomMapConfiguration;
-import core.processor.implementation.OnlyofficeCallbackPreProcessorBase;
-import core.processor.implementation.OnlyofficeEditorPostProcessorBase;
-import core.processor.implementation.OnlyofficeEditorPreProcessorBase;
+import core.processor.configuration.OnlyofficeDefaultPrePostProcessorCustomMapConfiguration;
+import core.processor.configuration.OnlyofficeProcessorCustomMapConfiguration;
+import core.processor.implementation.OnlyofficeCallbackDefaultPreProcessor;
+import core.processor.implementation.OnlyofficeEditorDefaultPreProcessor;
 import core.runner.OnlyofficeCallbackRunner;
 import core.runner.OnlyofficeCallbackRunnerBase;
 import core.runner.OnlyofficeEditorRunner;
@@ -19,7 +22,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 
 import java.util.List;
 
@@ -33,28 +35,21 @@ public class OnlyofficeCoreSpringConfiguration {
 
     @ConditionalOnMissingBean
     @Bean
-    public OnlyofficeEditorProcessor onlyofficeEditorProcessor(OnlyofficeConfigUtil configUtil) {
-        return new OnlyofficeEditorProcessorBase(configUtil);
+    public OnlyofficeEditorProcessor onlyofficeEditorProcessor(
+            OnlyofficeConfigUtil configUtil,
+            OnlyofficeProcessorCustomMapConfiguration configuration,
+            OnlyofficeJwtManager jwtManager
+    ) {
+        return new OnlyofficeEditorProcessorBase(configUtil, configuration, jwtManager);
     }
 
     @ConditionalOnProperty(prefix = "onlyoffice.defaults.preprocessors", name = "editor", havingValue = "enable")
     @Bean
-    @Order(value = 0)
-    public OnlyofficePreProcessor<Config> baseConfigPreProcessor(
-            OnlyofficeDefaultProcessorCustomMapConfiguration configuration,
+    public OnlyofficePreProcessor<Config> defaultConfigPreProcessor(
+            OnlyofficeDefaultPrePostProcessorCustomMapConfiguration configuration,
             OnlyofficeJwtManager jwtManager
     ) {
-        return new OnlyofficeEditorPreProcessorBase(configuration, jwtManager);
-    }
-
-    @ConditionalOnProperty(prefix = "onlyoffice.defaults.postprocessors", name = "editor", havingValue = "enable")
-    @Bean
-    @Order(value = 0)
-    public OnlyofficePostProcessor<Config> baseConfigPostProcessor(
-            OnlyofficeDefaultProcessorCustomMapConfiguration configuration,
-            OnlyofficeJwtManager jwtManager
-    ) {
-        return new OnlyofficeEditorPostProcessorBase(configuration, jwtManager);
+        return new OnlyofficeEditorDefaultPreProcessor(configuration, jwtManager);
     }
 
     @ConditionalOnMissingBean
@@ -71,18 +66,21 @@ public class OnlyofficeCoreSpringConfiguration {
 
     @ConditionalOnMissingBean
     @Bean
-    public OnlyofficeCallbackProcessor onlyofficeCallbackProcessor(OnlyofficeCallbackRegistry registry) {
-        return new OnlyofficeCallbackProcessorBase(registry);
+    public OnlyofficeCallbackProcessor onlyofficeCallbackProcessor(
+            OnlyofficeCallbackRegistry registry,
+            OnlyofficeProcessorCustomMapConfiguration configuration,
+            OnlyofficeJwtManager jwtManager
+    ) {
+        return new OnlyofficeCallbackProcessorBase(registry, configuration, jwtManager);
     }
 
     @ConditionalOnProperty(prefix = "onlyoffice.defaults.preprocessors", name = "callback", havingValue = "enable")
     @Bean
-    @Order(value = 0)
     public OnlyofficePreProcessor<Callback> baseCallbackPreProcessor(
-            OnlyofficeDefaultProcessorCustomMapConfiguration configuration,
+            OnlyofficeDefaultPrePostProcessorCustomMapConfiguration configuration,
             OnlyofficeJwtManager jwtManager
     ) {
-        return new OnlyofficeCallbackPreProcessorBase(configuration, jwtManager);
+        return new OnlyofficeCallbackDefaultPreProcessor(configuration, jwtManager);
     }
 
     @ConditionalOnMissingBean
@@ -115,5 +113,15 @@ public class OnlyofficeCoreSpringConfiguration {
             List<OnlyofficePostProcessor<Callback>> callbackPostProcessors
     ) {
         return new OnlyofficeCallbackRunnerBase(callbackProcessor, callbackPreProcessors, callbackPostProcessors);
+    }
+
+    @Bean
+    public OnlyofficeIntegrationSDK integrationSDK(
+            OnlyofficeCallbackRunner callbackRunner,
+            OnlyofficeEditorRunner editorRunner,
+            OnlyofficeCommandClient commandClient,
+            OnlyofficeConverterClient converterClient
+    ) {
+        return new OnlyofficeIntegrationSDK(callbackRunner, editorRunner, commandClient, converterClient);
     }
 }
