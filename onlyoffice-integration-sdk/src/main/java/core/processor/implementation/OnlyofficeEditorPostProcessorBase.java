@@ -33,9 +33,7 @@ public class OnlyofficeEditorPostProcessorBase implements OnlyofficePostProcesso
         if (!custom.containsKey(afterMapKey)) return;
 
         if (!(custom.get(afterMapKey) instanceof Map)) return;
-
         Map<String, Object> jwtMap;
-
         try {
             jwtMap = (Map<String, Object>) custom.get(afterMapKey);
         } catch (Exception e) {
@@ -44,7 +42,6 @@ public class OnlyofficeEditorPostProcessorBase implements OnlyofficePostProcesso
 
         String secretMapKey = configuration.getSecretKey();
         if (!jwtMap.containsKey(secretMapKey)) return;
-
         Object secret = jwtMap.get(secretMapKey);
         if (secret == null || !(secret instanceof String) || secret.toString().isBlank()) return;
 

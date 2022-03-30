@@ -160,4 +160,19 @@ public class OnlyofficeEditorPreProcessorBaseTest {
                 .build();
         assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.processBefore(config));
     }
+
+    @Test
+    public void processIgnoreJwtVerificationMalformedJwtTest() {
+        String token = "Asdasdascascasc.asgqwgqw.qweqwrqwr";
+        Config config = Config
+                .builder()
+                .custom(Map.of(
+                        configuration.getBeforeMapKey(), Map.of(
+                                configuration.getSecretKey(), "secret",
+                                "invalid", token
+                        )
+                ))
+                .build();
+        assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.processBefore(config));
+    }
 }

@@ -3,6 +3,7 @@ package core.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
@@ -52,6 +53,15 @@ public class OnlyofficeJwtManagerBase implements OnlyofficeJwtManager {
         } catch (Exception e) {
             throw new JWTVerificationException(e.getMessage());
         }
+    }
+
+    public void decode(String token) throws JWTDecodeException {
+        JWT.decode(token);
+    }
+
+    public <T> Optional<T> decode(T wrapper, String token) throws JWTDecodeException {
+        DecodedJWT decodedJWT = JWT.decode(token);
+        return this.populateObject(wrapper, decodedJWT.getClaims());
     }
 
     private <T> Optional<T> populateObject(T wrapper, Map<String, Claim> claims) throws JWTVerificationException {

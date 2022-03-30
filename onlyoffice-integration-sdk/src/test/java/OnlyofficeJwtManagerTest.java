@@ -1,3 +1,4 @@
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import core.model.config.Config;
 import core.security.OnlyofficeJwtManagerBase;
@@ -89,5 +90,27 @@ public class OnlyofficeJwtManagerTest {
     public void verifyRawMalformedJwtSignatureTest() {
         String token = "sadasdsadsadsdascascascas.acascascas.cascascsa";
         assertThrows(JWTVerificationException.class, () -> this.jwtSecurity.verify(token, this.secret));
+    }
+
+    @Test
+    public void decodeValidJwt() {
+        Date date = java.sql.Date.valueOf(LocalDate.now().plusDays(1));
+        String token = this.jwtSecurity.sign(this.config, this.secret, date).get();
+        assertDoesNotThrow(() -> this.jwtSecurity.decode(token));
+    }
+
+    @Test
+    public void decodeMalformedJwt() {
+        String token = "asdascwg1412412421rfasfsfsa.acsacsac.qw41414";
+        assertThrows(JWTDecodeException.class, () -> this.jwtSecurity.decode(token));
+    }
+
+    @Test
+    public void decodeValidJwtIntoObject() {
+        Config c = Config.builder().build();
+        Date date = java.sql.Date.valueOf(LocalDate.now().plusDays(1));
+        String token = this.jwtSecurity.sign(this.config, this.secret, date).get();
+        this.jwtSecurity.decode(c, token);
+        assertEquals("test", c.getType());
     }
 }
