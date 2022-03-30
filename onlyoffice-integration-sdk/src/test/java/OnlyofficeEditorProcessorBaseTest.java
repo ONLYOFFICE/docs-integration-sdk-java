@@ -2,8 +2,8 @@ import core.model.config.Config;
 import core.model.config.document.Document;
 import core.model.config.editor.Editor;
 import core.processor.OnlyofficeEditorProcessorBase;
-import core.processor.configuration.OnlyofficeProcessorCustomMapConfiguration;
-import core.processor.configuration.OnlyofficeProcessorCustomMapConfigurationBase;
+import core.processor.schema.OnlyofficeProcessorCustomMapSchema;
+import core.processor.schema.OnlyofficeProcessorCustomMapSchemaBase;
 import core.security.OnlyofficeJwtManager;
 import core.security.OnlyofficeJwtManagerBase;
 import core.util.OnlyofficeConfigUtil;
@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 public class OnlyofficeEditorProcessorBaseTest {
     private final OnlyofficeFileUtilBase fileUtil = new OnlyofficeFileUtilBase();
     private final OnlyofficeConfigUtil configUtil = new OnlyofficeConfigUtilBase(fileUtil);
-    private final OnlyofficeProcessorCustomMapConfiguration configuration = new OnlyofficeProcessorCustomMapConfigurationBase();
+    private final OnlyofficeProcessorCustomMapSchema configuration = new OnlyofficeProcessorCustomMapSchemaBase();
     private final OnlyofficeJwtManager jwtManager = new OnlyofficeJwtManagerBase();
     private final OnlyofficeEditorProcessorBase editorProcessorBase = new OnlyofficeEditorProcessorBase(configUtil, configuration, jwtManager);
 

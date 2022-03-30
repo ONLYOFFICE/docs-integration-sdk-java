@@ -3,7 +3,7 @@ package core.processor;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import core.callback.OnlyofficeCallbackRegistry;
 import core.model.callback.Callback;
-import core.processor.configuration.OnlyofficeProcessorCustomMapConfiguration;
+import core.processor.schema.OnlyofficeProcessorCustomMapSchema;
 import core.security.OnlyofficeJwtManager;
 import exception.OnlyofficeCallbackRuntimeException;
 import lombok.Getter;
@@ -15,7 +15,7 @@ import java.util.Map;
 @Getter
 public class OnlyofficeCallbackProcessorBase implements OnlyofficeCallbackProcessor {
     private final OnlyofficeCallbackRegistry registry;
-    private final OnlyofficeProcessorCustomMapConfiguration configuration;
+    private final OnlyofficeProcessorCustomMapSchema schema;
     private final OnlyofficeJwtManager jwtManager;
 
     /**
@@ -26,7 +26,7 @@ public class OnlyofficeCallbackProcessorBase implements OnlyofficeCallbackProces
      */
     public void handleCallback(Callback callback) throws OnlyofficeCallbackRuntimeException, JWTVerificationException {
         if (callback == null || callback.getStatus() == null) throw new OnlyofficeCallbackRuntimeException("Callback object is null or has no status");
-        String secretMapKey = configuration.getSecretKey();
+        String secretMapKey = schema.getSecretKey();
         Map<String, ?> custom = callback.getCustom();
         if (custom.containsKey(secretMapKey)) {
             Object secret = custom.get(secretMapKey);
@@ -35,7 +35,7 @@ public class OnlyofficeCallbackProcessorBase implements OnlyofficeCallbackProces
                 return;
             }
             if (callback.getToken() == null || callback.getToken().isBlank()) {
-                String tokenMapKey = configuration.getTokenKey();
+                String tokenMapKey = schema.getTokenKey();
                 if (custom.containsKey(tokenMapKey)) {
                     Object token = custom.get(tokenMapKey);
                     if (token != null && !token.toString().isBlank()) {

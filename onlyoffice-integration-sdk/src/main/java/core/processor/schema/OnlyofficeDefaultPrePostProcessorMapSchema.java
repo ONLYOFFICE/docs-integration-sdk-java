@@ -1,6 +1,6 @@
-package core.processor.configuration;
+package core.processor.schema;
 
-public final class OnlyofficeDefaultPrePostProcessorCustomMapConfiguration {
+public final class OnlyofficeDefaultPrePostProcessorMapSchema {
     /**
      *
      * @return

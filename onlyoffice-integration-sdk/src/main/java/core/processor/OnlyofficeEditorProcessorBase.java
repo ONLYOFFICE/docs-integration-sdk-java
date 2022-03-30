@@ -2,7 +2,7 @@ package core.processor;
 
 import com.auth0.jwt.exceptions.JWTCreationException;
 import core.model.config.Config;
-import core.processor.configuration.OnlyofficeProcessorCustomMapConfiguration;
+import core.processor.schema.OnlyofficeProcessorCustomMapSchema;
 import core.security.OnlyofficeJwtManager;
 import core.util.OnlyofficeConfigUtil;
 import core.util.OnlyofficeValidationCaller;
@@ -22,7 +22,7 @@ import java.util.Date;
 @Getter
 public class OnlyofficeEditorProcessorBase implements OnlyofficeEditorProcessor {
     private final OnlyofficeConfigUtil configUtil;
-    private final OnlyofficeProcessorCustomMapConfiguration configuration;
+    private final OnlyofficeProcessorCustomMapSchema schema;
     private final OnlyofficeJwtManager jwtManager;
     @Setter
     private int jwtExpirationMinutes = 1;
@@ -36,7 +36,7 @@ public class OnlyofficeEditorProcessorBase implements OnlyofficeEditorProcessor 
      * @throws JWTCreationException
      */
     public final Config processEditorConfig(Config config) throws OnlyofficeEditorConfigurationException, OnlyofficeInvalidParameterException, JWTCreationException {
-        String secretMapKey = configuration.getSecretKey();
+        String secretMapKey = schema.getSecretKey();
         if (config.getCustom().containsKey(secretMapKey)) {
             Object secret = config.getCustom().get(secretMapKey);
             if (secret != null && !secret.toString().isBlank()) {

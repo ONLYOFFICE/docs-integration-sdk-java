@@ -5,8 +5,8 @@ import core.callback.OnlyofficeCallbackRegistryBase;
 import core.model.callback.Callback;
 import core.processor.OnlyofficeCallbackProcessor;
 import core.processor.OnlyofficeCallbackProcessorBase;
-import core.processor.configuration.OnlyofficeProcessorCustomMapConfiguration;
-import core.processor.configuration.OnlyofficeProcessorCustomMapConfigurationBase;
+import core.processor.schema.OnlyofficeProcessorCustomMapSchema;
+import core.processor.schema.OnlyofficeProcessorCustomMapSchemaBase;
 import core.security.OnlyofficeJwtManager;
 import core.security.OnlyofficeJwtManagerBase;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class OnlyofficeCallbackProcessorBaseTest {
     private final OnlyofficeCallbackRegistry registry = new OnlyofficeCallbackRegistryBase();
     private final OnlyofficeJwtManager jwtManager = new OnlyofficeJwtManagerBase();
-    private final OnlyofficeProcessorCustomMapConfiguration configuration = new OnlyofficeProcessorCustomMapConfigurationBase();
+    private final OnlyofficeProcessorCustomMapSchema configuration = new OnlyofficeProcessorCustomMapSchemaBase();
     private final OnlyofficeCallbackProcessor callbackProcessor = new OnlyofficeCallbackProcessorBase(registry, configuration, jwtManager);
 
     @Test

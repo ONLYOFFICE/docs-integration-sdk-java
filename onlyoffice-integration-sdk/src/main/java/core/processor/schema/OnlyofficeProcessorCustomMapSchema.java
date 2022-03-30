@@ -1,6 +1,6 @@
-package core.processor.configuration;
+package core.processor.schema;
 
-public interface OnlyofficeProcessorCustomMapConfiguration {
+public interface OnlyofficeProcessorCustomMapSchema {
     /**
      *
      * @return

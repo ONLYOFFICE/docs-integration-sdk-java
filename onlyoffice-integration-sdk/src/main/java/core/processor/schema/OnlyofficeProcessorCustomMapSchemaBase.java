@@ -1,6 +1,6 @@
-package core.processor.configuration;
+package core.processor.schema;
 
-public final class OnlyofficeProcessorCustomMapConfigurationBase implements OnlyofficeProcessorCustomMapConfiguration {
+public final class OnlyofficeProcessorCustomMapSchemaBase implements OnlyofficeProcessorCustomMapSchema {
     /**
      *
      * @return

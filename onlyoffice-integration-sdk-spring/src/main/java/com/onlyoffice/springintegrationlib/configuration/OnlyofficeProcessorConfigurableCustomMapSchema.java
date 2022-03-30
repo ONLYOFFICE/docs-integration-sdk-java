@@ -1,10 +1,10 @@
 package com.onlyoffice.springintegrationlib.configuration;
 
-import core.processor.configuration.OnlyofficeProcessorCustomMapConfiguration;
+import core.processor.schema.OnlyofficeProcessorCustomMapSchema;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class OnlyofficeProcessorConfigurableCustomMapConfiguration implements OnlyofficeProcessorCustomMapConfiguration {
+public class OnlyofficeProcessorConfigurableCustomMapSchema implements OnlyofficeProcessorCustomMapSchema {
     private final String secretKey;
     private final String tokenKey;
 
