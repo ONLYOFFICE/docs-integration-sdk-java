@@ -2,7 +2,7 @@ package core.processor.implementation;
 
 import core.model.config.Config;
 import core.processor.OnlyofficePostProcessor;
-import core.processor.configuration.OnlyofficeProcessorCustomMapConfiguration;
+import core.processor.configuration.OnlyofficeDefaultProcessorCustomMapConfiguration;
 import core.security.OnlyofficeJwtManager;
 import exception.OnlyofficeJwtSigningException;
 import exception.OnlyofficeProcessAfterException;
@@ -19,7 +19,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 public class OnlyofficeEditorPostProcessorBase implements OnlyofficePostProcessor<Config> {
-    private final OnlyofficeProcessorCustomMapConfiguration configuration;
+    private final OnlyofficeDefaultProcessorCustomMapConfiguration configuration;
     private final OnlyofficeJwtManager jwtManager;
     @Getter
     @Setter

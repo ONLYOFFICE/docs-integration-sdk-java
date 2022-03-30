@@ -1,6 +1,6 @@
 package core.processor.configuration;
 
-public class OnlyofficeProcessorCustomMapConfigurationBase implements OnlyofficeProcessorCustomMapConfiguration {
+public final class OnlyofficeDefaultProcessorCustomMapConfiguration {
     public String getBeforeMapKey() {
         return "beforeMap";
     }

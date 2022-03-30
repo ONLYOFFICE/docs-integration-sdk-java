@@ -6,8 +6,7 @@ import core.processor.OnlyofficeEditorProcessor;
 import core.processor.OnlyofficeEditorProcessorBase;
 import core.processor.OnlyofficePostProcessor;
 import core.processor.OnlyofficePreProcessor;
-import core.processor.configuration.OnlyofficeProcessorCustomMapConfiguration;
-import core.processor.configuration.OnlyofficeProcessorCustomMapConfigurationBase;
+import core.processor.configuration.OnlyofficeDefaultProcessorCustomMapConfiguration;
 import core.processor.implementation.OnlyofficeEditorPostProcessorBase;
 import core.processor.implementation.OnlyofficeEditorPreProcessorBase;
 import core.runner.OnlyofficeEditorRunner;
@@ -33,7 +32,7 @@ public class OnlyofficeEditorRunnerBaseTest {
     private final OnlyofficeJwtManager jwtSecurity = new OnlyofficeJwtManagerBase();
     private final OnlyofficeFileUtil onlyofficeFileUtil = new OnlyofficeFileUtilBase();
     private final OnlyofficeConfigUtil configUtil = new OnlyofficeConfigUtilBase(onlyofficeFileUtil);
-    private final OnlyofficeProcessorCustomMapConfiguration configuration = new OnlyofficeProcessorCustomMapConfigurationBase();
+    private final OnlyofficeDefaultProcessorCustomMapConfiguration configuration = new OnlyofficeDefaultProcessorCustomMapConfiguration();
     private final OnlyofficeEditorProcessor onlyofficeEditorProcessor = new OnlyofficeEditorProcessorBase(configUtil);
     private final OnlyofficePreProcessor<Config> configOnlyofficePreProcessor = new OnlyofficeEditorPreProcessorBase(configuration, jwtSecurity);
     private final OnlyofficePostProcessor<Config> configOnlyofficePostProcessor = new OnlyofficeEditorPostProcessorBase(configuration, jwtSecurity);

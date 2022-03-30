@@ -5,7 +5,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import core.model.OnlyofficeModelAutoFiller;
 import core.model.config.Config;
 import core.processor.OnlyofficePreProcessor;
-import core.processor.configuration.OnlyofficeProcessorCustomMapConfiguration;
+import core.processor.configuration.OnlyofficeDefaultProcessorCustomMapConfiguration;
 import core.security.OnlyofficeJwtManager;
 import exception.OnlyofficeProcessBeforeException;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 public class OnlyofficeEditorPreProcessorBase implements OnlyofficePreProcessor<Config> {
-    private final OnlyofficeProcessorCustomMapConfiguration configuration;
+    private final OnlyofficeDefaultProcessorCustomMapConfiguration configuration;
     private final OnlyofficeJwtManager jwtManager;
 
     public void processBefore(Config config) throws OnlyofficeProcessBeforeException, JWTVerificationException {

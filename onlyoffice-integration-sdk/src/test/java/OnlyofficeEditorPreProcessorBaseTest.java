@@ -2,8 +2,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import core.model.OnlyofficeModelAutoFiller;
 import core.model.config.Config;
 import core.processor.OnlyofficePreProcessor;
-import core.processor.configuration.OnlyofficeProcessorCustomMapConfiguration;
-import core.processor.configuration.OnlyofficeProcessorCustomMapConfigurationBase;
+import core.processor.configuration.OnlyofficeDefaultProcessorCustomMapConfiguration;
 import core.processor.implementation.OnlyofficeEditorPreProcessorBase;
 import core.security.OnlyofficeJwtManager;
 import core.security.OnlyofficeJwtManagerBase;
@@ -17,7 +16,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class OnlyofficeEditorPreProcessorBaseTest {
-    private final OnlyofficeProcessorCustomMapConfiguration configuration = new OnlyofficeProcessorCustomMapConfigurationBase();
+    private final OnlyofficeDefaultProcessorCustomMapConfiguration configuration = new OnlyofficeDefaultProcessorCustomMapConfiguration();
     private final OnlyofficeJwtManager jwtManager = new OnlyofficeJwtManagerBase();
     private final OnlyofficePreProcessor<Config> configOnlyofficePreProcessor = new OnlyofficeEditorPreProcessorBase(configuration, jwtManager);
 

@@ -2,8 +2,7 @@ import core.model.config.Config;
 import core.model.config.document.Document;
 import core.model.config.editor.Editor;
 import core.processor.OnlyofficePostProcessor;
-import core.processor.configuration.OnlyofficeProcessorCustomMapConfiguration;
-import core.processor.configuration.OnlyofficeProcessorCustomMapConfigurationBase;
+import core.processor.configuration.OnlyofficeDefaultProcessorCustomMapConfiguration;
 import core.processor.implementation.OnlyofficeEditorPostProcessorBase;
 import core.security.OnlyofficeJwtManager;
 import core.security.OnlyofficeJwtManagerBase;
@@ -15,7 +14,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class OnlyofficeEditorPostProcessorBaseTest {
-    private final OnlyofficeProcessorCustomMapConfiguration configuration = new OnlyofficeProcessorCustomMapConfigurationBase();
+    private final OnlyofficeDefaultProcessorCustomMapConfiguration configuration = new OnlyofficeDefaultProcessorCustomMapConfiguration();
     private final OnlyofficeJwtManager jwtManager = new OnlyofficeJwtManagerBase();
     private final OnlyofficePostProcessor<Config> configOnlyofficePostProcessor = new OnlyofficeEditorPostProcessorBase(configuration, jwtManager);
 

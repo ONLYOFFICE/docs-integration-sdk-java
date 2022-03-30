@@ -3,7 +3,7 @@ package core.processor.implementation;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import core.model.callback.Callback;
 import core.processor.OnlyofficePreProcessor;
-import core.processor.configuration.OnlyofficeProcessorCustomMapConfiguration;
+import core.processor.configuration.OnlyofficeDefaultProcessorCustomMapConfiguration;
 import core.security.OnlyofficeJwtManager;
 import exception.OnlyofficeProcessBeforeException;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 public class OnlyofficeCallbackPreProcessorBase implements OnlyofficePreProcessor<Callback> {
-    private final OnlyofficeProcessorCustomMapConfiguration configuration;
+    private final OnlyofficeDefaultProcessorCustomMapConfiguration configuration;
     private final OnlyofficeJwtManager jwtManager;
 
     public void processBefore(Callback callback) throws OnlyofficeProcessBeforeException, JWTVerificationException {

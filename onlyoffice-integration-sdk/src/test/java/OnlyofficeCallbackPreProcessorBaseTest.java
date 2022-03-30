@@ -1,8 +1,7 @@
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import core.model.callback.Callback;
 import core.processor.OnlyofficePreProcessor;
-import core.processor.configuration.OnlyofficeProcessorCustomMapConfiguration;
-import core.processor.configuration.OnlyofficeProcessorCustomMapConfigurationBase;
+import core.processor.configuration.OnlyofficeDefaultProcessorCustomMapConfiguration;
 import core.processor.implementation.OnlyofficeCallbackPreProcessorBase;
 import core.security.OnlyofficeJwtManager;
 import core.security.OnlyofficeJwtManagerBase;
@@ -15,7 +14,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class OnlyofficeCallbackPreProcessorBaseTest {
-    private final OnlyofficeProcessorCustomMapConfiguration configuration = new OnlyofficeProcessorCustomMapConfigurationBase();
+    private final OnlyofficeDefaultProcessorCustomMapConfiguration configuration = new OnlyofficeDefaultProcessorCustomMapConfiguration();
     private final OnlyofficeJwtManager jwtManager = new OnlyofficeJwtManagerBase();
     private final OnlyofficePreProcessor<Callback> callbackOnlyofficePreProcessor = new OnlyofficeCallbackPreProcessorBase(configuration, jwtManager);
 
