@@ -39,7 +39,7 @@ public class OnlyofficeEditorProcessorBase implements OnlyofficeEditorProcessor 
         String secretMapKey = configuration.getSecretKey();
         if (config.getCustom().containsKey(secretMapKey)) {
             Object secret = config.getCustom().get(secretMapKey);
-            if (secret != null && secret instanceof String && !secret.toString().isBlank()) {
+            if (secret != null && !secret.toString().isBlank()) {
                 LocalDateTime dateTime = LocalDateTime.now().plus(Duration.of(this.jwtExpirationMinutes, ChronoUnit.MINUTES));
                 Date date = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
                 String token = this.jwtManager.sign(config, secret.toString(), date)

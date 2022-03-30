@@ -1,3 +1,4 @@
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import core.model.OnlyofficeModelAutoFiller;
 import core.model.callback.Callback;
 import core.processor.OnlyofficePreProcessor;
@@ -12,8 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 // TODO: Replace with mocks
 public class OnlyofficeCallbackDefaultPreProcessorTest {
@@ -45,7 +45,7 @@ public class OnlyofficeCallbackDefaultPreProcessorTest {
     }
 
     @Test
-    public void processMalformedTokenIgnoreTest() {
+    public void processMalformedTokenThrowsTest() {
         String token = "aasdasc.asvasvas.arqwrtqwtrqw";
         Callback callback = Callback
                 .builder()
@@ -59,7 +59,7 @@ public class OnlyofficeCallbackDefaultPreProcessorTest {
                         )
                 ))
                 .build();
-        assertDoesNotThrow(() -> this.callbackOnlyofficePreProcessor.processBefore(callback));
+        assertThrows(JWTVerificationException.class, () -> this.callbackOnlyofficePreProcessor.processBefore(callback));
     }
 
     @Test

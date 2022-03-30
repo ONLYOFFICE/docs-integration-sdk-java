@@ -27,10 +27,10 @@ public class OnlyofficeCallbackProcessorBase implements OnlyofficeCallbackProces
     public void handleCallback(Callback callback) throws OnlyofficeCallbackRuntimeException, JWTVerificationException {
         if (callback == null || callback.getStatus() == null) throw new OnlyofficeCallbackRuntimeException("Callback object is null or has no status");
         String secretMapKey = configuration.getSecretKey();
-        Map<String, Object> custom = callback.getCustom();
+        Map<String, ?> custom = callback.getCustom();
         if (custom.containsKey(secretMapKey)) {
             Object secret = custom.get(secretMapKey);
-            if (secret == null || !(secret instanceof String) || secret.toString().isBlank()) {
+            if (secret == null || secret.toString().isBlank()) {
                 this.registry.run(callback);
                 return;
             }
@@ -38,7 +38,7 @@ public class OnlyofficeCallbackProcessorBase implements OnlyofficeCallbackProces
                 String tokenMapKey = configuration.getTokenKey();
                 if (custom.containsKey(tokenMapKey)) {
                     Object token = custom.get(tokenMapKey);
-                    if (token != null && token instanceof String && !token.toString().isBlank()) {
+                    if (token != null && !token.toString().isBlank()) {
                         callback.setToken(token.toString());
                     }
                 }

@@ -1,6 +1,5 @@
 package core.processor.implementation;
 
-import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import core.model.OnlyofficeModelAutoFiller;
 import core.model.callback.Callback;
@@ -25,11 +24,10 @@ public class OnlyofficeCallbackDefaultPreProcessor implements OnlyofficePreProce
      */
     public void processBefore(Callback callback) throws OnlyofficeProcessBeforeException, JWTVerificationException {
         if (callback == null) return;
-        Map<String, Object> custom = callback.getCustom();
+        Map<String, ?> custom = callback.getCustom();
 
         String beforeMapKey = this.configuration.getBeforeMapKey();
         if (!custom.containsKey(beforeMapKey)) return;
-        if (!(custom.get(beforeMapKey) instanceof Map)) return;
 
         Map<String, Object> jwtMap;
         try {
@@ -41,35 +39,28 @@ public class OnlyofficeCallbackDefaultPreProcessor implements OnlyofficePreProce
         String secretMapKey = configuration.getSecretKey();
         if (!jwtMap.containsKey(secretMapKey)) return;
         Object secret = jwtMap.get(secretMapKey);
-        if (secret == null || !(secret instanceof String) || secret.toString().isBlank()) return;
+        if (secret == null || secret.toString().isBlank()) return;
 
         String tokenMapKey = configuration.getTokenKey();
         if (!jwtMap.containsKey(tokenMapKey)) return;
         Object token = jwtMap.get(tokenMapKey);
-        if (token == null || !(token instanceof String) || token.toString().isBlank()) return;
+        if (token == null || token.toString().isBlank()) return;
 
-        try {
-            this.jwtManager.decode(token.toString());
-        } catch (JWTDecodeException e) {
+        String autoFillerMapKey = configuration.getAutoFillerKey();
+        if (!jwtMap.containsKey(autoFillerMapKey)) {
+            this.jwtManager.verify(token.toString(), jwtMap.get(secretMapKey).toString());
             return;
         }
 
-        String autoFillerMapKey = configuration.getAutoFillerKey();
-        if (jwtMap.containsKey(autoFillerMapKey)) {
-            Object autoFiller = jwtMap.get(autoFillerMapKey);
-            if (autoFiller instanceof OnlyofficeModelAutoFiller) {
-                OnlyofficeModelAutoFiller<Callback> filler;
-                try {
-                    filler = (OnlyofficeModelAutoFiller<Callback>) autoFiller;
-                } catch (ClassCastException e) {
-                    this.jwtManager.verify(token.toString(), jwtMap.get(secretMapKey).toString());
-                    return;
-                }
-                this.jwtManager.verify(filler, token.toString(), jwtMap.get(secretMapKey).toString());
-                filler.fillModel(callback);
-                return;
-            }
+        OnlyofficeModelAutoFiller<Callback> filler;
+        try {
+            filler = (OnlyofficeModelAutoFiller<Callback>) jwtMap.get(autoFillerMapKey);
+        } catch (ClassCastException e) {
+            this.jwtManager.verify(token.toString(), jwtMap.get(secretMapKey).toString());
+            return;
         }
-        this.jwtManager.verify(token.toString(), jwtMap.get(secretMapKey).toString());
+
+        this.jwtManager.verify(filler, token.toString(), jwtMap.get(secretMapKey).toString());
+        filler.fillModel(callback);
     }
 }

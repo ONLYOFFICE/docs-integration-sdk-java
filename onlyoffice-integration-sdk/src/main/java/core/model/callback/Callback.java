@@ -30,9 +30,9 @@ public class Callback {
     @JsonIgnore
     @Builder.Default
     @Setter(AccessLevel.NONE)
-    private Map<String, Object> custom = new HashMap<>();
+    private Map<String, ?> custom = new HashMap<>();
 
-    public Callback setCustom(Map<String, Object> custom) {
+    public Callback setCustom(Map<String, ?> custom) {
         this.custom = custom;
         return this;
     }
