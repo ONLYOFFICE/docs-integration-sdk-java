@@ -17,6 +17,14 @@ import java.util.stream.Collectors;
 public class OnlyofficeJwtManagerBase implements OnlyofficeJwtManager {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    /**
+     *
+     * @param obj
+     * @param secret
+     * @param expiresAt
+     * @return
+     * @throws JWTCreationException
+     */
     public Optional<String> sign(Object obj, String secret, Date expiresAt) throws JWTCreationException {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
@@ -30,6 +38,15 @@ public class OnlyofficeJwtManagerBase implements OnlyofficeJwtManager {
         }
     }
 
+    /**
+     *
+     * @param wrapper
+     * @param token
+     * @param secret
+     * @param <T>
+     * @return
+     * @throws JWTVerificationException
+     */
     public <T> Optional<T> verify(T wrapper, String token, String secret) throws JWTVerificationException {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
@@ -43,6 +60,12 @@ public class OnlyofficeJwtManagerBase implements OnlyofficeJwtManager {
         }
     }
 
+    /**
+     *
+     * @param token
+     * @param secret
+     * @throws JWTVerificationException
+     */
     public void verify(String token, String secret) throws JWTVerificationException {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
@@ -55,15 +78,36 @@ public class OnlyofficeJwtManagerBase implements OnlyofficeJwtManager {
         }
     }
 
+    /**
+     *
+     * @param token
+     * @throws JWTDecodeException
+     */
     public void decode(String token) throws JWTDecodeException {
         JWT.decode(token);
     }
 
+    /**
+     *
+     * @param wrapper
+     * @param token
+     * @param <T>
+     * @return
+     * @throws JWTDecodeException
+     */
     public <T> Optional<T> decode(T wrapper, String token) throws JWTDecodeException {
         DecodedJWT decodedJWT = JWT.decode(token);
         return this.populateObject(wrapper, decodedJWT.getClaims());
     }
 
+    /**
+     *
+     * @param wrapper
+     * @param claims
+     * @param <T>
+     * @return
+     * @throws JWTVerificationException
+     */
     private <T> Optional<T> populateObject(T wrapper, Map<String, Claim> claims) throws JWTVerificationException {
         try {
             Map<String, Field> fields = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);

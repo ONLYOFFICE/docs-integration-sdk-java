@@ -3,19 +3,15 @@ package core.processor;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import core.callback.OnlyofficeCallbackRegistry;
 import core.model.callback.Callback;
-import core.processor.schema.OnlyofficeProcessorCustomMapSchema;
 import core.security.OnlyofficeJwtManager;
 import exception.OnlyofficeCallbackRuntimeException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Map;
-
 @RequiredArgsConstructor
 @Getter
 public class OnlyofficeCallbackProcessorBase implements OnlyofficeCallbackProcessor {
     private final OnlyofficeCallbackRegistry registry;
-    private final OnlyofficeProcessorCustomMapSchema schema;
     private final OnlyofficeJwtManager jwtManager;
 
     /**
@@ -25,28 +21,12 @@ public class OnlyofficeCallbackProcessorBase implements OnlyofficeCallbackProces
      * @throws JWTVerificationException
      */
     public void handleCallback(Callback callback) throws OnlyofficeCallbackRuntimeException, JWTVerificationException {
-        if (callback == null || callback.getStatus() == null) throw new OnlyofficeCallbackRuntimeException("Callback object is null or has no status");
-        String secretMapKey = schema.getSecretKey();
-        Map<String, ?> custom = callback.getCustom();
-        if (custom.containsKey(secretMapKey)) {
-            Object secret = custom.get(secretMapKey);
-            if (secret == null || secret.toString().isBlank()) {
-                this.registry.run(callback);
-                return;
-            }
-            if (callback.getToken() == null || callback.getToken().isBlank()) {
-                String tokenMapKey = schema.getTokenKey();
-                if (custom.containsKey(tokenMapKey)) {
-                    Object token = custom.get(tokenMapKey);
-                    if (token != null && !token.toString().isBlank()) {
-                        callback.setToken(token.toString());
-                    }
-                }
-            }
-            if (callback.getToken() != null && !callback.getToken().isBlank()) {
-                this.jwtManager.verify(callback, callback.getToken(), secret.toString());
-            }
-        }
+        if (callback == null || callback.getStatus() == null)
+            throw new OnlyofficeCallbackRuntimeException("Callback object is null or has no status");
+        String secret = callback.getSecret();
+        String token = callback.getToken();
+        if (secret != null && !secret.isBlank() && token != null && !token.isBlank())
+            this.jwtManager.verify(callback, callback.getToken(), secret);
         this.registry.run(callback);
     }
 }

@@ -11,6 +11,12 @@ import lombok.AllArgsConstructor;
 public class OnlyofficeConfigUtilBase implements OnlyofficeConfigUtil {
     private OnlyofficeFileUtil fileUtil;
 
+    /**
+     *
+     * @param config
+     * @return
+     * @throws OnlyofficeEditorConfigurationException
+     */
     public Config sanitizeConfig(Config config) throws OnlyofficeEditorConfigurationException {
         Document document = config.getDocument();
         Editor editor = config.getEditorConfig();

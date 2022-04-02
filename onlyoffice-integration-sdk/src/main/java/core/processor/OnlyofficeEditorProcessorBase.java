@@ -2,7 +2,6 @@ package core.processor;
 
 import com.auth0.jwt.exceptions.JWTCreationException;
 import core.model.config.Config;
-import core.processor.schema.OnlyofficeProcessorCustomMapSchema;
 import core.security.OnlyofficeJwtManager;
 import core.util.OnlyofficeConfigUtil;
 import core.util.OnlyofficeValidationCaller;
@@ -22,13 +21,11 @@ import java.util.Date;
 @Getter
 public class OnlyofficeEditorProcessorBase implements OnlyofficeEditorProcessor {
     private final OnlyofficeConfigUtil configUtil;
-    private final OnlyofficeProcessorCustomMapSchema schema;
     private final OnlyofficeJwtManager jwtManager;
     @Setter
     private int jwtExpirationMinutes = 1;
 
     /**
-     *
      * @param config
      * @return
      * @throws OnlyofficeEditorConfigurationException
@@ -36,17 +33,17 @@ public class OnlyofficeEditorProcessorBase implements OnlyofficeEditorProcessor 
      * @throws JWTCreationException
      */
     public final Config processEditorConfig(Config config) throws OnlyofficeEditorConfigurationException, OnlyofficeInvalidParameterException, JWTCreationException {
-        String secretMapKey = schema.getSecretKey();
-        if (config.getCustom().containsKey(secretMapKey)) {
-            Object secret = config.getCustom().get(secretMapKey);
-            if (secret != null && !secret.toString().isBlank()) {
-                LocalDateTime dateTime = LocalDateTime.now().plus(Duration.of(this.jwtExpirationMinutes, ChronoUnit.MINUTES));
-                Date date = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
-                String token = this.jwtManager.sign(config, secret.toString(), date)
-                        .orElseThrow(() -> new OnlyofficeEditorConfigurationException("Could not get a signature for ONLYOFFICE Config. It is either null or blank"));
-                config.setToken(token);
-            }
+        if (config == null)
+            throw new OnlyofficeEditorConfigurationException("ONLYOFFICE Config object is null");
+
+        String secret = config.getSecret();
+        if (secret != null && !secret.isBlank()) {
+            LocalDateTime dateTime = LocalDateTime.now().plus(Duration.of(this.jwtExpirationMinutes, ChronoUnit.MINUTES));
+            Date date = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
+            String token = this.jwtManager.sign(config, secret, date).get();
+            config.setToken(token);
         }
+
         OnlyofficeValidationCaller.validate(config);
         return this.configUtil.sanitizeConfig(config);
     }

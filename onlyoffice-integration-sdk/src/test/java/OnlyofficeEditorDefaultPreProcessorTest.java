@@ -1,8 +1,7 @@
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import core.model.OnlyofficeModelAutoFiller;
+import core.model.OnlyofficeModelMutator;
 import core.model.config.Config;
 import core.processor.OnlyofficePreProcessor;
-import core.processor.schema.OnlyofficeDefaultPrePostProcessorMapSchema;
 import core.processor.implementation.OnlyofficeEditorDefaultPreProcessor;
 import core.security.OnlyofficeJwtManager;
 import core.security.OnlyofficeJwtManagerBase;
@@ -17,9 +16,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 //TODO: Replace with mocks
 public class OnlyofficeEditorDefaultPreProcessorTest {
-    private final OnlyofficeDefaultPrePostProcessorMapSchema configuration = new OnlyofficeDefaultPrePostProcessorMapSchema();
     private final OnlyofficeJwtManager jwtManager = new OnlyofficeJwtManagerBase();
-    private final OnlyofficePreProcessor<Config> configOnlyofficePreProcessor = new OnlyofficeEditorDefaultPreProcessor(configuration, jwtManager);
+    private final OnlyofficePreProcessor<Config> configOnlyofficePreProcessor = new OnlyofficeEditorDefaultPreProcessor(jwtManager);
 
     @Test
     public void processNoArgumentsTest() {
@@ -42,7 +40,7 @@ public class OnlyofficeEditorDefaultPreProcessorTest {
 
     @Test
     public void processConvertJwtAutoFillerTest() {
-        class AF implements OnlyofficeModelAutoFiller<Config> {
+        class AF implements OnlyofficeModelMutator<Config> {
             @Getter
             private String docUrl;
 
@@ -50,7 +48,7 @@ public class OnlyofficeEditorDefaultPreProcessorTest {
                 this.docUrl = docUrl;
             }
 
-            public void fillModel(Config model) {
+            public void mutate(Config model) {
                 model.getDocument().setUrl(docUrl);
             }
         }
@@ -61,11 +59,11 @@ public class OnlyofficeEditorDefaultPreProcessorTest {
 
         Config config = Config
                 .builder()
-                .custom(Map.of(
-                        configuration.getBeforeMapKey(), Map.of(
-                                configuration.getSecretKey(), "secret",
-                                configuration.getTokenKey(), token,
-                                configuration.getAutoFillerKey(), af
+                .processors(Map.of(
+                        "onlyoffice.default.preprocessor.editor", Map.of(
+                                "key", "secret",
+                                "token", token,
+                                "mutator", af
                         )
                 ))
                 .build();
@@ -80,10 +78,10 @@ public class OnlyofficeEditorDefaultPreProcessorTest {
         String token = this.jwtManager.sign(Map.of("test", "test"), "secret", date).get();
         Config config = Config
                 .builder()
-                .custom(Map.of(
-                        configuration.getBeforeMapKey(), Map.of(
-                                configuration.getSecretKey(), "secret",
-                                configuration.getTokenKey(), token
+                .processors(Map.of(
+                        "onlyoffice.default.preprocessor.editor", Map.of(
+                                "key", "secret",
+                                "token", token
                         )
                 ))
                 .build();
@@ -96,10 +94,10 @@ public class OnlyofficeEditorDefaultPreProcessorTest {
         String token = this.jwtManager.sign(Map.of("test", "test"), "secret", date).get();
         Config config = Config
                 .builder()
-                .custom(Map.of(
-                        configuration.getBeforeMapKey(), Map.of(
-                                configuration.getSecretKey(), "invalid",
-                                configuration.getTokenKey(), token
+                .processors(Map.of(
+                        "onlyoffice.default.preprocessor.editor", Map.of(
+                                "key", "invalid",
+                                "token", token
                         )
                 ))
                 .build();
@@ -112,9 +110,9 @@ public class OnlyofficeEditorDefaultPreProcessorTest {
         String token = this.jwtManager.sign(Map.of("test", "test"), "secret", date).get();
         Config config = Config
                 .builder()
-                .custom(Map.of(
-                        configuration.getBeforeMapKey(), Map.of(
-                                configuration.getTokenKey(), token
+                .processors(Map.of(
+                        "onlyoffice.default.preprocessor.editor", Map.of(
+                                "token", token
                         )
                 ))
                 .build();
@@ -125,56 +123,9 @@ public class OnlyofficeEditorDefaultPreProcessorTest {
     public void processIgnoreJwtVerificationNoTokenTest() {
         Config config = Config
                 .builder()
-                .custom(Map.of(
-                        configuration.getBeforeMapKey(), Map.of(
-                                configuration.getSecretKey(), "secret"
-                        )
-                ))
-                .build();
-        assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.processBefore(config));
-    }
-
-    @Test
-    public void processIgnoreJwtVerificationInvalidSecretKeyTest() {
-        Date date = java.sql.Date.valueOf(LocalDate.now().plusDays(1));
-        String token = this.jwtManager.sign(Map.of("test", "test"), "secret", date).get();
-        Config config = Config
-                .builder()
-                .custom(Map.of(
-                        configuration.getBeforeMapKey(), Map.of(
-                                "invalid", "secret",
-                                configuration.getTokenKey(), token
-                        )
-                ))
-                .build();
-        assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.processBefore(config));
-    }
-
-    @Test
-    public void processIgnoreJwtVerificationInvalidTokenKeyTest() {
-        Date date = java.sql.Date.valueOf(LocalDate.now().plusDays(1));
-        String token = this.jwtManager.sign(Map.of("test", "test"), "secret", date).get();
-        Config config = Config
-                .builder()
-                .custom(Map.of(
-                        configuration.getBeforeMapKey(), Map.of(
-                                configuration.getSecretKey(), "secret",
-                                "invalid", token
-                        )
-                ))
-                .build();
-        assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.processBefore(config));
-    }
-
-    @Test
-    public void processIgnoreJwtVerificationMalformedJwtTest() {
-        String token = "Asdasdascascasc.asgqwgqw.qweqwrqwr";
-        Config config = Config
-                .builder()
-                .custom(Map.of(
-                        configuration.getBeforeMapKey(), Map.of(
-                                configuration.getSecretKey(), "secret",
-                                "invalid", token
+                .processors(Map.of(
+                        "onlyoffice.default.preprocessor.editor", Map.of(
+                                "key", "secret"
                         )
                 ))
                 .build();

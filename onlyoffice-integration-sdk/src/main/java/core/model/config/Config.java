@@ -24,6 +24,8 @@ public class Config {
     private String type;
     private String documentType;
     private String token;
+    @JsonIgnore
+    private String secret;
     @NotNull(message = "ONLYOFFICE Config: document configuration can't be null")
     @Valid
     @Builder.Default
@@ -32,6 +34,10 @@ public class Config {
     @Valid
     @Builder.Default
     private Editor editorConfig = new Editor();
+    @JsonIgnore
+    @Builder.Default
+    @Setter(AccessLevel.NONE)
+    private Map<String, Map<String, Object>> processors = new HashMap<>();
     @JsonIgnore
     @Builder.Default
     private Map<String, ?> custom = new HashMap<>();

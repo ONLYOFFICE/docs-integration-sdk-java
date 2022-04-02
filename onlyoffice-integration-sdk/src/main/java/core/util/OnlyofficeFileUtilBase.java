@@ -19,6 +19,12 @@ public class OnlyofficeFileUtilBase implements OnlyofficeFileUtil {
     private Set<String> slide = Stream.of("pps", "ppsx", "ppsm", "ppt", "pptx", "pptm", "pot", "potx", "potm", "odp", "fodp", "otp")
             .collect(Collectors.toSet());
 
+    /**
+     *
+     * @param fileName
+     * @return
+     * @throws OnlyofficeInvalidParameterException
+     */
     public DocumentType findDocumentType(String fileName) throws OnlyofficeInvalidParameterException {
         String fileType = this.findFileType(fileName);
         if (this.cell.contains(fileType)) return DocumentType.CELL;
@@ -26,6 +32,12 @@ public class OnlyofficeFileUtilBase implements OnlyofficeFileUtil {
         return DocumentType.WORD;
     }
 
+    /**
+     *
+     * @param fileName
+     * @return
+     * @throws OnlyofficeInvalidParameterException
+     */
     public String findFileType(String fileName) throws OnlyofficeInvalidParameterException {
         String[] parts = fileName.split("\\.");
         if (parts.length != 2)
@@ -33,11 +45,23 @@ public class OnlyofficeFileUtilBase implements OnlyofficeFileUtil {
         return parts[1];
     }
 
+    /**
+     *
+     * @param fileName
+     * @return
+     * @throws OnlyofficeInvalidParameterException
+     */
     public Boolean isEditable(String fileName) throws OnlyofficeInvalidParameterException {
         String fileType = this.findFileType(fileName);
         return this.editable.contains(fileType);
     }
 
+    /**
+     *
+     * @param fileName
+     * @return
+     * @throws OnlyofficeInvalidParameterException
+     */
     public Boolean fillFormsAllowed(String fileName) throws OnlyofficeInvalidParameterException {
         String fileType = this.findFileType(fileName);
         return this.fillAllowed.contains(fileType);

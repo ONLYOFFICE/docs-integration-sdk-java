@@ -2,6 +2,7 @@ package com.onlyoffice.springintegrationlib.configuration;
 
 import client.OnlyofficeCommandClient;
 import client.OnlyofficeConverterClient;
+import client.OnlyofficeConverterClientRunner;
 import core.OnlyofficeIntegrationSDK;
 import core.callback.OnlyofficeCallbackRegistry;
 import core.callback.OnlyofficeCallbackRegistryBase;
@@ -10,8 +11,6 @@ import core.model.config.Config;
 import core.processor.*;
 import core.processor.implementation.OnlyofficeCallbackDefaultPreProcessor;
 import core.processor.implementation.OnlyofficeEditorDefaultPreProcessor;
-import core.processor.schema.OnlyofficeDefaultPrePostProcessorMapSchema;
-import core.processor.schema.OnlyofficeProcessorCustomMapSchema;
 import core.runner.OnlyofficeCallbackRunner;
 import core.runner.OnlyofficeCallbackRunnerBase;
 import core.runner.OnlyofficeEditorRunner;
@@ -19,7 +18,6 @@ import core.runner.OnlyofficeEditorRunnerBase;
 import core.security.OnlyofficeJwtManager;
 import core.util.OnlyofficeConfigUtil;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -37,19 +35,14 @@ public class OnlyofficeCoreSpringConfiguration {
     @Bean
     public OnlyofficeEditorProcessor onlyofficeEditorProcessor(
             OnlyofficeConfigUtil configUtil,
-            OnlyofficeProcessorCustomMapSchema schema,
             OnlyofficeJwtManager jwtManager
     ) {
-        return new OnlyofficeEditorProcessorBase(configUtil, schema, jwtManager);
+        return new OnlyofficeEditorProcessorBase(configUtil, jwtManager);
     }
 
-    @ConditionalOnProperty(prefix = "onlyoffice.defaults.preprocessors", name = "editor", havingValue = "enable")
     @Bean
-    public OnlyofficePreProcessor<Config> defaultConfigPreProcessor(
-            OnlyofficeDefaultPrePostProcessorMapSchema schema,
-            OnlyofficeJwtManager jwtManager
-    ) {
-        return new OnlyofficeEditorDefaultPreProcessor(schema, jwtManager);
+    public OnlyofficePreProcessor<Config> defaultConfigPreProcessor(OnlyofficeJwtManager jwtManager) {
+        return new OnlyofficeEditorDefaultPreProcessor(jwtManager);
     }
 
     @ConditionalOnMissingBean
@@ -68,19 +61,14 @@ public class OnlyofficeCoreSpringConfiguration {
     @Bean
     public OnlyofficeCallbackProcessor onlyofficeCallbackProcessor(
             OnlyofficeCallbackRegistry registry,
-            OnlyofficeProcessorCustomMapSchema schema,
             OnlyofficeJwtManager jwtManager
     ) {
-        return new OnlyofficeCallbackProcessorBase(registry, schema, jwtManager);
+        return new OnlyofficeCallbackProcessorBase(registry, jwtManager);
     }
 
-    @ConditionalOnProperty(prefix = "onlyoffice.defaults.preprocessors", name = "callback", havingValue = "enable")
     @Bean
-    public OnlyofficePreProcessor<Callback> baseCallbackPreProcessor(
-            OnlyofficeDefaultPrePostProcessorMapSchema schema,
-            OnlyofficeJwtManager jwtManager
-    ) {
-        return new OnlyofficeCallbackDefaultPreProcessor(schema, jwtManager);
+    public OnlyofficePreProcessor<Callback> baseCallbackPreProcessor(OnlyofficeJwtManager jwtManager) {
+        return new OnlyofficeCallbackDefaultPreProcessor(jwtManager);
     }
 
     @ConditionalOnMissingBean
@@ -120,8 +108,9 @@ public class OnlyofficeCoreSpringConfiguration {
             OnlyofficeCallbackRunner callbackRunner,
             OnlyofficeEditorRunner editorRunner,
             OnlyofficeCommandClient commandClient,
-            OnlyofficeConverterClient converterClient
+            OnlyofficeConverterClient converterClient,
+            OnlyofficeConverterClientRunner converterRunner
     ) {
-        return new OnlyofficeIntegrationSDK(callbackRunner, editorRunner, commandClient, converterClient);
+        return new OnlyofficeIntegrationSDK(callbackRunner, editorRunner, commandClient, converterClient, converterRunner);
     }
 }

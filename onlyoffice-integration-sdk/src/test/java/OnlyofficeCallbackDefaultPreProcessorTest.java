@@ -1,25 +1,23 @@
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import core.model.OnlyofficeModelAutoFiller;
+import core.model.OnlyofficeModelMutator;
 import core.model.callback.Callback;
 import core.processor.OnlyofficePreProcessor;
-import core.processor.schema.OnlyofficeDefaultPrePostProcessorMapSchema;
 import core.processor.implementation.OnlyofficeCallbackDefaultPreProcessor;
 import core.security.OnlyofficeJwtManager;
 import core.security.OnlyofficeJwtManagerBase;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 // TODO: Replace with mocks
 public class OnlyofficeCallbackDefaultPreProcessorTest {
-    private final OnlyofficeDefaultPrePostProcessorMapSchema configuration = new OnlyofficeDefaultPrePostProcessorMapSchema();
     private final OnlyofficeJwtManager jwtManager = new OnlyofficeJwtManagerBase();
-    private final OnlyofficePreProcessor<Callback> callbackOnlyofficePreProcessor = new OnlyofficeCallbackDefaultPreProcessor(configuration, jwtManager);
+    private final OnlyofficePreProcessor<Callback> callbackOnlyofficePreProcessor = new OnlyofficeCallbackDefaultPreProcessor(jwtManager);
 
     @Test
     public void processNoCustomParametersIgnoreTest() {
@@ -37,8 +35,8 @@ public class OnlyofficeCallbackDefaultPreProcessorTest {
                 .builder()
                 .key("1234")
                 .status(2)
-                .custom(Map.of(
-                        configuration.getBeforeMapKey(), new ArrayList<>()
+                .processors(Map.of(
+                        "onlyoffice.default.preprocessor.callback", new HashMap<>()
                 ))
                 .build();
         assertDoesNotThrow(() -> this.callbackOnlyofficePreProcessor.processBefore(callback));
@@ -52,10 +50,10 @@ public class OnlyofficeCallbackDefaultPreProcessorTest {
                 .key("1234")
                 .status(2)
                 .token(token)
-                .custom(Map.of(
-                        configuration.getBeforeMapKey(), Map.of(
-                                configuration.getSecretKey(), "secret",
-                                configuration.getTokenKey(), token
+                .processors(Map.of(
+                        "onlyoffice.default.preprocessor.callback", Map.of(
+                                "key", "secret",
+                                "token", token
                         )
                 ))
                 .build();
@@ -64,7 +62,7 @@ public class OnlyofficeCallbackDefaultPreProcessorTest {
 
     @Test
     public void processValidWithAutoFillerTest() {
-        class T implements OnlyofficeModelAutoFiller<Callback> {
+        class T implements OnlyofficeModelMutator<Callback> {
             private int status;
 
             public T() {
@@ -78,8 +76,8 @@ public class OnlyofficeCallbackDefaultPreProcessorTest {
                 this.status = status;
             }
 
-            public void fillModel(Callback model) {
-                model.setStatus(this.status);
+            public void mutate(Callback model) {
+                model.setStatus(status);
             }
         }
 
@@ -89,11 +87,11 @@ public class OnlyofficeCallbackDefaultPreProcessorTest {
                 .builder()
                 .key("1234")
                 .status(2)
-                .custom(Map.of(
-                        configuration.getBeforeMapKey(), Map.of(
-                                configuration.getSecretKey(), "secret",
-                                configuration.getTokenKey(), token,
-                                configuration.getAutoFillerKey(), new T()
+                .processors(Map.of(
+                        "onlyoffice.default.preprocessor.callback", Map.of(
+                                "key", "secret",
+                                "token", token,
+                                "mutator", new T()
                         )
                 ))
                 .build();

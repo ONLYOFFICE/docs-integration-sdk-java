@@ -12,6 +12,11 @@ public class OnlyofficeValidationCaller {
     private static final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     private static final Validator validator = factory.getValidator();
 
+    /**
+     *
+     * @param request
+     * @throws OnlyofficeInvalidParameterException
+     */
     public static void validate(Object request) throws OnlyofficeInvalidParameterException {
         Set<ConstraintViolation<Object>> violations = validator.validate(request);
         if (violations.size() > 0) {

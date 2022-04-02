@@ -6,8 +6,6 @@ import core.model.callback.Callback;
 import core.processor.OnlyofficeCallbackProcessor;
 import core.processor.OnlyofficeCallbackProcessorBase;
 import core.processor.OnlyofficePreProcessor;
-import core.processor.schema.OnlyofficeDefaultPrePostProcessorMapSchema;
-import core.processor.schema.OnlyofficeProcessorCustomMapSchemaBase;
 import core.processor.implementation.OnlyofficeCallbackDefaultPreProcessor;
 import core.runner.OnlyofficeCallbackRunner;
 import core.runner.OnlyofficeCallbackRunnerBase;
@@ -29,11 +27,13 @@ import static org.junit.jupiter.api.Assertions.*;
 public class OnlyofficeCallbackRunnerBaseTest {
     private final OnlyofficeCallbackRegistry callbackRegistry = new OnlyofficeCallbackRegistryBase();
     private final OnlyofficeJwtManager jwtManager = new OnlyofficeJwtManagerBase();
-    private final OnlyofficeProcessorCustomMapSchemaBase configuration = new OnlyofficeProcessorCustomMapSchemaBase();
-    private final OnlyofficeCallbackProcessor callbackProcessor = new OnlyofficeCallbackProcessorBase(callbackRegistry, configuration, jwtManager);
-    private final OnlyofficeDefaultPrePostProcessorMapSchema defaultConfiguration = new OnlyofficeDefaultPrePostProcessorMapSchema();
-    private final OnlyofficePreProcessor<Callback> callbackOnlyofficePreProcessor = new OnlyofficeCallbackDefaultPreProcessor(defaultConfiguration, jwtManager);
-    private final OnlyofficeCallbackRunner callbackRunner = new OnlyofficeCallbackRunnerBase(callbackProcessor, List.of(callbackOnlyofficePreProcessor), new ArrayList<>());
+    private final OnlyofficeCallbackProcessor callbackProcessor = new OnlyofficeCallbackProcessorBase(callbackRegistry, jwtManager);
+    private final OnlyofficePreProcessor<Callback> callbackOnlyofficePreProcessor = new OnlyofficeCallbackDefaultPreProcessor(jwtManager);
+    private final OnlyofficeCallbackRunner callbackRunner = new OnlyofficeCallbackRunnerBase(
+            callbackProcessor,
+            List.of(callbackOnlyofficePreProcessor),
+            new ArrayList<>()
+    );
 
     @BeforeEach
     public void registerHandler() {
@@ -56,32 +56,14 @@ public class OnlyofficeCallbackRunnerBaseTest {
     }
 
     @Test
-    public void runFullValidMapTokenTest() {
+    public void runFullValidJwtTest() {
         Date expiresAt = java.sql.Date.valueOf(LocalDate.now().plusDays(1));
         String token = this.jwtManager.sign(Map.of("status", 0), "secret", expiresAt).get();
         Callback callback = Callback
                 .builder()
                 .status(2)
-                .custom(Map.of(
-                        configuration.getSecretKey(), "secret",
-                        configuration.getTokenKey(), token
-                ))
-                .build();
-        assertDoesNotThrow(() -> this.callbackRunner.run(callback));
-        assertEquals(0, callback.getStatus());
-    }
-
-    @Test
-    public void runFullValidCallbackTokenTest() {
-        Date expiresAt = java.sql.Date.valueOf(LocalDate.now().plusDays(1));
-        String token = this.jwtManager.sign(Map.of("status", 0), "secret", expiresAt).get();
-        Callback callback = Callback
-                .builder()
-                .status(2)
+                .secret("secret")
                 .token(token)
-                .custom(Map.of(
-                        configuration.getSecretKey(), "secret"
-                ))
                 .build();
         assertDoesNotThrow(() -> this.callbackRunner.run(callback));
         assertEquals(0, callback.getStatus());
@@ -117,41 +99,7 @@ public class OnlyofficeCallbackRunnerBaseTest {
         Callback callback = Callback
                 .builder()
                 .status(2)
-                .custom(Map.of(
-                        configuration.getSecretKey(), "secret"
-                ))
-                .build();
-        assertDoesNotThrow(() -> this.callbackRunner.run(callback));
-        assertEquals(2, callback.getStatus());
-    }
-
-    @Test
-    public void runInvalidSecretMapKeySkipTest() {
-        Date expiresAt = java.sql.Date.valueOf(LocalDate.now().plusDays(1));
-        String token = this.jwtManager.sign(Map.of("status", 0), "secret", expiresAt).get();
-        Callback callback = Callback
-                .builder()
-                .status(2)
-                .custom(Map.of(
-                        "random", "secret",
-                        configuration.getTokenKey(), token
-                ))
-                .build();
-        assertDoesNotThrow(() -> this.callbackRunner.run(callback));
-        assertEquals(2, callback.getStatus());
-    }
-
-    @Test
-    public void runInvalidTokenMapKeySkipTest() {
-        Date expiresAt = java.sql.Date.valueOf(LocalDate.now().plusDays(1));
-        String token = this.jwtManager.sign(Map.of("status", 0), "secret", expiresAt).get();
-        Callback callback = Callback
-                .builder()
-                .status(2)
-                .custom(Map.of(
-                        configuration.getSecretKey(), "secret",
-                        "invalid", token
-                ))
+                .secret("secret")
                 .build();
         assertDoesNotThrow(() -> this.callbackRunner.run(callback));
         assertEquals(2, callback.getStatus());
@@ -164,10 +112,8 @@ public class OnlyofficeCallbackRunnerBaseTest {
         Callback callback = Callback
                 .builder()
                 .status(2)
-                .custom(Map.of(
-                        configuration.getSecretKey(), "invalid",
-                        configuration.getTokenKey(), token
-                ))
+                .secret("invalid")
+                .token(token)
                 .build();
         assertThrows(JWTVerificationException.class, () -> this.callbackRunner.run(callback));
         assertEquals(2, callback.getStatus());

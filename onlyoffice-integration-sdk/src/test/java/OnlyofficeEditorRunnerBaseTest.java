@@ -1,12 +1,10 @@
-import core.model.OnlyofficeModelAutoFiller;
+import core.model.OnlyofficeModelMutator;
 import core.model.config.Config;
 import core.model.config.document.Document;
 import core.model.config.editor.Editor;
 import core.processor.OnlyofficeEditorProcessor;
 import core.processor.OnlyofficeEditorProcessorBase;
 import core.processor.OnlyofficePreProcessor;
-import core.processor.schema.OnlyofficeDefaultPrePostProcessorMapSchema;
-import core.processor.schema.OnlyofficeProcessorCustomMapSchemaBase;
 import core.processor.implementation.OnlyofficeEditorDefaultPreProcessor;
 import core.runner.OnlyofficeEditorRunner;
 import core.runner.OnlyofficeEditorRunnerBase;
@@ -32,10 +30,8 @@ public class OnlyofficeEditorRunnerBaseTest {
     private final OnlyofficeJwtManager jwtSecurity = new OnlyofficeJwtManagerBase();
     private final OnlyofficeFileUtil onlyofficeFileUtil = new OnlyofficeFileUtilBase();
     private final OnlyofficeConfigUtil configUtil = new OnlyofficeConfigUtilBase(onlyofficeFileUtil);
-    private final OnlyofficeProcessorCustomMapSchemaBase configuration = new OnlyofficeProcessorCustomMapSchemaBase();
-    private final OnlyofficeEditorProcessor onlyofficeEditorProcessor = new OnlyofficeEditorProcessorBase(configUtil, configuration, jwtSecurity);
-    private final OnlyofficeDefaultPrePostProcessorMapSchema defaultConfiguration = new OnlyofficeDefaultPrePostProcessorMapSchema();
-    private final OnlyofficePreProcessor<Config> configOnlyofficePreProcessor = new OnlyofficeEditorDefaultPreProcessor(defaultConfiguration, jwtSecurity);
+    private final OnlyofficeEditorProcessor onlyofficeEditorProcessor = new OnlyofficeEditorProcessorBase(configUtil, jwtSecurity);
+    private final OnlyofficePreProcessor<Config> configOnlyofficePreProcessor = new OnlyofficeEditorDefaultPreProcessor(jwtSecurity);
     private final OnlyofficeEditorRunner onlyofficeEditorRunner = new OnlyofficeEditorRunnerBase(
             onlyofficeEditorProcessor,
             List.of(configOnlyofficePreProcessor),
@@ -45,7 +41,7 @@ public class OnlyofficeEditorRunnerBaseTest {
     @Test
     @SneakyThrows
     public void runFullValidTest() {
-        class AF implements OnlyofficeModelAutoFiller<Config> {
+        class AF implements OnlyofficeModelMutator<Config> {
             @Getter
             private String docUrl;
 
@@ -53,7 +49,7 @@ public class OnlyofficeEditorRunnerBaseTest {
                 this.docUrl = docUrl;
             }
 
-            public void fillModel(Config model) {
+            public void mutate(Config model) {
                 model.getDocument().setUrl(docUrl);
             }
         }
@@ -76,13 +72,13 @@ public class OnlyofficeEditorRunnerBaseTest {
                 .builder()
                 .document(doc)
                 .editorConfig(editor)
-                .custom(Map.of(
-                        defaultConfiguration.getBeforeMapKey(), Map.of(
-                                defaultConfiguration.getSecretKey(), "secret",
-                                defaultConfiguration.getTokenKey(), token,
-                                defaultConfiguration.getAutoFillerKey(), af
-                        ),
-                        configuration.getSecretKey(), "secret"
+                .secret("secret")
+                .processors(Map.of(
+                        "onlyoffice.default.preprocessor.editor", Map.of(
+                                "key", "secret",
+                                "token", token,
+                                "mutator", af
+                        )
                 ))
                 .build();
         Config processedConfig = this.onlyofficeEditorRunner.run(config);

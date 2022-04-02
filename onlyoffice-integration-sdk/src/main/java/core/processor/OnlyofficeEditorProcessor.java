@@ -14,5 +14,5 @@ public interface OnlyofficeEditorProcessor {
      * @throws OnlyofficeInvalidParameterException
      * @throws JWTCreationException
      */
-    Config processEditorConfig(Config config) throws OnlyofficeEditorConfigurationException, OnlyofficeInvalidParameterException, JWTCreationException;
+    Config processEditorConfig(Config config) throws OnlyofficeEditorConfigurationException,  OnlyofficeInvalidParameterException, JWTCreationException;
 }
