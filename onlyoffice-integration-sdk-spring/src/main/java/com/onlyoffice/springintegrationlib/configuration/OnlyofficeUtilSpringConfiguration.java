@@ -1,9 +1,9 @@
 package com.onlyoffice.springintegrationlib.configuration;
 
-import core.util.OnlyofficeConfigUtil;
-import core.util.OnlyofficeConfigUtilBase;
-import core.util.OnlyofficeFileUtil;
-import core.util.OnlyofficeFileUtilBase;
+import base.util.OnlyofficeConfigUtil;
+import base.util.OnlyofficeFileUtil;
+import core.util.OnlyofficeConfig;
+import core.util.OnlyofficeFile;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,13 +12,13 @@ import org.springframework.context.annotation.Configuration;
 public class OnlyofficeUtilSpringConfiguration {
     @ConditionalOnMissingBean
     @Bean
-    public OnlyofficeFileUtil onlyofficeFileUtil() {
-        return new OnlyofficeFileUtilBase();
+    public OnlyofficeFile onlyofficeFileUtil() {
+        return new OnlyofficeFileUtil();
     }
 
     @ConditionalOnMissingBean
     @Bean
-    public OnlyofficeConfigUtil onlyofficeConfigUtil(OnlyofficeFileUtil fileUtil) {
-        return new OnlyofficeConfigUtilBase(fileUtil);
+    public OnlyofficeConfig onlyofficeConfigUtil(OnlyofficeFile fileUtil) {
+        return new OnlyofficeConfigUtil(fileUtil);
     }
 }

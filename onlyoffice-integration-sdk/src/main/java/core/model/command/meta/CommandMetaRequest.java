@@ -16,6 +16,7 @@ import java.net.URI;
 @ToString
 @JsonInclude(value = JsonInclude.Include.NON_ABSENT)
 public class CommandMetaRequest extends CommandAuthorizedBase {
+    @Builder.Default
     private final String c = "meta";
     @JsonIgnore
     @NotNull

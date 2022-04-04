@@ -1,9 +1,9 @@
 package core;
 
-import client.OnlyofficeCommandClient;
-import client.OnlyofficeConverterClient;
-import client.OnlyofficeConverterClientRunner;
+import core.client.OnlyofficeCommandClient;
+import core.client.OnlyofficeConverterClient;
 import core.runner.OnlyofficeCallbackRunner;
+import core.runner.OnlyofficeConverterRunner;
 import core.runner.OnlyofficeEditorRunner;
 import lombok.RequiredArgsConstructor;
 
@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
  * <pre>ONLYOFFICE Default Pre-processors:</pre>
  * <h3>OnlyofficeEditorDefaultPreProcessor Invocation scheme:</h3>
  * { <br>
- *     <pre>&nbsp;"invocation_key": "onlyoffice.default.preprocessor.editor", </pre>
+ *     <pre>&nbsp;"invocation_key": "onlyoffice.preprocessor.default.editor", </pre>
  *     <pre>&nbsp;"description": "", </pre>
  *     <pre>&nbsp;"type": "preprocessor", </pre>
  *     <pre>&nbsp;"parameters": { </pre>
@@ -33,7 +33,7 @@ import lombok.RequiredArgsConstructor;
  * <br>
  * <h3>OnlyofficeCallbackDefaultPreProcessor Invocation scheme:</h3>
  * { <br>
- *     <pre>&nbsp;"invocation_key": "onlyoffice.default.preprocessor.callback", </pre>
+ *     <pre>&nbsp;"invocation_key": "onlyoffice.preprocessor.default.callback", </pre>
  *     <pre>&nbsp;"description": "", </pre>
  *     <pre>&nbsp;"type": "preprocessor", </pre>
  *     <pre>&nbsp;"parameters": { </pre>
@@ -57,7 +57,7 @@ import lombok.RequiredArgsConstructor;
 public class OnlyofficeIntegrationSDK {
     public final OnlyofficeCallbackRunner callbackRunner;
     public final OnlyofficeEditorRunner editorRunner;
+    public final OnlyofficeConverterRunner converterRunner;
     public final OnlyofficeCommandClient commandClient;
     public final OnlyofficeConverterClient converterClient;
-    public final OnlyofficeConverterClientRunner converterRunner;
 }

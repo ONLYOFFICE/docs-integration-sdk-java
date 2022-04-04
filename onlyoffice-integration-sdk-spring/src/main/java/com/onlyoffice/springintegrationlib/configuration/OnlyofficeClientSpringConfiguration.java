@@ -1,11 +1,9 @@
 package com.onlyoffice.springintegrationlib.configuration;
 
-import client.OnlyofficeCommandClient;
-import client.OnlyofficeCommandClientBase;
-import client.OnlyofficeConverterClient;
-import client.OnlyofficeConverterClientBase;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import core.security.OnlyofficeJwtManager;
+import base.client.OnlyofficeCommandClientBase;
+import base.client.OnlyofficeConverterClientBase;
+import core.client.OnlyofficeCommandClient;
+import core.client.OnlyofficeConverterClient;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -21,11 +19,8 @@ public class OnlyofficeClientSpringConfiguration {
 
     @ConditionalOnMissingBean
     @Bean
-    public OnlyofficeCommandClient onlyofficeCommandClient(
-            OnlyofficeJwtManager jwtManager,
-            ObjectMapper objectMapper
-    ) {
-        OnlyofficeCommandClientBase commandClient = new OnlyofficeCommandClientBase(jwtManager, objectMapper);
+    public OnlyofficeCommandClient onlyofficeCommandClient() {
+        OnlyofficeCommandClientBase commandClient = new OnlyofficeCommandClientBase();
         if (this.commandConnectTimeout > 0) commandClient.setConnectTimeout(this.commandConnectTimeout);
         if (this.commandResponseTimeout > 0) commandClient.setResponseTimeout(this.commandResponseTimeout);
         return commandClient;
@@ -33,11 +28,8 @@ public class OnlyofficeClientSpringConfiguration {
 
     @ConditionalOnMissingBean
     @Bean
-    public OnlyofficeConverterClient onlyofficeConverterClient(
-            OnlyofficeJwtManager jwtManager,
-            ObjectMapper mapper
-    ) {
-        OnlyofficeConverterClientBase converterClient = new OnlyofficeConverterClientBase(jwtManager, mapper);
+    public OnlyofficeConverterClient onlyofficeConverterClient() {
+        OnlyofficeConverterClientBase converterClient = new OnlyofficeConverterClientBase();
         if (this.converterConnectTimeout > 0) converterClient.setConnectTimeout(this.converterConnectTimeout);
         if (this.converterResponseTimeout > 0) converterClient.setResponseTimeout(this.converterResponseTimeout);
         return converterClient;
