@@ -32,6 +32,12 @@ public class OnlyofficeDefaultConverterRunner implements OnlyofficeConverterRunn
                 .collect(Collectors.toList());
     }
 
+    /**
+     *
+     * @param request
+     * @throws OnlyofficeRunnerRuntimeException
+     * @throws IOException
+     */
     public void run(ConverterRequest request) throws OnlyofficeRunnerRuntimeException, IOException {
         ConverterResponse response = this.converterClient.convert(request);
         for (OnlyofficeConverterUploader uploader : fileUploaders) {
@@ -39,6 +45,13 @@ public class OnlyofficeDefaultConverterRunner implements OnlyofficeConverterRunn
         }
     }
 
+    /**
+     *
+     * @param request
+     * @param credentials
+     * @throws OnlyofficeRunnerRuntimeException
+     * @throws IOException
+     */
     public void run(ConverterRequest request, Credentials credentials) throws OnlyofficeRunnerRuntimeException, IOException {
         ConverterResponse response = this.converterClient.convert(request, credentials);
         for (OnlyofficeConverterUploader uploader : fileUploaders) {

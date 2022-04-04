@@ -5,6 +5,8 @@ import core.processor.OnlyofficeEditorProcessor;
 import core.processor.post.OnlyofficeEditorPostProcessor;
 import core.processor.pre.OnlyofficeEditorPreProcessor;
 import core.runner.OnlyofficeEditorRunner;
+import exception.OnlyofficeProcessAfterRuntimeException;
+import exception.OnlyofficeProcessBeforeRuntimeException;
 import exception.OnlyofficeRunnerRuntimeException;
 import exception.OnlyofficeUploaderRuntimeException;
 import lombok.RequiredArgsConstructor;
@@ -22,10 +24,12 @@ public class OnlyofficeDefaultEditorRunner implements OnlyofficeEditorRunner {
      *
      * @param config
      * @throws OnlyofficeRunnerRuntimeException
+     * @throws OnlyofficeProcessBeforeRuntimeException
+     * @throws OnlyofficeProcessAfterRuntimeException
      * @throws OnlyofficeUploaderRuntimeException
      * @throws IOException
      */
-    public void run(Config config) throws OnlyofficeRunnerRuntimeException, OnlyofficeUploaderRuntimeException, IOException {
+    public void run(Config config) throws OnlyofficeRunnerRuntimeException, OnlyofficeProcessBeforeRuntimeException, OnlyofficeProcessAfterRuntimeException, OnlyofficeUploaderRuntimeException, IOException {
         for (OnlyofficeEditorPreProcessor preProcessor : editorPreProcessors) {
             preProcessor.processBefore();
             preProcessor.processBefore(config);

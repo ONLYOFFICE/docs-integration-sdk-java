@@ -5,6 +5,8 @@ import core.processor.OnlyofficeCallbackProcessor;
 import core.processor.post.OnlyofficeCallbackPostProcessor;
 import core.processor.pre.OnlyofficeCallbackPreProcessor;
 import core.runner.OnlyofficeCallbackRunner;
+import exception.OnlyofficeProcessAfterRuntimeException;
+import exception.OnlyofficeProcessBeforeRuntimeException;
 import exception.OnlyofficeRunnerRuntimeException;
 import exception.OnlyofficeUploaderRuntimeException;
 import lombok.RequiredArgsConstructor;
@@ -22,10 +24,12 @@ public class OnlyofficeDefaultCallbackRunner implements OnlyofficeCallbackRunner
      *
      * @param callback
      * @throws OnlyofficeRunnerRuntimeException
+     * @throws OnlyofficeProcessBeforeRuntimeException
+     * @throws OnlyofficeProcessAfterRuntimeException
      * @throws OnlyofficeUploaderRuntimeException
      * @throws IOException
      */
-    public void run(Callback callback) throws OnlyofficeRunnerRuntimeException, OnlyofficeUploaderRuntimeException, IOException {
+    public void run(Callback callback) throws OnlyofficeRunnerRuntimeException, OnlyofficeProcessBeforeRuntimeException, OnlyofficeProcessAfterRuntimeException, OnlyofficeUploaderRuntimeException, IOException {
         callbackPreProcessors.forEach(preProcessor -> {
             preProcessor.processBefore();
             preProcessor.processBefore(callback);

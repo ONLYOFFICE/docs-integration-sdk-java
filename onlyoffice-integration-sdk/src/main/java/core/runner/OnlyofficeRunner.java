@@ -1,5 +1,7 @@
 package core.runner;
 
+import exception.OnlyofficeProcessAfterRuntimeException;
+import exception.OnlyofficeProcessBeforeRuntimeException;
 import exception.OnlyofficeRunnerRuntimeException;
 import exception.OnlyofficeUploaderRuntimeException;
 
@@ -13,5 +15,5 @@ interface OnlyofficeRunner<M> {
      * @throws OnlyofficeUploaderRuntimeException
      * @throws IOException
      */
-    void run(M model) throws OnlyofficeRunnerRuntimeException, OnlyofficeUploaderRuntimeException, IOException;
+    void run(M model) throws OnlyofficeRunnerRuntimeException, OnlyofficeProcessBeforeRuntimeException, OnlyofficeProcessAfterRuntimeException, OnlyofficeUploaderRuntimeException, IOException;
 }
