@@ -1,7 +1,7 @@
 package base.processor;
 
 import core.model.callback.Callback;
-import core.processor.OnlyofficeCallbackProcessor;
+import core.processor.OnlyofficeProcessor;
 import core.registry.OnlyofficeCallbackRegistry;
 import core.security.OnlyofficeJwtSecurity;
 import exception.OnlyofficeInvalidParameterRuntimeException;
@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Getter
-public class OnlyofficeDefaultCallbackProcessor implements OnlyofficeCallbackProcessor {
+public class OnlyofficeDefaultCallbackProcessor implements OnlyofficeProcessor<Callback> {
     private final OnlyofficeCallbackRegistry callbackRegistry;
     private final OnlyofficeJwtSecurity jwtManager;
 

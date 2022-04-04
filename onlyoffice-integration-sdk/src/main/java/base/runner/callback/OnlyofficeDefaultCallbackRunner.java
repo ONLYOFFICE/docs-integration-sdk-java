@@ -1,10 +1,10 @@
 package base.runner.callback;
 
 import core.model.callback.Callback;
-import core.processor.OnlyofficeCallbackProcessor;
-import core.processor.post.OnlyofficeCallbackPostProcessor;
-import core.processor.pre.OnlyofficeCallbackPreProcessor;
-import core.runner.OnlyofficeCallbackRunner;
+import core.processor.OnlyofficePreProcessor;
+import core.processor.OnlyofficeProcessor;
+import core.processor.OnlyofficePostProcessor;
+import core.runner.OnlyofficeRunner;
 import exception.OnlyofficeProcessAfterRuntimeException;
 import exception.OnlyofficeProcessBeforeRuntimeException;
 import exception.OnlyofficeRunnerRuntimeException;
@@ -15,10 +15,10 @@ import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class OnlyofficeDefaultCallbackRunner implements OnlyofficeCallbackRunner {
-    private final OnlyofficeCallbackProcessor callbackProcessor;
-    private final List<OnlyofficeCallbackPreProcessor> callbackPreProcessors;
-    private final List<OnlyofficeCallbackPostProcessor> callbackPostProcessors;
+public class OnlyofficeDefaultCallbackRunner implements OnlyofficeRunner<Callback> {
+    private final OnlyofficeProcessor<Callback> callbackProcessor;
+    private final List<OnlyofficePreProcessor<Callback>> callbackPreProcessors;
+    private final List<OnlyofficePostProcessor<Callback>> callbackPostProcessors;
 
     /**
      *

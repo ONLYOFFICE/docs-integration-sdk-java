@@ -1,9 +1,9 @@
-package core.processor.pre;
+package core.processor;
 
 import exception.OnlyofficeInvalidParameterRuntimeException;
 import exception.OnlyofficeProcessBeforeRuntimeException;
 
-interface OnlyofficePreProcessor<M> {
+public interface OnlyofficePreProcessor<M> {
     /**
      *
      * @throws OnlyofficeProcessBeforeRuntimeException

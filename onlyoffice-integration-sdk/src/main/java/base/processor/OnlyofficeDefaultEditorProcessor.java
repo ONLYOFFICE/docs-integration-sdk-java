@@ -1,7 +1,7 @@
 package base.processor;
 
 import core.model.config.Config;
-import core.processor.OnlyofficeEditorProcessor;
+import core.processor.OnlyofficeProcessor;
 import core.security.OnlyofficeJwtSecurity;
 import core.util.OnlyofficeConfig;
 import core.util.OnlyofficeModelValidator;
@@ -20,7 +20,7 @@ import java.util.Date;
 
 @RequiredArgsConstructor
 @Getter
-public class OnlyofficeDefaultEditorProcessor implements OnlyofficeEditorProcessor {
+public class OnlyofficeDefaultEditorProcessor implements OnlyofficeProcessor<Config> {
     private final OnlyofficeConfig configUtil;
     private final OnlyofficeJwtSecurity jwtManager;
     @Setter

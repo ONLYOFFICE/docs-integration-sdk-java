@@ -3,7 +3,7 @@ package core.processor;
 import exception.OnlyofficeInvalidParameterRuntimeException;
 import exception.OnlyofficeProcessRuntimeException;
 
-interface OnlyofficeProcessor<M> {
+public interface OnlyofficeProcessor<M> {
     /**
      *
      * @param model

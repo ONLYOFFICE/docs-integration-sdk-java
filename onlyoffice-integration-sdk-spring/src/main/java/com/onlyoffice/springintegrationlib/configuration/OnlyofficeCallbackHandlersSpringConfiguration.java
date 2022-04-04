@@ -3,10 +3,11 @@ package com.onlyoffice.springintegrationlib.configuration;
 import base.handler.OnlyofficeForceSaveCallbackHandler;
 import base.handler.OnlyofficeSaveCallbackHandler;
 import base.runner.OnlyofficeDefaultCallbackUploaderRunner;
+import core.model.callback.Callback;
 import core.registry.OnlyofficeCallbackHandler;
 import core.registry.OnlyofficeCallbackRegistry;
-import core.runner.OnlyofficeCallbackUploaderRunner;
-import core.uploader.OnlyofficeCallbackUploader;
+import core.runner.OnlyofficeUploaderRunner;
+import core.uploader.OnlyofficeUploader;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -17,21 +18,21 @@ import java.util.List;
 @Configuration
 public class OnlyofficeCallbackHandlersSpringConfiguration {
     @ConditionalOnMissingBean
-    @ConditionalOnBean(value = OnlyofficeCallbackUploader.class)
+    @ConditionalOnBean(value = Callback.class, parameterizedContainer = OnlyofficeUploader.class)
     @Bean
-    public OnlyofficeCallbackUploaderRunner callbackUploaderRunner(List<OnlyofficeCallbackUploader> uploaders) {
+    public OnlyofficeUploaderRunner<Callback> callbackUploaderRunner(List<OnlyofficeUploader<Callback>> uploaders) {
         return new OnlyofficeDefaultCallbackUploaderRunner(uploaders);
     }
 
-    @ConditionalOnBean(OnlyofficeCallbackUploaderRunner.class)
+    @ConditionalOnBean(value = Callback.class, parameterizedContainer = OnlyofficeUploaderRunner.class)
     @Bean
-    public OnlyofficeCallbackHandler callbackSaveHandler(OnlyofficeCallbackRegistry registry, OnlyofficeCallbackUploaderRunner callbackUploaderRunner) {
+    public OnlyofficeCallbackHandler callbackSaveHandler(OnlyofficeCallbackRegistry registry, OnlyofficeUploaderRunner<Callback> callbackUploaderRunner) {
         return new OnlyofficeSaveCallbackHandler(registry, callbackUploaderRunner);
     }
 
-    @ConditionalOnBean(OnlyofficeCallbackUploaderRunner.class)
+    @ConditionalOnBean(value = Callback.class, parameterizedContainer = OnlyofficeUploaderRunner.class)
     @Bean
-    public OnlyofficeCallbackHandler callbackForcesaveHandler(OnlyofficeCallbackRegistry registry, OnlyofficeCallbackUploaderRunner callbackUploaderRunner) {
+    public OnlyofficeCallbackHandler callbackForcesaveHandler(OnlyofficeCallbackRegistry registry, OnlyofficeUploaderRunner<Callback> callbackUploaderRunner) {
         return new OnlyofficeForceSaveCallbackHandler(registry, callbackUploaderRunner);
     }
 }

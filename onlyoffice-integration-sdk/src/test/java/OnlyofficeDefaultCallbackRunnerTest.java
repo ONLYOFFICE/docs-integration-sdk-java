@@ -2,10 +2,10 @@ import base.processor.OnlyofficeDefaultCallbackProcessor;
 import base.processor.pre.OnlyofficeDefaultCallbackPreProcessor;
 import base.runner.callback.OnlyofficeDefaultCallbackRunner;
 import core.model.callback.Callback;
-import core.processor.pre.OnlyofficeCallbackPreProcessor;
-import core.registry.OnlyofficeDefaultCallbackRegistry;
-import core.registry.OnlyofficeCallbackRegistry;
+import core.processor.OnlyofficePreProcessor;
 import core.registry.OnlyofficeCallbackHandler;
+import core.registry.OnlyofficeCallbackRegistry;
+import core.registry.OnlyofficeDefaultCallbackRegistry;
 import core.security.OnlyofficeJwtSecurityManager;
 import exception.OnlyofficeProcessRuntimeException;
 import exception.OnlyofficeRegistryHandlerRuntimeException;
@@ -26,7 +26,7 @@ public class OnlyofficeDefaultCallbackRunnerTest {
     private final OnlyofficeCallbackRegistry callbackRegistry = new OnlyofficeDefaultCallbackRegistry();
     private final OnlyofficeJwtSecurityManager jwtManager = new OnlyofficeJwtSecurityManager();
     private final OnlyofficeDefaultCallbackProcessor callbackProcessor = new OnlyofficeDefaultCallbackProcessor(callbackRegistry, jwtManager);
-    private final OnlyofficeCallbackPreProcessor callbackOnlyofficePreProcessor = new OnlyofficeDefaultCallbackPreProcessor(jwtManager);
+    private final OnlyofficePreProcessor<Callback> callbackOnlyofficePreProcessor = new OnlyofficeDefaultCallbackPreProcessor(jwtManager);
     private final OnlyofficeDefaultCallbackRunner callbackRunner = new OnlyofficeDefaultCallbackRunner(
             callbackProcessor,
             List.of(callbackOnlyofficePreProcessor),

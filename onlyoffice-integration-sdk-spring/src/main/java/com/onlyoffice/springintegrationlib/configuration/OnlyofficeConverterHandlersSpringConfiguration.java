@@ -3,9 +3,9 @@ package com.onlyoffice.springintegrationlib.configuration;
 import base.runner.OnlyofficeDefaultConverterRunner;
 import core.client.OnlyofficeConverterClient;
 import core.model.converter.request.ConverterRequest;
-import core.runner.OnlyofficeConverterRunner;
-import core.uploader.OnlyofficeConverterUploader;
-import core.uploader.OnlyofficeUploaderType;
+import core.runner.OnlyofficeRunner;
+import core.uploader.OnlyofficeUploader;
+import exception.OnlyofficeUploaderRuntimeException;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -16,21 +16,22 @@ import java.util.List;
 
 @Configuration
 public class OnlyofficeConverterHandlersSpringConfiguration {
-    @ConditionalOnMissingBean(OnlyofficeConverterUploader.class)
+    @ConditionalOnMissingBean(value = ConverterRequest.class, parameterizedContainer = OnlyofficeUploader.class)
     @Bean
-    public OnlyofficeConverterUploader emptyConverterUploader() {
-        return new OnlyofficeConverterUploader() {
-            public void upload(ConverterRequest request, InputStream inputStream) {}
-            public OnlyofficeUploaderType getUploaderType() { return OnlyofficeUploaderType.FILE; }
+    public OnlyofficeUploader<ConverterRequest> emptyConverterUploader() {
+        return new OnlyofficeUploader<ConverterRequest>() {
+            public void upload(ConverterRequest request, InputStream inputStream) throws OnlyofficeUploaderRuntimeException {
+
+            }
         };
     }
 
-    @ConditionalOnBean(OnlyofficeConverterUploader.class)
-    @ConditionalOnMissingBean(OnlyofficeConverterRunner.class)
+    @ConditionalOnBean(value = ConverterRequest.class, parameterizedContainer = OnlyofficeUploader.class)
+    @ConditionalOnMissingBean(value = ConverterRequest.class, parameterizedContainer = OnlyofficeRunner.class)
     @Bean
-    public OnlyofficeConverterRunner converterRunner(
+    public OnlyofficeRunner<ConverterRequest> converterRunner(
             OnlyofficeConverterClient converterClient,
-            List<OnlyofficeConverterUploader> converterFileUploaders
+            List<OnlyofficeUploader<ConverterRequest>> converterFileUploaders
     ) {
         return new OnlyofficeDefaultConverterRunner(converterFileUploaders, converterClient);
     }

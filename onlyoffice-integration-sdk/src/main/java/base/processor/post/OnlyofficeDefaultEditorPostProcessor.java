@@ -1,10 +1,11 @@
 package base.processor.post;
 
-import core.processor.post.OnlyofficeEditorPostProcessor;
+import core.model.config.Config;
+import core.processor.OnlyofficePostProcessor;
 
 import java.util.UUID;
 
-public class OnlyofficeDefaultEditorPostProcessor implements OnlyofficeEditorPostProcessor {
+public class OnlyofficeDefaultEditorPostProcessor implements OnlyofficePostProcessor<Config> {
     public String postprocessorName() {
         return UUID.randomUUID().toString();
     }

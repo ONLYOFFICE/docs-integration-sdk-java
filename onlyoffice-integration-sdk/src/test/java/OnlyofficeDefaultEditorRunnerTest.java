@@ -7,7 +7,8 @@ import core.model.OnlyofficeModelMutator;
 import core.model.config.Config;
 import core.model.config.document.Document;
 import core.model.config.editor.Editor;
-import core.processor.pre.OnlyofficeEditorPreProcessor;
+import core.processor.OnlyofficePreProcessor;
+import core.runner.OnlyofficeRunner;
 import core.security.OnlyofficeJwtSecurityManager;
 import core.util.OnlyofficeConfig;
 import core.util.OnlyofficeFile;
@@ -28,8 +29,8 @@ public class OnlyofficeDefaultEditorRunnerTest {
     private final OnlyofficeFile onlyofficeFile = new OnlyofficeFileUtil();
     private final OnlyofficeConfig configUtil = new OnlyofficeConfigUtil(onlyofficeFile);
     private final OnlyofficeDefaultEditorProcessor onlyofficeDefaultEditorProcessor = new OnlyofficeDefaultEditorProcessor(configUtil, jwtSecurity);
-    private final OnlyofficeEditorPreProcessor configOnlyofficePreProcessor = new OnlyofficeDefaultEditorPreProcessor(jwtSecurity);
-    private final OnlyofficeDefaultEditorRunner onlyofficeDefaultEditorRunner = new OnlyofficeDefaultEditorRunner(
+    private final OnlyofficePreProcessor<Config> configOnlyofficePreProcessor = new OnlyofficeDefaultEditorPreProcessor(jwtSecurity);
+    private final OnlyofficeRunner<Config> onlyofficeDefaultEditorRunner = new OnlyofficeDefaultEditorRunner(
             onlyofficeDefaultEditorProcessor,
             List.of(configOnlyofficePreProcessor),
             List.of()

@@ -4,7 +4,7 @@ import exception.OnlyofficeUploaderRuntimeException;
 
 import java.io.InputStream;
 
-interface OnlyofficeUploader<M> {
+public interface OnlyofficeUploader<M> {
     /**
      *
      * @param model
@@ -17,5 +17,7 @@ interface OnlyofficeUploader<M> {
      *
      * @return
      */
-    OnlyofficeUploaderType getUploaderType();
+    default OnlyofficeUploaderType getUploaderType() {
+        return OnlyofficeUploaderType.FILE;
+    }
 }

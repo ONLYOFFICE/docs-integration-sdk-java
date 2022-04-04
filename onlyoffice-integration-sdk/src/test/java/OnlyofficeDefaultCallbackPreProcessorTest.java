@@ -1,7 +1,7 @@
 import base.processor.pre.OnlyofficeDefaultCallbackPreProcessor;
 import core.model.OnlyofficeModelMutator;
 import core.model.callback.Callback;
-import core.processor.pre.OnlyofficeCallbackPreProcessor;
+import core.processor.OnlyofficePreProcessor;
 import core.security.OnlyofficeJwtSecurityManager;
 import exception.OnlyofficeProcessBeforeRuntimeException;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 // TODO: Replace with mocks
 public class OnlyofficeDefaultCallbackPreProcessorTest {
     private final OnlyofficeJwtSecurityManager jwtManager = new OnlyofficeJwtSecurityManager();
-    private final OnlyofficeCallbackPreProcessor callbackOnlyofficePreProcessor = new OnlyofficeDefaultCallbackPreProcessor(jwtManager);
+    private final OnlyofficePreProcessor<Callback> callbackOnlyofficePreProcessor = new OnlyofficeDefaultCallbackPreProcessor(jwtManager);
 
     @Test
     public void processNoCustomParametersIgnoreTest() {

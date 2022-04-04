@@ -2,7 +2,7 @@ package base.processor.pre;
 
 import core.model.OnlyofficeModelMutator;
 import core.model.config.Config;
-import core.processor.pre.OnlyofficeEditorPreProcessor;
+import core.processor.OnlyofficePreProcessor;
 import core.security.OnlyofficeJwtSecurity;
 import exception.OnlyofficeInvalidParameterRuntimeException;
 import exception.OnlyofficeJwtVerificationRuntimeException;
@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.Map;
 
 @RequiredArgsConstructor
-public class OnlyofficeDefaultEditorPreProcessor implements OnlyofficeEditorPreProcessor {
+public class OnlyofficeDefaultEditorPreProcessor implements OnlyofficePreProcessor<Config> {
     private final OnlyofficeJwtSecurity jwtManager;
 
     /**

@@ -1,7 +1,7 @@
 import base.processor.pre.OnlyofficeDefaultEditorPreProcessor;
 import core.model.OnlyofficeModelMutator;
 import core.model.config.Config;
-import core.processor.pre.OnlyofficeEditorPreProcessor;
+import core.processor.OnlyofficePreProcessor;
 import core.security.OnlyofficeJwtSecurityManager;
 import exception.OnlyofficeProcessBeforeRuntimeException;
 import lombok.Getter;
@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 //TODO: Replace with mocks
 public class OnlyofficeDefaultEditorPreProcessorTest {
     private final OnlyofficeJwtSecurityManager jwtManager = new OnlyofficeJwtSecurityManager();
-    private final OnlyofficeEditorPreProcessor configOnlyofficePreProcessor = new OnlyofficeDefaultEditorPreProcessor(jwtManager);
+    private final OnlyofficePreProcessor<Config> configOnlyofficePreProcessor = new OnlyofficeDefaultEditorPreProcessor(jwtManager);
 
     @Test
     public void processNoArgumentsTest() {

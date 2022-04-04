@@ -1,13 +1,13 @@
 package base.handler;
 
 import core.model.callback.Callback;
-import core.registry.OnlyofficeCallbackRegistry;
 import core.registry.OnlyofficeCallbackHandler;
-import core.runner.OnlyofficeCallbackUploaderRunner;
+import core.registry.OnlyofficeCallbackRegistry;
+import core.runner.OnlyofficeUploaderRunner;
 import exception.OnlyofficeCallbackRuntimeException;
 
 public class OnlyofficeForceSaveCallbackHandler implements OnlyofficeCallbackHandler {
-    private final OnlyofficeCallbackUploaderRunner callbackUploaderRunner;
+    private final OnlyofficeUploaderRunner<Callback> callbackUploaderRunner;
 
     /**
      *
@@ -16,7 +16,7 @@ public class OnlyofficeForceSaveCallbackHandler implements OnlyofficeCallbackHan
      */
     public OnlyofficeForceSaveCallbackHandler(
             OnlyofficeCallbackRegistry registry,
-            OnlyofficeCallbackUploaderRunner callbackUploaderRunner
+            OnlyofficeUploaderRunner<Callback> callbackUploaderRunner
     ) {
         this.callbackUploaderRunner = callbackUploaderRunner;
         registry.register(this);

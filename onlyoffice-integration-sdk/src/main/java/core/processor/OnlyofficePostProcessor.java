@@ -1,9 +1,9 @@
-package core.processor.post;
+package core.processor;
 
 import exception.OnlyofficeInvalidParameterRuntimeException;
 import exception.OnlyofficeProcessAfterRuntimeException;
 
-interface OnlyofficePostProcessor<M> {
+public interface OnlyofficePostProcessor<M> {
 
     /**
      *

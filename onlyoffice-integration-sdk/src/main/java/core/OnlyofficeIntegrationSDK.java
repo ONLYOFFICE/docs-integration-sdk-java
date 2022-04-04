@@ -2,9 +2,10 @@ package core;
 
 import core.client.OnlyofficeCommandClient;
 import core.client.OnlyofficeConverterClient;
-import core.runner.OnlyofficeCallbackRunner;
-import core.runner.OnlyofficeConverterRunner;
-import core.runner.OnlyofficeEditorRunner;
+import core.model.callback.Callback;
+import core.model.config.Config;
+import core.model.converter.request.ConverterRequest;
+import core.runner.OnlyofficeRunner;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -55,9 +56,9 @@ import lombok.RequiredArgsConstructor;
  */
 @RequiredArgsConstructor
 public class OnlyofficeIntegrationSDK {
-    public final OnlyofficeCallbackRunner callbackRunner;
-    public final OnlyofficeEditorRunner editorRunner;
-    public final OnlyofficeConverterRunner converterRunner;
+    public final OnlyofficeRunner<Callback> callbackRunner;
+    public final OnlyofficeRunner<Config> editorRunner;
+    public final OnlyofficeRunner<ConverterRequest> converterRunner;
     public final OnlyofficeCommandClient commandClient;
     public final OnlyofficeConverterClient converterClient;
 }

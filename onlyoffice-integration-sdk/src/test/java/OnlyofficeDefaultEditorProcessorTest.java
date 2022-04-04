@@ -4,7 +4,7 @@ import base.util.OnlyofficeFileUtil;
 import core.model.config.Config;
 import core.model.config.document.Document;
 import core.model.config.editor.Editor;
-import core.processor.OnlyofficeEditorProcessor;
+import core.processor.OnlyofficeProcessor;
 import core.security.OnlyofficeJwtSecurityManager;
 import core.util.OnlyofficeConfig;
 import exception.OnlyofficeInvalidParameterRuntimeException;
@@ -17,7 +17,7 @@ public class OnlyofficeDefaultEditorProcessorTest {
     private final OnlyofficeFileUtil fileUtil = new OnlyofficeFileUtil();
     private final OnlyofficeConfig configUtil = new OnlyofficeConfigUtil(fileUtil);
     private final OnlyofficeJwtSecurityManager jwtManager = new OnlyofficeJwtSecurityManager();
-    private final OnlyofficeEditorProcessor editorProcessorBase = new OnlyofficeDefaultEditorProcessor(configUtil, jwtManager);
+    private final OnlyofficeProcessor<Config> editorProcessorBase = new OnlyofficeDefaultEditorProcessor(configUtil, jwtManager);
 
     @Test
     public void processEditorConfigInvalidPayloadTest() {

@@ -7,7 +7,7 @@ import exception.OnlyofficeUploaderRuntimeException;
 
 import java.io.IOException;
 
-interface OnlyofficeRunner<M> {
+public interface OnlyofficeRunner<M> {
     /**
      *
      * @param model
