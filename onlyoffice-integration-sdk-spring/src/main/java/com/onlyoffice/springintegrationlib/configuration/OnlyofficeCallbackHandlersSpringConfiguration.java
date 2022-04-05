@@ -2,12 +2,12 @@ package com.onlyoffice.springintegrationlib.configuration;
 
 import base.handler.OnlyofficeForceSaveCallbackHandler;
 import base.handler.OnlyofficeSaveCallbackHandler;
-import base.runner.OnlyofficeDefaultCallbackUploaderRunner;
+import base.uploader.OnlyofficeDefaultCallbackUploaderRunner;
 import core.model.callback.Callback;
 import core.registry.OnlyofficeCallbackHandler;
 import core.registry.OnlyofficeCallbackRegistry;
-import core.runner.OnlyofficeUploaderRunner;
 import core.uploader.OnlyofficeUploader;
+import core.uploader.OnlyofficeUploaderRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;

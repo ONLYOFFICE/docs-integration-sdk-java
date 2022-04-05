@@ -1,10 +1,10 @@
 package com.onlyoffice.springintegrationlib.configuration;
 
-import base.runner.OnlyofficeDefaultConverterRunner;
+import base.uploader.OnlyofficeDefaultConverterUploaderRunner;
 import core.client.OnlyofficeConverterClient;
 import core.model.converter.request.ConverterRequest;
-import core.runner.OnlyofficeRunner;
 import core.uploader.OnlyofficeUploader;
+import core.uploader.OnlyofficeUploaderRunner;
 import exception.OnlyofficeUploaderRuntimeException;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -27,12 +27,12 @@ public class OnlyofficeConverterHandlersSpringConfiguration {
     }
 
     @ConditionalOnBean(value = ConverterRequest.class, parameterizedContainer = OnlyofficeUploader.class)
-    @ConditionalOnMissingBean(value = ConverterRequest.class, parameterizedContainer = OnlyofficeRunner.class)
+    @ConditionalOnMissingBean(value = ConverterRequest.class, parameterizedContainer = OnlyofficeUploaderRunner.class)
     @Bean
-    public OnlyofficeRunner<ConverterRequest> converterRunner(
+    public OnlyofficeUploaderRunner<ConverterRequest> converterRunner(
             OnlyofficeConverterClient converterClient,
             List<OnlyofficeUploader<ConverterRequest>> converterFileUploaders
     ) {
-        return new OnlyofficeDefaultConverterRunner(converterFileUploaders, converterClient);
+        return new OnlyofficeDefaultConverterUploaderRunner(converterFileUploaders, converterClient);
     }
 }
