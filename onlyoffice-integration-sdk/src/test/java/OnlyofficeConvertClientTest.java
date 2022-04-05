@@ -1,10 +1,13 @@
-import base.client.OnlyofficeConverterClientBase;
+import base.client.OnlyofficeDefaultConverterClient;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import core.client.OnlyofficeConverterClient;
 import core.model.Credentials;
 import core.model.converter.format.Format;
 import core.model.converter.request.ConverterRequest;
 import core.model.converter.response.ConverterAsyncResponse;
 import core.model.converter.response.ConverterResponse;
+import core.security.OnlyofficeJwtSecurity;
+import core.security.OnlyofficeJwtSecurityManager;
 import exception.OnlyofficeInvalidParameterRuntimeException;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
@@ -17,7 +20,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 //TODO: Replace with mocks
 public class OnlyofficeConvertClientTest {
-    private final OnlyofficeConverterClient converterClient = new OnlyofficeConverterClientBase();
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final OnlyofficeJwtSecurity jwtSecurity = new OnlyofficeJwtSecurityManager();
+    private final OnlyofficeConverterClient converterClient = new OnlyofficeDefaultConverterClient(jwtSecurity, objectMapper);
     private final URI addressJwt = new URI(System.getenv("jwt_document_server")+"/ConvertService.ashx");
     private final URI address = new URI(System.getenv("document_server")+"/ConvertService.ashx");
     private final String fileUrl = System.getenv("file_url");

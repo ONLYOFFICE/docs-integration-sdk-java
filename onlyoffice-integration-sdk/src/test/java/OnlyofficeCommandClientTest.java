@@ -1,10 +1,13 @@
-import base.client.OnlyofficeCommandClientBase;
+import base.client.OnlyofficeDefaultCommandClient;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import core.model.Credentials;
 import core.model.command.*;
 import core.model.command.license.request.CommandLicenseRequest;
 import core.model.command.license.response.CommandLicenseResponse;
 import core.model.command.meta.CommandMetaRequest;
 import core.model.command.meta.Meta;
+import core.security.OnlyofficeJwtSecurity;
+import core.security.OnlyofficeJwtSecurityManager;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +19,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 //TODO: Replace with mocks
 public class OnlyofficeCommandClientTest {
-    private final OnlyofficeCommandClientBase commandClient = new OnlyofficeCommandClientBase();
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final OnlyofficeJwtSecurity jwtSecurity = new OnlyofficeJwtSecurityManager();
+    private final OnlyofficeDefaultCommandClient commandClient = new OnlyofficeDefaultCommandClient(jwtSecurity, objectMapper);
     private final Credentials credentials = Credentials
             .builder()
             .secret(System.getenv("secret"))

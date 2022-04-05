@@ -1,4 +1,4 @@
-package core.runner;
+package core.uploader;
 
 import exception.OnlyofficeRunnerRuntimeException;
 import exception.OnlyofficeUploaderRuntimeException;

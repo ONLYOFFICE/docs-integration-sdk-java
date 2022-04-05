@@ -1,12 +1,12 @@
-package base.runner;
+package base.uploader;
 
 
 import core.client.OnlyofficeConverterClient;
 import core.model.Credentials;
 import core.model.converter.request.ConverterRequest;
 import core.model.converter.response.ConverterResponse;
-import core.runner.OnlyofficeRunner;
 import core.uploader.OnlyofficeUploader;
+import core.uploader.OnlyofficeUploaderRunner;
 import core.uploader.OnlyofficeUploaderType;
 import exception.OnlyofficeRunnerRuntimeException;
 
@@ -16,7 +16,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class OnlyofficeDefaultConverterRunner implements OnlyofficeRunner<ConverterRequest> {
+public class OnlyofficeDefaultConverterUploaderRunner implements OnlyofficeUploaderRunner<ConverterRequest> {
     private final List<OnlyofficeUploader<ConverterRequest>> fileUploaders;
     private final OnlyofficeConverterClient converterClient;
 
@@ -25,7 +25,7 @@ public class OnlyofficeDefaultConverterRunner implements OnlyofficeRunner<Conver
      * @param fileUploaders
      * @param converterClient
      */
-    public OnlyofficeDefaultConverterRunner(List<OnlyofficeUploader<ConverterRequest>> fileUploaders, OnlyofficeConverterClient converterClient) {
+    public OnlyofficeDefaultConverterUploaderRunner(List<OnlyofficeUploader<ConverterRequest>> fileUploaders, OnlyofficeConverterClient converterClient) {
         this.converterClient = converterClient;
         this.fileUploaders = fileUploaders.stream()
                 .filter(uploader -> uploader.getUploaderType().equals(OnlyofficeUploaderType.FILE))

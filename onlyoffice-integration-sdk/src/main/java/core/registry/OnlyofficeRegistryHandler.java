@@ -10,5 +10,9 @@ interface OnlyofficeRegistryHandler<M, C> {
      */
     void handle(M callback) throws OnlyofficeRegistryHandlerRuntimeException;
 
+    /**
+     *
+     * @return
+     */
     C getCode();
 }

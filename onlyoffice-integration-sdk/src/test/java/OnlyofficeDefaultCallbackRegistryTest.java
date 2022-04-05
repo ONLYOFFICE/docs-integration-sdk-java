@@ -1,7 +1,7 @@
 import core.model.callback.Callback;
-import core.registry.OnlyofficeDefaultCallbackRegistry;
-import core.registry.OnlyofficeCallbackRegistry;
 import core.registry.OnlyofficeCallbackHandler;
+import core.registry.OnlyofficeCallbackRegistry;
+import base.registry.OnlyofficeDefaultCallbackRegistry;
 import exception.OnlyofficeRegistryHandlerRuntimeException;
 import org.junit.jupiter.api.Test;
 
@@ -62,6 +62,12 @@ public class OnlyofficeDefaultCallbackRegistryTest {
 
         this.registry.register(handler);
         this.registry.removeByCode(handler.getCode());
+        assertEquals(0, this.registry.registered());
+    }
+
+    @Test
+    public void registerNullCallbackHandlerTest() {
+        this.registry.register(null);
         assertEquals(0, this.registry.registered());
     }
 }

@@ -3,7 +3,7 @@ package base.handler;
 import core.model.callback.Callback;
 import core.registry.OnlyofficeCallbackHandler;
 import core.registry.OnlyofficeCallbackRegistry;
-import core.runner.OnlyofficeUploaderRunner;
+import core.uploader.OnlyofficeUploaderRunner;
 import exception.OnlyofficeCallbackRuntimeException;
 
 public class OnlyofficeForceSaveCallbackHandler implements OnlyofficeCallbackHandler {

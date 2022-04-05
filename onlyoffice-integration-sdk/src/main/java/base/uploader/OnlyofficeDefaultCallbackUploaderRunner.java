@@ -1,8 +1,8 @@
-package base.runner;
+package base.uploader;
 
 import core.model.callback.Callback;
-import core.runner.OnlyofficeUploaderRunner;
 import core.uploader.OnlyofficeUploader;
+import core.uploader.OnlyofficeUploaderRunner;
 import core.uploader.OnlyofficeUploaderType;
 import exception.OnlyofficeRunnerRuntimeException;
 import exception.OnlyofficeUploaderRuntimeException;

@@ -8,10 +8,11 @@ import core.model.command.license.request.CommandLicenseRequest;
 import core.model.command.license.response.CommandLicenseResponse;
 import core.model.command.meta.CommandMetaRequest;
 import core.security.OnlyofficeJwtSecurity;
-import core.security.OnlyofficeJwtSecurityManager;
 import core.util.OnlyofficeModelValidator;
 import exception.OnlyofficeInvalidParameterRuntimeException;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.apache.hc.client5.http.fluent.Request;
 import org.apache.hc.core5.http.ContentType;
 import org.apache.hc.core5.util.Timeout;
@@ -22,28 +23,16 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-@Getter
-public class OnlyofficeCommandClientBase implements OnlyofficeCommandClient {
+@RequiredArgsConstructor
+public class OnlyofficeDefaultCommandClient implements OnlyofficeCommandClient {
+    @Getter
+    @Setter
     private int connectTimeout = 2000;
+    @Getter
+    @Setter
     private int responseTimeout = 4000;
-    private final OnlyofficeJwtSecurity jwtManager = new OnlyofficeJwtSecurityManager();
-    private final ObjectMapper mapper = new ObjectMapper();
-
-    /**
-     *
-     * @param connectTimeout
-     */
-    public void setConnectTimeout(int connectTimeout) {
-        this.connectTimeout = connectTimeout;
-    }
-
-    /**
-     *
-     * @param responseTimeout
-     */
-    public void setResponseTimeout(int responseTimeout) {
-        this.responseTimeout = responseTimeout;
-    }
+    private final OnlyofficeJwtSecurity jwtManager;
+    private final ObjectMapper mapper;
 
     /**
      *

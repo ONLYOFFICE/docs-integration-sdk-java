@@ -1,33 +1,32 @@
 package base.processor.pre;
 
+import com.google.common.collect.ImmutableMap;
 import core.model.OnlyofficeModelMutator;
 import core.model.callback.Callback;
-import core.processor.OnlyofficePreProcessor;
+import core.processor.pre.OnlyofficeCallbackPreProcessor;
+import core.runner.callback.CallbackRequest;
 import core.security.OnlyofficeJwtSecurity;
+import core.security.OnlyofficeJwtSecurityManager;
 import exception.OnlyofficeInvalidParameterRuntimeException;
 import exception.OnlyofficeJwtVerificationRuntimeException;
 import exception.OnlyofficeProcessBeforeRuntimeException;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
-import java.util.Map;
-
-@RequiredArgsConstructor
-public class OnlyofficeDefaultCallbackPreProcessor implements OnlyofficePreProcessor<Callback> {
-    private final OnlyofficeJwtSecurity jwtManager;
+@NoArgsConstructor
+public class OnlyofficeDefaultCallbackPreProcessor implements OnlyofficeCallbackPreProcessor {
+    private final OnlyofficeJwtSecurity jwtManager = new OnlyofficeJwtSecurityManager();
 
     /**
      *
-     * @param callback
+     * @param request
      * @throws OnlyofficeProcessBeforeRuntimeException
      * @throws OnlyofficeInvalidParameterRuntimeException
      */
-    public void processBefore(Callback callback) throws OnlyofficeProcessBeforeRuntimeException, OnlyofficeInvalidParameterRuntimeException {
-        if (callback == null) return;
+    public void processBefore(CallbackRequest request) throws OnlyofficeProcessBeforeRuntimeException, OnlyofficeInvalidParameterRuntimeException {
+        if (request == null || request.getCallback() == null) return;
+        if (!request.hasProcessor(preprocessorName())) return;
 
-        Map<String, Map<String, Object>> processors = callback.getProcessors();
-        if (!processors.containsKey(preprocessorName())) return;
-
-        Map<String, Object> processorData = processors.get(preprocessorName());
+        ImmutableMap<String, Object> processorData = request.getProcessorSchema(preprocessorName());
         if (processorData == null) return;
 
         Object key = processorData.get("key");
@@ -47,7 +46,7 @@ public class OnlyofficeDefaultCallbackPreProcessor implements OnlyofficePreProce
                 throw new OnlyofficeProcessBeforeRuntimeException(e.getMessage());
             }
 
-            mutator.mutate(callback);
+            mutator.mutate(request.getCallback());
         } catch (ClassCastException e) {
             try {
                 this.jwtManager.verify(token.toString(), key.toString());

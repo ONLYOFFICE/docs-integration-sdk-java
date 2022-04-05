@@ -1,7 +1,8 @@
 package base.processor;
 
 import core.model.config.Config;
-import core.processor.OnlyofficeProcessor;
+import core.processor.OnlyofficeEditorProcessor;
+import core.runner.editor.ConfigRequest;
 import core.security.OnlyofficeJwtSecurity;
 import core.util.OnlyofficeConfig;
 import core.util.OnlyofficeModelValidator;
@@ -20,7 +21,7 @@ import java.util.Date;
 
 @RequiredArgsConstructor
 @Getter
-public class OnlyofficeDefaultEditorProcessor implements OnlyofficeProcessor<Config> {
+public class OnlyofficeDefaultEditorProcessor implements OnlyofficeEditorProcessor {
     private final OnlyofficeConfig configUtil;
     private final OnlyofficeJwtSecurity jwtManager;
     @Setter
@@ -28,14 +29,15 @@ public class OnlyofficeDefaultEditorProcessor implements OnlyofficeProcessor<Con
 
     /**
      *
-     * @param config
+     * @param request
      * @throws OnlyofficeProcessRuntimeException
      * @throws OnlyofficeInvalidParameterRuntimeException
      */
-    public void process(Config config) throws OnlyofficeProcessRuntimeException, OnlyofficeInvalidParameterRuntimeException {
-        if (config == null)
-            throw new OnlyofficeProcessRuntimeException("ONLYOFFICE Config object is null");
+    public void process(ConfigRequest request) throws OnlyofficeProcessRuntimeException, OnlyofficeInvalidParameterRuntimeException {
+        if (request == null || request.getConfig() == null)
+            throw new OnlyofficeProcessRuntimeException("Config or config request is null");
 
+        Config config = request.getConfig();
         String secret = config.getSecret();
         if (secret != null && !secret.isBlank()) {
             LocalDateTime dateTime = LocalDateTime.now().plus(Duration.of(this.jwtExpirationMinutes, ChronoUnit.MINUTES));
@@ -48,7 +50,7 @@ public class OnlyofficeDefaultEditorProcessor implements OnlyofficeProcessor<Con
             }
         }
 
-        OnlyofficeModelValidator.validate(config);
         this.configUtil.sanitizeConfig(config);
+        OnlyofficeModelValidator.validate(config);
     }
 }

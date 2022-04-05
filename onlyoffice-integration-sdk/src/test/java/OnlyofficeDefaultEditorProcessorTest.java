@@ -4,10 +4,12 @@ import base.util.OnlyofficeFileUtil;
 import core.model.config.Config;
 import core.model.config.document.Document;
 import core.model.config.editor.Editor;
-import core.processor.OnlyofficeProcessor;
+import core.processor.OnlyofficeEditorProcessor;
+import core.runner.editor.ConfigRequest;
 import core.security.OnlyofficeJwtSecurityManager;
 import core.util.OnlyofficeConfig;
 import exception.OnlyofficeInvalidParameterRuntimeException;
+import exception.OnlyofficeProcessRuntimeException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,7 +19,12 @@ public class OnlyofficeDefaultEditorProcessorTest {
     private final OnlyofficeFileUtil fileUtil = new OnlyofficeFileUtil();
     private final OnlyofficeConfig configUtil = new OnlyofficeConfigUtil(fileUtil);
     private final OnlyofficeJwtSecurityManager jwtManager = new OnlyofficeJwtSecurityManager();
-    private final OnlyofficeProcessor<Config> editorProcessorBase = new OnlyofficeDefaultEditorProcessor(configUtil, jwtManager);
+    private final OnlyofficeEditorProcessor editorProcessorBase = new OnlyofficeDefaultEditorProcessor(configUtil, jwtManager);
+
+    @Test
+    public void processNullPayloadTest() {
+        assertThrows(OnlyofficeProcessRuntimeException.class, () -> this.editorProcessorBase.process(null));
+    }
 
     @Test
     public void processEditorConfigInvalidPayloadTest() {
@@ -36,7 +43,12 @@ public class OnlyofficeDefaultEditorProcessorTest {
                 .editorConfig(editor)
                 .build();
 
-        assertThrows(OnlyofficeInvalidParameterRuntimeException.class, () -> this.editorProcessorBase.process(config));
+        assertThrows(OnlyofficeInvalidParameterRuntimeException.class, () -> this.editorProcessorBase.process(
+                ConfigRequest
+                        .builder()
+                        .config(config)
+                        .build()
+        ));
     }
 
     @Test
@@ -57,7 +69,12 @@ public class OnlyofficeDefaultEditorProcessorTest {
                 .editorConfig(editor)
                 .build();
 
-        assertDoesNotThrow(() -> this.editorProcessorBase.process(config));
+        assertDoesNotThrow(() -> this.editorProcessorBase.process(
+                ConfigRequest
+                        .builder()
+                        .config(config)
+                        .build()
+        ));
     }
 
     @Test
@@ -78,7 +95,12 @@ public class OnlyofficeDefaultEditorProcessorTest {
                 .editorConfig(editor)
                 .secret("secret")
                 .build();
-        assertDoesNotThrow(() -> this.editorProcessorBase.process(config));
+        assertDoesNotThrow(() -> this.editorProcessorBase.process(
+                ConfigRequest
+                        .builder()
+                        .config(config)
+                        .build()
+        ));
         assertNotNull(config.getToken());
     }
 
@@ -100,7 +122,12 @@ public class OnlyofficeDefaultEditorProcessorTest {
                 .editorConfig(editor)
                 .secret(null)
                 .build();
-        assertDoesNotThrow(() -> this.editorProcessorBase.process(config));
+        assertDoesNotThrow(() -> this.editorProcessorBase.process(
+                ConfigRequest
+                        .builder()
+                        .config(config)
+                        .build()
+        ));
         assertNull(config.getToken());
     }
 }

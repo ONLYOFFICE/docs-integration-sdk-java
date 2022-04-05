@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 //TODO: Replace with mocks
-public class OnlyofficeConfigTest {
+public class OnlyofficeConfigUtilityTest {
     private final OnlyofficeFile fileUtil = new OnlyofficeFileUtil();
     private final OnlyofficeConfig configUtil = new OnlyofficeConfigUtil(fileUtil);
     private final Editor editor = Editor

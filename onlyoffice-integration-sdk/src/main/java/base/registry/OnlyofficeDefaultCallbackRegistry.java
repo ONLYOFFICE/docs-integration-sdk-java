@@ -1,6 +1,8 @@
-package core.registry;
+package base.registry;
 
 import core.model.callback.Callback;
+import core.registry.OnlyofficeCallbackHandler;
+import core.registry.OnlyofficeCallbackRegistry;
 import exception.OnlyofficeRegistryHandlerRuntimeException;
 import exception.OnlyofficeRegistryRuntimeException;
 
@@ -16,8 +18,9 @@ public class OnlyofficeDefaultCallbackRegistry implements OnlyofficeCallbackRegi
      */
     @Override
     public void register(OnlyofficeCallbackHandler... handlers) {
+        if (handlers == null) return;
         for (OnlyofficeCallbackHandler handler : handlers) {
-            if (this.callbackHandlers.containsKey(handler.getCode())) continue;
+            if (handler == null || this.callbackHandlers.containsKey(handler.getCode())) continue;
             this.callbackHandlers.put(handler.getCode(), handler);
         }
     }

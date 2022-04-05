@@ -1,11 +1,10 @@
 package base.processor.post;
 
-import core.model.callback.Callback;
-import core.processor.OnlyofficePostProcessor;
+import core.processor.post.OnlyofficeCallbackPostProcessor;
 
 import java.util.UUID;
 
-public class OnlyofficeDefaultCallbackPostProcessor implements OnlyofficePostProcessor<Callback> {
+public class OnlyofficeDefaultCallbackPostProcessor implements OnlyofficeCallbackPostProcessor {
     public String postprocessorName() {
         return UUID.randomUUID().toString();
     }

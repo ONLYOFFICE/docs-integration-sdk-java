@@ -36,9 +36,5 @@ public class Config {
     private Editor editorConfig = new Editor();
     @JsonIgnore
     @Builder.Default
-    @Setter(AccessLevel.NONE)
-    private Map<String, Map<String, Object>> processors = new HashMap<>();
-    @JsonIgnore
-    @Builder.Default
     private Map<String, ?> custom = new HashMap<>();
 }

@@ -1,7 +1,9 @@
 import base.processor.pre.OnlyofficeDefaultEditorPreProcessor;
+import com.google.common.collect.ImmutableMap;
 import core.model.OnlyofficeModelMutator;
 import core.model.config.Config;
-import core.processor.OnlyofficePreProcessor;
+import core.processor.pre.OnlyofficeEditorPreProcessor;
+import core.runner.editor.ConfigRequest;
 import core.security.OnlyofficeJwtSecurityManager;
 import exception.OnlyofficeProcessBeforeRuntimeException;
 import lombok.Getter;
@@ -9,14 +11,14 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-//TODO: Replace with mocks
 public class OnlyofficeDefaultEditorPreProcessorTest {
     private final OnlyofficeJwtSecurityManager jwtManager = new OnlyofficeJwtSecurityManager();
-    private final OnlyofficePreProcessor<Config> configOnlyofficePreProcessor = new OnlyofficeDefaultEditorPreProcessor(jwtManager);
+    private final OnlyofficeEditorPreProcessor configOnlyofficePreProcessor = new OnlyofficeDefaultEditorPreProcessor();
 
     @Test
     public void processNoArgumentsTest() {
@@ -24,8 +26,15 @@ public class OnlyofficeDefaultEditorPreProcessorTest {
     }
 
     @Test
-    public void processNullConfigTest() {
+    public void processNullConfigRequestTest() {
         assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.processBefore(null));
+    }
+
+    @Test
+    public void processNullConfigTest() {
+        assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.processBefore(
+                ConfigRequest.builder().build()
+        ));
     }
 
     @Test
@@ -33,7 +42,12 @@ public class OnlyofficeDefaultEditorPreProcessorTest {
         Config config = Config
                 .builder()
                 .build();
-        assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.processBefore(config));
+        assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.processBefore(
+                ConfigRequest
+                        .builder()
+                        .config(config)
+                        .build()
+        ));
         assertNotNull(config.getCustom());
     }
 
@@ -55,19 +69,23 @@ public class OnlyofficeDefaultEditorPreProcessorTest {
         AF af = new AF("http://example.com");
         Date date = java.sql.Date.valueOf(LocalDate.now().plusDays(1));
         String token = this.jwtManager.sign(af, "secret", date).get();
-
         Config config = Config
                 .builder()
-                .processors(Map.of(
-                        "onlyoffice.preprocessor.default.editor", Map.of(
-                                "key", "secret",
-                                "token", token,
-                                "mutator", af
-                        )
-                ))
                 .build();
 
-        assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.processBefore(config));
+        assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.processBefore(
+                ConfigRequest
+                        .builder()
+                        .config(config)
+                        .processors(new LinkedHashMap<>(){{
+                            put("onlyoffice.preprocessor.default.editor", ImmutableMap.of(
+                                    "key", "secret",
+                                    "token", token,
+                                    "mutator", af
+                            ));
+                        }})
+                        .build()
+        ));
         assertEquals("http://example.com", config.getDocument().getUrl());
     }
 
@@ -75,59 +93,61 @@ public class OnlyofficeDefaultEditorPreProcessorTest {
     public void processValidJwtTest() {
         Date date = java.sql.Date.valueOf(LocalDate.now().plusDays(1));
         String token = this.jwtManager.sign(Map.of("test", "test"), "secret", date).get();
-        Config config = Config
-                .builder()
-                .processors(Map.of(
-                        "onlyoffice.preprocessor.default.editor", Map.of(
-                                "key", "secret",
-                                "token", token
-                        )
-                ))
-                .build();
-        assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.processBefore(config));
+        assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.processBefore(
+                ConfigRequest
+                        .builder()
+                        .processors(new LinkedHashMap<>())
+                        .build()
+        ));
     }
 
     @Test
     public void processInvalidJwtSecretTest() {
         Date date = java.sql.Date.valueOf(LocalDate.now().plusDays(1));
         String token = this.jwtManager.sign(Map.of("test", "test"), "secret", date).get();
-        Config config = Config
-                .builder()
-                .processors(Map.of(
-                        "onlyoffice.preprocessor.default.editor", Map.of(
-                                "key", "invalid",
-                                "token", token
-                        )
-                ))
-                .build();
-        assertThrows(OnlyofficeProcessBeforeRuntimeException.class, () -> this.configOnlyofficePreProcessor.processBefore(config));
+        assertThrows(OnlyofficeProcessBeforeRuntimeException.class, () -> this.configOnlyofficePreProcessor.processBefore(
+                ConfigRequest
+                        .builder()
+                        .config(Config.builder().build())
+                        .processors(new LinkedHashMap<>(){{
+                            put("onlyoffice.preprocessor.default.editor", ImmutableMap.of(
+                                    "key", "invalid",
+                                    "token", token
+                            ));
+                        }})
+                        .build()
+        ));
     }
 
     @Test
     public void processIgnoreJwtVerificationNoSecretTest() {
         Date date = java.sql.Date.valueOf(LocalDate.now().plusDays(1));
         String token = this.jwtManager.sign(Map.of("test", "test"), "secret", date).get();
-        Config config = Config
-                .builder()
-                .processors(Map.of(
-                        "onlyoffice.preprocessor.default.editor", Map.of(
-                                "token", token
-                        )
-                ))
-                .build();
-        assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.processBefore(config));
+        assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.processBefore(
+                ConfigRequest
+                        .builder()
+                        .config(Config.builder().build())
+                        .processors(new LinkedHashMap<>(){{
+                            put("onlyoffice.preprocessor.default.editor", ImmutableMap.of(
+                                    "token", token
+                            ));
+                        }})
+                        .build()
+        ));
     }
 
     @Test
     public void processIgnoreJwtVerificationNoTokenTest() {
-        Config config = Config
-                .builder()
-                .processors(Map.of(
-                        "onlyoffice.preprocessor.default.editor", Map.of(
-                                "key", "secret"
-                        )
-                ))
-                .build();
-        assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.processBefore(config));
+        assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.processBefore(
+                ConfigRequest
+                        .builder()
+                        .config(Config.builder().build())
+                        .processors(new LinkedHashMap<>(){{
+                            put("onlyoffice.preprocessor.default.editor", ImmutableMap.of(
+                                    "key", "secret"
+                            ));
+                        }})
+                        .build()
+        ));
     }
 }

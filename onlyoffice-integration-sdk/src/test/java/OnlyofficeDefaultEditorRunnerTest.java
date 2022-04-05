@@ -1,25 +1,30 @@
 import base.processor.OnlyofficeDefaultEditorProcessor;
 import base.processor.pre.OnlyofficeDefaultEditorPreProcessor;
-import base.runner.editor.OnlyofficeDefaultEditorRunner;
 import base.util.OnlyofficeConfigUtil;
 import base.util.OnlyofficeFileUtil;
+import com.google.common.collect.ImmutableMap;
 import core.model.OnlyofficeModelMutator;
 import core.model.config.Config;
 import core.model.config.document.Document;
 import core.model.config.editor.Editor;
-import core.processor.OnlyofficePreProcessor;
-import core.runner.OnlyofficeRunner;
+import core.processor.OnlyofficeEditorProcessor;
+import core.processor.pre.OnlyofficeEditorPreProcessor;
+import core.runner.OnlyofficeEditorRunner;
+import core.runner.editor.ConfigRequest;
+import core.runner.editor.OnlyofficeDefaultEditorRunner;
 import core.security.OnlyofficeJwtSecurityManager;
 import core.util.OnlyofficeConfig;
 import core.util.OnlyofficeFile;
+import exception.OnlyofficeProcessRuntimeException;
+import exception.OnlyofficeRunnerRuntimeException;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,17 +33,32 @@ public class OnlyofficeDefaultEditorRunnerTest {
     private final OnlyofficeJwtSecurityManager jwtSecurity = new OnlyofficeJwtSecurityManager();
     private final OnlyofficeFile onlyofficeFile = new OnlyofficeFileUtil();
     private final OnlyofficeConfig configUtil = new OnlyofficeConfigUtil(onlyofficeFile);
-    private final OnlyofficeDefaultEditorProcessor onlyofficeDefaultEditorProcessor = new OnlyofficeDefaultEditorProcessor(configUtil, jwtSecurity);
-    private final OnlyofficePreProcessor<Config> configOnlyofficePreProcessor = new OnlyofficeDefaultEditorPreProcessor(jwtSecurity);
-    private final OnlyofficeRunner<Config> onlyofficeDefaultEditorRunner = new OnlyofficeDefaultEditorRunner(
+    private final OnlyofficeEditorProcessor onlyofficeDefaultEditorProcessor = new OnlyofficeDefaultEditorProcessor(configUtil, jwtSecurity);
+    private final OnlyofficeEditorPreProcessor configOnlyofficePreProcessor = new OnlyofficeDefaultEditorPreProcessor();
+    private final OnlyofficeEditorRunner onlyofficeDefaultEditorRunner = new OnlyofficeDefaultEditorRunner(
             onlyofficeDefaultEditorProcessor,
             List.of(configOnlyofficePreProcessor),
             List.of()
     );
 
     @Test
+    public void runNullRequestTest() {
+        assertThrows(OnlyofficeRunnerRuntimeException.class, () -> this.onlyofficeDefaultEditorRunner.run(null));
+    }
+
+    @Test
+    public void runNullConfigTest() {
+        assertThrows(OnlyofficeProcessRuntimeException.class, () -> this.onlyofficeDefaultEditorRunner.run(
+                ConfigRequest
+                        .builder()
+                        .config(null)
+                        .build()
+        ));
+    }
+
+    @Test
     @SneakyThrows
-    public void runFullValidTest() {
+    public void runFullValidRequestTest() {
         class AF implements OnlyofficeModelMutator<Config> {
             @Getter
             private String docUrl;
@@ -71,15 +91,20 @@ public class OnlyofficeDefaultEditorRunnerTest {
                 .document(doc)
                 .editorConfig(editor)
                 .secret("secret")
-                .processors(Map.of(
-                        "onlyoffice.preprocessor.default.editor", Map.of(
-                                "key", "secret",
-                                "token", token,
-                                "mutator", af
-                        )
-                ))
                 .build();
-        this.onlyofficeDefaultEditorRunner.run(config);
+        this.onlyofficeDefaultEditorRunner.run(
+                ConfigRequest
+                        .builder()
+                        .config(config)
+                        .processors(new LinkedHashMap<>(){{
+                            put("onlyoffice.preprocessor.default.editor", ImmutableMap.of(
+                                    "key", "secret",
+                                    "token", token,
+                                    "mutator", af
+                            ));
+                        }})
+                        .build()
+        );
         assertNotNull(config);
         assertNotNull(config.getToken());
         assertEquals("http://example.com", config.getDocument().getUrl());
@@ -103,7 +128,12 @@ public class OnlyofficeDefaultEditorRunnerTest {
                 .document(doc)
                 .editorConfig(editor)
                 .build();
-        this.onlyofficeDefaultEditorRunner.run(config);
+        this.onlyofficeDefaultEditorRunner.run(
+                ConfigRequest
+                        .builder()
+                        .config(config)
+                        .build()
+        );
         assertNotNull(config);
         assertNull(config.getToken());
     }

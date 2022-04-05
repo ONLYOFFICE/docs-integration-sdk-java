@@ -1,14 +1,16 @@
 import base.processor.OnlyofficeDefaultCallbackProcessor;
 import base.processor.pre.OnlyofficeDefaultCallbackPreProcessor;
-import base.runner.callback.OnlyofficeDefaultCallbackRunner;
+import base.registry.OnlyofficeDefaultCallbackRegistry;
 import core.model.callback.Callback;
-import core.processor.OnlyofficePreProcessor;
+import core.processor.pre.OnlyofficeCallbackPreProcessor;
 import core.registry.OnlyofficeCallbackHandler;
 import core.registry.OnlyofficeCallbackRegistry;
-import core.registry.OnlyofficeDefaultCallbackRegistry;
+import core.runner.callback.CallbackRequest;
+import core.runner.callback.OnlyofficeDefaultCallbackRunner;
 import core.security.OnlyofficeJwtSecurityManager;
 import exception.OnlyofficeProcessRuntimeException;
 import exception.OnlyofficeRegistryHandlerRuntimeException;
+import exception.OnlyofficeRunnerRuntimeException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,32 +28,46 @@ public class OnlyofficeDefaultCallbackRunnerTest {
     private final OnlyofficeCallbackRegistry callbackRegistry = new OnlyofficeDefaultCallbackRegistry();
     private final OnlyofficeJwtSecurityManager jwtManager = new OnlyofficeJwtSecurityManager();
     private final OnlyofficeDefaultCallbackProcessor callbackProcessor = new OnlyofficeDefaultCallbackProcessor(callbackRegistry, jwtManager);
-    private final OnlyofficePreProcessor<Callback> callbackOnlyofficePreProcessor = new OnlyofficeDefaultCallbackPreProcessor(jwtManager);
+    private final OnlyofficeCallbackPreProcessor callbackOnlyofficePreProcessor = new OnlyofficeDefaultCallbackPreProcessor();
     private final OnlyofficeDefaultCallbackRunner callbackRunner = new OnlyofficeDefaultCallbackRunner(
             callbackProcessor,
             List.of(callbackOnlyofficePreProcessor),
             new ArrayList<>()
     );
-    OnlyofficeCallbackHandler callbackHandler = new OnlyofficeCallbackHandler(){
-        @Override
-        public void handle(Callback callback) throws OnlyofficeRegistryHandlerRuntimeException {
-
-        }
-
-        @Override
-        public Integer getCode() {
-            return 2;
-        }
-    };
 
     @BeforeEach
     public void registerHandler() {
+        OnlyofficeCallbackHandler callbackHandler = new OnlyofficeCallbackHandler(){
+            @Override
+            public void handle(Callback callback) throws OnlyofficeRegistryHandlerRuntimeException {
+
+            }
+
+            @Override
+            public Integer getCode() {
+                return 2;
+            }
+        };
         this.callbackRegistry.register(callbackHandler);
     }
 
     @AfterEach
     public void removeHandler() {
         this.callbackRegistry.removeByCode(2);
+    }
+
+    @Test
+    public void runNullCallbackRequestTest() {
+        assertThrows(OnlyofficeRunnerRuntimeException.class, () -> this.callbackRunner.run(null));
+    }
+
+    @Test
+    public void runEmptyCallbackRequestTest() {
+        assertThrows(OnlyofficeProcessRuntimeException.class, () -> this.callbackRunner.run(
+                CallbackRequest
+                        .builder()
+                        .build()
+        ));
     }
 
     @Test
@@ -64,7 +80,12 @@ public class OnlyofficeDefaultCallbackRunnerTest {
                 .secret("secret")
                 .token(token)
                 .build();
-        assertDoesNotThrow(() -> this.callbackRunner.run(callback));
+        assertDoesNotThrow(() -> this.callbackRunner.run(
+                CallbackRequest
+                        .builder()
+                        .callback(callback)
+                        .build()
+        ));
         assertEquals(0, callback.getStatus());
     }
 
@@ -74,7 +95,12 @@ public class OnlyofficeDefaultCallbackRunnerTest {
                 .builder()
                 .status(2)
                 .build();
-        assertDoesNotThrow(() -> this.callbackRunner.run(callback));
+        assertDoesNotThrow(() -> this.callbackRunner.run(
+                CallbackRequest
+                        .builder()
+                        .callback(callback)
+                        .build()
+        ));
         assertEquals(2, callback.getStatus());
         assertNotNull(callback.getCustom());
     }
@@ -88,7 +114,12 @@ public class OnlyofficeDefaultCallbackRunnerTest {
                 .status(2)
                 .token(token)
                 .build();
-        assertDoesNotThrow(() -> this.callbackRunner.run(callback));
+        assertDoesNotThrow(() -> this.callbackRunner.run(
+                CallbackRequest
+                        .builder()
+                        .callback(callback)
+                        .build()
+        ));
         assertEquals(2, callback.getStatus());
         assertNotNull(callback.getCustom());
     }
@@ -100,7 +131,12 @@ public class OnlyofficeDefaultCallbackRunnerTest {
                 .status(2)
                 .secret("secret")
                 .build();
-        assertDoesNotThrow(() -> this.callbackRunner.run(callback));
+        assertDoesNotThrow(() -> this.callbackRunner.run(
+                CallbackRequest
+                        .builder()
+                        .callback(callback)
+                        .build()
+        ));
         assertEquals(2, callback.getStatus());
     }
 
@@ -114,7 +150,12 @@ public class OnlyofficeDefaultCallbackRunnerTest {
                 .secret("invalid")
                 .token(token)
                 .build();
-        assertThrows(OnlyofficeProcessRuntimeException.class, () -> this.callbackRunner.run(callback));
+        assertThrows(OnlyofficeProcessRuntimeException.class, () -> this.callbackRunner.run(
+                CallbackRequest
+                        .builder()
+                        .callback(callback)
+                        .build()
+        ));
         assertEquals(2, callback.getStatus());
     }
 }
