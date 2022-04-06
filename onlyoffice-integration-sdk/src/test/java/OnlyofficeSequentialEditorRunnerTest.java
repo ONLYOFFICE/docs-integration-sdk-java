@@ -11,7 +11,7 @@ import core.processor.OnlyofficeEditorProcessor;
 import core.processor.pre.OnlyofficeEditorPreProcessor;
 import core.runner.OnlyofficeEditorRunner;
 import core.runner.editor.ConfigRequest;
-import core.runner.editor.OnlyofficeDefaultEditorRunner;
+import core.runner.editor.OnlyofficeSequentialEditorRunner;
 import core.security.OnlyofficeJwtSecurityManager;
 import core.util.OnlyofficeConfig;
 import core.util.OnlyofficeFile;
@@ -29,13 +29,13 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 // TODO: Replace with mocks
-public class OnlyofficeDefaultEditorRunnerTest {
+public class OnlyofficeSequentialEditorRunnerTest {
     private final OnlyofficeJwtSecurityManager jwtSecurity = new OnlyofficeJwtSecurityManager();
     private final OnlyofficeFile onlyofficeFile = new OnlyofficeFileUtil();
     private final OnlyofficeConfig configUtil = new OnlyofficeConfigUtil(onlyofficeFile);
     private final OnlyofficeEditorProcessor onlyofficeDefaultEditorProcessor = new OnlyofficeDefaultEditorProcessor(configUtil, jwtSecurity);
     private final OnlyofficeEditorPreProcessor configOnlyofficePreProcessor = new OnlyofficeDefaultEditorPreProcessor();
-    private final OnlyofficeEditorRunner onlyofficeDefaultEditorRunner = new OnlyofficeDefaultEditorRunner(
+    private final OnlyofficeEditorRunner onlyofficeDefaultEditorRunner = new OnlyofficeSequentialEditorRunner(
             onlyofficeDefaultEditorProcessor,
             List.of(configOnlyofficePreProcessor),
             List.of()
@@ -96,7 +96,7 @@ public class OnlyofficeDefaultEditorRunnerTest {
                 ConfigRequest
                         .builder()
                         .config(config)
-                        .processors(new LinkedHashMap<>(){{
+                        .preProcessors(new LinkedHashMap<>(){{
                             put("onlyoffice.preprocessor.default.editor", ImmutableMap.of(
                                     "key", "secret",
                                     "token", token,

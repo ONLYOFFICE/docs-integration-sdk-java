@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class OnlyofficeDefaultEditorRunner implements OnlyofficeEditorRunner {
+public class OnlyofficeSequentialEditorRunner implements OnlyofficeEditorRunner {
     private final OnlyofficeEditorProcessor editorProcessor;
     private final List<OnlyofficeEditorPreProcessor> editorPreProcessors;
     private final List<OnlyofficeEditorPostProcessor> editorPostProcessors;

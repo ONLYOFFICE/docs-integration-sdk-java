@@ -36,5 +36,5 @@ public class Config {
     private Editor editorConfig = new Editor();
     @JsonIgnore
     @Builder.Default
-    private Map<String, ?> custom = new HashMap<>();
+    private Map<String, Object> custom = new HashMap<>();
 }

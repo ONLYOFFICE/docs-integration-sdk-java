@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class OnlyofficeDefaultCallbackRunner implements OnlyofficeCallbackRunner {
+public class OnlyofficeSequentialCallbackRunner implements OnlyofficeCallbackRunner {
     private final OnlyofficeCallbackProcessor callbackProcessor;
     private final List<OnlyofficeCallbackPreProcessor> callbackPreProcessors;
     private final List<OnlyofficeCallbackPostProcessor> callbackPostProcessors;

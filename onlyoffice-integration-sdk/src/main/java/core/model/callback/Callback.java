@@ -33,7 +33,7 @@ public class Callback {
     private Boolean notmodified;
     @JsonIgnore
     @Builder.Default
-    private Map<String, ?> custom = new HashMap<>();
+    private Map<String, Object> custom = new HashMap<>();
 
     public Callback setToken(String token) {
         this.token = token;
@@ -45,7 +45,7 @@ public class Callback {
         return this;
     }
 
-    public Callback setCustom(Map<String, ?> custom) {
+    public Callback setCustom(Map<String, Object> custom) {
         this.custom = custom;
         return this;
     }

@@ -24,9 +24,9 @@ public class OnlyofficeDefaultCallbackPreProcessor implements OnlyofficeCallback
      */
     public void processBefore(CallbackRequest request) throws OnlyofficeProcessBeforeRuntimeException, OnlyofficeInvalidParameterRuntimeException {
         if (request == null || request.getCallback() == null) return;
-        if (!request.hasProcessor(preprocessorName())) return;
+        if (!request.hasPreProcessor(preprocessorName())) return;
 
-        ImmutableMap<String, Object> processorData = request.getProcessorSchema(preprocessorName());
+        ImmutableMap<String, Object> processorData = request.getPreProcessorSchema(preprocessorName());
         if (processorData == null) return;
 
         Object key = processorData.get("key");

@@ -6,7 +6,7 @@ import core.processor.pre.OnlyofficeCallbackPreProcessor;
 import core.registry.OnlyofficeCallbackHandler;
 import core.registry.OnlyofficeCallbackRegistry;
 import core.runner.callback.CallbackRequest;
-import core.runner.callback.OnlyofficeDefaultCallbackRunner;
+import core.runner.callback.OnlyofficeSequentialCallbackRunner;
 import core.security.OnlyofficeJwtSecurityManager;
 import exception.OnlyofficeProcessRuntimeException;
 import exception.OnlyofficeRegistryHandlerRuntimeException;
@@ -24,12 +24,12 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 //TODO: Replace with mocks
-public class OnlyofficeDefaultCallbackRunnerTest {
+public class OnlyofficeSequentialCallbackRunnerTest {
     private final OnlyofficeCallbackRegistry callbackRegistry = new OnlyofficeDefaultCallbackRegistry();
     private final OnlyofficeJwtSecurityManager jwtManager = new OnlyofficeJwtSecurityManager();
     private final OnlyofficeDefaultCallbackProcessor callbackProcessor = new OnlyofficeDefaultCallbackProcessor(callbackRegistry, jwtManager);
     private final OnlyofficeCallbackPreProcessor callbackOnlyofficePreProcessor = new OnlyofficeDefaultCallbackPreProcessor();
-    private final OnlyofficeDefaultCallbackRunner callbackRunner = new OnlyofficeDefaultCallbackRunner(
+    private final OnlyofficeSequentialCallbackRunner callbackRunner = new OnlyofficeSequentialCallbackRunner(
             callbackProcessor,
             List.of(callbackOnlyofficePreProcessor),
             new ArrayList<>()

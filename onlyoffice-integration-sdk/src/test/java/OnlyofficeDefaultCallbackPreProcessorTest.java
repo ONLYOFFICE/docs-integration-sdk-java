@@ -63,7 +63,7 @@ public class OnlyofficeDefaultCallbackPreProcessorTest {
                                         .status(2)
                                         .build()
                         )
-                        .processors(null)
+                        .preProcessors(null)
                         .build()
         ));
     }
@@ -80,7 +80,7 @@ public class OnlyofficeDefaultCallbackPreProcessorTest {
                                         .status(2)
                                         .build()
                         )
-                        .processors(new LinkedHashMap<>(){{
+                        .preProcessors(new LinkedHashMap<>(){{
                             put("testing", null);
                         }})
                         .build()
@@ -99,7 +99,7 @@ public class OnlyofficeDefaultCallbackPreProcessorTest {
                                         .status(2)
                                         .build()
                         )
-                        .processors(new LinkedHashMap<>(){{
+                        .preProcessors(new LinkedHashMap<>(){{
                             put("onlyoffice.preprocessor.default.callback", ImmutableMap.of());
                         }})
                         .build()
@@ -120,7 +120,7 @@ public class OnlyofficeDefaultCallbackPreProcessorTest {
                                         .token(token)
                                         .build()
                         )
-                        .processors(new LinkedHashMap<>(){{
+                        .preProcessors(new LinkedHashMap<>(){{
                             put("onlyoffice.preprocessor.default.callback", ImmutableMap.of(
                                     "key", "secret",
                                     "token", token
@@ -162,7 +162,7 @@ public class OnlyofficeDefaultCallbackPreProcessorTest {
                 CallbackRequest
                         .builder()
                         .callback(callback)
-                        .processors(new LinkedHashMap<>(){{
+                        .preProcessors(new LinkedHashMap<>(){{
                             put("onlyoffice.preprocessor.default.callback", ImmutableMap.of(
                                     "key", "secret",
                                     "token", token,

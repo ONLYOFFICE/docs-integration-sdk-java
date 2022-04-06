@@ -24,9 +24,9 @@ public class OnlyofficeDefaultEditorPreProcessor implements OnlyofficeEditorPreP
      */
     public void processBefore(ConfigRequest request) throws OnlyofficeProcessBeforeRuntimeException, OnlyofficeInvalidParameterRuntimeException {
         if (request == null || request.getConfig() == null) return;
-        if (!request.hasProcessor(preprocessorName())) return;
+        if (!request.hasPreProcessor(preprocessorName())) return;
 
-        ImmutableMap<String, Object> processorData = request.getProcessorSchema(preprocessorName());
+        ImmutableMap<String, Object> processorData = request.getPreProcessorSchema(preprocessorName());
         if (processorData == null) return;
 
         Object key = processorData.get("key");

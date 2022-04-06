@@ -77,7 +77,7 @@ public class OnlyofficeDefaultEditorPreProcessorTest {
                 ConfigRequest
                         .builder()
                         .config(config)
-                        .processors(new LinkedHashMap<>(){{
+                        .preProcessors(new LinkedHashMap<>(){{
                             put("onlyoffice.preprocessor.default.editor", ImmutableMap.of(
                                     "key", "secret",
                                     "token", token,
@@ -96,7 +96,7 @@ public class OnlyofficeDefaultEditorPreProcessorTest {
         assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.processBefore(
                 ConfigRequest
                         .builder()
-                        .processors(new LinkedHashMap<>())
+                        .preProcessors(new LinkedHashMap<>())
                         .build()
         ));
     }
@@ -109,7 +109,7 @@ public class OnlyofficeDefaultEditorPreProcessorTest {
                 ConfigRequest
                         .builder()
                         .config(Config.builder().build())
-                        .processors(new LinkedHashMap<>(){{
+                        .preProcessors(new LinkedHashMap<>(){{
                             put("onlyoffice.preprocessor.default.editor", ImmutableMap.of(
                                     "key", "invalid",
                                     "token", token
@@ -127,7 +127,7 @@ public class OnlyofficeDefaultEditorPreProcessorTest {
                 ConfigRequest
                         .builder()
                         .config(Config.builder().build())
-                        .processors(new LinkedHashMap<>(){{
+                        .preProcessors(new LinkedHashMap<>(){{
                             put("onlyoffice.preprocessor.default.editor", ImmutableMap.of(
                                     "token", token
                             ));
@@ -142,7 +142,7 @@ public class OnlyofficeDefaultEditorPreProcessorTest {
                 ConfigRequest
                         .builder()
                         .config(Config.builder().build())
-                        .processors(new LinkedHashMap<>(){{
+                        .preProcessors(new LinkedHashMap<>(){{
                             put("onlyoffice.preprocessor.default.editor", ImmutableMap.of(
                                     "key", "secret"
                             ));
