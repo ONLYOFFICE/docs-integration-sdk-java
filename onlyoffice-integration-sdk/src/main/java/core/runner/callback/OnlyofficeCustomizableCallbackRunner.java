@@ -50,7 +50,7 @@ public class OnlyofficeCustomizableCallbackRunner implements OnlyofficeCallbackR
 
                 Integer nextInvocation = invocations.get(processorName) + 1;
                 if (nextInvocation > maxTotalHops)
-                    throw new OnlyofficeRunnerRuntimeException("Exceeded total maximum hops");
+                    throw new OnlyofficeRunnerRuntimeException("Exceeded total preprocessor hops");
                 invocations.put(processorName, nextInvocation);
 
                 preProcessors.get(processorName).processBefore();
@@ -77,7 +77,9 @@ public class OnlyofficeCustomizableCallbackRunner implements OnlyofficeCallbackR
                 }
 
                 Integer nextInvocation = invocations.get(processorName) + 1;
-                if (nextInvocation > maxTotalHops) break postLoop;
+                if (nextInvocation > maxTotalHops)
+                    throw new OnlyofficeRunnerRuntimeException("Exceeded total postprocessor hops");
+                invocations.put(processorName, nextInvocation);
 
                 postProcessors.get(processorName).processAfter();
                 postProcessors.get(processorName).processAfter(request);

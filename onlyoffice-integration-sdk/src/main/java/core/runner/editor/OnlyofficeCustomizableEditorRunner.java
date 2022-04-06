@@ -79,6 +79,7 @@ public class OnlyofficeCustomizableEditorRunner implements OnlyofficeEditorRunne
                 Integer nextInvocation = invocations.get(processorName) + 1;
                 if (nextInvocation > maxTotalHops)
                     throw new OnlyofficeRunnerRuntimeException("Exceeded total postprocessor hops");
+                invocations.put(processorName, nextInvocation);
 
                 postProcessors.get(processorName).processAfter();
                 postProcessors.get(processorName).processAfter(request);
