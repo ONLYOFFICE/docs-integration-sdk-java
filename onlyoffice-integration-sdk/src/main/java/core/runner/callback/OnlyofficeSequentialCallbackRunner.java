@@ -16,8 +16,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OnlyofficeSequentialCallbackRunner implements OnlyofficeCallbackRunner {
     private final OnlyofficeCallbackProcessor callbackProcessor;
-    private final List<OnlyofficeCallbackPreProcessor> callbackPreProcessors;
-    private final List<OnlyofficeCallbackPostProcessor> callbackPostProcessors;
+    private final List<OnlyofficeCallbackPreProcessor> preProcessors;
+    private final List<OnlyofficeCallbackPostProcessor> postProcessors;
 
     /**
      *
@@ -32,14 +32,14 @@ public class OnlyofficeSequentialCallbackRunner implements OnlyofficeCallbackRun
         if (request == null)
             throw new OnlyofficeRunnerRuntimeException("Callback request is null");
 
-        callbackPreProcessors.forEach(preProcessor -> {
+        preProcessors.forEach(preProcessor -> {
             preProcessor.processBefore();
             preProcessor.processBefore(request);
         });
 
         this.callbackProcessor.process(request);
 
-        callbackPostProcessors.forEach(postProcessor -> {
+        postProcessors.forEach(postProcessor -> {
             postProcessor.processAfter();
             postProcessor.processAfter(request);
         });

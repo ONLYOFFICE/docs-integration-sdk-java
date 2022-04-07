@@ -16,8 +16,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OnlyofficeSequentialEditorRunner implements OnlyofficeEditorRunner {
     private final OnlyofficeEditorProcessor editorProcessor;
-    private final List<OnlyofficeEditorPreProcessor> editorPreProcessors;
-    private final List<OnlyofficeEditorPostProcessor> editorPostProcessors;
+    private final List<OnlyofficeEditorPreProcessor> preProcessors;
+    private final List<OnlyofficeEditorPostProcessor> postProcessors;
 
     /**
      *
@@ -32,14 +32,14 @@ public class OnlyofficeSequentialEditorRunner implements OnlyofficeEditorRunner 
         if (request == null)
             throw new OnlyofficeRunnerRuntimeException("Config request is null");
 
-        editorPreProcessors.forEach(processor -> {
+        preProcessors.forEach(processor -> {
             processor.processBefore();
             processor.processBefore(request);
         });
 
         this.editorProcessor.process(request);
 
-        editorPostProcessors.forEach(processor -> {
+        postProcessors.forEach(processor -> {
             processor.processAfter();
             processor.processAfter(request);
         });
