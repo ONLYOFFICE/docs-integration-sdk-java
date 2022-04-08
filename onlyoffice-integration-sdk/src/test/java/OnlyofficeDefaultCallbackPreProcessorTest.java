@@ -1,4 +1,5 @@
 import base.processor.pre.OnlyofficeDefaultCallbackPreProcessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import core.model.OnlyofficeModelMutator;
 import core.model.callback.Callback;
@@ -17,8 +18,9 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class OnlyofficeDefaultCallbackPreProcessorTest {
-    private final OnlyofficeJwtSecurity jwtSecurity = new OnlyofficeJwtSecurityManager();
-    private final OnlyofficeCallbackPreProcessor callbackOnlyofficePreProcessor = new OnlyofficeDefaultCallbackPreProcessor();
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final OnlyofficeJwtSecurity jwtSecurity = new OnlyofficeJwtSecurityManager(objectMapper);
+    private final OnlyofficeCallbackPreProcessor callbackOnlyofficePreProcessor = new OnlyofficeDefaultCallbackPreProcessor(objectMapper);
 
     @Test
     public void processNullCallbackRequestParameterIgnoreTest() {

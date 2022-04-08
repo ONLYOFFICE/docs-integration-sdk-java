@@ -12,7 +12,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@Getter
 public class OnlyofficeDefaultCallbackProcessor implements OnlyofficeCallbackProcessor {
     private final OnlyofficeCallbackRegistry callbackRegistry;
     private final OnlyofficeJwtSecurity jwtManager;

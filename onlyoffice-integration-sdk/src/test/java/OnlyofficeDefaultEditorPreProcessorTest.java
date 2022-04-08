@@ -1,4 +1,5 @@
 import base.processor.pre.OnlyofficeDefaultEditorPreProcessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import core.model.OnlyofficeModelMutator;
 import core.model.config.Config;
@@ -17,8 +18,9 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class OnlyofficeDefaultEditorPreProcessorTest {
-    private final OnlyofficeJwtSecurityManager jwtManager = new OnlyofficeJwtSecurityManager();
-    private final OnlyofficeEditorPreProcessor configOnlyofficePreProcessor = new OnlyofficeDefaultEditorPreProcessor();
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final OnlyofficeJwtSecurityManager jwtManager = new OnlyofficeJwtSecurityManager(objectMapper);
+    private final OnlyofficeEditorPreProcessor configOnlyofficePreProcessor = new OnlyofficeDefaultEditorPreProcessor(objectMapper);
 
     @Test
     public void processNoArgumentsTest() {

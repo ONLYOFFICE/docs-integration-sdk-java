@@ -1,6 +1,7 @@
 import base.processor.OnlyofficeDefaultEditorProcessor;
 import base.util.OnlyofficeConfigUtil;
 import base.util.OnlyofficeFileUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import core.model.config.Config;
 import core.model.config.document.Document;
 import core.model.config.editor.Editor;
@@ -16,9 +17,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 // TODO: Replace with mocks
 public class OnlyofficeDefaultEditorProcessorTest {
+    private final ObjectMapper objectMapper = new ObjectMapper();
     private final OnlyofficeFileUtil fileUtil = new OnlyofficeFileUtil();
     private final OnlyofficeConfig configUtil = new OnlyofficeConfigUtil(fileUtil);
-    private final OnlyofficeJwtSecurityManager jwtManager = new OnlyofficeJwtSecurityManager();
+    private final OnlyofficeJwtSecurityManager jwtManager = new OnlyofficeJwtSecurityManager(objectMapper);
     private final OnlyofficeEditorProcessor editorProcessorBase = new OnlyofficeDefaultEditorProcessor(configUtil, jwtManager);
 
     @Test

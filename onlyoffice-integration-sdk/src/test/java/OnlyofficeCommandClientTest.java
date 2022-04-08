@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 //TODO: Replace with mocks
 public class OnlyofficeCommandClientTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private final OnlyofficeJwtSecurity jwtSecurity = new OnlyofficeJwtSecurityManager();
+    private final OnlyofficeJwtSecurity jwtSecurity = new OnlyofficeJwtSecurityManager(objectMapper);
     private final OnlyofficeDefaultCommandClient commandClient = new OnlyofficeDefaultCommandClient(jwtSecurity, objectMapper);
     private final Credentials credentials = Credentials
             .builder()

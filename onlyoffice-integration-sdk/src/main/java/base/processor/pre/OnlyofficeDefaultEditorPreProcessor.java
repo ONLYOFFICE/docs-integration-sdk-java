@@ -1,5 +1,6 @@
 package base.processor.pre;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import core.model.OnlyofficeModelMutator;
 import core.model.config.Config;
@@ -10,11 +11,15 @@ import core.security.OnlyofficeJwtSecurityManager;
 import exception.OnlyofficeInvalidParameterRuntimeException;
 import exception.OnlyofficeJwtVerificationRuntimeException;
 import exception.OnlyofficeProcessBeforeRuntimeException;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 public class OnlyofficeDefaultEditorPreProcessor implements OnlyofficeEditorPreProcessor {
-    private final OnlyofficeJwtSecurity jwtManager = new OnlyofficeJwtSecurityManager();
+    private final ObjectMapper objectMapper;
+    private final OnlyofficeJwtSecurity jwtManager;
+
+    public OnlyofficeDefaultEditorPreProcessor(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+        this.jwtManager = new OnlyofficeJwtSecurityManager(this.objectMapper);
+    }
 
     /**
      *

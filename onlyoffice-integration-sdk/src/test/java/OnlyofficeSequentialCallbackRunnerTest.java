@@ -1,6 +1,7 @@
 import base.processor.OnlyofficeDefaultCallbackProcessor;
 import base.processor.pre.OnlyofficeDefaultCallbackPreProcessor;
 import base.registry.OnlyofficeDefaultCallbackRegistry;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import core.model.callback.Callback;
 import core.processor.pre.OnlyofficeCallbackPreProcessor;
 import core.registry.OnlyofficeCallbackHandler;
@@ -26,9 +27,10 @@ import static org.junit.jupiter.api.Assertions.*;
 //TODO: Replace with mocks
 public class OnlyofficeSequentialCallbackRunnerTest {
     private final OnlyofficeCallbackRegistry callbackRegistry = new OnlyofficeDefaultCallbackRegistry();
-    private final OnlyofficeJwtSecurityManager jwtManager = new OnlyofficeJwtSecurityManager();
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final OnlyofficeJwtSecurityManager jwtManager = new OnlyofficeJwtSecurityManager(objectMapper);
     private final OnlyofficeDefaultCallbackProcessor callbackProcessor = new OnlyofficeDefaultCallbackProcessor(callbackRegistry, jwtManager);
-    private final OnlyofficeCallbackPreProcessor callbackOnlyofficePreProcessor = new OnlyofficeDefaultCallbackPreProcessor();
+    private final OnlyofficeCallbackPreProcessor callbackOnlyofficePreProcessor = new OnlyofficeDefaultCallbackPreProcessor(objectMapper);
     private final OnlyofficeSequentialCallbackRunner callbackRunner = new OnlyofficeSequentialCallbackRunner(
             callbackProcessor,
             List.of(callbackOnlyofficePreProcessor),

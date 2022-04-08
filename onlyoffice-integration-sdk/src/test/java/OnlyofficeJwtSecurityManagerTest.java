@@ -1,3 +1,4 @@
+import com.fasterxml.jackson.databind.ObjectMapper;
 import core.model.config.Config;
 import core.security.OnlyofficeJwtSecurityManager;
 import exception.OnlyofficeJwtDecodingRuntimeException;
@@ -12,7 +13,8 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class OnlyofficeJwtSecurityManagerTest {
-    private final OnlyofficeJwtSecurityManager jwtSecurity = new OnlyofficeJwtSecurityManager();
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final OnlyofficeJwtSecurityManager jwtSecurity = new OnlyofficeJwtSecurityManager(objectMapper);
     private final String secret = "secret";
     private final Config config = Config.builder().type("test").build();
 

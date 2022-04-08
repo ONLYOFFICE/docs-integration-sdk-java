@@ -1,5 +1,6 @@
 import base.processor.OnlyofficeDefaultCallbackProcessor;
 import base.registry.OnlyofficeDefaultCallbackRegistry;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import core.model.callback.Callback;
 import core.registry.OnlyofficeCallbackHandler;
 import core.registry.OnlyofficeCallbackRegistry;
@@ -19,8 +20,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 // TODO: Replace with mocks
 public class OnlyofficeDefaultCallbackProcessorTest {
+    private final ObjectMapper objectMapper = new ObjectMapper();
     private final OnlyofficeCallbackRegistry registry = new OnlyofficeDefaultCallbackRegistry();
-    private final OnlyofficeJwtSecurityManager jwtManager = new OnlyofficeJwtSecurityManager();
+    private final OnlyofficeJwtSecurityManager jwtManager = new OnlyofficeJwtSecurityManager(objectMapper);
     private final OnlyofficeDefaultCallbackProcessor callbackProcessor = new OnlyofficeDefaultCallbackProcessor(registry, jwtManager);
 
     @BeforeEach

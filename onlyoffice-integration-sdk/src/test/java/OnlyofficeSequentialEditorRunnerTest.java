@@ -2,6 +2,7 @@ import base.processor.OnlyofficeDefaultEditorProcessor;
 import base.processor.pre.OnlyofficeDefaultEditorPreProcessor;
 import base.util.OnlyofficeConfigUtil;
 import base.util.OnlyofficeFileUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import core.model.OnlyofficeModelMutator;
 import core.model.config.Config;
@@ -30,11 +31,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 // TODO: Replace with mocks
 public class OnlyofficeSequentialEditorRunnerTest {
-    private final OnlyofficeJwtSecurityManager jwtSecurity = new OnlyofficeJwtSecurityManager();
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final OnlyofficeJwtSecurityManager jwtSecurity = new OnlyofficeJwtSecurityManager(objectMapper);
     private final OnlyofficeFile onlyofficeFile = new OnlyofficeFileUtil();
     private final OnlyofficeConfig configUtil = new OnlyofficeConfigUtil(onlyofficeFile);
     private final OnlyofficeEditorProcessor onlyofficeDefaultEditorProcessor = new OnlyofficeDefaultEditorProcessor(configUtil, jwtSecurity);
-    private final OnlyofficeEditorPreProcessor configOnlyofficePreProcessor = new OnlyofficeDefaultEditorPreProcessor();
+    private final OnlyofficeEditorPreProcessor configOnlyofficePreProcessor = new OnlyofficeDefaultEditorPreProcessor(objectMapper);
     private final OnlyofficeEditorRunner onlyofficeDefaultEditorRunner = new OnlyofficeSequentialEditorRunner(
             onlyofficeDefaultEditorProcessor,
             List.of(configOnlyofficePreProcessor),

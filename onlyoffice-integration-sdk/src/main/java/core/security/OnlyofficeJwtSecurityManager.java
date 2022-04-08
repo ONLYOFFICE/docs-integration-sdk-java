@@ -9,14 +9,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import exception.OnlyofficeJwtDecodingRuntimeException;
 import exception.OnlyofficeJwtSigningRuntimeException;
 import exception.OnlyofficeJwtVerificationRuntimeException;
+import lombok.RequiredArgsConstructor;
 
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 public class OnlyofficeJwtSecurityManager implements OnlyofficeJwtSecurity {
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
 
     /**
      *
