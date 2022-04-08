@@ -7,6 +7,7 @@ import base.processor.post.OnlyofficeDefaultEditorPostProcessor;
 import base.processor.pre.OnlyofficeDefaultCallbackPreProcessor;
 import base.processor.pre.OnlyofficeDefaultEditorPreProcessor;
 import base.registry.OnlyofficeDefaultCallbackRegistry;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import core.OnlyofficeIntegrationSDK;
 import core.client.OnlyofficeCommandClient;
 import core.client.OnlyofficeConverterClient;
@@ -56,8 +57,10 @@ public class OnlyofficeCoreSpringConfiguration {
     }
 
     @Bean
-    public OnlyofficeEditorPreProcessor defaultConfigPreProcessor() {
-        return new OnlyofficeDefaultEditorPreProcessor();
+    public OnlyofficeEditorPreProcessor defaultConfigPreProcessor(
+            ObjectMapper objectMapper
+    ) {
+        return new OnlyofficeDefaultEditorPreProcessor(objectMapper);
     }
 
     @ConditionalOnMissingBean(value = OnlyofficeEditorPreProcessor.class)
@@ -87,8 +90,10 @@ public class OnlyofficeCoreSpringConfiguration {
     }
 
     @Bean
-    public OnlyofficeCallbackPreProcessor baseCallbackPreProcessor() {
-        return new OnlyofficeDefaultCallbackPreProcessor();
+    public OnlyofficeCallbackPreProcessor baseCallbackPreProcessor(
+            ObjectMapper objectMapper
+    ) {
+        return new OnlyofficeDefaultCallbackPreProcessor(objectMapper);
     }
 
     @ConditionalOnMissingBean(value = OnlyofficeCallbackPreProcessor.class)
