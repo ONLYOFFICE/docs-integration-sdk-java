@@ -1,6 +1,5 @@
 package core.runner.callback;
 
-import com.google.common.collect.ImmutableMap;
 import core.processor.OnlyofficeCallbackProcessor;
 import core.processor.post.OnlyofficeCallbackPostProcessor;
 import core.processor.pre.OnlyofficeCallbackPreProcessor;
@@ -37,8 +36,7 @@ public class OnlyofficeCustomizableCallbackRunner implements OnlyofficeCallbackR
         HashMap<String, Integer> invocations = new HashMap<>();
 
         preLoop: while(preProcessors.size() > 0) {
-            for (Map.Entry<String, ImmutableMap<String, Object>> processor : request.preProcessors.entrySet()) {
-                String processorName = processor.getKey();
+            for (String processorName : request.preProcessors.keySet()) {
                 if (!preProcessors.containsKey(processorName)) {
                     request.preProcessors.remove(processorName);
                     continue;
@@ -57,7 +55,7 @@ public class OnlyofficeCustomizableCallbackRunner implements OnlyofficeCallbackR
                 preProcessors.get(processorName).processBefore(request);
                 request.preProcessors.remove(processorName);
 
-                if (preProcessors.size() == 0) break preLoop;
+                if (request.preProcessors.size() == 0) break preLoop;
             }
         }
 
@@ -65,8 +63,7 @@ public class OnlyofficeCustomizableCallbackRunner implements OnlyofficeCallbackR
         callbackProcessor.process(request);
 
         postLoop: while(postProcessors.size() > 0) {
-            for (Map.Entry<String, ImmutableMap<String, Object>> processor : request.postProcessors.entrySet()) {
-                String processorName = processor.getKey();
+            for (String processorName : request.postProcessors.keySet()) {
                 if (!postProcessors.containsKey(processorName)) {
                     request.postProcessors.remove(processorName);
                     continue;
@@ -85,7 +82,7 @@ public class OnlyofficeCustomizableCallbackRunner implements OnlyofficeCallbackR
                 postProcessors.get(processorName).processAfter(request);
                 request.postProcessors.remove(processorName);
 
-                if (postProcessors.size() == 0) break postLoop;
+                if (request.postProcessors.size() == 0) break postLoop;
             }
         }
     }
