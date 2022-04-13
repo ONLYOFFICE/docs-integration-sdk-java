@@ -32,6 +32,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 import java.util.List;
 import java.util.Map;
@@ -57,6 +58,7 @@ public class OnlyofficeCoreSpringConfiguration {
     }
 
     @Bean
+    @Order(0)
     public OnlyofficeEditorPreProcessor defaultConfigPreProcessor(
             ObjectMapper objectMapper
     ) {
@@ -90,6 +92,7 @@ public class OnlyofficeCoreSpringConfiguration {
     }
 
     @Bean
+    @Order(0)
     public OnlyofficeCallbackPreProcessor baseCallbackPreProcessor(
             ObjectMapper objectMapper
     ) {
