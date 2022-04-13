@@ -12,13 +12,13 @@ import exception.OnlyofficeUploaderRuntimeException;
 import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 public class OnlyofficeSequentialCallbackRunner implements OnlyofficeCallbackRunner {
     private final OnlyofficeCallbackProcessor callbackProcessor;
-    private final List<OnlyofficeCallbackPreProcessor> preProcessors;
-    private final List<OnlyofficeCallbackPostProcessor> postProcessors;
+    private final Map<String, OnlyofficeCallbackPreProcessor> preProcessors;
+    private final Map<String, OnlyofficeCallbackPostProcessor> postProcessors;
 
     /**
      *
@@ -31,18 +31,18 @@ public class OnlyofficeSequentialCallbackRunner implements OnlyofficeCallbackRun
      */
     public Callback run(CallbackRequest request) throws OnlyofficeRunnerRuntimeException, OnlyofficeProcessBeforeRuntimeException, OnlyofficeProcessAfterRuntimeException, OnlyofficeUploaderRuntimeException, IOException {
         if (request == null)
-            throw new OnlyofficeRunnerRuntimeException("Callback request is null");
+            throw new OnlyofficeRunnerRuntimeException("Expected to get a CallbackRequest instance. Got null");
 
-        preProcessors.forEach(preProcessor -> {
-            preProcessor.processBefore();
-            preProcessor.processBefore(request);
+        preProcessors.forEach((name, processor) -> {
+            processor.processBefore();
+            processor.processBefore(request);
         });
 
         this.callbackProcessor.process(request);
 
-        postProcessors.forEach(postProcessor -> {
-            postProcessor.processAfter();
-            postProcessor.processAfter(request);
+        postProcessors.forEach((name, processor) -> {
+            processor.processAfter();
+            processor.processAfter(request);
         });
 
         return request.getCallback();

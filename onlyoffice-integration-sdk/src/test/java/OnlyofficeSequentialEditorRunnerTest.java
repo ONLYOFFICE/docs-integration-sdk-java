@@ -24,8 +24,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -39,8 +38,8 @@ public class OnlyofficeSequentialEditorRunnerTest {
     private final OnlyofficeEditorPreProcessor configOnlyofficePreProcessor = new OnlyofficeDefaultEditorPreProcessor(objectMapper);
     private final OnlyofficeEditorRunner onlyofficeDefaultEditorRunner = new OnlyofficeSequentialEditorRunner(
             onlyofficeDefaultEditorProcessor,
-            List.of(configOnlyofficePreProcessor),
-            List.of()
+            Map.of(configOnlyofficePreProcessor.preprocessorName(), configOnlyofficePreProcessor),
+            Map.of()
     );
 
     @Test

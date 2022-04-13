@@ -33,8 +33,8 @@ public class OnlyofficeSequentialCallbackRunnerTest {
     private final OnlyofficeCallbackPreProcessor callbackOnlyofficePreProcessor = new OnlyofficeDefaultCallbackPreProcessor(objectMapper);
     private final OnlyofficeSequentialCallbackRunner callbackRunner = new OnlyofficeSequentialCallbackRunner(
             callbackProcessor,
-            List.of(callbackOnlyofficePreProcessor),
-            new ArrayList<>()
+            Map.of(callbackOnlyofficePreProcessor.preprocessorName(), callbackOnlyofficePreProcessor),
+            Map.of()
     );
 
     @BeforeEach

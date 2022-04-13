@@ -35,6 +35,9 @@ public class OnlyofficeCustomizableCallbackRunner implements OnlyofficeCallbackR
      * @throws IOException
      */
     public Callback run(CallbackRequest request) throws OnlyofficeRunnerRuntimeException, OnlyofficeProcessBeforeRuntimeException, OnlyofficeProcessAfterRuntimeException, OnlyofficeUploaderRuntimeException, IOException {
+        if (request == null)
+            throw new OnlyofficeRunnerRuntimeException("Expected to get a CallbackRequest instance. Got null");
+
         HashMap<String, Integer> invocations = new HashMap<>();
 
         while(true) {

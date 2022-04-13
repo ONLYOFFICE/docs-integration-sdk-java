@@ -117,14 +117,14 @@ public class OnlyofficeCoreSpringConfiguration {
             List<OnlyofficeEditorPreProcessor> editorPreProcessors,
             List<OnlyofficeEditorPostProcessor> editorPostProcessors
     ) {
+        Map<String, OnlyofficeEditorPreProcessor> preProcessors = editorPreProcessors.stream()
+                .collect(Collectors.toMap(OnlyofficeEditorPreProcessor::preprocessorName, Function.identity()));
+        Map<String, OnlyofficeEditorPostProcessor> postProcessors = editorPostProcessors.stream()
+                .collect(Collectors.toMap(OnlyofficeEditorPostProcessor::postprocessorName, Function.identity()));
         if (customizableEditor.equals("enable")) {
-            Map<String, OnlyofficeEditorPreProcessor> preProcessors = editorPreProcessors.stream()
-                    .collect(Collectors.toMap(OnlyofficeEditorPreProcessor::preprocessorName, Function.identity()));
-            Map<String, OnlyofficeEditorPostProcessor> postProcessors = editorPostProcessors.stream()
-                    .collect(Collectors.toMap(OnlyofficeEditorPostProcessor::postprocessorName, Function.identity()));
             return new OnlyofficeCustomizableEditorRunner(editorProcessor, preProcessors, postProcessors);
         }
-        return new OnlyofficeSequentialEditorRunner(editorProcessor, editorPreProcessors, editorPostProcessors);
+        return new OnlyofficeSequentialEditorRunner(editorProcessor, preProcessors, postProcessors);
     }
 
     @Bean
@@ -133,14 +133,14 @@ public class OnlyofficeCoreSpringConfiguration {
             List<OnlyofficeCallbackPreProcessor> callbackPreProcessors,
             List<OnlyofficeCallbackPostProcessor> callbackPostProcessors
     ) {
+        Map<String, OnlyofficeCallbackPreProcessor> preProcessors = callbackPreProcessors.stream()
+                .collect(Collectors.toMap(OnlyofficeCallbackPreProcessor::preprocessorName, Function.identity()));
+        Map<String, OnlyofficeCallbackPostProcessor> postProcessors = callbackPostProcessors.stream()
+                .collect(Collectors.toMap(OnlyofficeCallbackPostProcessor::postprocessorName, Function.identity()));
         if (customizableCallback.equals("enable")) {
-            Map<String, OnlyofficeCallbackPreProcessor> preProcessors = callbackPreProcessors.stream()
-                    .collect(Collectors.toMap(OnlyofficeCallbackPreProcessor::preprocessorName, Function.identity()));
-            Map<String, OnlyofficeCallbackPostProcessor> postProcessors = callbackPostProcessors.stream()
-                    .collect(Collectors.toMap(OnlyofficeCallbackPostProcessor::postprocessorName, Function.identity()));
             return new OnlyofficeCustomizableCallbackRunner(callbackProcessor, preProcessors, postProcessors);
         }
-        return new OnlyofficeSequentialCallbackRunner(callbackProcessor, callbackPreProcessors, callbackPostProcessors);
+        return new OnlyofficeSequentialCallbackRunner(callbackProcessor, preProcessors, postProcessors);
     }
 
     @Bean

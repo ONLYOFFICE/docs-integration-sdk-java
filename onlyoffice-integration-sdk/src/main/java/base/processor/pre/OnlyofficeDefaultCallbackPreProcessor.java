@@ -36,8 +36,7 @@ public class OnlyofficeDefaultCallbackPreProcessor implements OnlyofficeCallback
 
         Object key = processorData.get("key");
         Object token = processorData.get("token");
-        if (key == null) return;
-        if (token == null) return;
+        if (key == null || token == null) return;
 
         if (processorData.get("mutator") == null) {
             try {

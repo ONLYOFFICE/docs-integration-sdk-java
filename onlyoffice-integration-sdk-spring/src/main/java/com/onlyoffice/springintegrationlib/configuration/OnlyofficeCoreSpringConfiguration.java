@@ -154,7 +154,11 @@ public class OnlyofficeCoreSpringConfiguration {
             List<OnlyofficeEditorPreProcessor> editorPreProcessors,
             List<OnlyofficeEditorPostProcessor> editorPostProcessors
     ) {
-        return new OnlyofficeSequentialEditorRunner(editorProcessor, editorPreProcessors, editorPostProcessors);
+        Map<String, OnlyofficeEditorPreProcessor> preProcessors = editorPreProcessors.stream()
+                .collect(Collectors.toMap(OnlyofficeEditorPreProcessor::preprocessorName, Function.identity()));
+        Map<String, OnlyofficeEditorPostProcessor> postProcessors = editorPostProcessors.stream()
+                .collect(Collectors.toMap(OnlyofficeEditorPostProcessor::postprocessorName, Function.identity()));
+        return new OnlyofficeSequentialEditorRunner(editorProcessor, preProcessors, postProcessors);
     }
 
     @ConditionalOnMissingBean(value = OnlyofficeCallbackRunner.class)
@@ -164,7 +168,11 @@ public class OnlyofficeCoreSpringConfiguration {
             List<OnlyofficeCallbackPreProcessor> callbackPreProcessors,
             List<OnlyofficeCallbackPostProcessor> callbackPostProcessors
     ) {
-        return new OnlyofficeSequentialCallbackRunner(callbackProcessor, callbackPreProcessors, callbackPostProcessors);
+        Map<String, OnlyofficeCallbackPreProcessor> preProcessors = callbackPreProcessors.stream()
+                .collect(Collectors.toMap(OnlyofficeCallbackPreProcessor::preprocessorName, Function.identity()));
+        Map<String, OnlyofficeCallbackPostProcessor> postProcessors = callbackPostProcessors.stream()
+                .collect(Collectors.toMap(OnlyofficeCallbackPostProcessor::postprocessorName, Function.identity()));
+        return new OnlyofficeSequentialCallbackRunner(callbackProcessor, preProcessors, postProcessors);
     }
 
     @Bean

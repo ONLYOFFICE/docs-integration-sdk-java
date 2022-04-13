@@ -35,6 +35,9 @@ public class OnlyofficeCustomizableEditorRunner implements OnlyofficeEditorRunne
      * @throws IOException
      */
     public Config run(ConfigRequest request) throws OnlyofficeRunnerRuntimeException, OnlyofficeProcessBeforeRuntimeException, OnlyofficeProcessAfterRuntimeException, OnlyofficeUploaderRuntimeException, IOException {
+        if (request == null)
+            throw new OnlyofficeRunnerRuntimeException("Expected to get a ConfigRequest instance. Got null");
+
         HashMap<String, Integer> invocations = new HashMap<>();
 
         while(true) {

@@ -12,13 +12,13 @@ import exception.OnlyofficeUploaderRuntimeException;
 import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 public class OnlyofficeSequentialEditorRunner implements OnlyofficeEditorRunner {
     private final OnlyofficeEditorProcessor editorProcessor;
-    private final List<OnlyofficeEditorPreProcessor> preProcessors;
-    private final List<OnlyofficeEditorPostProcessor> postProcessors;
+    private final Map<String, OnlyofficeEditorPreProcessor> preProcessors;
+    private final Map<String, OnlyofficeEditorPostProcessor> postProcessors;
 
     /**
      *
@@ -31,16 +31,16 @@ public class OnlyofficeSequentialEditorRunner implements OnlyofficeEditorRunner 
      */
     public Config run(ConfigRequest request) throws OnlyofficeRunnerRuntimeException, OnlyofficeProcessBeforeRuntimeException, OnlyofficeProcessAfterRuntimeException, OnlyofficeUploaderRuntimeException, IOException {
         if (request == null)
-            throw new OnlyofficeRunnerRuntimeException("Config request is null");
+            throw new OnlyofficeRunnerRuntimeException("Expected to get a ConfigRequest instance. Got null");
 
-        preProcessors.forEach(processor -> {
+        preProcessors.forEach((name, processor) -> {
             processor.processBefore();
             processor.processBefore(request);
         });
 
         this.editorProcessor.process(request);
 
-        postProcessors.forEach(processor -> {
+        postProcessors.forEach((name, processor) -> {
             processor.processAfter();
             processor.processAfter(request);
         });
