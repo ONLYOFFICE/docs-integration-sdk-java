@@ -12,7 +12,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 @Setter
 @ToString
 public class CallbackRequest {
-    private Callback callback;
+    @Builder.Default
+    private Callback callback = Callback.builder().build();
     @Builder.Default
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)

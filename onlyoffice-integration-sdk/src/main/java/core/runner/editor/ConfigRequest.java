@@ -12,7 +12,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 @Setter
 @ToString
 public class ConfigRequest {
-    private Config config;
+    @Builder.Default
+    private Config config = Config.builder().build();
     @Builder.Default
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
