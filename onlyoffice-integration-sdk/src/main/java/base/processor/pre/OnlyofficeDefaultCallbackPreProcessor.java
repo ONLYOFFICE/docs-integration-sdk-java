@@ -39,25 +39,25 @@ public class OnlyofficeDefaultCallbackPreProcessor implements OnlyofficeCallback
         if (key == null) return;
         if (token == null) return;
 
+        if (processorData.get("mutator") == null) {
+            try {
+                this.jwtManager.verify(token.toString(), key.toString());
+                return;
+            } catch (OnlyofficeJwtVerificationRuntimeException e) {
+                throw new OnlyofficeProcessBeforeRuntimeException(e.getMessage());
+            }
+        }
+
         try {
-            if (processorData.get("mutator") == null)
-                throw new ClassCastException("Config JWT mutator was not found");
-
             OnlyofficeModelMutator<Callback> mutator = (OnlyofficeModelMutator<Callback>) processorData.get("mutator");
-
             try {
                 this.jwtManager.verify(mutator, token.toString(), key.toString());
             } catch (OnlyofficeJwtVerificationRuntimeException e) {
                 throw new OnlyofficeProcessBeforeRuntimeException(e.getMessage());
             }
-
             mutator.mutate(request.getCallback());
         } catch (ClassCastException e) {
-            try {
-                this.jwtManager.verify(token.toString(), key.toString());
-            } catch (OnlyofficeJwtVerificationRuntimeException ex) {
-                throw new OnlyofficeProcessBeforeRuntimeException(ex.getMessage());
-            }
+            throw new OnlyofficeProcessBeforeRuntimeException("Expected to find a Callback mutator under schema's 'mutator' key. Got unknown");
         }
     }
 

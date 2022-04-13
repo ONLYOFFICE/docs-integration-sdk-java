@@ -39,24 +39,25 @@ public class OnlyofficeDefaultEditorPreProcessor implements OnlyofficeEditorPreP
         if (key == null) return;
         if (token == null) return;
 
-        try {
-            if (processorData.get("mutator") == null)
-                throw new ClassCastException("Config JWT mutator was not found");
+        if (processorData.get("mutator") == null) {
+            try {
+                this.jwtManager.verify(token.toString(), key.toString());
+                return;
+            } catch (OnlyofficeJwtVerificationRuntimeException e) {
+                throw new OnlyofficeProcessBeforeRuntimeException(e.getMessage());
+            }
+        }
 
+        try {
             OnlyofficeModelMutator<Config> mutator = (OnlyofficeModelMutator<Config>) processorData.get("mutator");
             try {
                 this.jwtManager.verify(mutator, token.toString(), key.toString());
             } catch (OnlyofficeJwtVerificationRuntimeException e) {
                 throw new OnlyofficeProcessBeforeRuntimeException(e.getMessage());
             }
-
             mutator.mutate(request.getConfig());
         } catch (ClassCastException e) {
-            try {
-                this.jwtManager.verify(token.toString(), key.toString());
-            } catch (OnlyofficeJwtVerificationRuntimeException ex) {
-                throw new OnlyofficeProcessBeforeRuntimeException(ex.getMessage());
-            }
+            throw new OnlyofficeProcessBeforeRuntimeException("Expected to find a Config mutator under schema's 'mutator' key. Got unknown");
         }
     }
 
