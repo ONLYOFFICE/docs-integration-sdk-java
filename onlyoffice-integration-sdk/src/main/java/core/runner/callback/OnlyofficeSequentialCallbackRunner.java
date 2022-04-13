@@ -1,5 +1,6 @@
 package core.runner.callback;
 
+import core.model.callback.Callback;
 import core.processor.OnlyofficeCallbackProcessor;
 import core.processor.post.OnlyofficeCallbackPostProcessor;
 import core.processor.pre.OnlyofficeCallbackPreProcessor;
@@ -28,7 +29,7 @@ public class OnlyofficeSequentialCallbackRunner implements OnlyofficeCallbackRun
      * @throws OnlyofficeUploaderRuntimeException
      * @throws IOException
      */
-    public void run(CallbackRequest request) throws OnlyofficeRunnerRuntimeException, OnlyofficeProcessBeforeRuntimeException, OnlyofficeProcessAfterRuntimeException, OnlyofficeUploaderRuntimeException, IOException {
+    public Callback run(CallbackRequest request) throws OnlyofficeRunnerRuntimeException, OnlyofficeProcessBeforeRuntimeException, OnlyofficeProcessAfterRuntimeException, OnlyofficeUploaderRuntimeException, IOException {
         if (request == null)
             throw new OnlyofficeRunnerRuntimeException("Callback request is null");
 
@@ -43,5 +44,7 @@ public class OnlyofficeSequentialCallbackRunner implements OnlyofficeCallbackRun
             postProcessor.processAfter();
             postProcessor.processAfter(request);
         });
+
+        return request.getCallback();
     }
 }

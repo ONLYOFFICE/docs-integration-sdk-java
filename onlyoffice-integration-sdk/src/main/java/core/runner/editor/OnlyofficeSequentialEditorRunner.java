@@ -1,5 +1,6 @@
 package core.runner.editor;
 
+import core.model.config.Config;
 import core.processor.OnlyofficeEditorProcessor;
 import core.processor.post.OnlyofficeEditorPostProcessor;
 import core.processor.pre.OnlyofficeEditorPreProcessor;
@@ -28,7 +29,7 @@ public class OnlyofficeSequentialEditorRunner implements OnlyofficeEditorRunner 
      * @throws OnlyofficeUploaderRuntimeException
      * @throws IOException
      */
-    public void run(ConfigRequest request) throws OnlyofficeRunnerRuntimeException, OnlyofficeProcessBeforeRuntimeException, OnlyofficeProcessAfterRuntimeException, OnlyofficeUploaderRuntimeException, IOException {
+    public Config run(ConfigRequest request) throws OnlyofficeRunnerRuntimeException, OnlyofficeProcessBeforeRuntimeException, OnlyofficeProcessAfterRuntimeException, OnlyofficeUploaderRuntimeException, IOException {
         if (request == null)
             throw new OnlyofficeRunnerRuntimeException("Config request is null");
 
@@ -43,5 +44,7 @@ public class OnlyofficeSequentialEditorRunner implements OnlyofficeEditorRunner 
             processor.processAfter();
             processor.processAfter(request);
         });
+
+        return request.getConfig();
     }
 }

@@ -1,5 +1,7 @@
 package core.runner.editor;
 
+import com.google.common.collect.ImmutableMap;
+import core.model.config.Config;
 import core.processor.OnlyofficeEditorProcessor;
 import core.processor.post.OnlyofficeEditorPostProcessor;
 import core.processor.pre.OnlyofficeEditorPreProcessor;
@@ -32,58 +34,64 @@ public class OnlyofficeCustomizableEditorRunner implements OnlyofficeEditorRunne
      * @throws OnlyofficeUploaderRuntimeException
      * @throws IOException
      */
-    public void run(ConfigRequest request) throws OnlyofficeRunnerRuntimeException, OnlyofficeProcessBeforeRuntimeException, OnlyofficeProcessAfterRuntimeException, OnlyofficeUploaderRuntimeException, IOException {
+    public Config run(ConfigRequest request) throws OnlyofficeRunnerRuntimeException, OnlyofficeProcessBeforeRuntimeException, OnlyofficeProcessAfterRuntimeException, OnlyofficeUploaderRuntimeException, IOException {
         HashMap<String, Integer> invocations = new HashMap<>();
 
-        preLoop: while(preProcessors.size() > 0) {
-            for (String processorName : request.preProcessors.keySet()) {
+        while(true) {
+            for (Map.Entry<String, ImmutableMap<String, Object>> processor : request.preProcessors) {
+                String processorName = processor.getKey();
                 if (!preProcessors.containsKey(processorName)) {
-                    request.preProcessors.remove(processorName);
+                    request.removePreProcessor(processorName);
                     continue;
                 }
 
-                if (!invocations.containsKey(processorName)) {
+                if (!invocations.containsKey(processorName))
                     invocations.put(processorName, 0);
-                }
 
                 Integer nextInvocation = invocations.get(processorName) + 1;
                 if (nextInvocation > maxTotalHops)
                     throw new OnlyofficeRunnerRuntimeException("Exceeded total preprocessor hops");
+
                 invocations.put(processorName, nextInvocation);
 
                 preProcessors.get(processorName).processBefore();
                 preProcessors.get(processorName).processBefore(request);
-                request.preProcessors.remove(processorName);
-
-                if (request.preProcessors.size() == 0) break preLoop;
+                request.removePreProcessor(processorName);
             }
+            if (request.preProcessors.size() == 0) break;
         }
 
         invocations.clear();
+        request.preProcessors.clear();
+
         editorProcessor.process(request);
 
-        postLoop: while(postProcessors.size() > 0) {
-            for (String processorName : request.postProcessors.keySet()) {
+        while(request.postProcessors.size() > 0) {
+            for (Map.Entry<String, ImmutableMap<String, Object>> processor : request.postProcessors) {
+                String processorName = processor.getKey();
                 if (!postProcessors.containsKey(processorName)) {
-                    request.postProcessors.remove(processorName);
+                    request.removePreProcessor(processorName);
                     continue;
                 }
 
-                if (!invocations.containsKey(processorName)) {
+                if (!invocations.containsKey(processorName))
                     invocations.put(processorName, 0);
-                }
 
                 Integer nextInvocation = invocations.get(processorName) + 1;
                 if (nextInvocation > maxTotalHops)
-                    throw new OnlyofficeRunnerRuntimeException("Exceeded total postprocessor hops");
+                    throw new OnlyofficeRunnerRuntimeException("Exceeded total preprocessor hops");
+
                 invocations.put(processorName, nextInvocation);
 
                 postProcessors.get(processorName).processAfter();
                 postProcessors.get(processorName).processAfter(request);
-                request.postProcessors.remove(processorName);
-
-                if (request.preProcessors.size() == 0) break postLoop;
+                request.removePostProcessor(processorName);
             }
+            if (request.postProcessors.size() == 0) break;
         }
+
+        request.postProcessors.clear();
+
+        return request.getConfig();
     }
 }

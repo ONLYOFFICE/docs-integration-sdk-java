@@ -68,10 +68,8 @@ public class OnlyofficeCustomizableEditorRunnerTest {
                 ConfigRequest
                         .builder()
                         .config(config)
-                        .preProcessors(new LinkedHashMap<>(){{
-                            put("preprocessor.test.first", ImmutableMap.of());
-                        }})
                         .build()
+                        .addPreProcessor("preprocessor.test.first", ImmutableMap.of())
         ));
         assertEquals(3, config.getCustom().get("counter"));
     }

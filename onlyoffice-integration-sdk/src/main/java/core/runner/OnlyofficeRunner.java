@@ -7,7 +7,7 @@ import exception.OnlyofficeUploaderRuntimeException;
 
 import java.io.IOException;
 
-interface OnlyofficeRunner<M> {
+interface OnlyofficeRunner<M, R> {
     /**
      *
      * @param model
@@ -15,5 +15,5 @@ interface OnlyofficeRunner<M> {
      * @throws OnlyofficeUploaderRuntimeException
      * @throws IOException
      */
-    void run(M model) throws OnlyofficeRunnerRuntimeException, OnlyofficeProcessBeforeRuntimeException, OnlyofficeProcessAfterRuntimeException, OnlyofficeUploaderRuntimeException, IOException;
+    R run(M model) throws OnlyofficeRunnerRuntimeException, OnlyofficeProcessBeforeRuntimeException, OnlyofficeProcessAfterRuntimeException, OnlyofficeUploaderRuntimeException, IOException;
 }

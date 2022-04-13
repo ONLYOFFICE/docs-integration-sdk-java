@@ -98,14 +98,12 @@ public class OnlyofficeSequentialEditorRunnerTest {
                 ConfigRequest
                         .builder()
                         .config(config)
-                        .preProcessors(new LinkedHashMap<>(){{
-                            put("onlyoffice.preprocessor.default.editor", ImmutableMap.of(
-                                    "key", "secret",
-                                    "token", token,
-                                    "mutator", af
-                            ));
-                        }})
                         .build()
+                        .addPreProcessor("onlyoffice.preprocessor.default.editor", ImmutableMap.of(
+                                "key", "secret",
+                                "token", token,
+                                "mutator", af
+                        ))
         );
         assertNotNull(config);
         assertNotNull(config.getToken());

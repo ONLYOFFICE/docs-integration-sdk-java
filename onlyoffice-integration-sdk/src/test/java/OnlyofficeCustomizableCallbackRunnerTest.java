@@ -86,10 +86,8 @@ public class OnlyofficeCustomizableCallbackRunnerTest {
                 CallbackRequest
                         .builder()
                         .callback(callback)
-                        .preProcessors(new LinkedHashMap<>(){{
-                            put("preprocessor.test.first", ImmutableMap.of());
-                        }})
                         .build()
+                        .addPreProcessor("preprocessor.test.first", ImmutableMap.of())
         ));
         assertEquals(6, callback.getCustom().get("counter"));
     }

@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -54,23 +53,6 @@ public class OnlyofficeDefaultCallbackPreProcessorTest {
     }
 
     @Test
-    public void processNullProcessorParametersIgnoreTest() {
-        assertDoesNotThrow(() -> this.callbackOnlyofficePreProcessor.processBefore(
-                CallbackRequest
-                        .builder()
-                        .callback(
-                                Callback
-                                        .builder()
-                                        .key("1234")
-                                        .status(2)
-                                        .build()
-                        )
-                        .preProcessors(null)
-                        .build()
-        ));
-    }
-
-    @Test
     public void processNullMapPreProcessorParametersIgnoreTest() {
         assertDoesNotThrow(() -> this.callbackOnlyofficePreProcessor.processBefore(
                 CallbackRequest
@@ -82,10 +64,8 @@ public class OnlyofficeDefaultCallbackPreProcessorTest {
                                         .status(2)
                                         .build()
                         )
-                        .preProcessors(new LinkedHashMap<>(){{
-                            put("testing", null);
-                        }})
                         .build()
+                        .addPreProcessor("testing", null)
         ));
     }
 
@@ -101,10 +81,8 @@ public class OnlyofficeDefaultCallbackPreProcessorTest {
                                         .status(2)
                                         .build()
                         )
-                        .preProcessors(new LinkedHashMap<>(){{
-                            put("onlyoffice.preprocessor.default.callback", ImmutableMap.of());
-                        }})
                         .build()
+                        .addPreProcessor("onlyoffice.preprocessor.default.callback", ImmutableMap.of())
         ));
     }
 
@@ -122,13 +100,11 @@ public class OnlyofficeDefaultCallbackPreProcessorTest {
                                         .token(token)
                                         .build()
                         )
-                        .preProcessors(new LinkedHashMap<>(){{
-                            put("onlyoffice.preprocessor.default.callback", ImmutableMap.of(
-                                    "key", "secret",
-                                    "token", token
-                            ));
-                        }})
                         .build()
+                        .addPreProcessor("onlyoffice.preprocessor.default.callback", ImmutableMap.of(
+                                "key", "secret",
+                                "token", token
+                        ))
         ));
     }
 
@@ -164,14 +140,12 @@ public class OnlyofficeDefaultCallbackPreProcessorTest {
                 CallbackRequest
                         .builder()
                         .callback(callback)
-                        .preProcessors(new LinkedHashMap<>(){{
-                            put("onlyoffice.preprocessor.default.callback", ImmutableMap.of(
-                                    "key", "secret",
-                                    "token", token,
-                                    "mutator", new T()
-                            ));
-                        }})
                         .build()
+                        .addPreProcessor("onlyoffice.preprocessor.default.callback", ImmutableMap.of(
+                                "key", "secret",
+                                "token", token,
+                                "mutator", new T()
+                        ))
         ));
         assertEquals(3, callback.getStatus());
     }

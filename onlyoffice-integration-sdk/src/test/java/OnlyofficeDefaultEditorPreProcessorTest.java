@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -79,14 +78,12 @@ public class OnlyofficeDefaultEditorPreProcessorTest {
                 ConfigRequest
                         .builder()
                         .config(config)
-                        .preProcessors(new LinkedHashMap<>(){{
-                            put("onlyoffice.preprocessor.default.editor", ImmutableMap.of(
-                                    "key", "secret",
-                                    "token", token,
-                                    "mutator", af
-                            ));
-                        }})
                         .build()
+                        .addPreProcessor("onlyoffice.preprocessor.default.editor", ImmutableMap.of(
+                                "key", "secret",
+                                "token", token,
+                                "mutator", af
+                        ))
         ));
         assertEquals("http://example.com", config.getDocument().getUrl());
     }
@@ -98,7 +95,6 @@ public class OnlyofficeDefaultEditorPreProcessorTest {
         assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.processBefore(
                 ConfigRequest
                         .builder()
-                        .preProcessors(new LinkedHashMap<>())
                         .build()
         ));
     }
@@ -111,13 +107,11 @@ public class OnlyofficeDefaultEditorPreProcessorTest {
                 ConfigRequest
                         .builder()
                         .config(Config.builder().build())
-                        .preProcessors(new LinkedHashMap<>(){{
-                            put("onlyoffice.preprocessor.default.editor", ImmutableMap.of(
-                                    "key", "invalid",
-                                    "token", token
-                            ));
-                        }})
                         .build()
+                        .addPreProcessor("onlyoffice.preprocessor.default.editor", ImmutableMap.of(
+                                "key", "invalid",
+                                "token", token
+                        ))
         ));
     }
 
@@ -129,12 +123,10 @@ public class OnlyofficeDefaultEditorPreProcessorTest {
                 ConfigRequest
                         .builder()
                         .config(Config.builder().build())
-                        .preProcessors(new LinkedHashMap<>(){{
-                            put("onlyoffice.preprocessor.default.editor", ImmutableMap.of(
-                                    "token", token
-                            ));
-                        }})
                         .build()
+                        .addPreProcessor("onlyoffice.preprocessor.default.editor", ImmutableMap.of(
+                                "token", token
+                        ))
         ));
     }
 
@@ -144,12 +136,10 @@ public class OnlyofficeDefaultEditorPreProcessorTest {
                 ConfigRequest
                         .builder()
                         .config(Config.builder().build())
-                        .preProcessors(new LinkedHashMap<>(){{
-                            put("onlyoffice.preprocessor.default.editor", ImmutableMap.of(
-                                    "key", "secret"
-                            ));
-                        }})
                         .build()
+                        .addPreProcessor("onlyoffice.preprocessor.default.editor", ImmutableMap.of(
+                                "key", "secret"
+                        ))
         ));
     }
 }
