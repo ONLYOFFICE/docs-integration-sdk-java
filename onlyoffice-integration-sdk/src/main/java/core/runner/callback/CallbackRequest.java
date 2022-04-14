@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.util.AbstractMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 @Getter
@@ -63,13 +64,17 @@ public class CallbackRequest {
     }
 
     public ImmutableMap<String, Object> getPreProcessorSchema(String preProcessorName) {
-        return this.preProcessors.stream().filter(entry -> entry.getKey().equals(preProcessorName))
-                .findFirst().orElseGet(null).getValue();
+        Optional<Map.Entry<String, ImmutableMap<String, Object>>> optional = this.preProcessors.stream()
+                .filter(entry -> entry.getKey().equals(preProcessorName)).findFirst();
+        if (!optional.isPresent()) return null;
+        return optional.get().getValue();
     }
 
     public ImmutableMap<String, Object> getPostProcessorSchema(String postProcessorName) {
-        return this.preProcessors.stream().filter(entry -> entry.getKey().equals(postProcessorName))
-                .findFirst().orElseGet(null).getValue();
+        Optional<Map.Entry<String, ImmutableMap<String, Object>>> optional = this.postProcessors.stream()
+                .filter(entry -> entry.getKey().equals(postProcessorName)).findFirst();
+        if (!optional.isPresent()) return null;
+        return optional.get().getValue();
     }
 
     protected void removePreProcessor(String preProcessorName) {
