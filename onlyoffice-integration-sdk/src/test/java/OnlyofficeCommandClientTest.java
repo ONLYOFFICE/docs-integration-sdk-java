@@ -28,8 +28,8 @@ public class OnlyofficeCommandClientTest {
             .header(System.getenv("header"))
             .build();
     private final String key = UUID.randomUUID().toString();
-    private final URI addressJWT = new URI(System.getenv("jwt_document_server")+"/coauthoring/CommandService.ashx");
-    private final URI address = new URI(System.getenv("document_server")+"/coauthoring/CommandService.ashx");
+    private final URI addressJWT = new URI(System.getenv("jwt_document_server"));
+    private final URI address = new URI(System.getenv("document_server"));
 
     public OnlyofficeCommandClientTest() throws URISyntaxException {
     }

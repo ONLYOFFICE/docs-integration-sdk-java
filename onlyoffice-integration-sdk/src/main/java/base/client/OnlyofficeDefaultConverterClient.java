@@ -44,7 +44,7 @@ public class OnlyofficeDefaultConverterClient implements OnlyofficeConverterClie
     public ConverterResponse convert(ConverterRequest request) throws IOException, OnlyofficeInvalidParameterRuntimeException {
         request.setAsync(false);
         OnlyofficeModelValidator.validate(request);
-        return execute(request, request.getAddress());
+        return execute(request, getConverterURI(request.getAddress()));
     }
 
     /**
@@ -57,7 +57,7 @@ public class OnlyofficeDefaultConverterClient implements OnlyofficeConverterClie
     public ConverterAsyncResponse convertAsync(ConverterRequest request) throws IOException, OnlyofficeInvalidParameterRuntimeException {
         request.setAsync(true);
         OnlyofficeModelValidator.validate(request);
-        return executeAsync(request, request.getAddress());
+        return executeAsync(request, getConverterURI(request.getAddress()));
     }
 
     /**
@@ -71,7 +71,7 @@ public class OnlyofficeDefaultConverterClient implements OnlyofficeConverterClie
     public ConverterResponse convert(ConverterRequest request, Credentials credentials) throws IOException, OnlyofficeInvalidParameterRuntimeException {
         request.setAsync(false);
         OnlyofficeModelValidator.validate(request);
-        return execute(request, request.getAddress(), credentials);
+        return execute(request, getConverterURI(request.getAddress()), credentials);
     }
 
     /**
@@ -85,7 +85,21 @@ public class OnlyofficeDefaultConverterClient implements OnlyofficeConverterClie
     public ConverterAsyncResponse convertAsync(ConverterRequest request, Credentials credentials) throws IOException, OnlyofficeInvalidParameterRuntimeException {
         request.setAsync(true);
         OnlyofficeModelValidator.validate(request);
-        return executeAsync(request, request.getAddress(), credentials);
+        return executeAsync(request, getConverterURI(request.getAddress()), credentials);
+    }
+
+    /**
+     *
+     * @param base
+     * @return
+     */
+    private URI getConverterURI(URI base) {
+        if (!base.getPath().endsWith("/ConvertService.ashx")) {
+            URI valid = base.resolve("/ConvertService.ashx").normalize();
+            return valid;
+        }
+
+        return base.normalize();
     }
 
     /**

@@ -44,7 +44,7 @@ public class OnlyofficeDefaultCommandClient implements OnlyofficeCommandClient {
     public CommandResponse drop(CommandDropRequest commandRequest) throws IOException, OnlyofficeInvalidParameterRuntimeException {
         OnlyofficeModelValidator.validate(commandRequest);
         String json = this.mapper.writeValueAsString(commandRequest);
-        return this.executeCommand(json, commandRequest.getAddress());
+        return this.executeCommand(json, getCommandURI(commandRequest.getAddress()));
     }
 
     /**
@@ -57,7 +57,7 @@ public class OnlyofficeDefaultCommandClient implements OnlyofficeCommandClient {
      */
     public CommandResponse drop(CommandDropRequest commandRequest, Credentials credentials) throws IOException, OnlyofficeInvalidParameterRuntimeException {
         OnlyofficeModelValidator.validate(commandRequest);
-        return this.executeCommand(commandRequest, commandRequest.getAddress(), credentials);
+        return this.executeCommand(commandRequest, getCommandURI(commandRequest.getAddress()), credentials);
     }
 
     /**
@@ -70,7 +70,7 @@ public class OnlyofficeDefaultCommandClient implements OnlyofficeCommandClient {
     public CommandResponse info(CommandInfoRequest infoRequest) throws IOException, OnlyofficeInvalidParameterRuntimeException {
         OnlyofficeModelValidator.validate(infoRequest);
         String json = this.mapper.writeValueAsString(infoRequest);
-        return this.executeCommand(json, infoRequest.getAddress());
+        return this.executeCommand(json, getCommandURI(infoRequest.getAddress()));
     }
 
     /**
@@ -83,7 +83,7 @@ public class OnlyofficeDefaultCommandClient implements OnlyofficeCommandClient {
      */
     public CommandResponse info(CommandInfoRequest infoRequest, Credentials credentials) throws IOException, OnlyofficeInvalidParameterRuntimeException {
         OnlyofficeModelValidator.validate(infoRequest);
-        return this.executeCommand(infoRequest, infoRequest.getAddress(), credentials);
+        return this.executeCommand(infoRequest, getCommandURI(infoRequest.getAddress()), credentials);
     }
 
     /**
@@ -96,7 +96,7 @@ public class OnlyofficeDefaultCommandClient implements OnlyofficeCommandClient {
     public CommandResponse forcesave(CommandForcesaveRequest forcesaveRequest) throws IOException, OnlyofficeInvalidParameterRuntimeException {
         OnlyofficeModelValidator.validate(forcesaveRequest);
         String json = this.mapper.writeValueAsString(forcesaveRequest);
-        return this.executeCommand(json, forcesaveRequest.getAddress());
+        return this.executeCommand(json, getCommandURI(forcesaveRequest.getAddress()));
     }
 
     /**
@@ -109,7 +109,7 @@ public class OnlyofficeDefaultCommandClient implements OnlyofficeCommandClient {
      */
     public CommandResponse forcesave(CommandForcesaveRequest forcesaveRequest, Credentials credentials) throws IOException, OnlyofficeInvalidParameterRuntimeException {
         OnlyofficeModelValidator.validate(forcesaveRequest);
-        return this.executeCommand(forcesaveRequest, forcesaveRequest.getAddress(), credentials);
+        return this.executeCommand(forcesaveRequest, getCommandURI(forcesaveRequest.getAddress()), credentials);
     }
 
     /**
@@ -122,7 +122,7 @@ public class OnlyofficeDefaultCommandClient implements OnlyofficeCommandClient {
     public CommandVersionResponse version(CommandVersionRequest versionRequest) throws IOException, OnlyofficeInvalidParameterRuntimeException {
         OnlyofficeModelValidator.validate(versionRequest);
         String json = this.mapper.writeValueAsString(versionRequest);
-        String response = Request.post(versionRequest.getAddress())
+        String response = Request.post(getCommandURI(versionRequest.getAddress()))
                 .connectTimeout(Timeout.of(this.connectTimeout, TimeUnit.SECONDS))
                 .responseTimeout(Timeout.of(this.responseTimeout, TimeUnit.SECONDS))
                 .bodyString(json, ContentType.APPLICATION_JSON)
@@ -145,7 +145,7 @@ public class OnlyofficeDefaultCommandClient implements OnlyofficeCommandClient {
                 .orElseThrow(() -> new IOException("Could not generate a jwt token"));
         versionRequest.setToken(token);
         String json = this.mapper.writeValueAsString(versionRequest);
-        String response = Request.post(versionRequest.getAddress())
+        String response = Request.post(getCommandURI(versionRequest.getAddress()))
                 .connectTimeout(Timeout.of(this.connectTimeout, TimeUnit.MILLISECONDS))
                 .responseTimeout(Timeout.of(this.responseTimeout, TimeUnit.MILLISECONDS))
                 .bodyString(json, ContentType.APPLICATION_JSON)
@@ -164,7 +164,7 @@ public class OnlyofficeDefaultCommandClient implements OnlyofficeCommandClient {
     public CommandResponse meta(CommandMetaRequest metaRequest) throws IOException, OnlyofficeInvalidParameterRuntimeException {
         OnlyofficeModelValidator.validate(metaRequest);
         String json = this.mapper.writeValueAsString(metaRequest);
-        return this.executeCommand(json, metaRequest.getAddress());
+        return this.executeCommand(json, getCommandURI(metaRequest.getAddress()));
     }
 
     /**
@@ -177,7 +177,7 @@ public class OnlyofficeDefaultCommandClient implements OnlyofficeCommandClient {
      */
     public CommandResponse meta(CommandMetaRequest metaRequest, Credentials credentials) throws IOException, OnlyofficeInvalidParameterRuntimeException {
         OnlyofficeModelValidator.validate(metaRequest);
-        return this.executeCommand(metaRequest, metaRequest.getAddress(), credentials);
+        return this.executeCommand(metaRequest, getCommandURI(metaRequest.getAddress()), credentials);
     }
 
     /**
@@ -190,7 +190,7 @@ public class OnlyofficeDefaultCommandClient implements OnlyofficeCommandClient {
     public CommandLicenseResponse license(CommandLicenseRequest licenseRequest) throws IOException, OnlyofficeInvalidParameterRuntimeException {
         OnlyofficeModelValidator.validate(licenseRequest);
         String json = this.mapper.writeValueAsString(licenseRequest);
-        String response = Request.post(licenseRequest.getAddress())
+        String response = Request.post(getCommandURI(licenseRequest.getAddress()))
                 .connectTimeout(Timeout.of(this.connectTimeout, TimeUnit.MILLISECONDS))
                 .responseTimeout(Timeout.of(this.responseTimeout, TimeUnit.MILLISECONDS))
                 .bodyString(json, ContentType.APPLICATION_JSON)
@@ -213,13 +213,27 @@ public class OnlyofficeDefaultCommandClient implements OnlyofficeCommandClient {
                 .orElseThrow(() -> new IOException("Could not generate a jwt token"));
         licenseRequest.setToken(token);
         String json = this.mapper.writeValueAsString(licenseRequest);
-        String response = Request.post(licenseRequest.getAddress())
+        String response = Request.post(getCommandURI(licenseRequest.getAddress()))
                 .connectTimeout(Timeout.of(this.connectTimeout, TimeUnit.MILLISECONDS))
                 .responseTimeout(Timeout.of(this.responseTimeout, TimeUnit.MILLISECONDS))
                 .bodyString(json, ContentType.APPLICATION_JSON)
                 .setHeader(credentials.getHeader().trim(), credentials.getPrefix().trim()+" "+token)
                 .execute().returnContent().asString();
         return this.mapper.readValue(response, CommandLicenseResponse.class);
+    }
+
+    /**
+     *
+     * @param base
+     * @return
+     */
+    private URI getCommandURI(URI base) {
+        if (!base.getPath().endsWith("/coauthoring/CommandService.ashx")) {
+            URI valid = base.resolve("/coauthoring/CommandService.ashx").normalize();
+            return valid;
+        }
+
+        return base.normalize();
     }
 
     /**

@@ -23,8 +23,8 @@ public class OnlyofficeConvertClientTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final OnlyofficeJwtSecurity jwtSecurity = new OnlyofficeJwtSecurityManager(objectMapper);
     private final OnlyofficeConverterClient converterClient = new OnlyofficeDefaultConverterClient(jwtSecurity, objectMapper);
-    private final URI addressJwt = new URI(System.getenv("jwt_document_server")+"/ConvertService.ashx");
-    private final URI address = new URI(System.getenv("document_server")+"/ConvertService.ashx");
+    private final URI addressJwt = new URI(System.getenv("jwt_document_server"));
+    private final URI address = new URI(System.getenv("document_server"));
     private final String fileUrl = System.getenv("file_url");
     private final Credentials credentials = Credentials
             .builder()
