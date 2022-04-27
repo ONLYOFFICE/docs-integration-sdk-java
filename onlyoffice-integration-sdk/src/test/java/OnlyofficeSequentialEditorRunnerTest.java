@@ -16,7 +16,7 @@ import core.runner.implementation.OnlyofficeSequentialEditorRunner;
 import core.security.OnlyofficeJwtSecurityManager;
 import core.util.OnlyofficeConfig;
 import core.util.OnlyofficeFile;
-import exception.OnlyofficeProcessRuntimeException;
+import exception.OnlyofficeProcessBeforeRuntimeException;
 import exception.OnlyofficeRunnerRuntimeException;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -49,7 +49,7 @@ public class OnlyofficeSequentialEditorRunnerTest {
 
     @Test
     public void runNullConfigTest() {
-        assertThrows(OnlyofficeProcessRuntimeException.class, () -> this.onlyofficeDefaultEditorRunner.run(
+        assertThrows(OnlyofficeProcessBeforeRuntimeException.class, () -> this.onlyofficeDefaultEditorRunner.run(
                 ConfigRequest
                         .builder()
                         .config(null)

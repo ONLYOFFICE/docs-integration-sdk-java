@@ -6,6 +6,8 @@ import core.runner.implementation.CallbackRequest;
 import exception.OnlyofficeInvalidParameterRuntimeException;
 import exception.OnlyofficeProcessBeforeRuntimeException;
 
+import java.util.Map;
+
 public abstract class OnlyofficeCallbackPreProcessor<S> {
     /**
      *
@@ -15,10 +17,11 @@ public abstract class OnlyofficeCallbackPreProcessor<S> {
 
     /**
      *
+     * @param customData
      * @param schema
      * @return
      */
-    public abstract S validateSchema(ImmutableMap<String, Object> schema);
+    public abstract S validateSchema(Map<String, Object> customData, ImmutableMap<String, Object> schema);
 
     /**
      *
@@ -28,8 +31,10 @@ public abstract class OnlyofficeCallbackPreProcessor<S> {
      */
     public final void run(CallbackRequest request) throws OnlyofficeProcessBeforeRuntimeException, OnlyofficeInvalidParameterRuntimeException {
         if (request == null)
-            throw new OnlyofficeProcessBeforeRuntimeException("Expected to receive an instance of ConfigRequest. Got null");
-        S validSchema = validateSchema(request.getPreProcessorSchema(preprocessorName()));
+            throw new OnlyofficeProcessBeforeRuntimeException("Expected to receive an instance of CallbackRequest. Got null");
+        if (request.getCallback() == null)
+            throw new OnlyofficeProcessBeforeRuntimeException("Expected to receive an instance of Callback. Got null");
+        S validSchema = validateSchema(request.getCallback().getCustom(), request.getPreProcessorSchema(preprocessorName()));
         if (validSchema == null) return;
         processBefore(request.getCallback(), validSchema);
         changeProcessors(request);

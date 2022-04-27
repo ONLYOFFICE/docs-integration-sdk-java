@@ -26,7 +26,7 @@ public class OnlyofficeCustomizableCallbackRunnerTest {
            request.addPreProcessor("preprocessor.test.second", ImmutableMap.of());
         }
 
-        public Object validateSchema(ImmutableMap<String, Object> schema) {
+        public Object validateSchema(Map<String, Object> custoData, ImmutableMap<String, Object> schema) {
             return new Object();
         }
 
@@ -50,7 +50,7 @@ public class OnlyofficeCustomizableCallbackRunnerTest {
             request.addPreProcessor("preprocessor.test.third", ImmutableMap.of());
         }
 
-        public Object validateSchema(ImmutableMap<String, Object> schema) {
+        public Object validateSchema(Map<String, Object> customData, ImmutableMap<String, Object> schema) {
             return new Object();
         }
 
@@ -68,7 +68,7 @@ public class OnlyofficeCustomizableCallbackRunnerTest {
             request.addPreProcessor("preprocessor.test.first", ImmutableMap.of());
         }
 
-        public Object validateSchema(ImmutableMap<String, Object> schema) {
+        public Object validateSchema(Map<String, Object> customData, ImmutableMap<String, Object> schema) {
             return new Object();
         }
 

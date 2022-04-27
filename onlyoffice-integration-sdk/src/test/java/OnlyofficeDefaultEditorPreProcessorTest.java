@@ -28,7 +28,7 @@ public class OnlyofficeDefaultEditorPreProcessorTest {
 
     @Test
     public void processNullConfigTest() {
-        assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.run(
+        assertThrows(OnlyofficeProcessBeforeRuntimeException.class, () -> this.configOnlyofficePreProcessor.run(
                 ConfigRequest.builder().build()
         ));
     }
@@ -87,7 +87,7 @@ public class OnlyofficeDefaultEditorPreProcessorTest {
     public void processValidJwtTest() {
         Date date = java.sql.Date.valueOf(LocalDate.now().plusDays(1));
         String token = this.jwtManager.sign(Map.of("test", "test"), "secret", date).get();
-        assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.run(
+        assertThrows(OnlyofficeProcessBeforeRuntimeException.class, () -> this.configOnlyofficePreProcessor.run(
                 ConfigRequest
                         .builder()
                         .build()

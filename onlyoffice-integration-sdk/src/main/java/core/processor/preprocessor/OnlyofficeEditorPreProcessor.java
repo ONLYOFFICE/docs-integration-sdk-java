@@ -6,6 +6,8 @@ import core.runner.implementation.ConfigRequest;
 import exception.OnlyofficeInvalidParameterRuntimeException;
 import exception.OnlyofficeProcessBeforeRuntimeException;
 
+import java.util.Map;
+
 public abstract class OnlyofficeEditorPreProcessor<S> {
     /**
      *
@@ -15,10 +17,11 @@ public abstract class OnlyofficeEditorPreProcessor<S> {
 
     /**
      *
+     * @param customData
      * @param schema
      * @return
      */
-    public abstract S validateSchema(ImmutableMap<String, Object> schema);
+    public abstract S validateSchema(Map<String, Object> customData, ImmutableMap<String, Object> schema);
 
     /**
      *
@@ -29,7 +32,9 @@ public abstract class OnlyofficeEditorPreProcessor<S> {
     public final void run(ConfigRequest request) throws OnlyofficeProcessBeforeRuntimeException, OnlyofficeInvalidParameterRuntimeException {
         if (request == null)
             throw new OnlyofficeProcessBeforeRuntimeException("Expected to receive an instance of ConfigRequest. Got null");
-        S validSchema = validateSchema(request.getPreProcessorSchema(preprocessorName()));
+        if (request.getConfig() == null)
+            throw new OnlyofficeProcessBeforeRuntimeException("Expected to receive an instance of Config. Got null");
+        S validSchema = validateSchema(request.getConfig().getCustom(), request.getPreProcessorSchema(preprocessorName()));
         if (validSchema == null) return;
         processBefore(request.getConfig(), validSchema);
         changeProcessors(request);

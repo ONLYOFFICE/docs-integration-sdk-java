@@ -28,7 +28,7 @@ public class OnlyofficeDefaultCallbackPreProcessorTest {
 
     @Test
     public void processNoCallbackParameterIgnoreTest() {
-        assertDoesNotThrow(() -> this.callbackOnlyofficePreProcessor.run(
+        assertThrows(OnlyofficeProcessBeforeRuntimeException.class, () -> this.callbackOnlyofficePreProcessor.run(
                 CallbackRequest
                         .builder()
                         .callback(null)

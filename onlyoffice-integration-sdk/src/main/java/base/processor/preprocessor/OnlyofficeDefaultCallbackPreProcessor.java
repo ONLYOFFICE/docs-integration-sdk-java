@@ -11,6 +11,8 @@ import exception.OnlyofficeInvalidParameterRuntimeException;
 import exception.OnlyofficeJwtVerificationRuntimeException;
 import exception.OnlyofficeProcessBeforeRuntimeException;
 
+import java.util.Map;
+
 public class OnlyofficeDefaultCallbackPreProcessor extends OnlyofficeCallbackPreProcessor<DefaultCallbackSchema> {
     private final ObjectMapper objectMapper;
     private final OnlyofficeJwtSecurity jwtManager;
@@ -22,10 +24,11 @@ public class OnlyofficeDefaultCallbackPreProcessor extends OnlyofficeCallbackPre
 
     /**
      *
+     * @param customData
      * @param schema
      * @return
      */
-    public DefaultCallbackSchema validateSchema(ImmutableMap<String, Object> schema) {
+    public DefaultCallbackSchema validateSchema(Map<String, Object> customData, ImmutableMap<String, Object> schema) {
         if (schema == null) return null;
 
         Object key = schema.get("key");

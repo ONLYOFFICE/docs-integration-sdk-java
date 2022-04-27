@@ -9,6 +9,7 @@ import core.registry.OnlyofficeCallbackRegistry;
 import core.runner.implementation.CallbackRequest;
 import core.runner.implementation.OnlyofficeSequentialCallbackRunner;
 import core.security.OnlyofficeJwtSecurityManager;
+import exception.OnlyofficeProcessBeforeRuntimeException;
 import exception.OnlyofficeProcessRuntimeException;
 import exception.OnlyofficeRegistryHandlerRuntimeException;
 import exception.OnlyofficeRunnerRuntimeException;
@@ -64,7 +65,7 @@ public class OnlyofficeSequentialCallbackRunnerTest {
 
     @Test
     public void runEmptyCallbackRequestTest() {
-        assertThrows(OnlyofficeProcessRuntimeException.class, () -> this.callbackRunner.run(
+        assertThrows(OnlyofficeProcessBeforeRuntimeException.class, () -> this.callbackRunner.run(
                 CallbackRequest
                         .builder()
                         .build()

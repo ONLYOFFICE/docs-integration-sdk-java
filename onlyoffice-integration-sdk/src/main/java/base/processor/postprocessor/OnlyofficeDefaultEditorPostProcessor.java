@@ -6,11 +6,12 @@ import core.processor.postprocessor.OnlyofficeEditorPostProcessor;
 import exception.OnlyofficeInvalidParameterRuntimeException;
 import exception.OnlyofficeProcessAfterRuntimeException;
 
+import java.util.Map;
 import java.util.UUID;
 
 public class OnlyofficeDefaultEditorPostProcessor extends OnlyofficeEditorPostProcessor<Object> {
-    public Object validateSchema(ImmutableMap<String, Object> schema) {
-        return null;
+    public Object validateSchema(Map<String, Object> customData, ImmutableMap<String, Object> schema) {
+        return new Object();
     }
 
     public void processAfter(Config config, Object validSchema) throws OnlyofficeProcessAfterRuntimeException, OnlyofficeInvalidParameterRuntimeException {}

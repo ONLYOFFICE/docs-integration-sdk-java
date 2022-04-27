@@ -6,11 +6,12 @@ import core.processor.postprocessor.OnlyofficeCallbackPostProcessor;
 import exception.OnlyofficeInvalidParameterRuntimeException;
 import exception.OnlyofficeProcessAfterRuntimeException;
 
+import java.util.Map;
 import java.util.UUID;
 
 public class OnlyofficeDefaultCallbackPostProcessor extends OnlyofficeCallbackPostProcessor<Object> {
-    public Object validateSchema(ImmutableMap<String, Object> schema) {
-        return null;
+    public Object validateSchema(Map<String, Object> customData, ImmutableMap<String, Object> schema) {
+        return new Object();
     }
 
     public void processAfter(Callback model, Object validSchema) throws OnlyofficeProcessAfterRuntimeException, OnlyofficeInvalidParameterRuntimeException {}
