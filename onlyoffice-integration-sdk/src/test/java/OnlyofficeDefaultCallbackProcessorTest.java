@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import core.model.callback.Callback;
 import core.registry.OnlyofficeCallbackHandler;
 import core.registry.OnlyofficeCallbackRegistry;
-import core.runner.callback.CallbackRequest;
 import core.security.OnlyofficeJwtSecurityManager;
 import exception.OnlyofficeProcessRuntimeException;
 import exception.OnlyofficeRegistryHandlerRuntimeException;
@@ -51,28 +50,11 @@ public class OnlyofficeDefaultCallbackProcessorTest {
     }
 
     @Test
-    public void processNoCallbackParametersIgnoreTest() {
-        assertThrows(OnlyofficeProcessRuntimeException.class, () -> this.callbackProcessor.process(
-                CallbackRequest
-                        .builder()
-                        .callback(null)
-                        .build()
-        ));
-    }
-
-    @Test
     public void processNoJwtParametersTest() {
-        assertDoesNotThrow(() -> this.callbackProcessor.process(
-                CallbackRequest
-                        .builder()
-                        .callback(
-                                Callback
-                                        .builder()
-                                        .status(3)
-                                        .build()
-                        )
-                        .build()
-        ));
+        assertDoesNotThrow(() -> this.callbackProcessor.process(Callback
+                .builder()
+                .status(3)
+                .build()));
     }
 
     @Test
@@ -86,12 +68,7 @@ public class OnlyofficeDefaultCallbackProcessorTest {
                 .token(token)
                 .secret("secret")
                 .build();
-        assertDoesNotThrow(() -> this.callbackProcessor.process(
-                CallbackRequest
-                        .builder()
-                        .callback(callback)
-                        .build()
-        ));
+        assertDoesNotThrow(() -> this.callbackProcessor.process(callback));
         assertEquals("new", callback.getKey());
     }
 
@@ -105,12 +82,7 @@ public class OnlyofficeDefaultCallbackProcessorTest {
                 .status(2)
                 .token(token)
                 .build();
-        assertDoesNotThrow(() -> this.callbackProcessor.process(
-                CallbackRequest
-                        .builder()
-                        .callback(callback)
-                        .build()
-        ));
+        assertDoesNotThrow(() -> this.callbackProcessor.process(callback));
         assertEquals("1234", callback.getKey());
     }
 
@@ -125,11 +97,6 @@ public class OnlyofficeDefaultCallbackProcessorTest {
                 .token(token)
                 .secret("invalid")
                 .build();
-        assertThrows(OnlyofficeProcessRuntimeException.class, () -> this.callbackProcessor.process(
-                CallbackRequest
-                        .builder()
-                        .callback(callback)
-                        .build()
-        ));
+        assertThrows(OnlyofficeProcessRuntimeException.class, () -> this.callbackProcessor.process(callback));
     }
 }

@@ -1,5 +1,5 @@
 import base.processor.OnlyofficeDefaultEditorProcessor;
-import base.processor.pre.OnlyofficeDefaultEditorPreProcessor;
+import base.processor.preprocessor.OnlyofficeDefaultEditorPreProcessor;
 import base.util.OnlyofficeConfigUtil;
 import base.util.OnlyofficeFileUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,10 +9,10 @@ import core.model.config.Config;
 import core.model.config.document.Document;
 import core.model.config.editor.Editor;
 import core.processor.OnlyofficeEditorProcessor;
-import core.processor.pre.OnlyofficeEditorPreProcessor;
+import core.processor.preprocessor.OnlyofficeEditorPreProcessor;
 import core.runner.OnlyofficeEditorRunner;
-import core.runner.editor.ConfigRequest;
-import core.runner.editor.OnlyofficeSequentialEditorRunner;
+import core.runner.implementation.ConfigRequest;
+import core.runner.implementation.OnlyofficeSequentialEditorRunner;
 import core.security.OnlyofficeJwtSecurityManager;
 import core.util.OnlyofficeConfig;
 import core.util.OnlyofficeFile;
@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.Map;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -38,8 +38,8 @@ public class OnlyofficeSequentialEditorRunnerTest {
     private final OnlyofficeEditorPreProcessor configOnlyofficePreProcessor = new OnlyofficeDefaultEditorPreProcessor(objectMapper);
     private final OnlyofficeEditorRunner onlyofficeDefaultEditorRunner = new OnlyofficeSequentialEditorRunner(
             onlyofficeDefaultEditorProcessor,
-            Map.of(configOnlyofficePreProcessor.preprocessorName(), configOnlyofficePreProcessor),
-            Map.of()
+            List.of(configOnlyofficePreProcessor),
+            List.of()
     );
 
     @Test

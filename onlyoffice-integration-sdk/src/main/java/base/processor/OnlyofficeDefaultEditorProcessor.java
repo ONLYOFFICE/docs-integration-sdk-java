@@ -2,7 +2,6 @@ package base.processor;
 
 import core.model.config.Config;
 import core.processor.OnlyofficeEditorProcessor;
-import core.runner.editor.ConfigRequest;
 import core.security.OnlyofficeJwtSecurity;
 import core.util.OnlyofficeConfig;
 import core.util.OnlyofficeModelValidator;
@@ -29,15 +28,14 @@ public class OnlyofficeDefaultEditorProcessor implements OnlyofficeEditorProcess
 
     /**
      *
-     * @param request
+     * @param config
      * @throws OnlyofficeProcessRuntimeException
      * @throws OnlyofficeInvalidParameterRuntimeException
      */
-    public void process(ConfigRequest request) throws OnlyofficeProcessRuntimeException, OnlyofficeInvalidParameterRuntimeException {
-        if (request == null || request.getConfig() == null)
+    public void process(Config config) throws OnlyofficeProcessRuntimeException, OnlyofficeInvalidParameterRuntimeException {
+        if (config == null)
             throw new OnlyofficeProcessRuntimeException("Config or config request is null");
 
-        Config config = request.getConfig();
         String secret = config.getSecret();
         if (secret != null && !secret.isBlank()) {
             LocalDateTime dateTime = LocalDateTime.now().plus(Duration.of(this.jwtExpirationMinutes, ChronoUnit.MINUTES));

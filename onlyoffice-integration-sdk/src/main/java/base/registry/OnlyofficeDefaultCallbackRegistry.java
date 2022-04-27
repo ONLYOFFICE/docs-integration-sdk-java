@@ -16,7 +16,6 @@ public class OnlyofficeDefaultCallbackRegistry implements OnlyofficeCallbackRegi
      *
      * @param handlers
      */
-    @Override
     public void register(OnlyofficeCallbackHandler... handlers) {
         if (handlers == null) return;
         for (OnlyofficeCallbackHandler handler : handlers) {

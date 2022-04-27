@@ -1,6 +1,6 @@
 package core.processor;
 
-import core.runner.editor.ConfigRequest;
+import core.model.config.Config;
 
-public interface OnlyofficeEditorProcessor extends OnlyofficeProcessor<ConfigRequest> {
+public interface OnlyofficeEditorProcessor extends OnlyofficeProcessor<Config> {
 }

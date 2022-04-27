@@ -1,6 +1,6 @@
 package core.processor;
 
-import core.runner.callback.CallbackRequest;
+import core.model.callback.Callback;
 
-public interface OnlyofficeCallbackProcessor extends OnlyofficeProcessor<CallbackRequest> {
+public interface OnlyofficeCallbackProcessor extends OnlyofficeProcessor<Callback> {
 }

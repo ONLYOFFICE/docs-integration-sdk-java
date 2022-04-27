@@ -1,13 +1,13 @@
 import base.processor.OnlyofficeDefaultCallbackProcessor;
-import base.processor.pre.OnlyofficeDefaultCallbackPreProcessor;
+import base.processor.preprocessor.OnlyofficeDefaultCallbackPreProcessor;
 import base.registry.OnlyofficeDefaultCallbackRegistry;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import core.model.callback.Callback;
-import core.processor.pre.OnlyofficeCallbackPreProcessor;
+import core.processor.preprocessor.OnlyofficeCallbackPreProcessor;
 import core.registry.OnlyofficeCallbackHandler;
 import core.registry.OnlyofficeCallbackRegistry;
-import core.runner.callback.CallbackRequest;
-import core.runner.callback.OnlyofficeSequentialCallbackRunner;
+import core.runner.implementation.CallbackRequest;
+import core.runner.implementation.OnlyofficeSequentialCallbackRunner;
 import core.security.OnlyofficeJwtSecurityManager;
 import exception.OnlyofficeProcessRuntimeException;
 import exception.OnlyofficeRegistryHandlerRuntimeException;
@@ -17,7 +17,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -33,8 +32,8 @@ public class OnlyofficeSequentialCallbackRunnerTest {
     private final OnlyofficeCallbackPreProcessor callbackOnlyofficePreProcessor = new OnlyofficeDefaultCallbackPreProcessor(objectMapper);
     private final OnlyofficeSequentialCallbackRunner callbackRunner = new OnlyofficeSequentialCallbackRunner(
             callbackProcessor,
-            Map.of(callbackOnlyofficePreProcessor.preprocessorName(), callbackOnlyofficePreProcessor),
-            Map.of()
+            List.of(callbackOnlyofficePreProcessor),
+            List.of()
     );
 
     @BeforeEach

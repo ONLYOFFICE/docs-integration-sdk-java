@@ -1,50 +1,58 @@
 import com.google.common.collect.ImmutableMap;
 import core.model.config.Config;
 import core.processor.OnlyofficeEditorProcessor;
-import core.processor.pre.OnlyofficeEditorPreProcessor;
+import core.processor.preprocessor.OnlyofficeEditorPreProcessor;
 import core.runner.OnlyofficeEditorRunner;
-import core.runner.editor.ConfigRequest;
-import core.runner.editor.OnlyofficeCustomizableEditorRunner;
+import core.runner.implementation.ConfigRequest;
+import core.runner.implementation.OnlyofficeCustomizableEditorRunner;
 import exception.OnlyofficeInvalidParameterRuntimeException;
 import exception.OnlyofficeProcessBeforeRuntimeException;
-import exception.OnlyofficeProcessRuntimeException;
 import exception.OnlyofficeRunnerRuntimeException;
 import org.junit.jupiter.api.Test;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class OnlyofficeCustomizableEditorRunnerTest {
-    private final OnlyofficeEditorProcessor onlyofficeDefaultEditorProcessor = new OnlyofficeEditorProcessor() {
-        @Override
-        public void process(ConfigRequest model) throws OnlyofficeProcessRuntimeException, OnlyofficeInvalidParameterRuntimeException {
+    private final OnlyofficeEditorProcessor onlyofficeDefaultEditorProcessor = model -> {};
 
-        }
-    };
-    private final OnlyofficeEditorPreProcessor firstPreProcessor = new OnlyofficeEditorPreProcessor() {
-        @Override
-        public void processBefore(ConfigRequest model) throws OnlyofficeProcessBeforeRuntimeException, OnlyofficeInvalidParameterRuntimeException {
-            if (!model.getConfig().getCustom().containsKey("counter")) {
-                model.getConfig().getCustom().put("counter", 1);
-            }
-            if (model.getConfig() != null && model.getConfig().getSecret() != null && model.getConfig().getSecret().equals("second")) {
-                model.getConfig().getCustom().put("counter", ((Integer) model.getConfig().getCustom().get("counter")) + 1);
-            }
-            model.getConfig().setSecret("first");
-            model.addPreProcessor("preprocessor.test.second", ImmutableMap.of());
+    private final OnlyofficeEditorPreProcessor<Object> firstPreProcessor = new OnlyofficeEditorPreProcessor<>() {
+        public void changeProcessors(ConfigRequest request) {
+            request.addPreProcessor("preprocessor.test.second", ImmutableMap.of());
         }
 
-        @Override
+        public Object validateSchema(ImmutableMap<String, Object> schema) {
+            return new Object();
+        }
+
+        public void processBefore(Config config, Object validSchema) throws OnlyofficeProcessBeforeRuntimeException, OnlyofficeInvalidParameterRuntimeException {
+            if (!config.getCustom().containsKey("counter")) {
+                config.getCustom().put("counter", 1);
+            }
+            if (config != null && config.getSecret() != null && config.getSecret().equals("second")) {
+                config.getCustom().put("counter", ((Integer) config.getCustom().get("counter")) + 1);
+            }
+            config.setSecret("first");
+        }
+
         public String preprocessorName() {
             return "preprocessor.test.first";
         }
     };
-    private final OnlyofficeEditorPreProcessor secondPreProcessor = new OnlyofficeEditorPreProcessor() {
-        @Override
-        public void processBefore(ConfigRequest model) throws OnlyofficeProcessBeforeRuntimeException, OnlyofficeInvalidParameterRuntimeException {
-            model.getConfig().setSecret("second");
-            model.addPreProcessor("preprocessor.test.first", ImmutableMap.of());
+
+    private final OnlyofficeEditorPreProcessor<Object> secondPreProcessor = new OnlyofficeEditorPreProcessor<Object>() {
+        public void changeProcessors(ConfigRequest request) {
+            request.addPreProcessor("preprocessor.test.first", ImmutableMap.of());
+        }
+
+        public Object validateSchema(ImmutableMap<String, Object> schema) {
+            return new Object();
+        }
+
+        public void processBefore(Config config, Object validSchema) throws OnlyofficeProcessBeforeRuntimeException, OnlyofficeInvalidParameterRuntimeException {
+            config.setSecret("second");
         }
 
         @Override
@@ -52,6 +60,7 @@ public class OnlyofficeCustomizableEditorRunnerTest {
             return "preprocessor.test.second";
         }
     };
+    
     private final OnlyofficeEditorRunner editorRunner = new OnlyofficeCustomizableEditorRunner(
             onlyofficeDefaultEditorProcessor,
             Map.of(

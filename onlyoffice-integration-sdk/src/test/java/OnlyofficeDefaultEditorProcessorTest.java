@@ -6,7 +6,6 @@ import core.model.config.Config;
 import core.model.config.document.Document;
 import core.model.config.editor.Editor;
 import core.processor.OnlyofficeEditorProcessor;
-import core.runner.editor.ConfigRequest;
 import core.security.OnlyofficeJwtSecurityManager;
 import core.util.OnlyofficeConfig;
 import exception.OnlyofficeInvalidParameterRuntimeException;
@@ -45,12 +44,7 @@ public class OnlyofficeDefaultEditorProcessorTest {
                 .editorConfig(editor)
                 .build();
 
-        assertThrows(OnlyofficeInvalidParameterRuntimeException.class, () -> this.editorProcessorBase.process(
-                ConfigRequest
-                        .builder()
-                        .config(config)
-                        .build()
-        ));
+        assertThrows(OnlyofficeInvalidParameterRuntimeException.class, () -> this.editorProcessorBase.process(config));
     }
 
     @Test
@@ -71,12 +65,7 @@ public class OnlyofficeDefaultEditorProcessorTest {
                 .editorConfig(editor)
                 .build();
 
-        assertDoesNotThrow(() -> this.editorProcessorBase.process(
-                ConfigRequest
-                        .builder()
-                        .config(config)
-                        .build()
-        ));
+        assertDoesNotThrow(() -> this.editorProcessorBase.process(config));
     }
 
     @Test
@@ -97,12 +86,7 @@ public class OnlyofficeDefaultEditorProcessorTest {
                 .editorConfig(editor)
                 .secret("secret")
                 .build();
-        assertDoesNotThrow(() -> this.editorProcessorBase.process(
-                ConfigRequest
-                        .builder()
-                        .config(config)
-                        .build()
-        ));
+        assertDoesNotThrow(() -> this.editorProcessorBase.process(config));
         assertNotNull(config.getToken());
     }
 
@@ -124,12 +108,7 @@ public class OnlyofficeDefaultEditorProcessorTest {
                 .editorConfig(editor)
                 .secret(null)
                 .build();
-        assertDoesNotThrow(() -> this.editorProcessorBase.process(
-                ConfigRequest
-                        .builder()
-                        .config(config)
-                        .build()
-        ));
+        assertDoesNotThrow(() -> this.editorProcessorBase.process(config));
         assertNull(config.getToken());
     }
 }

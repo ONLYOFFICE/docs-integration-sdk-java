@@ -1,9 +1,9 @@
-package core.runner.callback;
+package core.runner.implementation;
 
 import core.model.callback.Callback;
 import core.processor.OnlyofficeCallbackProcessor;
-import core.processor.post.OnlyofficeCallbackPostProcessor;
-import core.processor.pre.OnlyofficeCallbackPreProcessor;
+import core.processor.postprocessor.OnlyofficeCallbackPostProcessor;
+import core.processor.preprocessor.OnlyofficeCallbackPreProcessor;
 import core.runner.OnlyofficeCallbackRunner;
 import exception.OnlyofficeProcessAfterRuntimeException;
 import exception.OnlyofficeProcessBeforeRuntimeException;
@@ -12,17 +12,18 @@ import exception.OnlyofficeUploaderRuntimeException;
 import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
-import java.util.Map;
+import java.util.List;
 
 @RequiredArgsConstructor
 public class OnlyofficeSequentialCallbackRunner implements OnlyofficeCallbackRunner {
     private final OnlyofficeCallbackProcessor callbackProcessor;
-    private final Map<String, OnlyofficeCallbackPreProcessor> preProcessors;
-    private final Map<String, OnlyofficeCallbackPostProcessor> postProcessors;
+    private final List<OnlyofficeCallbackPreProcessor> preProcessors;
+    private final List<OnlyofficeCallbackPostProcessor> postProcessors;
 
     /**
      *
      * @param request
+     * @return
      * @throws OnlyofficeRunnerRuntimeException
      * @throws OnlyofficeProcessBeforeRuntimeException
      * @throws OnlyofficeProcessAfterRuntimeException
@@ -33,16 +34,14 @@ public class OnlyofficeSequentialCallbackRunner implements OnlyofficeCallbackRun
         if (request == null)
             throw new OnlyofficeRunnerRuntimeException("Expected to get a CallbackRequest instance. Got null");
 
-        preProcessors.forEach((name, processor) -> {
-            processor.processBefore();
-            processor.processBefore(request);
+        preProcessors.forEach(processor -> {
+            processor.run(request);
         });
 
-        this.callbackProcessor.process(request);
+        this.callbackProcessor.process(request.getCallback());
 
-        postProcessors.forEach((name, processor) -> {
-            processor.processAfter();
-            processor.processAfter(request);
+        postProcessors.forEach(processor -> {
+            processor.run(request);
         });
 
         return request.getCallback();

@@ -1,10 +1,10 @@
-import base.processor.pre.OnlyofficeDefaultCallbackPreProcessor;
+import base.processor.preprocessor.OnlyofficeDefaultCallbackPreProcessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import core.model.OnlyofficeModelMutator;
 import core.model.callback.Callback;
-import core.processor.pre.OnlyofficeCallbackPreProcessor;
-import core.runner.callback.CallbackRequest;
+import core.processor.preprocessor.OnlyofficeCallbackPreProcessor;
+import core.runner.implementation.CallbackRequest;
 import core.security.OnlyofficeJwtSecurity;
 import core.security.OnlyofficeJwtSecurityManager;
 import exception.OnlyofficeProcessBeforeRuntimeException;
@@ -23,12 +23,12 @@ public class OnlyofficeDefaultCallbackPreProcessorTest {
 
     @Test
     public void processNullCallbackRequestParameterIgnoreTest() {
-        assertDoesNotThrow(() -> this.callbackOnlyofficePreProcessor.processBefore(null));
+        assertThrows(OnlyofficeProcessBeforeRuntimeException.class, () -> this.callbackOnlyofficePreProcessor.run(null));
     }
 
     @Test
     public void processNoCallbackParameterIgnoreTest() {
-        assertDoesNotThrow(() -> this.callbackOnlyofficePreProcessor.processBefore(
+        assertDoesNotThrow(() -> this.callbackOnlyofficePreProcessor.run(
                 CallbackRequest
                         .builder()
                         .callback(null)
@@ -38,7 +38,7 @@ public class OnlyofficeDefaultCallbackPreProcessorTest {
 
     @Test
     public void processNoPreProcessorParametersIgnoreTest() {
-        assertDoesNotThrow(() -> this.callbackOnlyofficePreProcessor.processBefore(
+        assertDoesNotThrow(() -> this.callbackOnlyofficePreProcessor.run(
                 CallbackRequest
                         .builder()
                         .callback(
@@ -54,7 +54,7 @@ public class OnlyofficeDefaultCallbackPreProcessorTest {
 
     @Test
     public void processNullMapPreProcessorParametersIgnoreTest() {
-        assertDoesNotThrow(() -> this.callbackOnlyofficePreProcessor.processBefore(
+        assertDoesNotThrow(() -> this.callbackOnlyofficePreProcessor.run(
                 CallbackRequest
                         .builder()
                         .callback(
@@ -71,7 +71,7 @@ public class OnlyofficeDefaultCallbackPreProcessorTest {
 
     @Test
     public void processEmptyMapPreProcessorParametersIgnoreTest() {
-        assertDoesNotThrow(() -> this.callbackOnlyofficePreProcessor.processBefore(
+        assertDoesNotThrow(() -> this.callbackOnlyofficePreProcessor.run(
                 CallbackRequest
                         .builder()
                         .callback(
@@ -89,7 +89,7 @@ public class OnlyofficeDefaultCallbackPreProcessorTest {
     @Test
     public void processMalformedTokenTest() {
         String token = "aasdasc.asvasvas.arqwrtqwtrqw";
-        assertThrows(OnlyofficeProcessBeforeRuntimeException.class, () -> this.callbackOnlyofficePreProcessor.processBefore(
+        assertThrows(OnlyofficeProcessBeforeRuntimeException.class, () -> this.callbackOnlyofficePreProcessor.run(
                 CallbackRequest
                         .builder()
                         .callback(
@@ -136,7 +136,7 @@ public class OnlyofficeDefaultCallbackPreProcessorTest {
                 .key("1234")
                 .status(2)
                 .build();
-        assertDoesNotThrow(() -> this.callbackOnlyofficePreProcessor.processBefore(
+        assertDoesNotThrow(() -> this.callbackOnlyofficePreProcessor.run(
                 CallbackRequest
                         .builder()
                         .callback(callback)

@@ -1,11 +1,11 @@
-package core.runner.editor;
+package core.runner.implementation;
 
 import com.google.common.collect.ImmutableMap;
-import core.model.config.Config;
-import core.processor.OnlyofficeEditorProcessor;
-import core.processor.post.OnlyofficeEditorPostProcessor;
-import core.processor.pre.OnlyofficeEditorPreProcessor;
-import core.runner.OnlyofficeEditorRunner;
+import core.model.callback.Callback;
+import core.processor.OnlyofficeCallbackProcessor;
+import core.processor.postprocessor.OnlyofficeCallbackPostProcessor;
+import core.processor.preprocessor.OnlyofficeCallbackPreProcessor;
+import core.runner.OnlyofficeCallbackRunner;
 import exception.OnlyofficeProcessAfterRuntimeException;
 import exception.OnlyofficeProcessBeforeRuntimeException;
 import exception.OnlyofficeRunnerRuntimeException;
@@ -18,10 +18,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RequiredArgsConstructor
-public class OnlyofficeCustomizableEditorRunner implements OnlyofficeEditorRunner {
-    private final OnlyofficeEditorProcessor editorProcessor;
-    private final Map<String, OnlyofficeEditorPreProcessor> preProcessors;
-    private final Map<String, OnlyofficeEditorPostProcessor> postProcessors;
+public class OnlyofficeCustomizableCallbackRunner implements OnlyofficeCallbackRunner {
+    private final OnlyofficeCallbackProcessor callbackProcessor;
+    private final Map<String, OnlyofficeCallbackPreProcessor> preProcessors;
+    private final Map<String, OnlyofficeCallbackPostProcessor> postProcessors;
     @Setter
     private int maxTotalHops = 3;
 
@@ -34,9 +34,9 @@ public class OnlyofficeCustomizableEditorRunner implements OnlyofficeEditorRunne
      * @throws OnlyofficeUploaderRuntimeException
      * @throws IOException
      */
-    public Config run(ConfigRequest request) throws OnlyofficeRunnerRuntimeException, OnlyofficeProcessBeforeRuntimeException, OnlyofficeProcessAfterRuntimeException, OnlyofficeUploaderRuntimeException, IOException {
+    public Callback run(CallbackRequest request) throws OnlyofficeRunnerRuntimeException, OnlyofficeProcessBeforeRuntimeException, OnlyofficeProcessAfterRuntimeException, OnlyofficeUploaderRuntimeException, IOException {
         if (request == null)
-            throw new OnlyofficeRunnerRuntimeException("Expected to get a ConfigRequest instance. Got null");
+            throw new OnlyofficeRunnerRuntimeException("Expected to get a CallbackRequest instance. Got null");
 
         HashMap<String, Integer> invocations = new HashMap<>();
 
@@ -57,8 +57,7 @@ public class OnlyofficeCustomizableEditorRunner implements OnlyofficeEditorRunne
 
                 invocations.put(processorName, nextInvocation);
 
-                preProcessors.get(processorName).processBefore();
-                preProcessors.get(processorName).processBefore(request);
+                preProcessors.get(processorName).run(request);
                 request.removePreProcessor(processorName);
             }
             if (request.preProcessors.size() == 0) break;
@@ -67,13 +66,13 @@ public class OnlyofficeCustomizableEditorRunner implements OnlyofficeEditorRunne
         invocations.clear();
         request.preProcessors.clear();
 
-        editorProcessor.process(request);
+        callbackProcessor.process(request.getCallback());
 
-        while(request.postProcessors.size() > 0) {
+        while(true) {
             for (Map.Entry<String, ImmutableMap<String, Object>> processor : request.postProcessors) {
                 String processorName = processor.getKey();
                 if (!postProcessors.containsKey(processorName)) {
-                    request.removePreProcessor(processorName);
+                    request.removePostProcessor(processorName);
                     continue;
                 }
 
@@ -86,8 +85,7 @@ public class OnlyofficeCustomizableEditorRunner implements OnlyofficeEditorRunne
 
                 invocations.put(processorName, nextInvocation);
 
-                postProcessors.get(processorName).processAfter();
-                postProcessors.get(processorName).processAfter(request);
+                postProcessors.get(processorName).run(request);
                 request.removePostProcessor(processorName);
             }
             if (request.postProcessors.size() == 0) break;
@@ -95,6 +93,6 @@ public class OnlyofficeCustomizableEditorRunner implements OnlyofficeEditorRunne
 
         request.postProcessors.clear();
 
-        return request.getConfig();
+        return request.getCallback();
     }
 }

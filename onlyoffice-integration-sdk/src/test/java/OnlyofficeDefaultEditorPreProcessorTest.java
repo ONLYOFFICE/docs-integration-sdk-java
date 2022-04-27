@@ -1,10 +1,10 @@
-import base.processor.pre.OnlyofficeDefaultEditorPreProcessor;
+import base.processor.preprocessor.OnlyofficeDefaultEditorPreProcessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import core.model.OnlyofficeModelMutator;
 import core.model.config.Config;
-import core.processor.pre.OnlyofficeEditorPreProcessor;
-import core.runner.editor.ConfigRequest;
+import core.processor.preprocessor.OnlyofficeEditorPreProcessor;
+import core.runner.implementation.ConfigRequest;
 import core.security.OnlyofficeJwtSecurityManager;
 import exception.OnlyofficeProcessBeforeRuntimeException;
 import lombok.Getter;
@@ -22,18 +22,13 @@ public class OnlyofficeDefaultEditorPreProcessorTest {
     private final OnlyofficeEditorPreProcessor configOnlyofficePreProcessor = new OnlyofficeDefaultEditorPreProcessor(objectMapper);
 
     @Test
-    public void processNoArgumentsTest() {
-        assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.processBefore());
-    }
-
-    @Test
     public void processNullConfigRequestTest() {
-        assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.processBefore(null));
+        assertThrows(OnlyofficeProcessBeforeRuntimeException.class, () -> this.configOnlyofficePreProcessor.run(null));
     }
 
     @Test
     public void processNullConfigTest() {
-        assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.processBefore(
+        assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.run(
                 ConfigRequest.builder().build()
         ));
     }
@@ -43,7 +38,7 @@ public class OnlyofficeDefaultEditorPreProcessorTest {
         Config config = Config
                 .builder()
                 .build();
-        assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.processBefore(
+        assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.run(
                 ConfigRequest
                         .builder()
                         .config(config)
@@ -74,7 +69,7 @@ public class OnlyofficeDefaultEditorPreProcessorTest {
                 .builder()
                 .build();
 
-        assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.processBefore(
+        assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.run(
                 ConfigRequest
                         .builder()
                         .config(config)
@@ -92,7 +87,7 @@ public class OnlyofficeDefaultEditorPreProcessorTest {
     public void processValidJwtTest() {
         Date date = java.sql.Date.valueOf(LocalDate.now().plusDays(1));
         String token = this.jwtManager.sign(Map.of("test", "test"), "secret", date).get();
-        assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.processBefore(
+        assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.run(
                 ConfigRequest
                         .builder()
                         .build()
@@ -103,7 +98,7 @@ public class OnlyofficeDefaultEditorPreProcessorTest {
     public void processInvalidJwtSecretTest() {
         Date date = java.sql.Date.valueOf(LocalDate.now().plusDays(1));
         String token = this.jwtManager.sign(Map.of("test", "test"), "secret", date).get();
-        assertThrows(OnlyofficeProcessBeforeRuntimeException.class, () -> this.configOnlyofficePreProcessor.processBefore(
+        assertThrows(OnlyofficeProcessBeforeRuntimeException.class, () -> this.configOnlyofficePreProcessor.run(
                 ConfigRequest
                         .builder()
                         .config(Config.builder().build())
@@ -119,7 +114,7 @@ public class OnlyofficeDefaultEditorPreProcessorTest {
     public void processIgnoreJwtVerificationNoSecretTest() {
         Date date = java.sql.Date.valueOf(LocalDate.now().plusDays(1));
         String token = this.jwtManager.sign(Map.of("test", "test"), "secret", date).get();
-        assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.processBefore(
+        assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.run(
                 ConfigRequest
                         .builder()
                         .config(Config.builder().build())
@@ -132,7 +127,7 @@ public class OnlyofficeDefaultEditorPreProcessorTest {
 
     @Test
     public void processIgnoreJwtVerificationNoTokenTest() {
-        assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.processBefore(
+        assertDoesNotThrow(() -> this.configOnlyofficePreProcessor.run(
                 ConfigRequest
                         .builder()
                         .config(Config.builder().build())
