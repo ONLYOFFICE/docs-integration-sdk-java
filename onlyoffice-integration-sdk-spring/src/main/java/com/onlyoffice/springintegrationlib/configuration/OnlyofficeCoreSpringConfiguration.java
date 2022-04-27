@@ -2,10 +2,10 @@ package com.onlyoffice.springintegrationlib.configuration;
 
 import base.processor.OnlyofficeDefaultCallbackProcessor;
 import base.processor.OnlyofficeDefaultEditorProcessor;
-import base.processor.post.OnlyofficeDefaultCallbackPostProcessor;
-import base.processor.post.OnlyofficeDefaultEditorPostProcessor;
-import base.processor.pre.OnlyofficeDefaultCallbackPreProcessor;
-import base.processor.pre.OnlyofficeDefaultEditorPreProcessor;
+import base.processor.postprocessor.OnlyofficeDefaultCallbackPostProcessor;
+import base.processor.postprocessor.OnlyofficeDefaultEditorPostProcessor;
+import base.processor.preprocessor.OnlyofficeDefaultCallbackPreProcessor;
+import base.processor.preprocessor.OnlyofficeDefaultEditorPreProcessor;
 import base.registry.OnlyofficeDefaultCallbackRegistry;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import core.OnlyofficeIntegrationSDK;
@@ -14,17 +14,17 @@ import core.client.OnlyofficeConverterClient;
 import core.model.converter.request.ConverterRequest;
 import core.processor.OnlyofficeCallbackProcessor;
 import core.processor.OnlyofficeEditorProcessor;
-import core.processor.post.OnlyofficeCallbackPostProcessor;
-import core.processor.post.OnlyofficeEditorPostProcessor;
-import core.processor.pre.OnlyofficeCallbackPreProcessor;
-import core.processor.pre.OnlyofficeEditorPreProcessor;
+import core.processor.postprocessor.OnlyofficeCallbackPostProcessor;
+import core.processor.postprocessor.OnlyofficeEditorPostProcessor;
+import core.processor.preprocessor.OnlyofficeCallbackPreProcessor;
+import core.processor.preprocessor.OnlyofficeEditorPreProcessor;
 import core.registry.OnlyofficeCallbackRegistry;
 import core.runner.OnlyofficeCallbackRunner;
 import core.runner.OnlyofficeEditorRunner;
-import core.runner.callback.OnlyofficeCustomizableCallbackRunner;
-import core.runner.callback.OnlyofficeSequentialCallbackRunner;
-import core.runner.editor.OnlyofficeCustomizableEditorRunner;
-import core.runner.editor.OnlyofficeSequentialEditorRunner;
+import core.runner.implementation.OnlyofficeCustomizableCallbackRunner;
+import core.runner.implementation.OnlyofficeCustomizableEditorRunner;
+import core.runner.implementation.OnlyofficeSequentialCallbackRunner;
+import core.runner.implementation.OnlyofficeSequentialEditorRunner;
 import core.security.OnlyofficeJwtSecurity;
 import core.uploader.OnlyofficeUploaderRunner;
 import core.util.OnlyofficeConfig;
@@ -36,7 +36,6 @@ import org.springframework.core.annotation.Order;
 
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -65,17 +64,6 @@ public class OnlyofficeCoreSpringConfiguration {
         return new OnlyofficeDefaultEditorPreProcessor(objectMapper);
     }
 
-    @ConditionalOnMissingBean(value = OnlyofficeEditorPreProcessor.class)
-    @Bean
-    public OnlyofficeEditorPreProcessor emptyConfigOnlyofficePreProcessor() {
-        return new OnlyofficeEditorPreProcessor() {
-            @Override
-            public String preprocessorName() {
-                return UUID.randomUUID().toString();
-            }
-        };
-    }
-
     @ConditionalOnMissingBean(value = OnlyofficeEditorPostProcessor.class)
     @Bean
     public OnlyofficeEditorPostProcessor emptyConfigOnlyofficePostProcessor() {
@@ -97,17 +85,6 @@ public class OnlyofficeCoreSpringConfiguration {
             ObjectMapper objectMapper
     ) {
         return new OnlyofficeDefaultCallbackPreProcessor(objectMapper);
-    }
-
-    @ConditionalOnMissingBean(value = OnlyofficeCallbackPreProcessor.class)
-    @Bean
-    public OnlyofficeCallbackPreProcessor emptyCallbackPreProcessor() {
-        return new OnlyofficeCallbackPreProcessor() {
-            @Override
-            public String preprocessorName() {
-                return UUID.randomUUID().toString();
-            }
-        };
     }
 
     @ConditionalOnMissingBean(value = OnlyofficeCallbackPostProcessor.class)
@@ -154,11 +131,7 @@ public class OnlyofficeCoreSpringConfiguration {
             List<OnlyofficeEditorPreProcessor> editorPreProcessors,
             List<OnlyofficeEditorPostProcessor> editorPostProcessors
     ) {
-        Map<String, OnlyofficeEditorPreProcessor> preProcessors = editorPreProcessors.stream()
-                .collect(Collectors.toMap(OnlyofficeEditorPreProcessor::preprocessorName, Function.identity()));
-        Map<String, OnlyofficeEditorPostProcessor> postProcessors = editorPostProcessors.stream()
-                .collect(Collectors.toMap(OnlyofficeEditorPostProcessor::postprocessorName, Function.identity()));
-        return new OnlyofficeSequentialEditorRunner(editorProcessor, preProcessors, postProcessors);
+        return new OnlyofficeSequentialEditorRunner(editorProcessor, editorPreProcessors, editorPostProcessors);
     }
 
     @ConditionalOnMissingBean(value = OnlyofficeCallbackRunner.class)
@@ -168,11 +141,7 @@ public class OnlyofficeCoreSpringConfiguration {
             List<OnlyofficeCallbackPreProcessor> callbackPreProcessors,
             List<OnlyofficeCallbackPostProcessor> callbackPostProcessors
     ) {
-        Map<String, OnlyofficeCallbackPreProcessor> preProcessors = callbackPreProcessors.stream()
-                .collect(Collectors.toMap(OnlyofficeCallbackPreProcessor::preprocessorName, Function.identity()));
-        Map<String, OnlyofficeCallbackPostProcessor> postProcessors = callbackPostProcessors.stream()
-                .collect(Collectors.toMap(OnlyofficeCallbackPostProcessor::postprocessorName, Function.identity()));
-        return new OnlyofficeSequentialCallbackRunner(callbackProcessor, preProcessors, postProcessors);
+        return new OnlyofficeSequentialCallbackRunner(callbackProcessor, callbackPreProcessors, callbackPostProcessors);
     }
 
     @Bean
