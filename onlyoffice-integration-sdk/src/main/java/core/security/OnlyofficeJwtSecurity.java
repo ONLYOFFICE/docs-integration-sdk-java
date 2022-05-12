@@ -1,10 +1,12 @@
 package core.security;
 
+import com.auth0.jwt.interfaces.Claim;
 import exception.OnlyofficeJwtDecodingRuntimeException;
 import exception.OnlyofficeJwtSigningRuntimeException;
 import exception.OnlyofficeJwtVerificationRuntimeException;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.Optional;
 
 public interface OnlyofficeJwtSecurity {
@@ -34,16 +36,18 @@ public interface OnlyofficeJwtSecurity {
      *
      * @param token
      * @param secret
+     * @return
      * @throws OnlyofficeJwtVerificationRuntimeException
      */
-    void verify(String token, String secret) throws OnlyofficeJwtVerificationRuntimeException;
+    Map<String, Claim> verify(String token, String secret) throws OnlyofficeJwtVerificationRuntimeException;
 
     /**
      *
      * @param token
+     * @return
      * @throws OnlyofficeJwtDecodingRuntimeException
      */
-    void decode(String token) throws OnlyofficeJwtDecodingRuntimeException;
+    Map<String, Claim> decode(String token) throws OnlyofficeJwtDecodingRuntimeException;
 
     /**
      *

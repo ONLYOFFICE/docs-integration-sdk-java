@@ -67,15 +67,17 @@ public class OnlyofficeJwtSecurityManager implements OnlyofficeJwtSecurity {
      *
      * @param token
      * @param secret
+     * @return
      * @throws OnlyofficeJwtVerificationRuntimeException
      */
-    public void verify(String token, String secret) throws OnlyofficeJwtVerificationRuntimeException {
+    public Map<String, Claim> verify(String token, String secret) throws OnlyofficeJwtVerificationRuntimeException {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
-            JWT.require(algorithm)
+            return JWT.require(algorithm)
                     .acceptLeeway(2)
                     .build()
-                    .verify(token);
+                    .verify(token)
+                    .getClaims();
         } catch (Exception e) {
             throw new OnlyofficeJwtVerificationRuntimeException(e.getMessage());
         }
@@ -86,9 +88,9 @@ public class OnlyofficeJwtSecurityManager implements OnlyofficeJwtSecurity {
      * @param token
      * @throws OnlyofficeJwtDecodingRuntimeException
      */
-    public void decode(String token) throws OnlyofficeJwtDecodingRuntimeException {
+    public Map<String, Claim> decode(String token) throws OnlyofficeJwtDecodingRuntimeException {
         try {
-            JWT.decode(token);
+            return JWT.decode(token).getClaims();
         } catch (Exception e) {
             throw new OnlyofficeJwtDecodingRuntimeException(e.getMessage());
         }
