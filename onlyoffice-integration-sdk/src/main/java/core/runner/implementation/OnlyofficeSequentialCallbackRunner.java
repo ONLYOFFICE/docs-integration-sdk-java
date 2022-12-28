@@ -1,9 +1,9 @@
 package core.runner.implementation;
 
 import core.model.callback.Callback;
+import core.processor.OnlyofficeCallbackPostProcessor;
+import core.processor.OnlyofficeCallbackPreProcessor;
 import core.processor.OnlyofficeCallbackProcessor;
-import core.processor.postprocessor.OnlyofficeCallbackPostProcessor;
-import core.processor.preprocessor.OnlyofficeCallbackPreProcessor;
 import core.runner.OnlyofficeCallbackRunner;
 import exception.OnlyofficeProcessAfterRuntimeException;
 import exception.OnlyofficeProcessBeforeRuntimeException;
@@ -30,20 +30,16 @@ public class OnlyofficeSequentialCallbackRunner implements OnlyofficeCallbackRun
      * @throws OnlyofficeUploaderRuntimeException
      * @throws IOException
      */
-    public Callback run(CallbackRequest request) throws OnlyofficeRunnerRuntimeException, OnlyofficeProcessBeforeRuntimeException, OnlyofficeProcessAfterRuntimeException, OnlyofficeUploaderRuntimeException, IOException {
+    public Callback run(Callback request) throws OnlyofficeRunnerRuntimeException, OnlyofficeProcessBeforeRuntimeException, OnlyofficeProcessAfterRuntimeException, OnlyofficeUploaderRuntimeException, IOException {
         if (request == null)
-            throw new OnlyofficeRunnerRuntimeException("Expected to get a CallbackRequest instance. Got null");
+            throw new OnlyofficeRunnerRuntimeException("Expected to get a Callback instance. Got null");
 
-        preProcessors.forEach(processor -> {
-            processor.run(request);
-        });
+        this.preProcessors.forEach(processor -> processor.processBefore(request));
 
-        this.callbackProcessor.process(request.getCallback());
+        this.callbackProcessor.process(request);
 
-        postProcessors.forEach(processor -> {
-            processor.run(request);
-        });
+        this.postProcessors.forEach(processor -> processor.processAfter(request));
 
-        return request.getCallback();
+        return request;
     }
 }

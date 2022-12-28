@@ -12,7 +12,7 @@ import java.util.List;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 public class CommentGroup {
-    private List<String> view;
     private List<String> edit;
     private List<String> remove;
+    private List<String> view;
 }

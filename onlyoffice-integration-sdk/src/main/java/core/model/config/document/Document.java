@@ -14,17 +14,16 @@ import javax.validation.constraints.NotBlank;
 @JsonInclude(value = JsonInclude.Include.NON_ABSENT)
 @ToString
 public class Document {
-    @NotBlank(message = "ONLYOFFICE Document config: title can't be blank")
-    @Length(min = 4)
-    private String title;
-    @NotBlank(message = "ONLYOFFICE Document config: url can't be blank")
-//    @Pattern(regexp = "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)")
-    @Length(min = 11)
-    private String url;
     private String fileType;
     @NotBlank(message = "ONLYOFFICE Document config: key can't be blank")
     @Length(min = 4)
     private String key;
+    @NotBlank(message = "ONLYOFFICE Document config: title can't be blank")
+    @Length(min = 4)
+    private String title;
+    @NotBlank(message = "ONLYOFFICE Document config: url can't be blank")
+    @Length(min = 11)
+    private String url;
     private Info info;
     private Permissions permissions;
 }

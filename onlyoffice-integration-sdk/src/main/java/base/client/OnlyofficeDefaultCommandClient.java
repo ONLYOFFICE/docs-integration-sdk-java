@@ -2,11 +2,11 @@ package base.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import core.client.OnlyofficeCommandClient;
-import core.model.Credentials;
 import core.model.command.*;
 import core.model.command.license.request.CommandLicenseRequest;
 import core.model.command.license.response.CommandLicenseResponse;
 import core.model.command.meta.CommandMetaRequest;
+import core.model.common.Credentials;
 import core.security.OnlyofficeJwtSecurity;
 import core.util.OnlyofficeModelValidator;
 import exception.OnlyofficeInvalidParameterRuntimeException;

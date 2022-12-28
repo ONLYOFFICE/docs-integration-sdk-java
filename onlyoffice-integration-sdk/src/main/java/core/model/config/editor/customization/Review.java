@@ -1,6 +1,7 @@
 package core.model.config.editor.customization;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import core.model.config.editor.customization.enums.ReviewDisplay;
 import lombok.*;
 
 @Getter
@@ -12,7 +13,7 @@ import lombok.*;
 public class Review {
     private Boolean hideReviewDisplay;
     private Boolean hoverMode;
-    private String reviewDisplay;
+    private ReviewDisplay reviewDisplay;
     private Boolean showReviewChanges;
     private Boolean trackChanges;
 }

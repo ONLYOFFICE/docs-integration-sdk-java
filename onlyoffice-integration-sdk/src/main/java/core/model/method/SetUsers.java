@@ -1,7 +1,7 @@
 package core.model.method;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import core.model.User;
+import core.model.common.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

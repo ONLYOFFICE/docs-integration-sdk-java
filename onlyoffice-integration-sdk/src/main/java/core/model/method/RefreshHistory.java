@@ -12,7 +12,7 @@ import java.util.List;
 @ToString
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 public class RefreshHistory {
-    private final int currentVersion;
+    private final Integer currentVersion;
     private final List<History> history;
     @Setter
     private String error;

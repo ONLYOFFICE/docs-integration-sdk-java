@@ -11,7 +11,7 @@ import lombok.*;
 public class HistoryData {
     private final String key;
     private final String url;
-    private final int version;
+    private final Integer version;
 
     @Setter
     private PreviousHistoryData previous;

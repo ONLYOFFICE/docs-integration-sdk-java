@@ -5,11 +5,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import core.model.config.document.Document;
 import core.model.config.editor.Editor;
 import lombok.*;
+import org.json.JSONObject;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.HashMap;
-import java.util.Map;
 
 @Getter
 @Setter
@@ -24,8 +23,6 @@ public class Config {
     private String type;
     private String documentType;
     private String token;
-    @JsonIgnore
-    private String secret;
     @NotNull(message = "ONLYOFFICE Config: document configuration can't be null")
     @Valid
     @Builder.Default
@@ -36,5 +33,6 @@ public class Config {
     private Editor editorConfig = new Editor();
     @JsonIgnore
     @Builder.Default
-    private Map<String, Object> custom = new HashMap<>();
+    @Setter(value = AccessLevel.NONE)
+    private JSONObject extras = new JSONObject();
 }

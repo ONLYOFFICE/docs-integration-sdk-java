@@ -38,7 +38,6 @@ public class ConverterRequest {
     private String title;
     @Setter
     private String token;
-//    @Pattern(regexp = "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)")
     @Length(min = 11)
     private String url;
 }

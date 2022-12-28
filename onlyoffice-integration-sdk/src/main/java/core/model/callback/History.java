@@ -1,7 +1,7 @@
 package core.model.callback;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import core.model.User;
+import core.model.common.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

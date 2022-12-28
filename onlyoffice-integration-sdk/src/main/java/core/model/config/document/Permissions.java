@@ -14,19 +14,21 @@ import java.util.List;
 @ToString
 public class Permissions {
     private Boolean changeHistory;
+    private Boolean chat;
     private Boolean comment;
+    private List<CommentGroup> commentGroups;
     private Boolean copy;
     private Boolean deleteCommentAuthorOnly;
     private Boolean download;
     private Boolean edit;
     private Boolean editCommentAuthorOnly;
-    private Boolean print;
     private Boolean fillForms;
-    private Boolean modifyFilter;
     private Boolean modifyContentControl;
+    private Boolean modifyFilter;
+    private Boolean print;
     private Boolean protect;
     private Boolean rename;
     private Boolean review;
     private List<String> reviewGroups;
-    private List<CommentGroup> commentGroups;
+    private List<String> userInfoGroups;
 }

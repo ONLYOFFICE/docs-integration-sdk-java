@@ -20,7 +20,7 @@ public class ConverterAsyncResponse {
         this.address = address;
     }
 
-    public synchronized ConverterResponse get() throws IOException {
+    public ConverterResponse get() throws IOException {
         return this.mapper.readValue(Request.post(address)
                 .connectTimeout(Timeout.of(1, TimeUnit.SECONDS))
                 .responseTimeout(Timeout.of(1, TimeUnit.SECONDS))
@@ -29,7 +29,7 @@ public class ConverterAsyncResponse {
                 .execute().returnContent().asString(), ConverterResponse.class);
     }
 
-    public synchronized ConverterResponse getNow() throws IOException, InterruptedException {
+    public ConverterResponse getNow() throws IOException, InterruptedException {
         if (this.response != null && this.response.getEndConvert()) return this.response;
         ConverterResponse response = this.get();
 

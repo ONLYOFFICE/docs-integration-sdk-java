@@ -3,7 +3,7 @@ package base.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import core.client.OnlyofficeConverterClient;
-import core.model.Credentials;
+import core.model.common.Credentials;
 import core.model.converter.request.ConverterRequest;
 import core.model.converter.response.ConverterAsyncResponse;
 import core.model.converter.response.ConverterResponse;

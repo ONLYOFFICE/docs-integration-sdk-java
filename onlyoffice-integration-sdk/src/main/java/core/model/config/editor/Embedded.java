@@ -14,5 +14,5 @@ public class Embedded {
     private String fullscreenUrl;
     private String saveUrl;
     private String shareUrl;
-    private String toolbarDocked;
+    private Toolbar toolbarDocked;
 }

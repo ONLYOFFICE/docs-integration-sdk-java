@@ -16,7 +16,8 @@ public class Customer {
     private String info;
     private String logo;
     private String logoDark;
-    private String main;
+    private String mail;
     private String name;
+    private String phone;
     private String www;
 }

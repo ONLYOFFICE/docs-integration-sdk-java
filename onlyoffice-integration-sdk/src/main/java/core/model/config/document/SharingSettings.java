@@ -11,6 +11,6 @@ import lombok.*;
 @JsonInclude(value = JsonInclude.Include.NON_ABSENT)
 public class SharingSettings {
     private Boolean isLink;
-    private String permissions;
+    private SharingSettingsPermission permissions;
     private String user;
 }

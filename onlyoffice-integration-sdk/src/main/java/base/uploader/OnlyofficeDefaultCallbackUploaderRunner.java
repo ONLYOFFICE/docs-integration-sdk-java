@@ -10,13 +10,15 @@ import exception.OnlyofficeUploaderRuntimeException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class OnlyofficeDefaultCallbackUploaderRunner implements OnlyofficeUploaderRunner<Callback> {
     private List<OnlyofficeUploader<Callback>> uploaders;
 
     public OnlyofficeDefaultCallbackUploaderRunner(List<OnlyofficeUploader<Callback>> uploaders) {
-        this.uploaders = uploaders;
+        this.uploaders = uploaders.stream().collect(Collectors.toCollection(ArrayList::new));
         this.uploaders.sort(
                 (u1, u2) -> u1.getUploaderType().equals(u2.getUploaderType()) ? 0 : u1.getUploaderType().equals(OnlyofficeUploaderType.FILE) ? - 1 : 1
         );
@@ -53,13 +55,14 @@ public class OnlyofficeDefaultCallbackUploaderRunner implements OnlyofficeUpload
      * @param url
      * @param callback
      * @param uploader
+     * @throws OnlyofficeRunnerRuntimeException
      * @throws IOException
      */
-    private void doBasicUpload(URL url, Callback callback, OnlyofficeUploader<Callback> uploader) throws IOException {
+    private void doBasicUpload(URL url, Callback callback, OnlyofficeUploader<Callback> uploader) throws OnlyofficeRunnerRuntimeException, IOException {
         try (InputStream inputStream = url.openStream()) {
             uploader.upload(callback, inputStream);
         } catch (Exception e) {
-            throw new IOException(e.getMessage());
+            throw e;
         }
     }
 }

@@ -3,6 +3,7 @@ package core.model.callback;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,39 +15,26 @@ import java.util.Map;
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Callback {
-    private String filetype;
-    private String url;
-    private String key;
+    private List<Action> actions;
+    private List<ChangesHistory> changeshistory;
     private String changesurl;
+    private String filetype;
+    private Integer forcesavetype;
     private History history;
+    private String key;
+    private Integer status;
+    private String url;
+    private String userdata;
+    private List<String> users;
     @Setter(AccessLevel.NONE)
     private String token;
     @JsonIgnore
-    @Setter(AccessLevel.NONE)
-    private String secret;
-    private Integer forcesavetype;
-    private Integer status;
-    private List<String> users;
-    private List<Action> actions;
-    private String userdata;
-    private String lastsave;
-    private Boolean notmodified;
-    @JsonIgnore
     @Builder.Default
-    private Map<String, Object> custom = new HashMap<>();
+    @Setter(AccessLevel.NONE)
+    private JSONObject extras = new JSONObject();
 
     public Callback setToken(String token) {
         this.token = token;
-        return this;
-    }
-
-    public Callback setSecret(String secret) {
-        this.secret = secret;
-        return this;
-    }
-
-    public Callback setCustom(Map<String, Object> custom) {
-        this.custom = custom;
         return this;
     }
 }

@@ -1,9 +1,9 @@
 package core.runner.implementation;
 
 import core.model.config.Config;
+import core.processor.OnlyofficeEditorPostProcessor;
+import core.processor.OnlyofficeEditorPreProcessor;
 import core.processor.OnlyofficeEditorProcessor;
-import core.processor.postprocessor.OnlyofficeEditorPostProcessor;
-import core.processor.preprocessor.OnlyofficeEditorPreProcessor;
 import core.runner.OnlyofficeEditorRunner;
 import exception.OnlyofficeProcessAfterRuntimeException;
 import exception.OnlyofficeProcessBeforeRuntimeException;
@@ -30,20 +30,16 @@ public class OnlyofficeSequentialEditorRunner implements OnlyofficeEditorRunner 
      * @throws OnlyofficeUploaderRuntimeException
      * @throws IOException
      */
-    public Config run(ConfigRequest request) throws OnlyofficeRunnerRuntimeException, OnlyofficeProcessBeforeRuntimeException, OnlyofficeProcessAfterRuntimeException, OnlyofficeUploaderRuntimeException, IOException {
+    public Config run(Config request) throws OnlyofficeRunnerRuntimeException, OnlyofficeProcessBeforeRuntimeException, OnlyofficeProcessAfterRuntimeException, OnlyofficeUploaderRuntimeException, IOException {
         if (request == null)
-            throw new OnlyofficeRunnerRuntimeException("Expected to get a ConfigRequest instance. Got null");
+            throw new OnlyofficeRunnerRuntimeException("Expected to get a Config instance. Got null");
 
-        preProcessors.forEach(processor -> {
-            processor.run(request);
-        });
+        preProcessors.forEach(processor -> processor.processBefore(request));
 
-        this.editorProcessor.process(request.getConfig());
+        this.editorProcessor.process(request);
 
-        postProcessors.forEach(processor -> {
-            processor.run(request);
-        });
+        postProcessors.forEach(processor -> processor.processAfter(request));
 
-        return request.getConfig();
+        return request;
     }
 }

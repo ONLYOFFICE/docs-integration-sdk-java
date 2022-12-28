@@ -7,13 +7,16 @@ import exception.OnlyofficeUploaderRuntimeException;
 
 import java.io.IOException;
 
-interface OnlyofficeRunner<M, R> {
+interface OnlyofficeRunner<M> {
     /**
      *
      * @param model
+     * @return
      * @throws OnlyofficeRunnerRuntimeException
+     * @throws OnlyofficeProcessBeforeRuntimeException
+     * @throws OnlyofficeProcessAfterRuntimeException
      * @throws OnlyofficeUploaderRuntimeException
      * @throws IOException
      */
-    R run(M model) throws OnlyofficeRunnerRuntimeException, OnlyofficeProcessBeforeRuntimeException, OnlyofficeProcessAfterRuntimeException, OnlyofficeUploaderRuntimeException, IOException;
+    M run(M model) throws OnlyofficeRunnerRuntimeException, OnlyofficeProcessBeforeRuntimeException, OnlyofficeProcessAfterRuntimeException, OnlyofficeUploaderRuntimeException, IOException;
 }

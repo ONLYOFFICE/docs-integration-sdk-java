@@ -10,6 +10,6 @@ import lombok.*;
 @AllArgsConstructor
 @JsonInclude(value = JsonInclude.Include.NON_ABSENT)
 public class CoEditing {
-    private String mode;
+    private CoEditingMode mode;
     private Boolean change;
 }

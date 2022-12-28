@@ -1,10 +1,10 @@
 package core.client;
 
-import core.model.Credentials;
 import core.model.command.*;
 import core.model.command.license.request.CommandLicenseRequest;
 import core.model.command.license.response.CommandLicenseResponse;
 import core.model.command.meta.CommandMetaRequest;
+import core.model.common.Credentials;
 import exception.OnlyofficeInvalidParameterRuntimeException;
 
 import java.io.IOException;
