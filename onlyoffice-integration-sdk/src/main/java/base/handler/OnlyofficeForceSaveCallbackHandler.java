@@ -2,24 +2,23 @@ package base.handler;
 
 import core.model.callback.Callback;
 import core.registry.OnlyofficeCallbackHandler;
-import core.registry.OnlyofficeCallbackRegistry;
 import core.uploader.OnlyofficeUploaderRunner;
 import exception.OnlyofficeCallbackRuntimeException;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class OnlyofficeForceSaveCallbackHandler implements OnlyofficeCallbackHandler {
     private final OnlyofficeUploaderRunner<Callback> callbackUploaderRunner;
 
     /**
      *
-     * @param registry
      * @param callbackUploaderRunner
      */
-    public OnlyofficeForceSaveCallbackHandler(
-            OnlyofficeCallbackRegistry registry,
-            OnlyofficeUploaderRunner<Callback> callbackUploaderRunner
-    ) {
+    @Inject
+    public OnlyofficeForceSaveCallbackHandler(OnlyofficeUploaderRunner<Callback> callbackUploaderRunner) {
         this.callbackUploaderRunner = callbackUploaderRunner;
-        registry.register(this);
     }
 
     /**

@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class OnlyofficeCallbackJwtPreProcessor implements OnlyofficeCallbackPreProcessor {
     private final OnlyofficeJwtSecurity jwtManager;
-    private final String jwtSecret;
+    private String jwtSecret;
 
     /**
      *
@@ -25,5 +25,9 @@ public class OnlyofficeCallbackJwtPreProcessor implements OnlyofficeCallbackPreP
         } catch (Exception e) {
             throw new OnlyofficeProcessBeforeRuntimeException(e.getMessage(), e);
         }
+    }
+
+    public void setJwtSecret(String jwtSecret) {
+        this.jwtSecret = jwtSecret;
     }
 }

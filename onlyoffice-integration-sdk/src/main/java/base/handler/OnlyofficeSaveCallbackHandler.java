@@ -6,20 +6,20 @@ import core.registry.OnlyofficeCallbackRegistry;
 import core.uploader.OnlyofficeUploaderRunner;
 import exception.OnlyofficeCallbackRuntimeException;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class OnlyofficeSaveCallbackHandler implements OnlyofficeCallbackHandler {
     private final OnlyofficeUploaderRunner<Callback> callbackUploaderRunner;
 
     /**
      *
-     * @param registry
      * @param callbackUploaderRunner
      */
-    public OnlyofficeSaveCallbackHandler(
-            OnlyofficeCallbackRegistry registry,
-            OnlyofficeUploaderRunner<Callback> callbackUploaderRunner
-    ) {
+    @Inject
+    public OnlyofficeSaveCallbackHandler(OnlyofficeUploaderRunner<Callback> callbackUploaderRunner) {
         this.callbackUploaderRunner = callbackUploaderRunner;
-        registry.register(this);
     }
 
     /**
