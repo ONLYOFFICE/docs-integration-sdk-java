@@ -14,15 +14,17 @@ import static org.junit.jupiter.api.Assertions.*;
 public class OnlyofficeEditorJwtPostProcessorTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final OnlyofficeJwtSecurity jwtSecurity = new OnlyofficeJwtSecurityManager(objectMapper);
-    private final OnlyofficeEditorPostProcessor editorPostProcessor = new OnlyofficeEditorJwtPostProcessor(jwtSecurity, "secret");
+    private final OnlyofficeEditorPostProcessor editorPostProcessor = new OnlyofficeEditorJwtPostProcessor(jwtSecurity);
 
     @Test
     public void processNullConfigTest() {
+        editorPostProcessor.setJwtSecret("secret");
         assertThrows(OnlyofficeProcessAfterRuntimeException.class, () -> this.editorPostProcessor.processAfter(null));
     }
 
     @Test
     public void processEmptyConfigTest() {
+        editorPostProcessor.setJwtSecret("secret");
         assertDoesNotThrow(() -> this.editorPostProcessor.processAfter(
                 Config
                         .builder()
@@ -32,6 +34,7 @@ public class OnlyofficeEditorJwtPostProcessorTest {
 
     @Test
     public void processConfigTest() {
+        editorPostProcessor.setJwtSecret("secret");
         Config c = Config
                     .builder()
                     .type("asdc")

@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -30,11 +30,11 @@ public class OnlyofficeSequentialCallbackRunnerTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final OnlyofficeJwtSecurityManager jwtManager = new OnlyofficeJwtSecurityManager(objectMapper);
     private final OnlyofficeCallbackProcessor callbackProcessor = new OnlyofficeCallbackProcessor(callbackRegistry);
-    private final OnlyofficeCallbackPreProcessor callbackOnlyofficePreProcessor = new OnlyofficeCallbackJwtPreProcessor(jwtManager, "secret");
+    private final OnlyofficeCallbackPreProcessor callbackOnlyofficePreProcessor = new OnlyofficeCallbackJwtPreProcessor(jwtManager);
     private final OnlyofficeSequentialCallbackRunner callbackRunner = new OnlyofficeSequentialCallbackRunner(
             callbackProcessor,
-            List.of(callbackOnlyofficePreProcessor),
-            List.of()
+            Set.of(callbackOnlyofficePreProcessor),
+            Set.of()
     );
 
     @BeforeEach
@@ -60,11 +60,13 @@ public class OnlyofficeSequentialCallbackRunnerTest {
 
     @Test
     public void runNullCallbackRequestTest() {
+        callbackOnlyofficePreProcessor.setJwtSecret("secret");
         assertThrows(OnlyofficeRunnerRuntimeException.class, () -> this.callbackRunner.run(null));
     }
 
     @Test
     public void runEmptyCallbackRequestTest() {
+        callbackOnlyofficePreProcessor.setJwtSecret("secret");
         assertThrows(OnlyofficeProcessRuntimeException.class, () -> this.callbackRunner.run(
                 Callback
                         .builder()
@@ -75,6 +77,7 @@ public class OnlyofficeSequentialCallbackRunnerTest {
     @Test
     @SneakyThrows
     public void runFullValidJwtTest() {
+        callbackOnlyofficePreProcessor.setJwtSecret("secret");
         Date expiresAt = java.sql.Date.valueOf(LocalDate.now().plusDays(1));
         String token = this.jwtManager.sign(Callback.builder().filetype("type").build(), "secret", expiresAt).get();
         Callback callback = Callback

@@ -18,7 +18,7 @@ import exception.OnlyofficeRunnerRuntimeException;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,15 +28,16 @@ public class OnlyofficeSequentialEditorRunnerTest {
     private final OnlyofficeFile onlyofficeFile = new OnlyofficeFileUtil();
     private final OnlyofficeConfig configUtil = new OnlyofficeConfigUtil(onlyofficeFile);
     private final OnlyofficeEditorProcessor onlyofficeDefaultEditorProcessor = new OnlyofficeEditorProcessor(configUtil);
-    private final OnlyofficeEditorPostProcessor configOnlyofficePostProcessor = new OnlyofficeEditorJwtPostProcessor(jwtSecurity, "secret");
+    private OnlyofficeEditorPostProcessor configOnlyofficePostProcessor = new OnlyofficeEditorJwtPostProcessor(jwtSecurity);
     private final OnlyofficeEditorRunner onlyofficeDefaultEditorRunner = new OnlyofficeSequentialEditorRunner(
             onlyofficeDefaultEditorProcessor,
-            List.of(),
-            List.of(configOnlyofficePostProcessor)
+            Set.of(),
+            Set.of(configOnlyofficePostProcessor)
     );
 
     @Test
     public void runNullRequestTest() {
+        configOnlyofficePostProcessor.setJwtSecret("secret");
         assertThrows(OnlyofficeRunnerRuntimeException.class, () -> this.onlyofficeDefaultEditorRunner.run(null));
     }
 
@@ -59,6 +60,7 @@ public class OnlyofficeSequentialEditorRunnerTest {
                 .document(doc)
                 .editorConfig(editor)
                 .build();
+        configOnlyofficePostProcessor.setJwtSecret("secret");
         this.onlyofficeDefaultEditorRunner.run(config);
         assertNotNull(config);
         assertNotNull(config.getToken());

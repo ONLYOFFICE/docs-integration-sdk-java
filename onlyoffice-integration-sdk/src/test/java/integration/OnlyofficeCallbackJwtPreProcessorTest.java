@@ -14,10 +14,11 @@ import static org.junit.jupiter.api.Assertions.*;
 public class OnlyofficeCallbackJwtPreProcessorTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final OnlyofficeJwtSecurity jwtSecurity = new OnlyofficeJwtSecurityManager(objectMapper);
-    private final OnlyofficeCallbackPreProcessor callbackOnlyofficePreProcessor = new OnlyofficeCallbackJwtPreProcessor(jwtSecurity, "secret");
+    private final OnlyofficeCallbackPreProcessor callbackOnlyofficePreProcessor = new OnlyofficeCallbackJwtPreProcessor(jwtSecurity);
 
     @Test
     public void processNullCallbackTest() {
+        callbackOnlyofficePreProcessor.setJwtSecret("secret");
         assertThrows(OnlyofficeProcessBeforeRuntimeException.class, () -> this.callbackOnlyofficePreProcessor.processBefore(null));
     }
 
