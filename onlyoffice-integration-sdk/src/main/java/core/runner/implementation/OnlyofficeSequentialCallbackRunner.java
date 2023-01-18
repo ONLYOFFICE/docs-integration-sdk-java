@@ -9,16 +9,26 @@ import exception.OnlyofficeProcessAfterRuntimeException;
 import exception.OnlyofficeProcessBeforeRuntimeException;
 import exception.OnlyofficeRunnerRuntimeException;
 import exception.OnlyofficeUploaderRuntimeException;
-import lombok.RequiredArgsConstructor;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.IOException;
-import java.util.List;
+import java.util.Set;
 
-@RequiredArgsConstructor
+@Singleton
 public class OnlyofficeSequentialCallbackRunner implements OnlyofficeCallbackRunner {
     private final OnlyofficeCallbackProcessor callbackProcessor;
-    private final List<OnlyofficeCallbackPreProcessor> preProcessors;
-    private final List<OnlyofficeCallbackPostProcessor> postProcessors;
+    private final Set<OnlyofficeCallbackPreProcessor> preProcessors;
+    private final Set<OnlyofficeCallbackPostProcessor> postProcessors;
+
+    @Inject
+    public OnlyofficeSequentialCallbackRunner(OnlyofficeCallbackProcessor callbackProcessor,
+                                              Set<OnlyofficeCallbackPreProcessor> preProcessors,
+                                              Set<OnlyofficeCallbackPostProcessor> postProcessors) {
+        this.callbackProcessor = callbackProcessor;
+        this.preProcessors = preProcessors;
+        this.postProcessors = postProcessors;
+    }
 
     /**
      *

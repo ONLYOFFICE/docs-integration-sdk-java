@@ -6,9 +6,11 @@ import core.registry.OnlyofficeCallbackRegistry;
 import exception.OnlyofficeRegistryHandlerRuntimeException;
 import exception.OnlyofficeRegistryRuntimeException;
 
+import javax.inject.Singleton;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Singleton
 public class OnlyofficeDefaultCallbackRegistry implements OnlyofficeCallbackRegistry {
     private Map<Integer, OnlyofficeCallbackHandler> callbackHandlers = new ConcurrentHashMap<>();
 

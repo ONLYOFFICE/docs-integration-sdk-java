@@ -4,10 +4,12 @@ import core.model.converter.format.DocumentType;
 import core.util.OnlyofficeFile;
 import exception.OnlyofficeInvalidParameterRuntimeException;
 
+import javax.inject.Singleton;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Singleton
 public class OnlyofficeFileUtil implements OnlyofficeFile {
     private Set<String> editable = Stream.of("docx", "pptx", "xlsx")
             .collect(Collectors.toSet());

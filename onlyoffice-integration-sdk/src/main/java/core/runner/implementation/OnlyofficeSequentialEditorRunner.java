@@ -11,14 +11,26 @@ import exception.OnlyofficeRunnerRuntimeException;
 import exception.OnlyofficeUploaderRuntimeException;
 import lombok.RequiredArgsConstructor;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
-@RequiredArgsConstructor
+@Singleton
 public class OnlyofficeSequentialEditorRunner implements OnlyofficeEditorRunner {
     private final OnlyofficeEditorProcessor editorProcessor;
-    private final List<OnlyofficeEditorPreProcessor> preProcessors;
-    private final List<OnlyofficeEditorPostProcessor> postProcessors;
+    private final Set<OnlyofficeEditorPreProcessor> preProcessors;
+    private final Set<OnlyofficeEditorPostProcessor> postProcessors;
+
+    @Inject
+    public OnlyofficeSequentialEditorRunner(OnlyofficeEditorProcessor editorProcessor,
+                                            Set<OnlyofficeEditorPreProcessor> preProcessors,
+                                            Set<OnlyofficeEditorPostProcessor> postProcessors) {
+        this.editorProcessor = editorProcessor;
+        this.preProcessors = preProcessors;
+        this.postProcessors = postProcessors;
+    }
 
     /**
      *

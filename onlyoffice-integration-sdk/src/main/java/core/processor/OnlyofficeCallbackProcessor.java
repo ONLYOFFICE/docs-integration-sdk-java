@@ -7,9 +7,17 @@ import exception.OnlyofficeInvalidParameterRuntimeException;
 import exception.OnlyofficeProcessRuntimeException;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public final class OnlyofficeCallbackProcessor implements OnlyofficeProcessor<Callback> {
     private final OnlyofficeCallbackRegistry callbackRegistry;
+
+    @Inject
+    public OnlyofficeCallbackProcessor(OnlyofficeCallbackRegistry callbackRegistry) {
+        this.callbackRegistry = callbackRegistry;
+    }
 
     /**
      *

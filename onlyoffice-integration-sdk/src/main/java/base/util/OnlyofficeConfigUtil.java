@@ -9,9 +9,17 @@ import core.util.OnlyofficeFile;
 import exception.OnlyofficeInvalidParameterRuntimeException;
 import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class OnlyofficeConfigUtil implements OnlyofficeConfig {
     private OnlyofficeFile fileUtil;
+
+    @Inject
+    public OnlyofficeConfigUtil(OnlyofficeFile fileUtil) {
+        this.fileUtil = fileUtil;
+    }
 
     /**
      *

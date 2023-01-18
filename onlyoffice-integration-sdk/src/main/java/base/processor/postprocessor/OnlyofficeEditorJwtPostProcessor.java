@@ -6,18 +6,24 @@ import core.security.OnlyofficeJwtSecurity;
 import exception.OnlyofficeInvalidParameterRuntimeException;
 import exception.OnlyofficeProcessAfterRuntimeException;
 import exception.OnlyofficeProcessRuntimeException;
-import lombok.RequiredArgsConstructor;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
-@RequiredArgsConstructor
+@Singleton
 public class OnlyofficeEditorJwtPostProcessor implements OnlyofficeEditorPostProcessor {
     private final OnlyofficeJwtSecurity jwtManager;
     private String jwtSecret;
+
+    @Inject
+    public OnlyofficeEditorJwtPostProcessor(OnlyofficeJwtSecurity jwtManager) {
+        this.jwtManager = jwtManager;
+    }
 
     /**
      *

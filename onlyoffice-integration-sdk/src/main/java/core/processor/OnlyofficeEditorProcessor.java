@@ -7,9 +7,17 @@ import exception.OnlyofficeInvalidParameterRuntimeException;
 import exception.OnlyofficeProcessRuntimeException;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public final class OnlyofficeEditorProcessor implements OnlyofficeProcessor<Config> {
     private final OnlyofficeConfig configUtil;
+
+    @Inject
+    public OnlyofficeEditorProcessor(OnlyofficeConfig configUtil) {
+        this.configUtil = configUtil;
+    }
 
     /**
      *

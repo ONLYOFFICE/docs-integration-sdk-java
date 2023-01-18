@@ -7,10 +7,18 @@ import exception.OnlyofficeInvalidParameterRuntimeException;
 import exception.OnlyofficeProcessBeforeRuntimeException;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class OnlyofficeCallbackJwtPreProcessor implements OnlyofficeCallbackPreProcessor {
     private final OnlyofficeJwtSecurity jwtManager;
     private String jwtSecret;
+
+    @Inject
+    public OnlyofficeCallbackJwtPreProcessor(OnlyofficeJwtSecurity jwtManager) {
+        this.jwtManager = jwtManager;
+    }
 
     /**
      *
