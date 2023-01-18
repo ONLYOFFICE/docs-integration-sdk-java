@@ -17,7 +17,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class OnlyofficeEditorJwtPostProcessor implements OnlyofficeEditorPostProcessor {
     private final OnlyofficeJwtSecurity jwtManager;
-    private final String jwtSecret;
+    private String jwtSecret;
 
     /**
      *
@@ -36,5 +36,9 @@ public class OnlyofficeEditorJwtPostProcessor implements OnlyofficeEditorPostPro
         } catch (Exception e) {
             throw new OnlyofficeProcessAfterRuntimeException(e.getMessage(), e);
         }
+    }
+
+    public void setJwtSecret(String jwtSecret) {
+        this.jwtSecret = jwtSecret;
     }
 }
