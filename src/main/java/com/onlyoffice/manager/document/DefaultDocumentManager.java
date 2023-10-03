@@ -41,7 +41,7 @@ import java.util.Locale;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DefaultDocumentManager implements DocumentManager {
+public abstract class DefaultDocumentManager implements DocumentManager {
     private static final int DEFAULT_MAX_FILE_SIZE = 5242880;
     private SettingsManager settingsManager;
     private static List<Format> formats;
@@ -54,14 +54,9 @@ public class DefaultDocumentManager implements DocumentManager {
         return formats;
     }
 
-    public String getDocumentKey(final String fileId, boolean embedded) {
-        return String.valueOf(fileId.hashCode());
-    }
+    public abstract String getDocumentKey(final String fileId, boolean embedded);
 
-    public String getDocumentName(final String fileId) {
-        return null;
-    }
-
+    public abstract String getDocumentName(final String fileId);
 
     public String getExtension(final String fileName) {
         return FilenameUtils.getExtension(fileName).toLowerCase();
