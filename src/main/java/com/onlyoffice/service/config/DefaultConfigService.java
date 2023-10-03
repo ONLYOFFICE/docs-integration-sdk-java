@@ -92,7 +92,7 @@ public class DefaultConfigService implements ConfigService {
                 .plugins(getPlugins(null))
                 .build();
 
-        if (permissions.getEdit()) {
+        if (permissions != null && permissions.getEdit()) {
             editorConfig.setCallbackUrl(urlManager.getCallbackUrl(fileId));
         }
 
