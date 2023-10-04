@@ -19,6 +19,7 @@
 package com.onlyoffice.service.settings;
 
 import com.onlyoffice.manager.request.RequestManager;
+import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.manager.url.UrlManager;
 import com.onlyoffice.model.service.CommandServiceErrorCode;
 import com.onlyoffice.model.service.ConvertServiceErrorCode;
@@ -47,9 +48,10 @@ public class DefaultValidationSettingsService implements ValidationSettingsServi
 
     protected RequestManager requestManager;
     protected UrlManager urlManager;
+    protected SettingsManager settingsManager;
 
-    public List<ValidationResult> validateSettings(String url, String secretKey, String jwtHeader) {
-        return null;
+    public ValidationResult checkDocumentServer() throws Exception {
+        return checkDocumentServer(urlManager.getDocumentServerUrl());
     }
 
     public ValidationResult checkDocumentServer(String url) throws Exception {
@@ -75,7 +77,16 @@ public class DefaultValidationSettingsService implements ValidationSettingsServi
         });
     }
 
-    public ValidationResult checkCommandService(String url, String secretKey, String jwtHeader) throws Exception {
+    public ValidationResult checkCommandService() throws Exception {
+        String url = urlManager.getInnerDocumentServerUrl();
+        String secretKey = settingsManager.getSecuritySecret();
+        String jwtHeader = settingsManager.getSecurityHeader();
+        String jwtPrefix = settingsManager.getSecurityPrefix();
+
+        return checkCommandService(url, secretKey, jwtHeader, jwtPrefix);
+    }
+
+    public ValidationResult checkCommandService(String url, String secretKey, String jwtHeader, String jwtPrefix) throws Exception {
         JSONObject body = new JSONObject();
         body.put("c", "version");
 
@@ -85,6 +96,7 @@ public class DefaultValidationSettingsService implements ValidationSettingsServi
                 url,
                 secretKey,
                 jwtHeader,
+                jwtPrefix,
                 new RequestManager.Callback<ValidationResult>() {
                     public ValidationResult doWork(HttpEntity httpEntity) throws IOException {
                         String content = IOUtils.toString(httpEntity.getContent(), "utf-8").trim();
@@ -107,7 +119,16 @@ public class DefaultValidationSettingsService implements ValidationSettingsServi
                 });
     }
 
-    public ValidationResult checkConvertService(String url, String secretKey, String jwtHeader) throws Exception {
+    public ValidationResult checkConvertService() throws Exception {
+        String url = urlManager.getInnerDocumentServerUrl();
+        String secretKey = settingsManager.getSecuritySecret();
+        String jwtHeader = settingsManager.getSecurityHeader();
+        String jwtPrefix = settingsManager.getSecurityPrefix();
+
+        return checkConvertService(url, secretKey, jwtHeader, jwtPrefix);
+    }
+
+    public ValidationResult checkConvertService(String url, String secretKey, String jwtHeader, String jwtPrefix) throws Exception {
         JSONObject body = new JSONObject();
         body.put("async", false);
         body.put("embeddedfonts", true);
@@ -122,6 +143,7 @@ public class DefaultValidationSettingsService implements ValidationSettingsServi
                 url,
                 secretKey,
                 jwtHeader,
+                jwtPrefix,
                 new RequestManager.Callback<ValidationResult>() {
                     public ValidationResult doWork(HttpEntity httpEntity) throws Exception {
                         String content = IOUtils.toString(httpEntity.getContent(), "utf-8").trim();

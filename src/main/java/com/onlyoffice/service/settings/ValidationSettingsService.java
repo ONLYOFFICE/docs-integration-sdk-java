@@ -23,8 +23,10 @@ import com.onlyoffice.model.settings.validation.ValidationResult;
 import java.util.List;
 
 public interface ValidationSettingsService {
-    List<ValidationResult> validateSettings(String url, String secretKey, String jwtHeader);
+    ValidationResult checkDocumentServer() throws Exception;
     ValidationResult checkDocumentServer(String url) throws Exception;
-    ValidationResult checkCommandService(String url, String secretKey, String jwtHeader) throws Exception;
-    ValidationResult checkConvertService(String url, String secretKey, String jwtHeader) throws Exception;
+    ValidationResult checkCommandService() throws Exception;
+    ValidationResult checkCommandService(String url, String secretKey, String jwtHeader, String jwtPrefix) throws Exception;
+    ValidationResult checkConvertService() throws Exception;
+    ValidationResult checkConvertService(String url, String secretKey, String jwtHeader, String jwtPrefix) throws Exception;
 }

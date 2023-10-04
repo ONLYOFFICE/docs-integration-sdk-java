@@ -27,7 +27,7 @@ public interface RequestManager {
     <R> R executeGetRequest(String url, Callback<R> callback) throws Exception;
     <R> R executePostRequest(Service service, JSONObject data, Callback<R> callback) throws Exception;
     <R> R executePostRequest(Service service, JSONObject data, String url, String secretKey, String jwtHeader,
-                                    Callback<R> callback) throws Exception;
+                             String jwtPrefix, Callback<R> callback) throws Exception;
     <R> R executeRequest(Service service, HttpUriRequest request, Callback<R> callback)
             throws Exception;
     interface Callback<Result> {

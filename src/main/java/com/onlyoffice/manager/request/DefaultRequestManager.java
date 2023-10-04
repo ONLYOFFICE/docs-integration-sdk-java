@@ -73,12 +73,13 @@ public class DefaultRequestManager implements RequestManager {
         String url = urlManager.getInnerDocumentServerUrl();
         String secretKey = settingsManager.getSecuritySecret();
         String jwtHeader = settingsManager.getSecurityHeader();
+        String jwtPrefix = settingsManager.getSecurityPrefix();
 
-        return executePostRequest(service, data, url, secretKey, jwtHeader, callback);
+        return executePostRequest(service, data, url, secretKey, jwtHeader, jwtPrefix, callback);
     }
 
     public <R> R executePostRequest(Service service, JSONObject data, String url, String secretKey, String jwtHeader,
-                                    Callback<R> callback) throws Exception {
+                                    String jwtPrefix, Callback<R> callback) throws Exception {
         HttpPost request = new HttpPost(urlManager.sanitizeUrl(url) + service.path);
 
         if (secretKey != null && !secretKey.isEmpty()) {
@@ -90,7 +91,7 @@ public class DefaultRequestManager implements RequestManager {
             String headerToken = jwtManager.createToken(data, secretKey);
 
             data.put("token", token);
-            request.setHeader(jwtHeader, "Bearer " + headerToken);
+            request.setHeader(jwtHeader, jwtPrefix + headerToken);
         }
 
         StringEntity requestEntity = new StringEntity(data.toString(), ContentType.APPLICATION_JSON);
