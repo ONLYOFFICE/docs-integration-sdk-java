@@ -139,7 +139,8 @@ public class DefaultValidationSettingsService implements ValidationSettingsServi
 
                         String fileUrl = result.getString("fileUrl");
 
-                        return requestManager.executeGetRequest(fileUrl, new RequestManager.Callback<ValidationResult>() {
+                        HttpGet request = new HttpGet(fileUrl);
+                        return requestManager.executeRequest(Service.DOCUMENT_SERVER, request, new RequestManager.Callback<ValidationResult>() {
                             @Override
                             public ValidationResult doWork(HttpEntity httpEntity) throws IOException {
                                 byte[] bytes = EntityUtils.toByteArray(httpEntity);
