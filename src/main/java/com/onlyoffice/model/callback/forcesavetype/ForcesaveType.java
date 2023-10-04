@@ -18,7 +18,11 @@
 
 package com.onlyoffice.model.callback.forcesavetype;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public enum ForcesaveType {
     COMMAND_SERVICE(0),
@@ -29,6 +33,19 @@ public enum ForcesaveType {
 
     ForcesaveType(int id) {
         this.id = id;
+    }
+
+    private static final Map<Integer, ForcesaveType> BY_ID = new HashMap<>();
+
+    static {
+        for (ForcesaveType e: values()) {
+            BY_ID.put(e.getId(), e);
+        }
+    }
+
+    @JsonCreator
+    public static ForcesaveType valueOfId(Integer code) {
+        return BY_ID.get(code);
     }
 
     @JsonValue

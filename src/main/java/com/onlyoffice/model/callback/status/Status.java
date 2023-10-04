@@ -18,7 +18,11 @@
 
 package com.onlyoffice.model.callback.status;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public enum Status {
     EDITING(1),
@@ -32,6 +36,19 @@ public enum Status {
 
     Status(int id) {
         this.id = id;
+    }
+
+    private static final Map<Integer, Status> BY_ID = new HashMap<>();
+
+    static {
+        for (Status e: values()) {
+            BY_ID.put(e.getId(), e);
+        }
+    }
+
+    @JsonCreator
+    public static Status valueOfId(Integer code) {
+        return BY_ID.get(code);
     }
 
     @JsonValue
