@@ -19,6 +19,7 @@
 package com.onlyoffice.manager.url;
 
 import com.onlyoffice.manager.settings.SettingsManager;
+import com.onlyoffice.model.settings.SettingsConstants;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -33,7 +34,7 @@ public class DefaultUrlManager implements UrlManager {
          if (settingsManager.isDemoActive()) {
               return sanitizeUrl(settingsManager.getSDKSetting("integration-sdk.demo.url"));
          } else {
-              return sanitizeUrl(settingsManager.getSetting("document-server-url"));
+              return sanitizeUrl(settingsManager.getSetting(SettingsConstants.DOCUMENT_SERVER_URL));
          }
      }
 
@@ -41,7 +42,7 @@ public class DefaultUrlManager implements UrlManager {
           if (settingsManager.isDemoActive()) {
                return sanitizeUrl(settingsManager.getSDKSetting("integration-sdk.demo.url"));
           } else {
-               String documentServerInnerUrl = settingsManager.getSetting("document-server-inner-url");
+               String documentServerInnerUrl = settingsManager.getSetting(SettingsConstants.DOCUMENT_SERVER_INNER_URL);
 
                if (documentServerInnerUrl != null && !documentServerInnerUrl.isEmpty()) {
                     return sanitizeUrl(documentServerInnerUrl);

@@ -18,6 +18,9 @@
 
 package com.onlyoffice.manager.settings;
 
+
+import com.onlyoffice.model.settings.SettingsConstants;
+
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -63,7 +66,7 @@ public abstract class DefaultSettingsManager implements SettingsManager {
         if (isDemoActive()) {
             return getSDKSetting("integration-sdk.demo.security.secret");
         } else {
-            String secret = getSetting("secret");
+            String secret = getSetting(SettingsConstants.SECURITY_SECRET);
             if (secret == null || secret.isEmpty()) {
                 secret = getSDKSetting("integration-sdk.security.secret");
             }
@@ -80,7 +83,7 @@ public abstract class DefaultSettingsManager implements SettingsManager {
         if (isDemoActive()) {
             return getSDKSetting("integration-sdk.demo.security.header");
         } else {
-            String header = getSetting("header");
+            String header = getSetting(SettingsConstants.SECURITY_HEADER);
             if (header == null || header.isEmpty()) {
                 header = getSDKSetting("integration-sdk.security.header");
             }
@@ -97,7 +100,7 @@ public abstract class DefaultSettingsManager implements SettingsManager {
         if (isDemoActive()) {
             return getSDKSetting("integration-sdk.demo.security.prefix");
         } else {
-            String prefix = getSetting("prefix");
+            String prefix = getSetting(SettingsConstants.SECURITY_PREFIX);
             if (prefix == null || prefix.isEmpty()) {
                 prefix = getSDKSetting("integration-sdk.security.prefix");
             }
@@ -112,7 +115,7 @@ public abstract class DefaultSettingsManager implements SettingsManager {
 
     public Boolean isIgnoreSSLCertificate() {
         if (!isDemoActive()) {
-            String ignoreSSLCertificate = getSetting("ignore-ssl-certificate");
+            String ignoreSSLCertificate = getSetting(SettingsConstants.SECURITY_IGNORE_SSL_CERTIFICATE);
             if (ignoreSSLCertificate == null || ignoreSSLCertificate.isEmpty()) {
                 ignoreSSLCertificate =  getSDKSetting("integration-sdk.security.ignore-ssl-certificate");
             }
@@ -126,12 +129,12 @@ public abstract class DefaultSettingsManager implements SettingsManager {
     }
 
     public Boolean enableDemo() {
-        setSetting("demo", "true");
-        String demoStart = getSetting("demo-start");
+        setSetting(SettingsConstants.DEMO, "true");
+        String demoStart = getSetting(SettingsConstants.DEMO_START);
         if (demoStart == null || demoStart.isEmpty()) {
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             Date date = new Date();
-            setSetting("demo-start", dateFormat.format(date));
+            setSetting(SettingsConstants.DEMO_START, dateFormat.format(date));
             return true;
         } else {
             return false;
@@ -139,7 +142,7 @@ public abstract class DefaultSettingsManager implements SettingsManager {
     }
 
     public Boolean isDemoActive() {
-        String demo = getSetting("demo");
+        String demo = getSetting(SettingsConstants.DEMO);
 
         if (demo == null || demo.isEmpty()) {
             return false;
@@ -147,7 +150,7 @@ public abstract class DefaultSettingsManager implements SettingsManager {
 
         Boolean isDemo = Boolean.parseBoolean(demo);
 
-        String demoStart = getSetting("demo-start");
+        String demoStart = getSetting(SettingsConstants.DEMO_START);
         if (demoStart != null && !demoStart.isEmpty() && isDemo) {
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             try {
@@ -165,7 +168,7 @@ public abstract class DefaultSettingsManager implements SettingsManager {
     }
 
     public Boolean isDemoAvailable() {
-        String demoStart = getSetting("demo-start");
+        String demoStart = getSetting(SettingsConstants.DEMO_START);
         if (demoStart != null && !demoStart.isEmpty()) {
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             try {
