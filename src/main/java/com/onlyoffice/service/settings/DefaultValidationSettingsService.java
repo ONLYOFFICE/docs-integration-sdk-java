@@ -39,7 +39,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 @Setter
 @AllArgsConstructor
@@ -54,12 +53,12 @@ public class DefaultValidationSettingsService implements ValidationSettingsServi
         return checkDocumentServer(urlManager.getDocumentServerUrl());
     }
 
-    public ValidationResult checkDocumentServer(String url) throws Exception {
+    public ValidationResult checkDocumentServer(final String url) throws Exception {
         HttpGet request = new HttpGet(urlManager.sanitizeUrl(url) + "/healthcheck");
 
         return requestManager.executeRequest(Service.DOCUMENT_SERVER, request,
                 new RequestManager.Callback<ValidationResult>() {
-            public ValidationResult doWork(HttpEntity httpEntity) throws IOException {
+            public ValidationResult doWork(final HttpEntity httpEntity) throws IOException {
                 String content = IOUtils.toString(httpEntity.getContent(), "utf-8").trim();
                 if (content.equalsIgnoreCase("true")) {
                     return ValidationResult.builder()
@@ -86,7 +85,8 @@ public class DefaultValidationSettingsService implements ValidationSettingsServi
         return checkCommandService(url, secretKey, jwtHeader, jwtPrefix);
     }
 
-    public ValidationResult checkCommandService(String url, String secretKey, String jwtHeader, String jwtPrefix) throws Exception {
+    public ValidationResult checkCommandService(final String url, final String secretKey, final String jwtHeader,
+                                                final String jwtPrefix) throws Exception {
         JSONObject body = new JSONObject();
         body.put("c", "version");
 
@@ -98,7 +98,7 @@ public class DefaultValidationSettingsService implements ValidationSettingsServi
                 jwtHeader,
                 jwtPrefix,
                 new RequestManager.Callback<ValidationResult>() {
-                    public ValidationResult doWork(HttpEntity httpEntity) throws IOException {
+                    public ValidationResult doWork(final HttpEntity httpEntity) throws IOException {
                         String content = IOUtils.toString(httpEntity.getContent(), "utf-8").trim();
                         JSONObject result = new JSONObject(content);
                         if (result.has("error") && result.getInt("error") == 0) {
@@ -128,7 +128,8 @@ public class DefaultValidationSettingsService implements ValidationSettingsServi
         return checkConvertService(url, secretKey, jwtHeader, jwtPrefix);
     }
 
-    public ValidationResult checkConvertService(String url, String secretKey, String jwtHeader, String jwtPrefix) throws Exception {
+    public ValidationResult checkConvertService(final String url, final String secretKey, final String jwtHeader,
+                                                final String jwtPrefix) throws Exception {
         JSONObject body = new JSONObject();
         body.put("async", false);
         body.put("embeddedfonts", true);
@@ -145,7 +146,7 @@ public class DefaultValidationSettingsService implements ValidationSettingsServi
                 jwtHeader,
                 jwtPrefix,
                 new RequestManager.Callback<ValidationResult>() {
-                    public ValidationResult doWork(HttpEntity httpEntity) throws Exception {
+                    public ValidationResult doWork(final HttpEntity httpEntity) throws Exception {
                         String content = IOUtils.toString(httpEntity.getContent(), "utf-8").trim();
                         JSONObject result = new JSONObject(content);
 
@@ -162,9 +163,12 @@ public class DefaultValidationSettingsService implements ValidationSettingsServi
                         String fileUrl = result.getString("fileUrl");
 
                         HttpGet request = new HttpGet(fileUrl);
-                        return requestManager.executeRequest(Service.DOCUMENT_SERVER, request, new RequestManager.Callback<ValidationResult>() {
+                        return requestManager.executeRequest(
+                                Service.DOCUMENT_SERVER,
+                                request,
+                                new RequestManager.Callback<ValidationResult>() {
                             @Override
-                            public ValidationResult doWork(HttpEntity httpEntity) throws IOException {
+                            public ValidationResult doWork(final HttpEntity httpEntity) throws IOException {
                                 byte[] bytes = EntityUtils.toByteArray(httpEntity);
                                 if (bytes.length > 0) {
                                     return ValidationResult.builder()
