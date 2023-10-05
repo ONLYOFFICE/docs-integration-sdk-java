@@ -23,7 +23,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.model.config.document.documenttype.DocumentType;
 import com.onlyoffice.model.format.Format;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
@@ -43,20 +45,20 @@ import java.util.Locale;
 @NoArgsConstructor
 public abstract class DefaultDocumentManager implements DocumentManager {
     private static final int DEFAULT_MAX_FILE_SIZE = 5242880;
+
+    @Getter(AccessLevel.PROTECTED)
     private SettingsManager settingsManager;
+
+    @Getter
     private static List<Format> formats;
 
     static {
         init();
     }
 
-    public List<Format> getFormats() {
-        return formats;
-    }
+    public abstract String getDocumentKey(String fileId, boolean embedded);
 
-    public abstract String getDocumentKey(final String fileId, boolean embedded);
-
-    public abstract String getDocumentName(final String fileId);
+    public abstract String getDocumentName(String fileId);
 
     public String getExtension(final String fileName) {
         return FilenameUtils.getExtension(fileName).toLowerCase();
@@ -133,9 +135,9 @@ public abstract class DefaultDocumentManager implements DocumentManager {
                 return "xlsx";
             case SLIDE:
                 return "pptx";
+            default:
+                return null;
         }
-
-        return null;
     }
 
     public String getDefaultConvertExtension(final String fileName) {

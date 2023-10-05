@@ -37,9 +37,9 @@ public interface DocumentManager {
     boolean isViewable(String fileName);
     boolean isFillable(String fileName);
     boolean hasAction(String fileName, String action);
-    InputStream getNewBlankFile(final String extension, final Locale locale);
+    InputStream getNewBlankFile(String extension, Locale locale);
     String getDefaultExtension(DocumentType documentType);
-    String getDefaultConvertExtension(final String fileName);
+    String getDefaultConvertExtension(String fileName);
     List<String> getConvertExtensionList(String fileName);
     List<String> getLossyEditableExtensions();
     List<String> getInsertImageExtension();
