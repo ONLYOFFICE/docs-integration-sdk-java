@@ -20,15 +20,18 @@ package com.onlyoffice.manager.url;
 
 import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.model.settings.SettingsConstants;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Getter(AccessLevel.PROTECTED)
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class DefaultUrlManager implements UrlManager {
-     SettingsManager settingsManager;
+     private SettingsManager settingsManager;
 
      public String getDocumentServerUrl() {
          if (settingsManager.isDemoActive()) {
@@ -56,7 +59,7 @@ public class DefaultUrlManager implements UrlManager {
           return getDocumentServerUrl() + settingsManager.getSDKSetting("integration-sdk.api.url");
      }
 
-     public String sanitizeUrl(String url) {
+     public String sanitizeUrl(final String url) {
           if (url != null) {
                return url.endsWith("/") ? url.substring(0, url.length() - 1) : url;
           } else {
@@ -64,30 +67,30 @@ public class DefaultUrlManager implements UrlManager {
           }
      }
 
-     public String replaceToInnerDocumentServerUrl(String url) {
+     public String replaceToInnerDocumentServerUrl(final String url) {
           String documentServerUrl = getDocumentServerUrl();
           String innerDocumentServerUrl = getInnerDocumentServerUrl();
 
           if (!documentServerUrl.equals(innerDocumentServerUrl)) {
-               url = url.replace(documentServerUrl, innerDocumentServerUrl);
+               return url.replace(documentServerUrl, innerDocumentServerUrl);
           }
 
           return url;
      }
 
-     public String getFileUrl(String fileId) {
+     public String getFileUrl(final String fileId) {
           return null;
      }
 
-     public String getCallbackUrl(String fileId) {
+     public String getCallbackUrl(final String fileId) {
           return null;
      }
 
-     public String getGobackUrl(String fileId) {
+     public String getGobackUrl(final String fileId) {
           return null;
      }
 
-     public String getCreateUrl(String fileId){
+     public String getCreateUrl(final String fileId) {
           return null;
      }
 
