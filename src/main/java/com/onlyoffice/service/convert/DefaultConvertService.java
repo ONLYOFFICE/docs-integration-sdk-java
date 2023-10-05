@@ -18,9 +18,12 @@
 
 package com.onlyoffice.service.convert;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onlyoffice.manager.document.DocumentManager;
 import com.onlyoffice.manager.request.RequestManager;
 import com.onlyoffice.manager.url.UrlManager;
+import com.onlyoffice.model.convert.Convert;
+import com.onlyoffice.model.convert.thumbnail.Thumbnail;
 import com.onlyoffice.model.service.Service;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -40,46 +43,47 @@ public class DefaultConvertService implements ConvertService {
     private UrlManager urlManager;
     private RequestManager requestManager;
 
-    public JSONObject convert(final String fileId, final String region, final boolean async) throws Exception {
+    public JSONObject processConvert(final Convert convert, final String fileId) throws Exception {
         String fileName = documentManager.getDocumentName(fileId);
-        String key = documentManager.getDocumentKey(fileId, false);
-        String currentExtension = documentManager.getExtension(fileName);
-        String targetExtension = documentManager.getDefaultConvertExtension(fileName);
-        String url = urlManager.getFileUrl(fileId);
 
-        return convert(key, currentExtension, targetExtension, url, region, null, async);
-    }
-
-    public JSONObject convert(final String fileId, final String targetExtension, final String region,
-                              final String title, final boolean async) throws Exception {
-        String fileName = documentManager.getDocumentName(fileId);
-        String key = documentManager.getDocumentKey(fileId, false);
-        String currentExtension = documentManager.getExtension(fileName);
-        String url = urlManager.getFileUrl(fileId);
-
-        return convert(key, currentExtension, targetExtension, url, region, title, async);
-    }
-
-    public JSONObject convert(final String key, final String currentExtension, final String targetExtension,
-                              final String url, final String region, final String title,
-                              final boolean async) throws Exception {
-        JSONObject body = new JSONObject();
-        body.put("async", async);
-        body.put("embeddedfonts", true);
-        body.put("filetype", currentExtension);
-        body.put("outputtype", targetExtension);
-        body.put("key", key);
-        body.put("url", url);
-        body.put("region", region);
-        body.put("title", title);
-
-        if (Arrays.asList("bmp", "gif", "jpg", "png").contains(targetExtension)) {
-            JSONObject thumbnail = new JSONObject();
-            thumbnail.put("first", false);
-            body.put("thumbnail", thumbnail);
+        if (convert.getFiletype() == null || convert.getFiletype().isEmpty()) {
+            convert.setFiletype(documentManager.getExtension(fileName));
         }
 
-        return requestManager.executePostRequest(Service.CONVERT_SERVICE, body,
+        if (convert.getKey() == null || convert.getKey().isEmpty()) {
+            convert.setKey(documentManager.getDocumentKey(fileId, false));
+        }
+
+        if (convert.getOutputtype() == null || convert.getOutputtype().isEmpty()) {
+            convert.setOutputtype(documentManager.getDefaultConvertExtension(fileName));
+        }
+
+        if (convert.getTitle() == null || convert.getTitle().isEmpty()) {
+            convert.setTitle(
+                    documentManager.geBaseName(fileName)
+                    + "."
+                    + documentManager.getDefaultConvertExtension(fileName)
+            );
+        }
+
+        if (convert.getUrl() == null || convert.getUrl().isEmpty()) {
+            convert.setUrl(urlManager.getFileUrl(fileId));
+        }
+
+        if (Arrays.asList("bmp", "gif", "jpg", "png").contains(convert.getOutputtype())
+                && convert.getThumbnail() == null) {
+
+            Thumbnail thumbnail = Thumbnail.builder()
+                    .first(false)
+                    .build();
+
+            convert.setThumbnail(thumbnail);
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        JSONObject bodyJson = new JSONObject(mapper.writeValueAsString(convert));
+
+        return requestManager.executePostRequest(Service.CONVERT_SERVICE, bodyJson,
                 new RequestManager.Callback<JSONObject>() {
                     public JSONObject doWork(final HttpEntity httpEntity) throws IOException {
                         String content = IOUtils.toString(httpEntity.getContent(), "utf-8");

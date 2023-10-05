@@ -18,12 +18,9 @@
 
 package com.onlyoffice.service.convert;
 
+import com.onlyoffice.model.convert.Convert;
 import org.json.JSONObject;
 
 public interface ConvertService {
-    JSONObject convert(String fileId, String region, boolean async) throws Exception;
-    JSONObject convert(String fileId, String targetExtension, String region, String title, boolean async)
-            throws Exception;
-    JSONObject convert(String key, String currentExtension, String targetExtension, String url, String region,
-                       String title, boolean async) throws Exception;
+    JSONObject processConvert(Convert convert, String fileId) throws Exception;
 }
