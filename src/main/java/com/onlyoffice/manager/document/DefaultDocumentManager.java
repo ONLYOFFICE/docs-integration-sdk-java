@@ -49,11 +49,14 @@ public abstract class DefaultDocumentManager implements DocumentManager {
     @Getter(AccessLevel.PROTECTED)
     private SettingsManager settingsManager;
 
-    @Getter
     private static List<Format> formats;
 
     static {
         init();
+    }
+
+    public List<Format> getFormats() {
+        return this.formats;
     }
 
     public abstract String getDocumentKey(String fileId, boolean embedded);
