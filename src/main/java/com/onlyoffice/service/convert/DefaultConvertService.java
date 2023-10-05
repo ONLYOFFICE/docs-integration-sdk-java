@@ -40,7 +40,7 @@ public class DefaultConvertService implements ConvertService {
     private UrlManager urlManager;
     private RequestManager requestManager;
 
-    public JSONObject convert(String fileId, String region, boolean async) throws Exception {
+    public JSONObject convert(final String fileId, final String region, final boolean async) throws Exception {
         String fileName = documentManager.getDocumentName(fileId);
         String key = documentManager.getDocumentKey(fileId, false);
         String currentExtension = documentManager.getExtension(fileName);
@@ -50,7 +50,8 @@ public class DefaultConvertService implements ConvertService {
         return convert(key, currentExtension, targetExtension, url, region, null, async);
     }
 
-    public JSONObject convert(String fileId, String targetExtension, String region, String title, boolean async) throws Exception {
+    public JSONObject convert(final String fileId, final String targetExtension, final String region,
+                              final String title, final boolean async) throws Exception {
         String fileName = documentManager.getDocumentName(fileId);
         String key = documentManager.getDocumentKey(fileId, false);
         String currentExtension = documentManager.getExtension(fileName);
@@ -59,7 +60,9 @@ public class DefaultConvertService implements ConvertService {
         return convert(key, currentExtension, targetExtension, url, region, title, async);
     }
 
-    public JSONObject convert(String key, String currentExtension, String targetExtension, String url, String region, String title, boolean async) throws Exception {
+    public JSONObject convert(final String key, final String currentExtension, final String targetExtension,
+                              final String url, final String region, final String title,
+                              final boolean async) throws Exception {
         JSONObject body = new JSONObject();
         body.put("async", async);
         body.put("embeddedfonts", true);
@@ -78,7 +81,7 @@ public class DefaultConvertService implements ConvertService {
 
         return requestManager.executePostRequest(Service.CONVERT_SERVICE, body,
                 new RequestManager.Callback<JSONObject>() {
-                    public JSONObject doWork(HttpEntity httpEntity) throws IOException {
+                    public JSONObject doWork(final HttpEntity httpEntity) throws IOException {
                         String content = IOUtils.toString(httpEntity.getContent(), "utf-8");
 
                         JSONObject convertResponse = new JSONObject(content);

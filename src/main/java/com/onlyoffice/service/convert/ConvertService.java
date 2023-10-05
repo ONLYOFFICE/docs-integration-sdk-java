@@ -22,6 +22,8 @@ import org.json.JSONObject;
 
 public interface ConvertService {
     JSONObject convert(String fileId, String region, boolean async) throws Exception;
-    JSONObject convert(String fileId, String targetExtension, String region, String title, boolean async) throws Exception;
-    JSONObject convert(String key, String currentExtension, String targetExtension, String url, String region, String title, boolean async) throws Exception;
+    JSONObject convert(String fileId, String targetExtension, String region, String title, boolean async)
+            throws Exception;
+    JSONObject convert(String key, String currentExtension, String targetExtension, String url, String region,
+                       String title, boolean async) throws Exception;
 }
