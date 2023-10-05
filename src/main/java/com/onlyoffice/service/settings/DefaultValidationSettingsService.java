@@ -27,7 +27,9 @@ import com.onlyoffice.model.service.DocumentServerErrorCode;
 import com.onlyoffice.model.service.Service;
 import com.onlyoffice.model.settings.validation.ValidationResult;
 import com.onlyoffice.model.settings.validation.status.Status;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.io.IOUtils;
@@ -40,6 +42,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Getter(AccessLevel.PROTECTED)
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
