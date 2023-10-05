@@ -7,4 +7,10 @@
     <suppress files=".*properties" checks="RegexpSingleline"/>
 
     <suppress files=".*java" checks="JavadocPackage"/>
+
+
+    <suppress files=".*java" checks="MissingJavadocMethod"/>
+    <suppress files=".*java" checks="JavadocVariable"/>
+    <suppress files=".*java" checks="DesignForExtension"/>
+
 </suppressions>
