@@ -18,9 +18,11 @@
 
 package com.onlyoffice.service.settings;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onlyoffice.manager.request.RequestManager;
 import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.manager.url.UrlManager;
+import com.onlyoffice.model.convert.Convert;
 import com.onlyoffice.model.service.CommandServiceErrorCode;
 import com.onlyoffice.model.service.ConvertServiceErrorCode;
 import com.onlyoffice.model.service.DocumentServerErrorCode;
@@ -133,17 +135,21 @@ public class DefaultValidationSettingsService implements ValidationSettingsServi
 
     public ValidationResult checkConvertService(final String url, final String secretKey, final String jwtHeader,
                                                 final String jwtPrefix) throws Exception {
-        JSONObject body = new JSONObject();
-        body.put("async", false);
-        body.put("embeddedfonts", true);
-        body.put("filetype", "txt");
-        body.put("outputtype", "docx");
-        body.put("key", new SimpleDateFormat("MMddyyyyHHmmss").format(new Date()));
-        body.put("url",  urlManager.getTestConvertUrl());
+
+        Convert convert = Convert.builder()
+                .async(false)
+                .filetype("txt")
+                .outputtype("docx")
+                .key(new SimpleDateFormat("MMddyyyyHHmmss").format(new Date()))
+                .url(urlManager.getTestConvertUrl())
+                .build();
+
+        ObjectMapper mapper = new ObjectMapper();
+        JSONObject bodyJson = new JSONObject(mapper.writeValueAsString(convert));
 
         return requestManager.executePostRequest(
                 Service.CONVERT_SERVICE,
-                body,
+                bodyJson,
                 url,
                 secretKey,
                 jwtHeader,
