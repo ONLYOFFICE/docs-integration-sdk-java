@@ -20,20 +20,20 @@ package com.onlyoffice.model.callback.forcesavetype;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@AllArgsConstructor
+@Getter
 public enum ForcesaveType {
     COMMAND_SERVICE(0),
     SAVE_BUTTON(1),
     TIMER(2);
 
-    int id;
-
-    ForcesaveType(int id) {
-        this.id = id;
-    }
+    private final int id;
 
     private static final Map<Integer, ForcesaveType> BY_ID = new HashMap<>();
 
@@ -44,7 +44,7 @@ public enum ForcesaveType {
     }
 
     @JsonCreator
-    public static ForcesaveType valueOfId(Integer code) {
+    public static ForcesaveType valueOfId(final Integer code) {
         return BY_ID.get(code);
     }
 

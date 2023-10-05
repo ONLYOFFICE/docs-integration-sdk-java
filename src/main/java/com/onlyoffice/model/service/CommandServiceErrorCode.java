@@ -18,9 +18,14 @@
 
 package com.onlyoffice.model.service;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 import java.util.HashMap;
 import java.util.Map;
 
+@AllArgsConstructor
+@Getter
 public enum CommandServiceErrorCode implements ErrorCode {
     NO_ERROR(0, "No errors"),
     KEY_ERRORErrorCode(1, "Document key is missing or no document with such key could be found"),
@@ -34,21 +39,6 @@ public enum CommandServiceErrorCode implements ErrorCode {
     private final Integer code;
     private final String description;
 
-    private CommandServiceErrorCode(Integer code, String description) {
-       this.code = code;
-       this.description = description;
-    }
-
-    @Override
-    public Integer getCode() {
-        return this.code;
-    }
-
-    @Override
-    public String getDescription() {
-        return this.description;
-    }
-
     private static final Map<Integer, ErrorCode> BY_CODE = new HashMap<>();
 
     static {
@@ -57,7 +47,7 @@ public enum CommandServiceErrorCode implements ErrorCode {
         }
     }
 
-    public static ErrorCode valueOfCode(Integer code) {
+    public static ErrorCode valueOfCode(final Integer code) {
         return BY_CODE.get(code);
     }
 }

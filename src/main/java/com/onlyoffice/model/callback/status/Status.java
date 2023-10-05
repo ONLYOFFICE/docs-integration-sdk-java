@@ -20,10 +20,14 @@ package com.onlyoffice.model.callback.status;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@AllArgsConstructor
+@Getter
 public enum Status {
     EDITING(1),
     SAVE(2),
@@ -32,11 +36,7 @@ public enum Status {
     FORCESAVE(6),
     FORCESAVE_CORRUPTED(7);
 
-    int id;
-
-    Status(int id) {
-        this.id = id;
-    }
+    private final int id;
 
     private static final Map<Integer, Status> BY_ID = new HashMap<>();
 
@@ -47,7 +47,7 @@ public enum Status {
     }
 
     @JsonCreator
-    public static Status valueOfId(Integer code) {
+    public static Status valueOfId(final Integer code) {
         return BY_ID.get(code);
     }
 

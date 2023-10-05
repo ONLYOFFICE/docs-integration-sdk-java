@@ -23,11 +23,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onlyoffice.manager.security.JwtManager;
 import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.model.callback.Callback;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.json.JSONObject;
 
+
+@Getter(AccessLevel.PROTECTED)
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -36,14 +40,16 @@ public class DefaultCallbackService implements CallbackService {
     private JwtManager jwtManager;
     private SettingsManager settingsManager;
 
-    public Callback verifyCallback(JSONObject body, String authorizationHeader) throws JsonProcessingException {
+    public Callback verifyCallback(final JSONObject body, final String authorizationHeader)
+            throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         Callback callback = objectMapper.readValue(body.toString(), Callback.class);
 
         return verifyCallback(callback, authorizationHeader);
     }
 
-    public Callback verifyCallback(Callback callback, String authorizationHeader) throws JsonProcessingException {
+    public Callback verifyCallback(final Callback callback, final String authorizationHeader)
+            throws JsonProcessingException {
         if (settingsManager.isSecurityEnabled()) {
             String token = callback.getToken();
             String payload = null;
@@ -81,53 +87,52 @@ public class DefaultCallbackService implements CallbackService {
         return callback;
     }
 
-    public void processCallback(Callback callback, String fileId) throws Exception {
+    public void processCallback(final Callback callback, final String fileId) throws Exception {
         switch (callback.getStatus()) {
-            case EDITING: {
+            case EDITING:
                 handlerEditing(callback, fileId);
                 break;
-            }
-            case SAVE: {
+            case SAVE:
                 handlerSave(callback, fileId);
                 break;
-            }
-            case SAVE_CORRUPTED: {
+            case SAVE_CORRUPTED:
                 handlerSaveCorrupted(callback, fileId);
                 break;
-            }
-            case CLOSED: {
+            case CLOSED:
                 handlerClosed(callback, fileId);
                 break;
-            }
-            case FORCESAVE: {
+            case FORCESAVE:
                 handlerForcesave(callback, fileId);
                 break;
-            }
-            case FORCESAVE_CORRUPTED: {
+            case FORCESAVE_CORRUPTED:
                 handlerForcesaveCurrupted(callback, fileId);
                 break;
-            }
+            default:
+                throw new RuntimeException("Callback has no status");
         }
     }
 
-    public void handlerEditing(Callback callback, String fileId) throws Exception {
+    public void handlerEditing(final Callback callback, final String fileId) throws Exception {
 
     }
 
-    public void handlerSave(Callback callback, String fileId) throws Exception {
+    public void handlerSave(final Callback callback, final String fileId) throws Exception {
 
     }
-    public void handlerSaveCorrupted(Callback callback, String fileId) throws Exception {
+
+    public void handlerSaveCorrupted(final Callback callback, final String fileId) throws Exception {
         handlerSave(callback, fileId);
     }
-    public void handlerClosed(Callback callback, String fileId) throws Exception {
+
+    public void handlerClosed(final Callback callback, final String fileId) throws Exception {
 
     }
-    public void handlerForcesave(Callback callback, String fileId) throws Exception {
+
+    public void handlerForcesave(final Callback callback, final String fileId) throws Exception {
 
     }
 
-    public void handlerForcesaveCurrupted(Callback callback, String fileId) throws Exception {
+    public void handlerForcesaveCurrupted(final Callback callback, final String fileId) throws Exception {
         handlerForcesave(callback, fileId);
     }
 

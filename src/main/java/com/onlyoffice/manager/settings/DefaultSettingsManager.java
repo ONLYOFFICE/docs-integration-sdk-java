@@ -39,7 +39,7 @@ public abstract class DefaultSettingsManager implements SettingsManager {
 
     public abstract Void setSetting(String name, String value);
 
-    public Boolean getSettingBoolean(String name, Boolean defaultValue) {
+    public Boolean getSettingBoolean(final String name, final Boolean defaultValue) {
         String setting = getSetting(name);
 
         if (setting == null || setting.isEmpty()) {
@@ -49,7 +49,7 @@ public abstract class DefaultSettingsManager implements SettingsManager {
         return Boolean.parseBoolean(setting);
     }
 
-    public String getSDKSetting(String name) {
+    public String getSDKSetting(final String name) {
         if (properties == null) {
             return null;
         }

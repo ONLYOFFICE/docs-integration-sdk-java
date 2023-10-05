@@ -18,14 +18,15 @@
 
 package com.onlyoffice.model.service;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum Service {
     DOCUMENT_SERVER("/"),
     CONVERT_SERVICE("/ConvertService.ashx"),
     COMMAND_SERVICE("/coauthoring/CommandService.ashx");
 
-    public final String path;
-
-    Service(String path) {
-        this.path = path;
-    }
+    private final String path;
 }

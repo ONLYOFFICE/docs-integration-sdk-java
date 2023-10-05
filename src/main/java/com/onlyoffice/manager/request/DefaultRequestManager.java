@@ -22,7 +22,9 @@ import com.onlyoffice.manager.security.JwtManager;
 import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.manager.url.UrlManager;
 import com.onlyoffice.model.service.Service;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.http.HttpEntity;
@@ -54,22 +56,23 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.concurrent.TimeUnit;
 
+@Getter(AccessLevel.PROTECTED)
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class DefaultRequestManager implements RequestManager {
-    protected UrlManager urlManager;
-    protected JwtManager jwtManager;
-    protected SettingsManager settingsManager;
+    private UrlManager urlManager;
+    private JwtManager jwtManager;
+    private SettingsManager settingsManager;
 
-    public <R> R executeGetRequest(String url, Callback<R> callback) throws Exception {
+    public <R> R executeGetRequest(final String url, final Callback<R> callback) throws Exception {
         HttpGet request = new HttpGet(urlManager.replaceToInnerDocumentServerUrl(url));
 
         return executeRequest(Service.DOCUMENT_SERVER, request, callback);
     }
 
-    public <R> R executePostRequest(Service service, JSONObject data,
-                                    Callback<R> callback) throws Exception {
+    public <R> R executePostRequest(final Service service, final JSONObject data,
+                                    final Callback<R> callback) throws Exception {
         String url = urlManager.getInnerDocumentServerUrl();
         String secretKey = settingsManager.getSecuritySecret();
         String jwtHeader = settingsManager.getSecurityHeader();
@@ -78,9 +81,10 @@ public class DefaultRequestManager implements RequestManager {
         return executePostRequest(service, data, url, secretKey, jwtHeader, jwtPrefix, callback);
     }
 
-    public <R> R executePostRequest(Service service, JSONObject data, String url, String secretKey, String jwtHeader,
-                                    String jwtPrefix, Callback<R> callback) throws Exception {
-        HttpPost request = new HttpPost(urlManager.sanitizeUrl(url) + service.path);
+    public <R> R executePostRequest(final Service service, final JSONObject data, final String url,
+                                    final String secretKey, final String jwtHeader,
+                                    final String jwtPrefix, final Callback<R> callback) throws Exception {
+        HttpPost request = new HttpPost(urlManager.sanitizeUrl(url) + service.getPath());
 
         if (secretKey != null && !secretKey.isEmpty()) {
             String token = jwtManager.createToken(data, secretKey);
@@ -102,7 +106,7 @@ public class DefaultRequestManager implements RequestManager {
         return executeRequest(service, request, callback);
     }
 
-    public <R> R executeRequest(Service service, HttpUriRequest request, Callback<R> callback)
+    public <R> R executeRequest(final Service service, final HttpUriRequest request, final Callback<R> callback)
             throws Exception {
         try (CloseableHttpClient httpClient = getHttpClient()) {
             try (CloseableHttpResponse response = httpClient.execute(request)) {
