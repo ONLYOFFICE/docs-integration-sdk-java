@@ -27,7 +27,7 @@ public interface JwtManager {
     String createToken(Object object);
     String createToken(JSONObject payload, String key) throws JsonProcessingException;
     String createToken(Object object, String key);
-    String createToken (Map<String, ?> payloadMap, String key);
+    String createToken(Map<String, ?> payloadMap, String key);
     String verify(String token);
     String verifyToken(String token, String key);
 }
