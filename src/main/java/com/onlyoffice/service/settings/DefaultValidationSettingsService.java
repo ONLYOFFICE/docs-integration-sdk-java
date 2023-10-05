@@ -45,9 +45,9 @@ import java.util.Date;
 @NoArgsConstructor
 public class DefaultValidationSettingsService implements ValidationSettingsService {
 
-    protected RequestManager requestManager;
-    protected UrlManager urlManager;
-    protected SettingsManager settingsManager;
+    private RequestManager requestManager;
+    private UrlManager urlManager;
+    private SettingsManager settingsManager;
 
     public ValidationResult checkDocumentServer() throws Exception {
         return checkDocumentServer(urlManager.getDocumentServerUrl());
