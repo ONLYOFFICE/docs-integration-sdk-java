@@ -62,7 +62,7 @@ public class DefaultConvertService implements ConvertService {
             convert.setTitle(
                     documentManager.geBaseName(fileName)
                     + "."
-                    + documentManager.getDefaultConvertExtension(fileName)
+                    + convert.getOutputtype()
             );
         }
 
