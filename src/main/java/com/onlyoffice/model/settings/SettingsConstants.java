@@ -18,7 +18,9 @@
 
 package com.onlyoffice.model.settings;
 
-public class SettingsConstants {
+public final class SettingsConstants {
+    private SettingsConstants() { }
+
     public static final String DOCUMENT_SERVER_URL = "document-server-url";
     public static final String DOCUMENT_SERVER_INNER_URL = "document-server-inner-url";
     public static final String SECURITY_SECRET = "security.secret";

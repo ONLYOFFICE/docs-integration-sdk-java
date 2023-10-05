@@ -31,7 +31,7 @@ import lombok.Setter;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 public class ValidationResult {
-    Status status;
-    Service service;
-    ErrorCode errorCode;
+    private Status status;
+    private Service service;
+    private ErrorCode errorCode;
 }
