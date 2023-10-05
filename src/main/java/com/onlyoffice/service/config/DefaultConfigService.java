@@ -40,32 +40,33 @@ import com.onlyoffice.model.config.editor.plugins.Plugins;
 import com.onlyoffice.model.config.editor.recent.Recent;
 import com.onlyoffice.model.config.editor.template.Template;
 import com.onlyoffice.model.config.editor.user.User;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 import java.util.regex.Pattern;
 
+@Getter(AccessLevel.PROTECTED)
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class DefaultConfigService implements ConfigService {
-    protected DocumentManager documentManager;
-    protected UrlManager urlManager;
-    protected JwtManager jwtManager;
-    protected SettingsManager settingsManager;
+    private DocumentManager documentManager;
+    private UrlManager urlManager;
+    private JwtManager jwtManager;
+    private SettingsManager settingsManager;
 
 
-    public Config createConfig(String fileId, Mode mode, Type type, String userAgent) {
-        if (type.equals(Type.DESKTOP)) {
-            type = getType(userAgent);
-        }
+    public Config createConfig(final String fileId, final Mode mode, final Type type, final String userAgent) {
+        Type resultType = type.equals(Type.DESKTOP) ? getType(userAgent) : type;
 
-        return createConfig(fileId, mode, type);
+        return createConfig(fileId, mode, resultType);
     }
 
-    public Config createConfig(String fileId, Mode mode, Type type) {
+    public Config createConfig(final String fileId, final Mode mode, final Type type) {
         String documentName = documentManager.getDocumentName(fileId);
 
         Permissions permissions = getPermissions(fileId);
@@ -112,27 +113,27 @@ public class DefaultConfigService implements ConfigService {
         return config;
     }
 
-    public ReferenceData getReferenceData(String fileId) {
+    public ReferenceData getReferenceData(final String fileId) {
         return null;
     }
 
-    public Info getInfo(String fileId) {
+    public Info getInfo(final String fileId) {
         return null;
     }
 
-    public Permissions getPermissions(String fileId) {
+    public Permissions getPermissions(final String fileId) {
         return null;
     }
 
-    public CoEditing getCoEditing(Object object) {
+    public CoEditing getCoEditing(final Object object) {
         return null;
     }
 
-    public List<Recent> getRecent(Object object) {
+    public List<Recent> getRecent(final Object object) {
         return null;
     }
 
-    public List<Template> getTemplates(Object object){
+    public List<Template> getTemplates(final Object object) {
         return null;
     }
 
@@ -140,7 +141,7 @@ public class DefaultConfigService implements ConfigService {
         return null;
     }
 
-    public Customization getCustomization(String fileId) {
+    public Customization getCustomization(final String fileId) {
         Goback goback = Goback.builder().build();
 
         if (urlManager.getGobackUrl(fileId) != null) {
@@ -174,15 +175,15 @@ public class DefaultConfigService implements ConfigService {
         return customization;
     }
 
-    public Embedded getEmbedded(Object object) {
+    public Embedded getEmbedded(final Object object) {
         return null;
     }
 
-    public Plugins getPlugins(Object object) {
+    public Plugins getPlugins(final Object object) {
         return null;
     }
 
-    public Type getType(String userAgent) {
+    public Type getType(final String userAgent) {
         Pattern pattern = Pattern.compile(
                 settingsManager.getSDKSetting("integration-sdk.mobile.user-agent"),
                 Pattern.CASE_INSENSITIVE | Pattern.MULTILINE
