@@ -35,28 +35,111 @@ import com.onlyoffice.model.config.editor.user.User;
 import java.util.List;
 
 public interface ConfigService {
+
+    /**
+     * Create configuration for documents editor.
+     *
+     * @param fileId the ID of the file
+     * @param mode the mode opening editor, see {@link Mode}
+     * @param userAgent the userAgent from request, for determine type editor (DESKTOP or MOBILE)
+     * @return the object {@link Config}
+     */
     Config createConfig(String fileId, Mode mode, String userAgent);
+
+    /**
+     * Create configuration for documents editor.
+     *
+     * @param fileId the ID of the file
+     * @param mode the mode opening editor, see {@link Mode}
+     * @param type the type opening editor, see {@link Type}
+     * @return the object {@link Config}
+     */
     Config createConfig(String fileId, Mode mode, Type type);
 
+    /**
+     * Gets {@link ReferenceData} object.
+     *
+     * @param fileId the ID of the file
+     * @return the object {@link ReferenceData}
+     */
     ReferenceData getReferenceData(String fileId);
 
+    /**
+     * Gets {@link Info} object.
+     *
+     * @param fileId the ID of the file
+     * @return the object {@link Info}
+     */
     Info getInfo(String fileId);
 
+    /**
+     * Gets {@link Permissions} object.
+     *
+     * @param fileId the ID of the file
+     * @return the object {@link Permissions}
+     */
     Permissions getPermissions(String fileId);
 
+    /**
+     * Gets {@link CoEditing} object.
+     *
+     * @param object
+     * @return the object {@link CoEditing}
+     */
     CoEditing getCoEditing(Object object);
 
+    /**
+     * Gets list {@link Recent} objects.
+     *
+     * @param object
+     * @return the List objects {@link Recent}
+     */
     List<Recent> getRecent(Object object);
 
+    /**
+     * Gets list {@link Template} objects.
+     *
+     * @param fileId the ID of the file
+     * @return the List objects {@link Template}
+     */
     List<Template> getTemplates(String fileId);
 
+    /**
+     * Gets {@link User} object.
+     *
+     * @return the objects {@link User}
+     */
     User getUser();
 
+    /**
+     * Gets {@link Customization} object.
+     *
+     * @param fileId the ID of the file
+     * @return the objects {@link Customization}
+     */
     Customization getCustomization(String fileId);
 
+    /**
+     * Gets {@link Embedded} object.
+     *
+     * @param fileId the ID of the file
+     * @return the objects {@link Embedded}
+     */
     Embedded getEmbedded(String fileId);
 
+    /**
+     * Gets {@link Plugins} object.
+     *
+     * @param object
+     * @return the objects {@link Plugins}
+     */
     Plugins getPlugins(Object object);
 
+    /**
+     * Gets {@link Type} object.
+     *
+     * @param userAgent the userAgent from request, for determine type editor (DESKTOP or MOBILE)
+     * @return the objects {@link Type}
+     */
     Type getType(String userAgent);
 }
