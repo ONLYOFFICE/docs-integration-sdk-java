@@ -19,17 +19,98 @@
 package com.onlyoffice.manager.settings;
 
 public interface SettingsManager {
+
+    /**
+     * Gets setting value.
+     *
+     * @param name the setting name
+     * @return the setting value
+     */
     String getSetting(String name);
-    Void setSetting(String name, String value);
+
+    /**
+     * Sets setting value.
+     *
+     * @param name the setting name
+     * @param value the setting value
+     */
+    void setSetting(String name, String value);
+
+    /**
+     * Gets setting boolean value.
+     *
+     * @param name the setting name
+     * @param defaultValue the setting default value
+     * @return the setting boolean value
+     */
     Boolean getSettingBoolean(String name, Boolean defaultValue);
+
+    /**
+     * Gets setting from file "settings.properties".
+     *
+     * @param name the setting name
+     * @return the setting value
+     */
     String getSDKSetting(String name);
+
+    /**
+     * Check if jwt check is enabled.
+     *
+     * @return true if jwt check is enabled
+     */
     Boolean isSecurityEnabled();
+
+    /**
+     * Check if the setting to ignore ssl certificate is enabled.
+     *
+     * @return true if setting to ignore ssl certificate is enabled
+     */
     Boolean isIgnoreSSLCertificate();
+
+    /**
+     * Gets security secret key.
+     *
+     * @return the security secret key
+     */
     String getSecuritySecret();
+
+    /**
+     * Gets authorization header.
+     *
+     * @return the authorization header
+     */
     String getSecurityHeader();
+
+    /**
+     * Gets authorization prefix.
+     *
+     * @return the authorization prefix
+     */
     String getSecurityPrefix();
+
+    /**
+     * Сheck if the demo editor is enabled.
+     *
+     * @return true if settings demo is enabled
+     */
     Boolean enableDemo();
+
+    /**
+     * Disable use of demo editor.
+     */
     void disableDemo();
+
+    /**
+     * Сheck if the demo editor is active.
+     *
+     * @return true if settings demo is enabled and period using demo not is over
+     */
     Boolean isDemoActive();
+
+    /**
+     * Сheck if the demo editor is available.
+     *
+     * @return true if period using demo not is over
+     */
     Boolean isDemoAvailable();
 }
