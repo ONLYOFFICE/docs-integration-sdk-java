@@ -203,7 +203,7 @@ public abstract class DefaultDocumentManager implements DocumentManager {
     public List<String> getInsertImageExtension() {
         String insertImage = settingsManager.getSDKSetting("integration-sdk.data.formats.insert-image");
 
-        if (insertImage != null & !insertImage.isEmpty()) {
+        if (insertImage != null && !insertImage.isEmpty()) {
             Arrays.asList(insertImage.split("|"));
         }
 
