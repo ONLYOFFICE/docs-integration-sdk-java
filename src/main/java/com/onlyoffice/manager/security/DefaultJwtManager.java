@@ -38,8 +38,6 @@ import java.util.Map;
 public class DefaultJwtManager implements JwtManager {
     private SettingsManager settingsManager;
 
-    private static final long ACCEPT_LEEWAY = 3;
-
     public String createToken(final Object object) {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, ?> payloadMap = objectMapper.convertValue(object, Map.class);
@@ -80,7 +78,7 @@ public class DefaultJwtManager implements JwtManager {
         Base64.Decoder decoder = Base64.getUrlDecoder();
 
         DecodedJWT jwt = JWT.require(algorithm)
-                .acceptLeeway(ACCEPT_LEEWAY)
+                .acceptLeeway(Long.parseLong(settingsManager.getSDKSetting("integration-sdk.security.leeway")))
                 .build()
                 .verify(token);
 
