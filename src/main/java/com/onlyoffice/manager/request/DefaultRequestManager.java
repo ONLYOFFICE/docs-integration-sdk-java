@@ -61,16 +61,22 @@ import java.util.concurrent.TimeUnit;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DefaultRequestManager implements RequestManager {
+
+    /** The {@link UrlManager}. */
     private UrlManager urlManager;
+    /** The {@link JwtManager}. */
     private JwtManager jwtManager;
+    /** The {@link SettingsManager}. */
     private SettingsManager settingsManager;
 
+    @Override
     public <R> R executeGetRequest(final String url, final Callback<R> callback) throws Exception {
         HttpGet request = new HttpGet(urlManager.replaceToInnerDocumentServerUrl(url));
 
         return executeRequest(Service.DOCUMENT_SERVER, request, callback);
     }
 
+    @Override
     public <R> R executePostRequest(final Service service, final JSONObject data,
                                     final Callback<R> callback) throws Exception {
         String url = urlManager.getInnerDocumentServerUrl();
@@ -81,6 +87,7 @@ public class DefaultRequestManager implements RequestManager {
         return executePostRequest(service, data, url, secretKey, jwtHeader, jwtPrefix, callback);
     }
 
+    @Override
     public <R> R executePostRequest(final Service service, final JSONObject data, final String url,
                                     final String secretKey, final String jwtHeader,
                                     final String jwtPrefix, final Callback<R> callback) throws Exception {
@@ -106,6 +113,7 @@ public class DefaultRequestManager implements RequestManager {
         return executeRequest(service, request, callback);
     }
 
+    @Override
     public <R> R executeRequest(final Service service, final HttpUriRequest request, final Callback<R> callback)
             throws Exception {
         try (CloseableHttpClient httpClient = getHttpClient()) {
@@ -147,7 +155,6 @@ public class DefaultRequestManager implements RequestManager {
             }
         }
     }
-
     private CloseableHttpClient getHttpClient()
             throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
         Integer timeout = (int) TimeUnit.SECONDS.toMillis(
