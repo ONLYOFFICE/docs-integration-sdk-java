@@ -39,10 +39,14 @@ import java.util.Arrays;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DefaultConvertService implements ConvertService {
+    /** The {@link DocumentManager}. */
     private DocumentManager documentManager;
+    /** The {@link UrlManager}. */
     private UrlManager urlManager;
+    /** The {@link RequestManager}. */
     private RequestManager requestManager;
 
+    @Override
     public JSONObject processConvert(final Convert convert, final String fileId) throws Exception {
         String fileName = documentManager.getDocumentName(fileId);
 
