@@ -23,13 +23,87 @@ import com.onlyoffice.model.callback.Callback;
 import org.json.JSONObject;
 
 public interface CallbackService {
+
+    /**
+     * Callback verification from JSON object.
+     *
+     * @param body the body callback request
+     * @param authorizationHeader the authorization header from callback request
+     * @return the verified callback object
+     * @throws JsonProcessingException
+     */
     Callback verifyCallback(JSONObject body, String authorizationHeader) throws JsonProcessingException;
+
+    /**
+     * Callback verification.
+     *
+     * @param callback  the object {@link Callback}
+     * @param authorizationHeader the authorization header from callback request
+     * @return the verified callback object
+     * @throws JsonProcessingException
+     */
     Callback verifyCallback(Callback callback, String authorizationHeader) throws JsonProcessingException;
+
+    /**
+     * Callback processing.
+     *
+     * @param callback the object {@link Callback}
+     * @param fileId the ID of the file
+     * @throws Exception
+     */
     void processCallback(Callback callback, String fileId) throws Exception;
+
+    /**
+     * Handler called if callback status is 1 (EDITING).
+     *
+     * @param callback the object {@link Callback}
+     * @param fileId the ID of the file
+     * @throws Exception
+     */
     void handlerEditing(Callback callback, String fileId) throws Exception;
+
+    /**
+     * Handler called if callback status is 2 (SAVE).
+     *
+     * @param callback the object {@link Callback}
+     * @param fileId the ID of the file
+     * @throws Exception
+     */
     void handlerSave(Callback callback, String fileId) throws Exception;
+
+    /**
+     * Handler called if callback status is 3 (SAVE_CORRUPTED).
+     *
+     * @param callback the object {@link Callback}
+     * @param fileId the ID of the file
+     * @throws Exception
+     */
     void handlerSaveCorrupted(Callback callback, String fileId) throws Exception;
+
+    /**
+     * Handler called if callback status is 4 (CLOSED).
+     *
+     * @param callback the object {@link Callback}
+     * @param fileId the ID of the file
+     * @throws Exception
+     */
     void handlerClosed(Callback callback, String fileId) throws Exception;
+
+    /**
+     * Handler called if callback status is 6 (FORCESAVE).
+     *
+     * @param callback the object {@link Callback}
+     * @param fileId the ID of the file
+     * @throws Exception
+     */
     void handlerForcesave(Callback callback, String fileId) throws Exception;
+
+    /**
+     * Handler called if callback status is 7 (FORCESAVE_CORRUPTED).
+     *
+     * @param callback the object {@link Callback}
+     * @param fileId the ID of the file
+     * @throws Exception
+     */
     void handlerForcesaveCurrupted(Callback callback, String fileId) throws Exception;
 }

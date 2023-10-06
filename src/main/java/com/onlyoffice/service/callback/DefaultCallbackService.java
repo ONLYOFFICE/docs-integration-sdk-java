@@ -37,9 +37,13 @@ import org.json.JSONObject;
 @NoArgsConstructor
 public class DefaultCallbackService implements CallbackService {
 
+    /** The {@link JwtManager}. */
     private JwtManager jwtManager;
+
+    /** The {@link SettingsManager}. */
     private SettingsManager settingsManager;
 
+    @Override
     public Callback verifyCallback(final JSONObject body, final String authorizationHeader)
             throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -48,6 +52,7 @@ public class DefaultCallbackService implements CallbackService {
         return verifyCallback(callback, authorizationHeader);
     }
 
+    @Override
     public Callback verifyCallback(final Callback callback, final String authorizationHeader)
             throws JsonProcessingException {
         if (settingsManager.isSecurityEnabled()) {
@@ -83,6 +88,7 @@ public class DefaultCallbackService implements CallbackService {
         return callback;
     }
 
+    @Override
     public void processCallback(final Callback callback, final String fileId) throws Exception {
         switch (callback.getStatus()) {
             case EDITING:
@@ -108,28 +114,33 @@ public class DefaultCallbackService implements CallbackService {
         }
     }
 
+    @Override
     public void handlerEditing(final Callback callback, final String fileId) throws Exception {
 
     }
 
+    @Override
     public void handlerSave(final Callback callback, final String fileId) throws Exception {
 
     }
 
+    @Override
     public void handlerSaveCorrupted(final Callback callback, final String fileId) throws Exception {
         handlerSave(callback, fileId);
     }
 
+    @Override
     public void handlerClosed(final Callback callback, final String fileId) throws Exception {
 
     }
 
+    @Override
     public void handlerForcesave(final Callback callback, final String fileId) throws Exception {
 
     }
 
+    @Override
     public void handlerForcesaveCurrupted(final Callback callback, final String fileId) throws Exception {
         handlerForcesave(callback, fileId);
     }
-
 }
