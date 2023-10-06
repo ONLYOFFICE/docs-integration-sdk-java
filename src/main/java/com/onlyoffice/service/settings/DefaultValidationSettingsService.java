@@ -49,15 +49,19 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DefaultValidationSettingsService implements ValidationSettingsService {
-
+    /** The {@link RequestManager}. */
     private RequestManager requestManager;
+    /** The {@link UrlManager}. */
     private UrlManager urlManager;
+    /** The {@link SettingsManager}. */
     private SettingsManager settingsManager;
 
+    @Override
     public ValidationResult checkDocumentServer() throws Exception {
         return checkDocumentServer(urlManager.getDocumentServerUrl());
     }
 
+    @Override
     public ValidationResult checkDocumentServer(final String url) throws Exception {
         HttpGet request = new HttpGet(urlManager.sanitizeUrl(url) + "/healthcheck");
 
@@ -81,6 +85,7 @@ public class DefaultValidationSettingsService implements ValidationSettingsServi
         });
     }
 
+    @Override
     public ValidationResult checkCommandService() throws Exception {
         String url = urlManager.getInnerDocumentServerUrl();
         String secretKey = settingsManager.getSecuritySecret();
@@ -90,6 +95,7 @@ public class DefaultValidationSettingsService implements ValidationSettingsServi
         return checkCommandService(url, secretKey, jwtHeader, jwtPrefix);
     }
 
+    @Override
     public ValidationResult checkCommandService(final String url, final String secretKey, final String jwtHeader,
                                                 final String jwtPrefix) throws Exception {
         JSONObject body = new JSONObject();
@@ -124,6 +130,7 @@ public class DefaultValidationSettingsService implements ValidationSettingsServi
                 });
     }
 
+    @Override
     public ValidationResult checkConvertService() throws Exception {
         String url = urlManager.getInnerDocumentServerUrl();
         String secretKey = settingsManager.getSecuritySecret();
@@ -133,6 +140,7 @@ public class DefaultValidationSettingsService implements ValidationSettingsServi
         return checkConvertService(url, secretKey, jwtHeader, jwtPrefix);
     }
 
+    @Override
     public ValidationResult checkConvertService(final String url, final String secretKey, final String jwtHeader,
                                                 final String jwtPrefix) throws Exception {
 
