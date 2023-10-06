@@ -24,10 +24,60 @@ import org.json.JSONObject;
 import java.util.Map;
 
 public interface JwtManager {
+
+    /**
+     * Creates a new JWT for the specified object using the key from
+     * the {@link com.onlyoffice.manager.settings.SettingsManager}.
+     *
+     * @param object the object for create jwt
+     * @see com.onlyoffice.manager.settings.SettingsManager
+     * @return a new JWT token
+     */
     String createToken(Object object);
+
+    /**
+     * Creates a new JWT for the specified JSON object.
+     *
+     * @param payload the JSON object for create jwt
+     * @param key  the secret key value
+     * @return a new JWT token
+     */
     String createToken(JSONObject payload, String key) throws JsonProcessingException;
+
+    /**
+     * Creates a new JWT for the specified object.
+     *
+     * @param object the object for create jwt
+     * @param key  the secret key value
+     * @return a new JWT token
+     */
     String createToken(Object object, String key);
+
+    /**
+     * Creates a new JWT for the specified payload map.
+     *
+     * @param payloadMap the payload map for create jwt
+     * @param key  the secret key value
+     * @return a new JWT token
+     */
     String createToken(Map<String, ?> payloadMap, String key);
+
+    /**
+     * Perform the verification against the given Token, using the key from
+     * the {@link com.onlyoffice.manager.settings.SettingsManager}.
+     *
+     * @param token to verify
+     * @see com.onlyoffice.manager.settings.SettingsManager
+     * @return a verified and decoded payload
+     */
     String verify(String token);
+
+    /**
+     * Perform the verification against the given Token.
+     *
+     * @param token to verify
+     * @param key  the secret key value
+     * @return a verified and decoded payload
+     */
     String verifyToken(String token, String key);
 }

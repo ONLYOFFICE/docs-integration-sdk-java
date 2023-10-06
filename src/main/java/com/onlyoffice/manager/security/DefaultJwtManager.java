@@ -36,8 +36,10 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DefaultJwtManager implements JwtManager {
+    /** The {@link SettingsManager}. */
     private SettingsManager settingsManager;
 
+    @Override
     public String createToken(final Object object) {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, ?> payloadMap = objectMapper.convertValue(object, Map.class);
@@ -45,6 +47,7 @@ public class DefaultJwtManager implements JwtManager {
         return createToken(payloadMap, settingsManager.getSecuritySecret());
     }
 
+    @Override
     public String createToken(final Object object, final String key) {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, ?> payloadMap = objectMapper.convertValue(object, Map.class);
@@ -52,6 +55,7 @@ public class DefaultJwtManager implements JwtManager {
         return createToken(payloadMap, key);
     }
 
+    @Override
     public String createToken(final JSONObject payload, final String key) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, ?> payloadMap = objectMapper.readValue(payload.toString(), Map.class);
@@ -59,6 +63,7 @@ public class DefaultJwtManager implements JwtManager {
         return createToken(payloadMap, key);
     }
 
+    @Override
     public String createToken(final Map<String, ?> payloadMap, final String key) {
         Algorithm algorithm = Algorithm.HMAC256(key);
 
@@ -69,10 +74,12 @@ public class DefaultJwtManager implements JwtManager {
         return token;
     }
 
+    @Override
     public String verify(final String token) {
         return verifyToken(token, settingsManager.getSecuritySecret());
     }
 
+    @Override
     public String verifyToken(final String token, final String key) {
         Algorithm algorithm = Algorithm.HMAC256(key);
         Base64.Decoder decoder = Base64.getUrlDecoder();
