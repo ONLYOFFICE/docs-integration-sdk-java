@@ -29,6 +29,7 @@ public interface SettingsManager {
     String getSecurityHeader();
     String getSecurityPrefix();
     Boolean enableDemo();
+    void disableDemo();
     Boolean isDemoActive();
     Boolean isDemoAvailable();
 }

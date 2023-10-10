@@ -141,6 +141,11 @@ public abstract class DefaultSettingsManager implements SettingsManager {
         }
     }
 
+    public void disableDemo() {
+        setSetting(SettingsConstants.DEMO, "false");
+    }
+
+    @Override
     public Boolean isDemoActive() {
         String demo = getSetting(SettingsConstants.DEMO);
 
