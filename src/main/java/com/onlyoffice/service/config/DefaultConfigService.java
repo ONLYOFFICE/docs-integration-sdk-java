@@ -88,13 +88,17 @@ public class DefaultConfigService implements ConfigService {
                 .mode(mode)
                 .user(getUser())
                 .recent(getRecent(null))
-                .templates(getTemplates(null))
+                .templates(getTemplates(fileId))
                 .customization(getCustomization(fileId))
                 .plugins(getPlugins(null))
                 .build();
 
-        if (permissions != null && permissions.getEdit()) {
+        if (permissions != null && permissions.getEdit() && mode.equals(Mode.EDIT)) {
             editorConfig.setCallbackUrl(urlManager.getCallbackUrl(fileId));
+        }
+
+        if (type.equals(Type.EMBEDDED)) {
+            editorConfig.setEmbedded(getEmbedded(fileId));
         }
 
         Config config = Config.builder()
@@ -133,7 +137,7 @@ public class DefaultConfigService implements ConfigService {
         return null;
     }
 
-    public List<Template> getTemplates(final Object object) {
+    public List<Template> getTemplates(final String fileId) {
         return null;
     }
 
@@ -149,16 +153,16 @@ public class DefaultConfigService implements ConfigService {
         }
 
         Customization customization = Customization.builder()
-                .chat(settingsManager.getSettingBoolean("customization.chat", true))
-                .compactHeader(settingsManager.getSettingBoolean("customization.compactHeader", false))
-                .feedback(settingsManager.getSettingBoolean("customization.feedback", false))
-                .forcesave(settingsManager.getSettingBoolean("customization.forcesave", false))
+                .chat(settingsManager.getSettingBoolean("editor.customization.chat", true))
+                .compactHeader(settingsManager.getSettingBoolean("editor.customization.compactHeader", false))
+                .feedback(settingsManager.getSettingBoolean("editor.customization.feedback", false))
+                .forcesave(settingsManager.getSettingBoolean("editor.customization.forcesave", false))
                 .goback(goback)
-                .help(settingsManager.getSettingBoolean("customization.helpMenu", true))
-                .toolbarNoTabs(settingsManager.getSettingBoolean("toolbarNoTabs", false))
+                .help(settingsManager.getSettingBoolean("editor.customization.help", true))
+                .toolbarNoTabs(settingsManager.getSettingBoolean("editor.customization.toolbarNoTabs", false))
                 .build();
 
-        String reviewDisplay = settingsManager.getSetting("customization.reviewDisplay");
+        String reviewDisplay = settingsManager.getSetting("editor.customization.reviewDisplay");
 
         if (reviewDisplay == null || reviewDisplay.isEmpty()) {
             reviewDisplay = ReviewDisplay.ORIGINAL.name().toLowerCase();
@@ -175,7 +179,7 @@ public class DefaultConfigService implements ConfigService {
         return customization;
     }
 
-    public Embedded getEmbedded(final Object object) {
+    public Embedded getEmbedded(final String fileId) {
         return null;
     }
 

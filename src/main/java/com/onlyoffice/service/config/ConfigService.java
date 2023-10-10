@@ -48,13 +48,13 @@ public interface ConfigService {
 
     List<Recent> getRecent(Object object);
 
-    List<Template> getTemplates(Object object);
+    List<Template> getTemplates(String fileId);
 
     User getUser();
 
     Customization getCustomization(String fileId);
 
-    Embedded getEmbedded(Object object);
+    Embedded getEmbedded(String fileId);
 
     Plugins getPlugins(Object object);
 
