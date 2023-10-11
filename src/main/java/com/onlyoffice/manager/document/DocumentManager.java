@@ -24,6 +24,7 @@ import com.onlyoffice.model.format.Format;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public interface DocumentManager {
     List<Format> getFormats();
@@ -41,7 +42,7 @@ public interface DocumentManager {
     String getDefaultExtension(DocumentType documentType);
     String getDefaultConvertExtension(String fileName);
     List<String> getConvertExtensionList(String fileName);
-    List<String> getLossyEditableExtensions();
+    Map<String, Boolean> getLossyEditableMap();
     List<String> getInsertImageExtension();
     List<String> getCompareFileExtension();
     List<String> getMailMergeExtension();

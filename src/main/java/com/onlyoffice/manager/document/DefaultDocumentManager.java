@@ -37,8 +37,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 @Setter
 @AllArgsConstructor
@@ -94,7 +96,11 @@ public abstract class DefaultDocumentManager implements DocumentManager {
     }
 
     public boolean isEditable(final String fileName) {
-        return hasAction(fileName, "edit");
+        String extension = getExtension(fileName);
+
+        Boolean lossyEditable = getLossyEditableMap().get(extension);
+
+        return hasAction(fileName, "edit") || lossyEditable;
     }
 
     public boolean isViewable(final String fileName) {
@@ -188,12 +194,19 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         return null;
     }
 
-    public List<String> getLossyEditableExtensions() {
-        List<String> result = new ArrayList<>();
+    public Map<String, Boolean> getLossyEditableMap() {
+        Map<String, Boolean> result = new HashMap<>();
+        List<String> formatsLossyEditList = new ArrayList<>();
+
+        String formatsLossyEdit = settingsManager.getSetting("formats.lossy-edit");
+
+        if (formatsLossyEdit != null && !formatsLossyEdit.isEmpty()) {
+            formatsLossyEditList = Arrays.asList(formatsLossyEdit.split(","));
+        }
 
         for (Format format : formats) {
             if (format.getActions().contains("lossy-edit")) {
-                result.add(format.getName());
+                result.put(format.getName(), formatsLossyEditList.contains(format.getName()));
             }
         }
 
