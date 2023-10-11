@@ -28,13 +28,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.commons.io.FilenameUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -66,21 +62,39 @@ public abstract class DefaultDocumentManager implements DocumentManager {
     public abstract String getDocumentName(String fileId);
 
     public String getExtension(final String fileName) {
-        return FilenameUtils.getExtension(fileName).toLowerCase();
+        if (fileName == null) {
+            return null;
+        }
+
+        if (!fileName.contains("."))  {
+            return null;
+        }
+
+        String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
+
+        if (extension.isEmpty()) {
+            return null;
+        }
+
+        return extension.toLowerCase();
     }
 
     public String geBaseName(final String fileName) {
-        return FilenameUtils.getBaseName(fileName);
-    }
-
-    public String getMimeType(final String fileName) {
-        Path path = new File(fileName).toPath();
-
-        try {
-            return Files.probeContentType(path);
-        } catch (IOException e) {
-            return "application/octet-stream";
+        if (fileName == null) {
+            return null;
         }
+
+        if (!fileName.contains("."))  {
+            return fileName;
+        }
+
+        String baseName = fileName.substring(0, fileName.lastIndexOf("."));
+
+        if (baseName.isEmpty()) {
+            return null;
+        }
+
+        return baseName;
     }
 
     public DocumentType getDocumentType(final String fileName) {
@@ -98,9 +112,17 @@ public abstract class DefaultDocumentManager implements DocumentManager {
     public boolean isEditable(final String fileName) {
         String extension = getExtension(fileName);
 
+        if (extension == null) {
+            return false;
+        }
+
         Boolean lossyEditable = getLossyEditableMap().get(extension);
 
-        return hasAction(fileName, "edit") || lossyEditable;
+        if (lossyEditable != null) {
+            return hasAction(fileName, "edit") || lossyEditable;
+        }
+
+        return hasAction(fileName, "edit");
     }
 
     public boolean isViewable(final String fileName) {
@@ -114,6 +136,10 @@ public abstract class DefaultDocumentManager implements DocumentManager {
 
     public boolean hasAction(final String fileName, final String action) {
         String fileExtension = getExtension(fileName);
+
+        if (fileExtension == null) {
+            return false;
+        }
 
         for (Format format : this.formats) {
             if (format.getName().equals(fileExtension) && format.getActions().contains(action)) {
@@ -137,6 +163,10 @@ public abstract class DefaultDocumentManager implements DocumentManager {
     }
 
     public String getDefaultExtension(final DocumentType documentType) {
+        if (documentType == null) {
+            return null;
+        }
+
         switch (documentType) {
             case WORD:
                 return "docx";
@@ -151,6 +181,10 @@ public abstract class DefaultDocumentManager implements DocumentManager {
 
     public String getDefaultConvertExtension(final String fileName) {
         String extension = getExtension(fileName);
+
+        if (extension == null) {
+            return null;
+        }
 
         for (Format format : this.formats) {
             if (format.getName().equals(extension)) {
@@ -185,6 +219,10 @@ public abstract class DefaultDocumentManager implements DocumentManager {
     public List<String> getConvertExtensionList(final String fileName) {
         String extension = getExtension(fileName);
 
+        if (extension == null) {
+            return null;
+        }
+
         for (Format format : formats) {
             if (format.getName().equals(extension)) {
                 return format.getConvert();
@@ -213,17 +251,17 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         return result;
     }
 
-    public List<String> getInsertImageExtension() {
+    public List<String> getInsertImageExtensions() {
         String insertImage = settingsManager.getSDKSetting("integration-sdk.data.formats.insert-image");
 
         if (insertImage != null && !insertImage.isEmpty()) {
-            Arrays.asList(insertImage.split("|"));
+            return Arrays.asList(insertImage.split("\\|"));
         }
 
         return null;
     }
 
-    public List<String> getCompareFileExtension() {
+    public List<String> getCompareFileExtensions() {
         List<Format> supportedFormats = formats;
         List<String> result = new ArrayList<>();
 
@@ -236,7 +274,7 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         return result;
     }
 
-    public List<String> getMailMergeExtension() {
+    public List<String> getMailMergeExtensions() {
         List<Format> supportedFormats = formats;
         List<String> result = new ArrayList<>();
 

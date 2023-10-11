@@ -43,9 +43,9 @@ public interface DocumentManager {
     String getDefaultConvertExtension(String fileName);
     List<String> getConvertExtensionList(String fileName);
     Map<String, Boolean> getLossyEditableMap();
-    List<String> getInsertImageExtension();
-    List<String> getCompareFileExtension();
-    List<String> getMailMergeExtension();
+    List<String> getInsertImageExtensions();
+    List<String> getCompareFileExtensions();
+    List<String> getMailMergeExtensions();
     long getMaxFileSize();
     long getMaxConversionFileSize();
 }
