@@ -60,10 +60,8 @@ public class DefaultConfigService implements ConfigService {
     private SettingsManager settingsManager;
 
 
-    public Config createConfig(final String fileId, final Mode mode, final Type type, final String userAgent) {
-        Type resultType = type.equals(Type.DESKTOP) ? getType(userAgent) : type;
-
-        return createConfig(fileId, mode, resultType);
+    public Config createConfig(final String fileId, final Mode mode, final String userAgent) {
+        return createConfig(fileId, mode, getType(userAgent));
     }
 
     public Config createConfig(final String fileId, final Mode mode, final Type type) {

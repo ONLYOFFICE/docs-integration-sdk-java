@@ -35,7 +35,7 @@ import com.onlyoffice.model.config.editor.user.User;
 import java.util.List;
 
 public interface ConfigService {
-    Config createConfig(String fileId, Mode mode, Type type, String userAgent);
+    Config createConfig(String fileId, Mode mode, String userAgent);
     Config createConfig(String fileId, Mode mode, Type type);
 
     ReferenceData getReferenceData(String fileId);
