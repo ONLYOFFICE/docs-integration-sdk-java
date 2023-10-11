@@ -68,11 +68,7 @@ public class DefaultCallbackService implements CallbackService {
                 throw new SecurityException("Not found authorization token");
             }
 
-            try {
-                payload = jwtManager.verify(token);
-            } catch (Exception e) {
-                throw new SecurityException("Not valid authorization token");
-            }
+            payload = jwtManager.verify(token);
 
             JSONObject callbackFromToken = new JSONObject(payload);
 
