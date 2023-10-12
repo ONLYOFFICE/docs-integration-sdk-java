@@ -16,21 +16,13 @@
  *
  */
 
-package com.onlyoffice.model.format;
+package com.onlyoffice.model.documenteditor.config.editorconfig;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import com.onlyoffice.model.documenteditor.config.document.DocumentType;
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.List;
-
-@Getter
-@Setter
-public class Format {
-    private String name;
-    private DocumentType type;
-    private List<String>  actions;
-    private List<String> convert;
-    private List<String> mime;
+public enum Mode {
+    @JsonProperty("view")
+    VIEW,
+    @JsonProperty("edit")
+    EDIT
 }

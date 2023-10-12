@@ -16,21 +16,24 @@
  *
  */
 
-package com.onlyoffice.model.format;
+package com.onlyoffice.model.documenteditor.config.editorconfig.customization;
 
-
-import com.onlyoffice.model.documenteditor.config.document.DocumentType;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
-public class Format {
+@Builder
+@JsonInclude(JsonInclude.Include.NON_ABSENT)
+public class Customer {
+    private String address;
+    private String info;
+    private String logo;
+    private String logoDark;
+    private String mail;
     private String name;
-    private DocumentType type;
-    private List<String>  actions;
-    private List<String> convert;
-    private List<String> mime;
+    private String phone;
+    private String www;
 }

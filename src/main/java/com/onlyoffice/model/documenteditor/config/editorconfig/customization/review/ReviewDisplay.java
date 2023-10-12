@@ -16,21 +16,18 @@
  *
  */
 
-package com.onlyoffice.model.format;
+package com.onlyoffice.model.documenteditor.config.editorconfig.customization.review;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import com.onlyoffice.model.documenteditor.config.document.DocumentType;
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.List;
-
-@Getter
-@Setter
-public class Format {
-    private String name;
-    private DocumentType type;
-    private List<String>  actions;
-    private List<String> convert;
-    private List<String> mime;
+public enum ReviewDisplay {
+    @JsonProperty("markup")
+    MARKUP,
+    @JsonProperty("simple")
+    SIMPLE,
+    @JsonProperty("final")
+    FINAL,
+    @JsonProperty("original")
+    ORIGINAL
 }
+

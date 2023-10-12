@@ -21,7 +21,7 @@ package com.onlyoffice.manager.document;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onlyoffice.manager.settings.SettingsManager;
-import com.onlyoffice.model.config.document.documenttype.DocumentType;
+import com.onlyoffice.model.documenteditor.config.document.DocumentType;
 import com.onlyoffice.model.format.Format;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

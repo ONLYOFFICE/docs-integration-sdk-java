@@ -18,7 +18,7 @@
 
 package com.onlyoffice.manager.document;
 
-import com.onlyoffice.model.config.document.documenttype.DocumentType;
+import com.onlyoffice.model.documenteditor.config.document.DocumentType;
 import com.onlyoffice.model.format.Format;
 
 import java.io.InputStream;

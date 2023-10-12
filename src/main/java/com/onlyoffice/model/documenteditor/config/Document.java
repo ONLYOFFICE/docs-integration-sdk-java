@@ -16,21 +16,26 @@
  *
  */
 
-package com.onlyoffice.model.format;
+package com.onlyoffice.model.documenteditor.config;
 
-
-import com.onlyoffice.model.documenteditor.config.document.DocumentType;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.onlyoffice.model.documenteditor.config.document.Info;
+import com.onlyoffice.model.documenteditor.config.document.Permissions;
+import com.onlyoffice.model.documenteditor.config.document.ReferenceData;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
-public class Format {
-    private String name;
-    private DocumentType type;
-    private List<String>  actions;
-    private List<String> convert;
-    private List<String> mime;
+@Builder
+@JsonInclude(JsonInclude.Include.NON_ABSENT)
+public class Document {
+    private String fileType;
+    private String key;
+    private ReferenceData referenceData;
+    private String title;
+    private String url;
+    private Info info;
+    private Permissions permissions;
 }

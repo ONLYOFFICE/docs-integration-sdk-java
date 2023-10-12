@@ -16,13 +16,9 @@
  *
  */
 
-package com.onlyoffice.service.config;
+package com.onlyoffice.model.documenteditor.config;
 
-import com.onlyoffice.model.documenteditor.Config;
-import com.onlyoffice.model.documenteditor.config.document.Info;
-import com.onlyoffice.model.documenteditor.config.document.Permissions;
-import com.onlyoffice.model.documenteditor.config.document.ReferenceData;
-import com.onlyoffice.model.documenteditor.config.document.Type;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.onlyoffice.model.documenteditor.config.editorconfig.CoEditing;
 import com.onlyoffice.model.documenteditor.config.editorconfig.Customization;
 import com.onlyoffice.model.documenteditor.config.editorconfig.Embedded;
@@ -31,32 +27,31 @@ import com.onlyoffice.model.documenteditor.config.editorconfig.Plugins;
 import com.onlyoffice.model.documenteditor.config.editorconfig.Recent;
 import com.onlyoffice.model.documenteditor.config.editorconfig.Template;
 import com.onlyoffice.model.documenteditor.config.editorconfig.User;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import org.json.JSONObject;
 
 import java.util.List;
 
-public interface ConfigService {
-    Config createConfig(String fileId, Mode mode, String userAgent);
-    Config createConfig(String fileId, Mode mode, Type type);
+@Getter
+@Setter
+@Builder
+@JsonInclude(JsonInclude.Include.NON_ABSENT)
+public class EditorConfig {
+    private JSONObject actionLink;
+    private String callbackUrl;
+    private CoEditing coEditing;
+    private String createUrl;
+    private String lang;
+    private String location;
+    private Mode mode;
+    private List<Recent> recent;
+    private String region;
+    private List<Template> templates;
+    private User user;
+    private Customization customization;
+    private Embedded embedded;
+    private Plugins plugins;
 
-    ReferenceData getReferenceData(String fileId);
-
-    Info getInfo(String fileId);
-
-    Permissions getPermissions(String fileId);
-
-    CoEditing getCoEditing(Object object);
-
-    List<Recent> getRecent(Object object);
-
-    List<Template> getTemplates(String fileId);
-
-    User getUser();
-
-    Customization getCustomization(String fileId);
-
-    Embedded getEmbedded(String fileId);
-
-    Plugins getPlugins(Object object);
-
-    Type getType(String userAgent);
 }

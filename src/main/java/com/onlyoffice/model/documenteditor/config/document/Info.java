@@ -16,10 +16,11 @@
  *
  */
 
-package com.onlyoffice.model.format;
+package com.onlyoffice.model.documenteditor.config.document;
 
-
-import com.onlyoffice.model.documenteditor.config.document.DocumentType;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.onlyoffice.model.documenteditor.config.document.info.SharingSettings;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,10 +28,16 @@ import java.util.List;
 
 @Getter
 @Setter
-public class Format {
-    private String name;
-    private DocumentType type;
-    private List<String>  actions;
-    private List<String> convert;
-    private List<String> mime;
+@Builder
+@JsonInclude(JsonInclude.Include.NON_ABSENT)
+public class Info {
+    @Deprecated
+    private String author;
+    @Deprecated
+    private String created;
+    private Boolean favorite;
+    private String folder;
+    private String owner;
+    private List<SharingSettings> sharingSettings;
+    private String uploaded;
 }
