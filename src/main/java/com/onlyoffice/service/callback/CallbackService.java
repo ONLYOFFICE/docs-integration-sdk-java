@@ -19,7 +19,7 @@
 package com.onlyoffice.service.callback;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.onlyoffice.model.callback.Callback;
+import com.onlyoffice.model.documenteditor.Callback;
 import org.json.JSONObject;
 
 public interface CallbackService {

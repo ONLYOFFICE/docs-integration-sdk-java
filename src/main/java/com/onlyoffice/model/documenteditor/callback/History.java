@@ -16,14 +16,9 @@
  *
  */
 
-package com.onlyoffice.model.callback;
+package com.onlyoffice.model.documenteditor.callback;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.onlyoffice.model.callback.action.Action;
-import com.onlyoffice.model.callback.forcesavetype.ForcesaveType;
-import com.onlyoffice.model.callback.history.History;
-import com.onlyoffice.model.callback.status.Status;
+import com.onlyoffice.model.documenteditor.callback.history.ChangesHistory;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,17 +30,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_ABSENT)
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Callback {
-    private List<Action> actions;
-    private String changesurl;
-    private String filetype;
-    private ForcesaveType forcesavetype;
-    private History history;
-    private String key;
-    private Status status;
-    private String url;
-    private List<String> users;
-    private String token;
+public class History {
+    private String serverVersion;
+    private List<ChangesHistory> changes;
 }

@@ -1,4 +1,4 @@
-package com.onlyoffice.model.callback.action.type;
+package com.onlyoffice.model.documenteditor.callback.action;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;

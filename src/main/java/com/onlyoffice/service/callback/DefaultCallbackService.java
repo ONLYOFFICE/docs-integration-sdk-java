@@ -22,7 +22,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onlyoffice.manager.security.JwtManager;
 import com.onlyoffice.manager.settings.SettingsManager;
-import com.onlyoffice.model.callback.Callback;
+import com.onlyoffice.model.documenteditor.Callback;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

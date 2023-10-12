@@ -16,10 +16,9 @@
  *
  */
 
-package com.onlyoffice.model.callback.action;
+package com.onlyoffice.model.documenteditor.callback.history;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.onlyoffice.model.callback.action.type.Type;
+import com.onlyoffice.model.documenteditor.callback.history.changeshistory.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,8 +28,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_ABSENT)
-public class Action {
-    private Type type;
-    private String userid;
+public class ChangesHistory {
+    private String created;
+    private User user;
 }
