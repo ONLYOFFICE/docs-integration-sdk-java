@@ -16,21 +16,21 @@
  *
  */
 
-package com.onlyoffice.model.documenteditor.callback;
+package com.onlyoffice.model.documenteditor;
 
-import com.onlyoffice.model.documenteditor.callback.history.Changes;
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.onlyoffice.model.documenteditor.history.Version;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Builder
+@JsonInclude(JsonInclude.Include.NON_ABSENT)
 public class History {
-    private String serverVersion;
-    private List<Changes> changes;
+    private String currentVersion;
+    private List<Version> history;
 }

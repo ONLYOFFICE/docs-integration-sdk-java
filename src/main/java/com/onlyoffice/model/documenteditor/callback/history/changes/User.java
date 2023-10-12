@@ -16,21 +16,18 @@
  *
  */
 
-package com.onlyoffice.model.documenteditor.callback;
+package com.onlyoffice.model.documenteditor.callback.history.changes;
 
-import com.onlyoffice.model.documenteditor.callback.history.Changes;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class History {
-    private String serverVersion;
-    private List<Changes> changes;
+public class User {
+    private String id;
+    private String name;
 }
