@@ -18,7 +18,7 @@
 
 package com.onlyoffice.service.convert;
 
-import com.onlyoffice.model.convert.Convert;
+import com.onlyoffice.model.convertservice.Convert;
 import org.json.JSONObject;
 
 public interface ConvertService {

@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onlyoffice.manager.request.RequestManager;
 import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.manager.url.UrlManager;
-import com.onlyoffice.model.convert.Convert;
+import com.onlyoffice.model.convertservice.Convert;
 import com.onlyoffice.model.service.CommandServiceErrorCode;
 import com.onlyoffice.model.service.ConvertServiceErrorCode;
 import com.onlyoffice.model.service.DocumentServerErrorCode;

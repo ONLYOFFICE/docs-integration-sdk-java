@@ -1,4 +1,4 @@
-package com.onlyoffice.model.convert.thumbnail;
+package com.onlyoffice.model.convertservice.convert;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

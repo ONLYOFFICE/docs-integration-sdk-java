@@ -1,8 +1,8 @@
-package com.onlyoffice.model.convert;
+package com.onlyoffice.model.convertservice;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.onlyoffice.model.convert.thumbnail.Thumbnail;
+import com.onlyoffice.model.convertservice.convert.Thumbnail;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
