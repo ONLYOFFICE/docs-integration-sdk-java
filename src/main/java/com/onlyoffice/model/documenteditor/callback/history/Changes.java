@@ -18,7 +18,6 @@
 
 package com.onlyoffice.model.documenteditor.callback.history;
 
-import com.onlyoffice.model.documenteditor.callback.history.changes.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,7 +27,5 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Changes {
-    private String created;
-    private User user;
+public class Changes extends com.onlyoffice.model.common.Changes {
 }

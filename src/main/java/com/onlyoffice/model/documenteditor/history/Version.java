@@ -19,8 +19,8 @@
 package com.onlyoffice.model.documenteditor.history;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.onlyoffice.model.documenteditor.callback.history.Changes;
-import com.onlyoffice.model.documenteditor.callback.history.changes.User;
+import com.onlyoffice.model.documenteditor.history.version.Changes;
+import com.onlyoffice.model.documenteditor.history.version.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
