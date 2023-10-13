@@ -26,4 +26,10 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 public class User extends com.onlyoffice.model.common.User {
+    public User(String id, String name) {
+        super(id, name);
+    }
+
+    public User() {
+    }
 }

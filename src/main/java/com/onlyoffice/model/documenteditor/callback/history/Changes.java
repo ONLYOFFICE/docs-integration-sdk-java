@@ -18,10 +18,17 @@
 
 package com.onlyoffice.model.documenteditor.callback.history;
 
+import com.onlyoffice.model.common.changes.User;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class Changes extends com.onlyoffice.model.common.Changes {
+    public Changes(final String created, final User user) {
+        super(created, user);
+    }
+
+    public Changes() {
+    }
 }
