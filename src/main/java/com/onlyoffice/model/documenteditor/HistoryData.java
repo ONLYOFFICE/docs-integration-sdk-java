@@ -32,6 +32,7 @@ public class HistoryData {
     private String changesUrl;
     private String error;
     private String fileType;
+    private String key;
     private Previous previous;
     private String token;
     private String url;

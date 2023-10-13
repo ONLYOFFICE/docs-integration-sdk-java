@@ -19,6 +19,7 @@
 package com.onlyoffice.model.documenteditor.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.onlyoffice.model.common.User;
 import com.onlyoffice.model.documenteditor.config.editorconfig.CoEditing;
 import com.onlyoffice.model.documenteditor.config.editorconfig.Customization;
 import com.onlyoffice.model.documenteditor.config.editorconfig.Embedded;
@@ -26,7 +27,6 @@ import com.onlyoffice.model.documenteditor.config.editorconfig.Mode;
 import com.onlyoffice.model.documenteditor.config.editorconfig.Plugins;
 import com.onlyoffice.model.documenteditor.config.editorconfig.Recent;
 import com.onlyoffice.model.documenteditor.config.editorconfig.Template;
-import com.onlyoffice.model.documenteditor.config.editorconfig.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

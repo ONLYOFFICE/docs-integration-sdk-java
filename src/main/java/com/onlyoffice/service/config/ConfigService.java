@@ -18,6 +18,7 @@
 
 package com.onlyoffice.service.config;
 
+import com.onlyoffice.model.common.User;
 import com.onlyoffice.model.documenteditor.Config;
 import com.onlyoffice.model.documenteditor.config.document.Info;
 import com.onlyoffice.model.documenteditor.config.document.Permissions;
@@ -30,7 +31,6 @@ import com.onlyoffice.model.documenteditor.config.editorconfig.Mode;
 import com.onlyoffice.model.documenteditor.config.editorconfig.Plugins;
 import com.onlyoffice.model.documenteditor.config.editorconfig.Recent;
 import com.onlyoffice.model.documenteditor.config.editorconfig.Template;
-import com.onlyoffice.model.documenteditor.config.editorconfig.User;
 
 import java.util.List;
 

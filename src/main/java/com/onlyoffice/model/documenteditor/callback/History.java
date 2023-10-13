@@ -18,7 +18,7 @@
 
 package com.onlyoffice.model.documenteditor.callback;
 
-import com.onlyoffice.model.documenteditor.callback.history.Changes;
+import com.onlyoffice.model.common.Changes;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
