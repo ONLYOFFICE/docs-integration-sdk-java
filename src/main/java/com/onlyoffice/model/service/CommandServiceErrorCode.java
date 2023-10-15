@@ -18,6 +18,7 @@
 
 package com.onlyoffice.model.service;
 
+import com.onlyoffice.model.common.Error;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -26,7 +27,7 @@ import java.util.Map;
 
 @AllArgsConstructor
 @Getter
-public enum CommandServiceErrorCode implements ErrorCode {
+public enum CommandServiceErrorCode implements Error {
     NO_ERROR(0, "No errors"),
     KEY_ERRORErrorCode(1, "Document key is missing or no document with such key could be found"),
     CALLBACK_URL_ERROR(2, "Callback url not correct"),
@@ -39,15 +40,15 @@ public enum CommandServiceErrorCode implements ErrorCode {
     private final Integer code;
     private final String description;
 
-    private static final Map<Integer, ErrorCode> BY_CODE = new HashMap<>();
+    private static final Map<Integer, Error> BY_CODE = new HashMap<>();
 
     static {
-        for (ErrorCode e: values()) {
+        for (Error e: values()) {
             BY_CODE.put(e.getCode(), e);
         }
     }
 
-    public static ErrorCode valueOfCode(final Integer code) {
+    public static Error valueOfCode(final Integer code) {
         return BY_CODE.get(code);
     }
 }

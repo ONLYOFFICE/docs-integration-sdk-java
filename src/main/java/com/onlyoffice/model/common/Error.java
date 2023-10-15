@@ -16,9 +16,9 @@
  *
  */
 
-package com.onlyoffice.model.service;
+package com.onlyoffice.model.common;
 
-public interface ErrorCode {
+public interface Error {
     Integer getCode();
     String getDescription();
 }

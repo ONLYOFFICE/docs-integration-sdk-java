@@ -20,7 +20,7 @@ package com.onlyoffice.model.settings.validation;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.onlyoffice.model.common.Service;
-import com.onlyoffice.model.service.ErrorCode;
+import com.onlyoffice.model.common.Error;
 import com.onlyoffice.model.settings.validation.status.Status;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,5 +33,5 @@ import lombok.Setter;
 public class ValidationResult {
     private Status status;
     private Service service;
-    private ErrorCode errorCode;
+    private Error errorCode;
 }

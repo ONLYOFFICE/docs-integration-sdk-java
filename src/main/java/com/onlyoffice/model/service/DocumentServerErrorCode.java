@@ -18,6 +18,7 @@
 
 package com.onlyoffice.model.service;
 
+import com.onlyoffice.model.common.Error;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -26,22 +27,22 @@ import java.util.Map;
 
 @AllArgsConstructor
 @Getter
-public enum DocumentServerErrorCode implements ErrorCode {
+public enum DocumentServerErrorCode implements Error {
     HEALTHCHECK_ERROR(-1, "Healthcheck return false"),
     CONNECTION_ERROR(-99, "Connection error");
 
     private final Integer code;
     private final String description;
 
-    private static final Map<Integer, ErrorCode> BY_CODE = new HashMap<>();
+    private static final Map<Integer, Error> BY_CODE = new HashMap<>();
 
     static {
-        for (ErrorCode e: values()) {
+        for (Error e: values()) {
             BY_CODE.put(e.getCode(), e);
         }
     }
 
-    public static ErrorCode valueOfCode(final Integer code) {
+    public static Error valueOfCode(final Integer code) {
         return BY_CODE.get(code);
     }
 }

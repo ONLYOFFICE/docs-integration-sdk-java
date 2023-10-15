@@ -18,6 +18,7 @@
 
 package com.onlyoffice.model.service;
 
+import com.onlyoffice.model.common.Error;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -26,7 +27,7 @@ import java.util.Map;
 
 @AllArgsConstructor
 @Getter
-public enum ConvertServiceErrorCode implements ErrorCode {
+public enum ConvertServiceErrorCode implements Error {
     UNKNOWN_ERROR(-1, "Unknown error"),
     TIMEOUT_ERROR(-2, "Conversion timeout error"),
     CONVERSION_ERROR(-3, "Conversion error"),
@@ -41,15 +42,15 @@ public enum ConvertServiceErrorCode implements ErrorCode {
     private final Integer code;
     private final String description;
 
-    private static final Map<Integer, ErrorCode> BY_CODE = new HashMap<>();
+    private static final Map<Integer, Error> BY_CODE = new HashMap<>();
 
     static {
-        for (ErrorCode e: values()) {
+        for (Error e: values()) {
             BY_CODE.put(e.getCode(), e);
         }
     }
 
-    public static ErrorCode valueOfCode(final Integer code) {
+    public static Error valueOfCode(final Integer code) {
         return BY_CODE.get(code);
     }
 }
