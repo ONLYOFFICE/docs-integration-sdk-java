@@ -18,7 +18,7 @@
 
 package com.onlyoffice.manager.request;
 
-import com.onlyoffice.model.service.Service;
+import com.onlyoffice.model.common.Service;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.json.JSONObject;

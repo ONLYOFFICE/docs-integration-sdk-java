@@ -26,7 +26,7 @@ import com.onlyoffice.model.convertservice.Convert;
 import com.onlyoffice.model.service.CommandServiceErrorCode;
 import com.onlyoffice.model.service.ConvertServiceErrorCode;
 import com.onlyoffice.model.service.DocumentServerErrorCode;
-import com.onlyoffice.model.service.Service;
+import com.onlyoffice.model.common.Service;
 import com.onlyoffice.model.settings.validation.ValidationResult;
 import com.onlyoffice.model.settings.validation.status.Status;
 import lombok.AccessLevel;

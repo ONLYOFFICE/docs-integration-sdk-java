@@ -16,7 +16,7 @@
  *
  */
 
-package com.onlyoffice.model.service;
+package com.onlyoffice.model.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,6 +25,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum Service {
     DOCUMENT_SERVER("/"),
+    HEALTH_CHECK("/healthckeck"),
     CONVERT_SERVICE("/ConvertService.ashx"),
     COMMAND_SERVICE("/coauthoring/CommandService.ashx");
 

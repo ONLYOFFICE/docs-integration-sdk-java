@@ -24,7 +24,7 @@ import com.onlyoffice.manager.request.RequestManager;
 import com.onlyoffice.manager.url.UrlManager;
 import com.onlyoffice.model.convertservice.Convert;
 import com.onlyoffice.model.convertservice.convert.Thumbnail;
-import com.onlyoffice.model.service.Service;
+import com.onlyoffice.model.common.Service;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

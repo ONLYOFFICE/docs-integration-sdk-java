@@ -21,7 +21,7 @@ package com.onlyoffice.manager.request;
 import com.onlyoffice.manager.security.JwtManager;
 import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.manager.url.UrlManager;
-import com.onlyoffice.model.service.Service;
+import com.onlyoffice.model.common.Service;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

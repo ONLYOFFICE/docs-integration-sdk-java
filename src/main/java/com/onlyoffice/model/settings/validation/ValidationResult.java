@@ -19,8 +19,8 @@
 package com.onlyoffice.model.settings.validation;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.onlyoffice.model.common.Service;
 import com.onlyoffice.model.service.ErrorCode;
-import com.onlyoffice.model.service.Service;
 import com.onlyoffice.model.settings.validation.status.Status;
 import lombok.Builder;
 import lombok.Getter;
