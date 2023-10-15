@@ -2,7 +2,8 @@ package com.onlyoffice.model.convertservice;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.onlyoffice.model.convertservice.convert.Thumbnail;
+import com.onlyoffice.model.common.RequestEntity;
+import com.onlyoffice.model.convertservice.convertrequest.Thumbnail;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,7 +17,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Convert {
+public class ConvertRequest extends RequestEntity {
     private Boolean async;
     private int codePage;
     private int delimiter;
@@ -27,6 +28,5 @@ public class Convert {
     private String region;
     private Thumbnail thumbnail;
     private String title;
-    private String token;
     private String url;
 }

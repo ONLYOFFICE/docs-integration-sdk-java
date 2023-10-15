@@ -22,9 +22,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onlyoffice.manager.document.DocumentManager;
 import com.onlyoffice.manager.request.RequestManager;
 import com.onlyoffice.manager.url.UrlManager;
-import com.onlyoffice.model.convertservice.Convert;
-import com.onlyoffice.model.convertservice.convert.Thumbnail;
 import com.onlyoffice.model.common.Service;
+import com.onlyoffice.model.convertservice.ConvertRequest;
+import com.onlyoffice.model.convertservice.convertrequest.Thumbnail;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -43,45 +43,45 @@ public class DefaultConvertService implements ConvertService {
     private UrlManager urlManager;
     private RequestManager requestManager;
 
-    public JSONObject processConvert(final Convert convert, final String fileId) throws Exception {
+    public JSONObject processConvert(final ConvertRequest convertRequest, final String fileId) throws Exception {
         String fileName = documentManager.getDocumentName(fileId);
 
-        if (convert.getFiletype() == null || convert.getFiletype().isEmpty()) {
-            convert.setFiletype(documentManager.getExtension(fileName));
+        if (convertRequest.getFiletype() == null || convertRequest.getFiletype().isEmpty()) {
+            convertRequest.setFiletype(documentManager.getExtension(fileName));
         }
 
-        if (convert.getKey() == null || convert.getKey().isEmpty()) {
-            convert.setKey(documentManager.getDocumentKey(fileId, false));
+        if (convertRequest.getKey() == null || convertRequest.getKey().isEmpty()) {
+            convertRequest.setKey(documentManager.getDocumentKey(fileId, false));
         }
 
-        if (convert.getOutputtype() == null || convert.getOutputtype().isEmpty()) {
-            convert.setOutputtype(documentManager.getDefaultConvertExtension(fileName));
+        if (convertRequest.getOutputtype() == null || convertRequest.getOutputtype().isEmpty()) {
+            convertRequest.setOutputtype(documentManager.getDefaultConvertExtension(fileName));
         }
 
-        if (convert.getTitle() == null || convert.getTitle().isEmpty()) {
-            convert.setTitle(
+        if (convertRequest.getTitle() == null || convertRequest.getTitle().isEmpty()) {
+            convertRequest.setTitle(
                     documentManager.geBaseName(fileName)
                     + "."
-                    + convert.getOutputtype()
+                    + convertRequest.getOutputtype()
             );
         }
 
-        if (convert.getUrl() == null || convert.getUrl().isEmpty()) {
-            convert.setUrl(urlManager.getFileUrl(fileId));
+        if (convertRequest.getUrl() == null || convertRequest.getUrl().isEmpty()) {
+            convertRequest.setUrl(urlManager.getFileUrl(fileId));
         }
 
-        if (Arrays.asList("bmp", "gif", "jpg", "png").contains(convert.getOutputtype())
-                && convert.getThumbnail() == null) {
+        if (Arrays.asList("bmp", "gif", "jpg", "png").contains(convertRequest.getOutputtype())
+                && convertRequest.getThumbnail() == null) {
 
             Thumbnail thumbnail = Thumbnail.builder()
                     .first(false)
                     .build();
 
-            convert.setThumbnail(thumbnail);
+            convertRequest.setThumbnail(thumbnail);
         }
 
         ObjectMapper mapper = new ObjectMapper();
-        JSONObject bodyJson = new JSONObject(mapper.writeValueAsString(convert));
+        JSONObject bodyJson = new JSONObject(mapper.writeValueAsString(convertRequest));
 
         return requestManager.executePostRequest(Service.CONVERT_SERVICE, bodyJson,
                 new RequestManager.Callback<JSONObject>() {

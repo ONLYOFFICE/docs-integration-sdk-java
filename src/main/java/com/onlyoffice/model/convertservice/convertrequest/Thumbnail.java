@@ -1,4 +1,4 @@
-package com.onlyoffice.model.convertservice.convert;
+package com.onlyoffice.model.convertservice.convertrequest;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
