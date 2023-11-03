@@ -25,84 +25,84 @@ import org.json.JSONObject;
 public interface CallbackService {
 
     /**
-     * Callback verification from JSON object.
+     * Verifies the callback object using the callback request body.
      *
-     * @param body the body callback request
-     * @param authorizationHeader the authorization header from callback request
-     * @return the verified callback object
+     * @param body The callback request body.
+     * @param authorizationHeader The authorization header from the callback request.
+     * @return The verified callback object.
      * @throws JsonProcessingException
      */
     Callback verifyCallback(JSONObject body, String authorizationHeader) throws JsonProcessingException;
 
     /**
-     * Callback verification.
+     * Verifies the {@link Callback} object.
      *
-     * @param callback  the object {@link Callback}
-     * @param authorizationHeader the authorization header from callback request
-     * @return the verified callback object
+     * @param callback  The {@link Callback} object with the callback handler parameters.
+     * @param authorizationHeader The authorization header from the callback request.
+     * @return The verified callback object.
      * @throws JsonProcessingException
      */
     Callback verifyCallback(Callback callback, String authorizationHeader) throws JsonProcessingException;
 
     /**
-     * Callback processing.
+     * Starts the callback handler.
      *
-     * @param callback the object {@link Callback}
-     * @param fileId the ID of the file
+     * @param callback The {@link Callback} object with the callback handler parameters.
+     * @param fileId The file ID.
      * @throws Exception
      */
     void processCallback(Callback callback, String fileId) throws Exception;
 
     /**
-     * Handler called if callback status is 1 (EDITING).
+     * Starts the handler that is called if the callback status is 1 (EDITING).
      *
-     * @param callback the object {@link Callback}
-     * @param fileId the ID of the file
+     * @param callback The {@link Callback} object with the callback handler parameters.
+     * @param fileId The file ID.
      * @throws Exception
      */
     void handlerEditing(Callback callback, String fileId) throws Exception;
 
     /**
-     * Handler called if callback status is 2 (SAVE).
+     * Starts the handler that is called if the callback status is 2 (SAVE).
      *
-     * @param callback the object {@link Callback}
-     * @param fileId the ID of the file
+     * @param callback The {@link Callback} object with the callback handler parameters.
+     * @param fileId The file ID.
      * @throws Exception
      */
     void handlerSave(Callback callback, String fileId) throws Exception;
 
     /**
-     * Handler called if callback status is 3 (SAVE_CORRUPTED).
+     * Starts the handler that is called if the callback status is 3 (SAVE_CORRUPTED).
      *
-     * @param callback the object {@link Callback}
-     * @param fileId the ID of the file
+     * @param callback The {@link Callback} object with the callback handler parameters.
+     * @param fileId The file ID.
      * @throws Exception
      */
     void handlerSaveCorrupted(Callback callback, String fileId) throws Exception;
 
     /**
-     * Handler called if callback status is 4 (CLOSED).
+     * Starts the handler that is called if the callback status is 4 (CLOSED).
      *
-     * @param callback the object {@link Callback}
-     * @param fileId the ID of the file
+     * @param callback The {@link Callback} object with the callback handler parameters.
+     * @param fileId The file ID.
      * @throws Exception
      */
     void handlerClosed(Callback callback, String fileId) throws Exception;
 
     /**
-     * Handler called if callback status is 6 (FORCESAVE).
+     * Starts the handler that is called if the callback status is 6 (FORCESAVE).
      *
-     * @param callback the object {@link Callback}
-     * @param fileId the ID of the file
+     * @param callback The {@link Callback} object with the callback handler parameters.
+     * @param fileId The file ID.
      * @throws Exception
      */
     void handlerForcesave(Callback callback, String fileId) throws Exception;
 
     /**
-     * Handler called if callback status is 7 (FORCESAVE_CORRUPTED).
+     * Starts the handler that is called if the callback status is 7 (FORCESAVE_CORRUPTED).
      *
-     * @param callback the object {@link Callback}
-     * @param fileId the ID of the file
+     * @param callback The {@link Callback} object with the callback handler parameters.
+     * @param fileId The file ID.
      * @throws Exception
      */
     void handlerForcesaveCurrupted(Callback callback, String fileId) throws Exception;

@@ -20,78 +20,78 @@ package com.onlyoffice.manager.url;
 
 public interface UrlManager {
      /**
-      * Gets url to Document Server.
+      * Returns the URL to the Document Server.
       *
-      * @return the url to Document Server
+      * @return The URL to the Document Server.
       */
      String getDocumentServerUrl();
 
      /**
-      * Gets inner url to Document Server.
+      * Returns the inner URL to the Document Server.
       *
-      * @return the inner url to Document Server
+      * @return The inner URL to the Document Server.
       */
      String getInnerDocumentServerUrl();
 
      /**
-      * Gets url to Document Server API.
+      * Returns the URL to the Document Server API.
       *
-      * @return the url Document Server API
+      * @return The URL to the Document Server API.
       */
      String getDocumentServerApiUrl();
 
      /**
-      * Gets url to file download.
+      * Returns the URL to download a file with the ID specified in the request.
       *
-      * @param fileId the ID of the file
-      * @return the url to file download
+      * @param fileId The file ID.
+      * @return The URL to download a file.
       */
      String getFileUrl(String fileId);
 
      /**
-      * Gets url to callback handler.
+      * Returns the URL to the callback handler.
       *
-      * @param fileId the ID of the file
-      * @return the url to callback handler
+      * @param fileId The file ID.
+      * @return The URL to the callback handler.
       */
      String getCallbackUrl(String fileId);
 
      /**
-      * Gets url to file location folder.
+      * Returns the URL to the location folder of a file with the ID specified in the request.
       *
-      * @param fileId the ID of the file
-      * @return the url to file location folder
+      * @param fileId The file ID.
+      * @return The URL to the file location folder.
       */
      String getGobackUrl(String fileId);
 
      /**
-      * Gets url to create new.
+      * Returns the URL to create a new file with the ID specified in the request.
       *
-      * @param fileId the ID of the file
-      * @return the url to create new
+      * @param fileId The file ID.
+      * @return The URL to create a new file.
       */
      String getCreateUrl(String fileId);
 
      /**
-      * Remove trailing slash from URL if it exists.
+      * Removes the trailing slash from the URL if it exists.
       *
-      * @param url the url to document server
-      * @return the url without trailing slash
+      * @param url The URL to the Document Server.
+      * @return The URL without the trailing slash.
       */
      String sanitizeUrl(String url);
 
      /**
-      * Replace url to .
+      * Replaces the URL to the Document Server with the internal one.
       *
-      * @param url the url to document server
-      * @return the url without trailing slash
+      * @param url The URL to the Document Server.
+      * @return The internal URL.
       */
      String replaceToInnerDocumentServerUrl(String url);
 
      /**
-      * Gets url to test file.
+      * Returns the URL to the test file.
       *
-      * @return the url to test file
+      * @return The URL to the test file.
       */
      String getTestConvertUrl();
 }

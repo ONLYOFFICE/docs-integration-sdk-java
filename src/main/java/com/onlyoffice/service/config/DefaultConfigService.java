@@ -54,13 +54,13 @@ import java.util.regex.Pattern;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DefaultConfigService implements ConfigService {
-    /** The {@link DocumentManager}. */
+    /** {@link DocumentManager}. */
     private DocumentManager documentManager;
-    /** The {@link UrlManager}. */
+    /** {@link UrlManager}. */
     private UrlManager urlManager;
-    /** The {@link JwtManager}. */
+    /** {@link JwtManager}. */
     private JwtManager jwtManager;
-    /** The {@link SettingsManager}. */
+    /** {@link SettingsManager}. */
     private SettingsManager settingsManager;
 
     @Override

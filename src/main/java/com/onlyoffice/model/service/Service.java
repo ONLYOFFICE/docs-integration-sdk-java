@@ -21,12 +21,29 @@ package com.onlyoffice.model.service;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * Defines the server service.
+ */
 @Getter
 @AllArgsConstructor
 public enum Service {
+    /**
+     * Defines a path to the Document Server.
+     */
     DOCUMENT_SERVER("/"),
+
+    /**
+     * Defines a path to the Converting Service.
+     */
     CONVERT_SERVICE("/ConvertService.ashx"),
+
+    /**
+     * Defines a path to the Command Service.
+     */
     COMMAND_SERVICE("/coauthoring/CommandService.ashx");
 
+    /**
+     * Defines a path to the server service.
+     */
     private final String path;
 }

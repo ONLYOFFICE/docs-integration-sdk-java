@@ -20,9 +20,21 @@ package com.onlyoffice.model.config.editor.mode;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Defines the editor opening mode. Can be either "view" to open the document for viewing,
+ * or "edit" to open the document in the editing mode allowing to apply changes to the document data.
+ * The default value is "edit".
+ */
 public enum Mode {
+    /**
+     * Opens a document for viewing.
+     */
     @JsonProperty("view")
     VIEW,
+
+    /**
+     * Opens a document for editing.
+     */
     @JsonProperty("edit")
     EDIT
 }

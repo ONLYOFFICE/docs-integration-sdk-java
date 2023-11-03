@@ -20,6 +20,9 @@ package com.onlyoffice.model.config.editor.coediting;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Defines the co-editing mode ("fast" or "strict"). The default value is "fast".
+ */
 public enum Mode {
     @JsonProperty("fast")
     FAST,

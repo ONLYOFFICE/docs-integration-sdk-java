@@ -23,12 +23,26 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Defines the presence or absence of the templates in the "Create New..." menu option.
+ */
 @Getter
 @Setter
 @Builder
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 public class Template {
+    /**
+     * Defines the absolute URL to the image for template.
+     */
     private String image;
+
+    /**
+     * Defines the template title that will be displayed in the "Create New..." menu option.
+     */
     private String title;
+
+    /**
+     * Defines the absolute URL to the document where it will be created and available after creation.
+     */
     private String url;
 }

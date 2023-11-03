@@ -20,11 +20,25 @@ package com.onlyoffice.model.config.document.type;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Defines the platform type used to access the document.
+ */
 public enum Type {
+    /**
+     * The platform which is optimized to access the document from a desktop or laptop computer.
+     */
     @JsonProperty("desktop")
     DESKTOP,
+
+    /**
+     * The platform which is optimized to access the document from a tablet or a smartphone.
+     */
     @JsonProperty("mobile")
     MOBILE,
+
+    /**
+     * The platform which is specifically formed to be easily embedded into a web page.
+     */
     @JsonProperty("embedded")
     EMBEDDED
 }

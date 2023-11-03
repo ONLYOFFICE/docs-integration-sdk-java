@@ -20,9 +20,19 @@ package com.onlyoffice.model.config.editor.embedded.toolbar;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Defines the place for the embedded viewer toolbar, can be either "top" or "bottom".
+ */
 public enum Toolbar {
+    /**
+     * The embedded viewer toolbar is located at the top.
+     */
     @JsonProperty("top")
     TOP,
+
+    /**
+     * The embedded viewer toolbar is located at the bottom.
+     */
     @JsonProperty("bottom")
     BOTTOM
 }

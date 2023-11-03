@@ -62,11 +62,11 @@ import java.util.concurrent.TimeUnit;
 @NoArgsConstructor
 public class DefaultRequestManager implements RequestManager {
 
-    /** The {@link UrlManager}. */
+    /** {@link UrlManager}. */
     private UrlManager urlManager;
-    /** The {@link JwtManager}. */
+    /** {@link JwtManager}. */
     private JwtManager jwtManager;
-    /** The {@link SettingsManager}. */
+    /** {@link SettingsManager}. */
     private SettingsManager settingsManager;
 
     @Override

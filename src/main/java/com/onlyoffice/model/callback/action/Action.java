@@ -25,12 +25,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Defines the object received when the user takes an action with the document.
+ */
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 public class Action {
+    /**
+     * Defines the action type.
+     */
     private Type type;
+
+    /**
+     * Defines the user identifier.
+     */
     private String userid;
 }

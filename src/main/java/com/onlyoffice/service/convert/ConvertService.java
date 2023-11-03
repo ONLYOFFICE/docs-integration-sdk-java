@@ -24,11 +24,11 @@ import org.json.JSONObject;
 public interface ConvertService {
 
     /**
-     * Convert processing.
+     * Starts the file conversion process.
      *
-     * @param convert the object {@link Convert}
-     * @param fileId the ID of the file
-     * @return the JSON object containing the body of the response from the conversion service
+     * @param convert The {@link Convert} object with the request parameters that are sent to the "https://documentserver/ConvertService.ashx" address.
+     * @param fileId The ID of the file to be converted.
+     * @return The JSON object containing the body of the response from the conversion service.
      * @throws Exception
      */
     JSONObject processConvert(Convert convert, String fileId) throws Exception;

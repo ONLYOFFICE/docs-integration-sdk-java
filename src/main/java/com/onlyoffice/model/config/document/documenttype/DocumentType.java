@@ -20,11 +20,29 @@ package com.onlyoffice.model.config.document.documenttype;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Defines the document type to be opened.
+ */
 public enum DocumentType {
+    /**
+     * Text document (.djvu, .doc, .docm, .docx, .docxf, .dot, .dotm,
+     * .dotx, .epub, .fb2, .fodt, .htm, .html, .mht, .mhtml, .odt, .oform,
+     * .ott, .oxps, .pdf, .rtf, .stw, .sxw, .txt, .wps, .wpt, .xml, .xps).
+     */
     @JsonProperty("word")
     WORD,
+
+    /**
+     * Spreadsheet (.csv, .et, .ett, .fods, .ods, .ots, .sxc, .xls, .xlsb,
+     * .xlsm, .xlsx, .xlt, .xltm, .xltx, .xml).
+     */
     @JsonProperty("cell")
     CELL,
+
+    /**
+     * Presentation (.dps, .dpt, .fodp, .odp, .otp, .pot, .potm, .potx, .pps,
+     * .ppsm, .ppsx, .ppt, .pptm, .pptx, .sxi).
+     */
     @JsonProperty("slide")
     SLIDE
 }

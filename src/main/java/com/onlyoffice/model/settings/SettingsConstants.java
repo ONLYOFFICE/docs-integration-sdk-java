@@ -18,15 +18,49 @@
 
 package com.onlyoffice.model.settings;
 
+/**
+ * Defines the settings constants.
+ */
 public final class SettingsConstants {
     private SettingsConstants() { }
 
+    /**
+     * Defines the URL to the Document Server.
+     */
     public static final String DOCUMENT_SERVER_URL = "document-server-url";
+
+    /**
+     * Defines the internal URL to the Document Server.
+     */
     public static final String DOCUMENT_SERVER_INNER_URL = "document-server-inner-url";
+
+    /**
+     * Defines the secret authorization key.
+     */
     public static final String SECURITY_SECRET = "security.secret";
+
+    /**
+     * Defines the authorization header.
+     */
     public static final String SECURITY_HEADER = "security.header";
+
+    /**
+     * Defines the authorization prefix.
+     */
     public static final String SECURITY_PREFIX  = "security.prefix";
+
+    /**
+     * Defines the setting to ignore SSL certificate.
+     */
     public static final String SECURITY_IGNORE_SSL_CERTIFICATE = "security.ignore-ssl-certificate";
+
+    /**
+     * Defines the demo editor.
+     */
     public static final String DEMO = "demo";
+
+    /**
+     * Defines the setting to enable the demo editor.
+     */
     public static final String DEMO_START = "demo-start";
 }

@@ -37,10 +37,10 @@ import org.json.JSONObject;
 @NoArgsConstructor
 public class DefaultCallbackService implements CallbackService {
 
-    /** The {@link JwtManager}. */
+    /** {@link JwtManager}. */
     private JwtManager jwtManager;
 
-    /** The {@link SettingsManager}. */
+    /** {@link SettingsManager}. */
     private SettingsManager settingsManager;
 
     @Override

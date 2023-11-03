@@ -22,59 +22,59 @@ import com.onlyoffice.model.settings.validation.ValidationResult;
 
 public interface ValidationSettingsService {
     /**
-     * Check Document Server.
+     * Checks the Document Server.
      *
-     * @return the object {@link ValidationResult}
+     * @return The {@link ValidationResult} object.
      * @throws Exception
      */
     ValidationResult checkDocumentServer() throws Exception;
 
     /**
-     * Check Document Server.
+     * Checks the Document Server by its URL.
      *
-     * @param url the url to Document Server.
-     * @return the object {@link ValidationResult}
+     * @param url The URL to the Document Server.
+     * @return The {@link ValidationResult} object.
      * @throws Exception
      */
     ValidationResult checkDocumentServer(String url) throws Exception;
 
     /**
-     * Check Command Service.
+     * Checks the Command Service.
      *
-     * @return the object {@link ValidationResult}
+     * @return The {@link ValidationResult} object.
      * @throws Exception
      */
     ValidationResult checkCommandService() throws Exception;
 
     /**
-     * Check Command Service.
+     * Checks the Command Service.
      *
-     * @param url the url to Document Server.
-     * @param secretKey the secret authorization key
-     * @param jwtHeader the authorization header
-     * @param jwtPrefix the authorization prefix
-     * @return the object {@link ValidationResult}
+     * @param url The URL to the Document Server.
+     * @param secretKey The secret authorization key.
+     * @param jwtHeader The authorization header.
+     * @param jwtPrefix The authorization prefix.
+     * @return The {@link ValidationResult} object.
      * @throws Exception
      */
     ValidationResult checkCommandService(String url, String secretKey, String jwtHeader, String jwtPrefix)
             throws Exception;
 
     /**
-     * Check Convert Service.
+     * Checks the Convert Service.
      *
-     * @return the object {@link ValidationResult}
+     * @return The {@link ValidationResult} object.
      * @throws Exception
      */
     ValidationResult checkConvertService() throws Exception;
 
     /**
-     * Check Convert Service.
+     * Checks the Convert Service by the Document Server URL.
      *
-     * @param url the url to Document Server.
-     * @param secretKey the secret authorization key
-     * @param jwtHeader the authorization header
-     * @param jwtPrefix the authorization prefix
-     * @return the object {@link ValidationResult}
+     * @param url The URL to the Document Server.
+     * @param secretKey The secret authorization key.
+     * @param jwtHeader The authorization header.
+     * @param jwtPrefix Te authorization prefix.
+     * @return The {@link ValidationResult} object.
      * @throws Exception
      */
     ValidationResult checkConvertService(String url, String secretKey, String jwtHeader, String jwtPrefix)

@@ -26,18 +26,54 @@ import lombok.Setter;
 
 import java.util.List;
 
+/**
+ * Defines the additional parameters for the document.
+ */
 @Getter
 @Setter
 @Builder
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 public class Info {
+    /**
+     * Defines the name of the document author/creator.
+     * Deprecated since version 5.4, please use {@link Info#owner owner} instead.
+     */
     @Deprecated
     private String author;
+
+    /**
+     * Defines the document creation date.
+     * Deprecated since version 5.4, please use {@link Info#uploaded uploaded} instead.
+     */
     @Deprecated
     private String created;
+
+    /**
+     * Defines the highlighting state of the "Favorite" icon.
+     * When the user clicks the icon, the "onMetaChange" event is called.
+     * If the parameter is undefined, the "Favorite" icon is not displayed at the editor window header.
+     * 
+     * @see <a target="_top" href="https://api.onlyoffice.com/editors/config/events#onMetaChange">"onMetaChange" event in API ONLYOFFICE</a>
+     */
     private Boolean favorite;
+
+    /**
+     * Defines the folder where the document is stored (can be empty in case the document is stored in the root folder).
+     */
     private String folder;
+
+    /**
+     * Defines the name of the document owner/creator.
+     */
     private String owner;
+
+    /**
+     * Defines the information about the settings which allow to share the document with other users.
+     */
     private List<SharingSettings> sharingSettings;
+
+    /**
+     * Defines the document uploading date.
+     */
     private String uploaded;
 }

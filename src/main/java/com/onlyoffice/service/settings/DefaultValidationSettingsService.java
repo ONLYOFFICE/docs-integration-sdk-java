@@ -49,11 +49,11 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DefaultValidationSettingsService implements ValidationSettingsService {
-    /** The {@link RequestManager}. */
+    /** {@link RequestManager}. */
     private RequestManager requestManager;
-    /** The {@link UrlManager}. */
+    /** {@link UrlManager}. */
     private UrlManager urlManager;
-    /** The {@link SettingsManager}. */
+    /** {@link SettingsManager}. */
     private SettingsManager settingsManager;
 
     @Override

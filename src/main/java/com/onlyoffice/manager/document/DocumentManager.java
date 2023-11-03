@@ -29,178 +29,170 @@ import java.util.Map;
 public interface DocumentManager {
 
     /**
-     * Returns list containing of file formats (electronic documents, forms, spreadsheets, presentations) supported
-     * by ONLYOFFICE editors and describes the properties of each file format type, was taken from <a target="_top"
+     * Returns a list of file formats (electronic documents, forms, spreadsheets, presentations) supported
+     * by the ONLYOFFICE editors. The properties of each file format type are described in the list. This information is taken from the <a target="_top"
      * href="https://github.com/ONLYOFFICE/document-formats">Formats repository</a>.
      *
-     * @return list containing data about supported formats
+     * @return A list containing data about the supported formats.
      */
     List<Format> getFormats();
 
     /**
-     * Generate the unique document identifier used by the service to recognize the document.
+     * Generates a unique document identifier used by the service to recognize the document.
      *
-     * @param fileId the ID of the file
-     * @param embedded set true if editor opened with embedded type
-     * @return the unique document identifier
+     * @param fileId The file ID.
+     * @param embedded Specifies if the editor is opened in the embedded mode (true) or not (false).
+     * @return The unique document identifier.
      */
     String getDocumentKey(String fileId, boolean embedded);
 
     /**
-     * Gets the document name by file id.
+     * Returns the document name by file ID.
      *
-     * @param fileId the ID of the file
-     * @return the document name
+     * @param fileId The file ID.
+     * @return The document name.
      */
     String getDocumentName(String fileId);
 
     /**
-     * Gets the extension of a fileName.
+     * Returns the file extension from the file name.
      *
-     * @param fileName the fileName to retrieve the extension of
-     * @return the extension of the file or an empty string if none exists or null if the fileName is null.
+     * @param fileName The file name to get the extension.
+     * @return The file extension, or an empty string if it doesn't exist, or null if the file name is null.
      */
     String getExtension(String fileName);
 
 
     /**
-     * Gets the base name, minus the full path and extension, from a full fileName.
+     * Returns the file base name without the full path and extension.
      *
-     * @param fileName the fileName to query, null returns null
-     * @return the name of the file without the path, or an empty string if none exists
+     * @param fileName The file name to get the base name.
+     * @return The file name without the full path and extension, or an empty string if it doesn't exist, or null if the file name is null.
      */
     String geBaseName(String fileName);
 
     /**
-     * Gets the content type by file name.
+     * Returns the document type by the file name.
      *
-     * @param fileName the fileName to query
-     * @return the content type of the file, or "application/octet-stream" if the content type cannot be determined
-     */
-    String getMimeType(String fileName);
-
-    /**
-     * Gets the document type by file name.
-     *
-     * @param fileName the fileName to retrieve the document type of
+     * @param fileName The file name to get the document type.
      * @see DocumentType
-     * @return the document type
+     * @return The document type.
      */
     DocumentType getDocumentType(String fileName);
 
     /**
-     * Determine whether a document is editable by file name.
+     * Determines whether a document with a name specified in the request is editable.
      *
-     * @param fileName the file name to determine
-     * @return true if document is editable
+     * @param fileName The file name.
+     * @return True if the document is editable.
      */
     boolean isEditable(String fileName);
 
     /**
-     * Determine whether a document is viewable by file name.
+     * Determines whether a document with a name specified in the request is viewable.
      *
-     * @param fileName the file name to determine
-     * @return true if document is viewable
+     * @param fileName The file name.
+     * @return True if the document is viewable.
      */
     boolean isViewable(String fileName);
 
     /**
-     * Determine whether a document is fillable by file name.
+     * Determines whether a document with a name specified in the request is fillable.
      *
-     * @param fileName the file name to determine
-     * @return true if document is fillable
+     * @param fileName The file name.
+     * @return True if the document is fillable.
      */
     boolean isFillable(String fileName);
 
     /**
-     * Determine whether an action can be performed on a document by file name.
+     * Determines whether an action can be performed on a document with a name specified in the request.
      *
-     * @param fileName the file name to determine
-     * @param action the performed action
+     * @param fileName The file name.
+     * @param action An action to perform.
      * @see <a target="_top" href="https://github.com/ONLYOFFICE/document-formats">Formats repository</a>
-     * @return true if action can be performed on a document
+     * @return True if the action can be performed on a document.
      */
     boolean hasAction(String fileName, String action);
 
     /**
-     * Gets an {@link InputStream} of an empty file with the given extension and locale.
+     * Returns {@link InputStream} of an empty file with the given extension and locale.
      *
-     * @param extension the file extension
-     * @param locale the locale
+     * @param extension The file extension.
+     * @param locale The file locale.
      * @see <a target="_top"
      * href="https://github.com/ONLYOFFICE/document-templates/tree/main/new">Template repository</a>
-     * @return {@link InputStream} of an empty file
+     * @return {@link InputStream} of an empty file.
      */
     InputStream getNewBlankFile(String extension, Locale locale);
 
     /**
-     * Determines the default OOXML extension by document type.
+     * Returns the default OOXML extension by the specified document type.
      *
-     * @param documentType document type
+     * @param documentType The document type.
      * @see DocumentType
-     * @return default OOXML extension
+     * @return The default OOXML extension.
      */
     String getDefaultExtension(DocumentType documentType);
 
     /**
-     * Determine the default OOXML extension to which the document should be converted.
+     * Returns the default OOXML extension to which the document with the name specified in the request should be converted.
      *
-     * @param fileName the file name to determine
-     * @return default convert OOXML extension
+     * @param fileName The file name.
+     * @return The default OOXML extension for conversion.
      */
     String getDefaultConvertExtension(String fileName);
 
     /**
-     * Determine a list of extensions that the document can be converted to.
+     * Returns a list of extensions that the document with the name specified in the request can be converted to.
      *
-     * @param fileName the file name to determine
-     * @return list extension
+     * @param fileName The file name.
+     * @return A list of extensions for conversion.
      */
     List<String> getConvertExtensionList(String fileName);
 
     /**
-     * Get a map of extensions that can be edited with possible loss of information.
+     * Returns a list of extensions that can be edited with the possible loss of information.
      *
-     * @return map extension
+     * @return A list of extensions that can be edited with the possible loss of information.
      */
     List<String> Map<String, Boolean> getLossyEditableMap();();
 
     /**
-     * Get a list of extensions that can be used for insert as image to document.
+     * Returns a list of image extensions that can be inserted into the document.
      *
-     * @return list extension
+     * @see <a target="_top" href="https://api.onlyoffice.com/editors/methods#insertImage">insertImage method in API ONLYOFFICE</a>
+     * @return A list of image extensions.
      */
     List<String> getInsertImageExtensions();
 
     /**
-     * Get a list of extensions that can be used for insert as image to document.
+     * Returns a list of extensions that can be used for the document comparison functions.
      *
-     * @see <a target="_top" href="https://api.onlyoffice.com/editors/methods#insertImage">API ONLYOFFICE</a>
-     * @return list extension
+     * @see <a target="_top" href="https://api.onlyoffice.com/editors/methods#setRequestedDocument">setRequestedDocument method in API ONLYOFFICE</a>
+     * @return A list of extensions for the document comparison.
      */
     List<String> getCompareFileExtensions();
 
     /**
-     * Get a list of extensions that can be used for document comparison functions.
+     * Returns a list of extensions that can be used for mail merge in the document.
      *
-     * @see <a target="_top"
-     * href="https://api.onlyoffice.com/editors/config/events#onRequestCompareFile">API ONLYOFFICE</a>
-     * @return list extension
+     * @see <a target="_top" href="https://api.onlyoffice.com/editors/methods#setRequestedSpreadsheet">setRequestedSpreadsheet method in API ONLYOFFICE</a>
+     * @return A list of extensions for mail merge.
      */
     List<String> getMailMergeExtensions();
 
 
     /**
-     * Get the maximum file size that can be opened in the ONLYOFFICE editor.
+     * Returns the maximum file size that can be opened in the ONLYOFFICE editor.
      *
-     * @return file size
+     * @return The maximum file size that can be opened.
      */
     long getMaxFileSize();
 
     /**
-     * Get the maximum file size that can be converted in the ONLYOFFICE Conversion Service.
+     * Returns the maximum file size that can be converted in the ONLYOFFICE Conversion Service.
      *
-     * @return file size
+     * @return The maximum file size that can be converted.
      */
     long getMaxConversionFileSize();
 }

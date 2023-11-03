@@ -23,14 +23,42 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Defines settings for the "Open file location" menu button and upper right corner button.
+ */
 @Getter
 @Setter
 @Builder
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 public class Goback {
+    /**
+     * Opens the website in the new browser tab/window (if the value is set to "true")
+     * or the current tab (if the value is set to "false") when the "Open file location" button is clicked.
+     * The default value is "true".
+     */
     private Boolean blank;
+
+    /**
+     * Defines that if the "Open file location" button is clicked, "events.onRequestClose" event is called
+     * instead of opening a browser tab or window. The default value is "false".
+     * 
+     * @see <a target="_top" href="https://api.onlyoffice.com/editors/config/events#onRequestClose">"onRequestClose" event in API ONLYOFFICE</a>
+     */
     private Boolean requestClose;
+
+    /**
+     * Defines the text which will be displayed for the "Open file location" menu button
+     * and upper right corner button (i.e. instead of "Go to Documents").
+     */
     private String text;
+
+    /**
+     * Defines the absolute URL to the website address which will be opened when clicking the "Open file location" menu button.
+     */
     private String url;
+
+    /**
+     * Defines if the "Help" menu button is displayed or hidden. The default value is "true".
+     */
     private Boolean help;
 }

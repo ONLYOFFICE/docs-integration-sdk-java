@@ -36,7 +36,7 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DefaultJwtManager implements JwtManager {
-    /** The {@link SettingsManager}. */
+    /** {@link SettingsManager}. */
     private SettingsManager settingsManager;
 
     @Override

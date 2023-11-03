@@ -24,15 +24,35 @@ import lombok.Getter;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Defines the Document Server error codes.
+ */
 @AllArgsConstructor
 @Getter
 public enum DocumentServerErrorCode implements ErrorCode {
+    /**
+     * Healthcheck return false (the error code is -1).
+     */
     HEALTHCHECK_ERROR(-1, "Healthcheck return false"),
+
+    /**
+     * Connection error (the error code is -99).
+     */
     CONNECTION_ERROR(-99, "Connection error");
 
+    /**
+     * Defines the error code.
+     */
     private final Integer code;
+
+    /**
+     * Defines the error description.
+     */
     private final String description;
 
+    /**
+     * Defines a map of the {@link ErrorCode} objects with the Document Server error codes.
+     */
     private static final Map<Integer, ErrorCode> BY_CODE = new HashMap<>();
 
     static {
@@ -41,6 +61,13 @@ public enum DocumentServerErrorCode implements ErrorCode {
         }
     }
 
+    /**
+     * Returns the enum constant of this type with the specified code.
+     * The integer must match exactly a code used to declare an enum constant in this type.
+     * 
+     * @param code The code of the enum constant to be returned.
+     * @return The enum constant with the specified code.
+     */
     public static ErrorCode valueOfCode(final Integer code) {
         return BY_CODE.get(code);
     }

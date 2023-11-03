@@ -31,7 +31,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DefaultUrlManager implements UrlManager {
-     /** The {@link SettingsManager}. */
+     /** {@link SettingsManager}. */
      private SettingsManager settingsManager;
 
      @Override

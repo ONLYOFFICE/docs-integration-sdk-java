@@ -30,7 +30,7 @@ import java.util.Properties;
 
 public abstract class DefaultSettingsManager implements SettingsManager {
 
-    /** Properties from the file "settings.properties". */
+    /** Properties from the "settings.properties" file. */
     private static Properties properties;
 
     static {

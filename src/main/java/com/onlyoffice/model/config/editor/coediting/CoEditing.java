@@ -23,11 +23,23 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Defines the co-editing mode ("Fast" or "Strict") and the possibility to change it.
+ * This parameter is used to apply the co-editing and viewing modes.
+ */
 @Getter
 @Setter
 @Builder
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 public class CoEditing {
+    /**
+     * Defines the co-editing mode ("fast" or "strict"). The default value is "fast".
+     */
     private Mode mode;
+
+    /**
+     * Defines if the co-editing mode can be changed in the editor interface or not.
+     * The default value is "true".
+     */
     private Boolean change;
 }

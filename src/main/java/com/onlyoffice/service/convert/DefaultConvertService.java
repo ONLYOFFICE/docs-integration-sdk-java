@@ -39,11 +39,11 @@ import java.util.Arrays;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DefaultConvertService implements ConvertService {
-    /** The {@link DocumentManager}. */
+    /** {@link DocumentManager}. */
     private DocumentManager documentManager;
-    /** The {@link UrlManager}. */
+    /** {@link UrlManager}. */
     private UrlManager urlManager;
-    /** The {@link RequestManager}. */
+    /** {@link RequestManager}. */
     private RequestManager requestManager;
 
     @Override

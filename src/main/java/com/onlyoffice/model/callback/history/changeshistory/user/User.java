@@ -23,11 +23,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Defines the user who is the author of the document version.
+ */
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
+    /**
+     * Defines the user ID.
+     */
     private String id;
+
+    /**
+     * Defines the user name.
+     */
     private String name;
 }

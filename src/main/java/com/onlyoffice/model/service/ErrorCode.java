@@ -18,7 +18,17 @@
 
 package com.onlyoffice.model.service;
 
+/**
+ * Defines the error code.
+ */
 public interface ErrorCode {
+    /**
+     * Returns the error code.
+     */
     Integer getCode();
+
+    /**
+     * Returns the error description.
+     */
     String getDescription();
 }

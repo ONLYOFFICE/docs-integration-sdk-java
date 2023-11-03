@@ -23,17 +23,55 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Contains the information which will be displayed in the editor "About" section and visible to all the editor users.
+ */
 @Getter
 @Setter
 @Builder
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 public class Customer {
+    /**
+     * Defines the postal address of the company or person who gives access to the editors or the editor authors.
+     */
     private String address;
+
+    /**
+     * Defines some additional information about the company or person you want the others to know.
+     */
     private String info;
+
+    /**
+     * Defines the path to the image logo (there are no special recommendations for this file,
+     * but it would be better if it was in the ".png" format with transparent background).
+     * The image must have the following size: 432x70.
+     */
     private String logo;
+
+    /**
+     * Defines the path to the image logo for the dark theme (there are no special recommendations for this file,
+     * but it would be better if it was in ".png" format with transparent background).
+     * The image must have the following size: 432x70.
+     */
     private String logoDark;
+
+    /**
+     * Defines the email address of the company or person who gives access to the editors or the editor authors.
+     */
     private String mail;
+
+    /**
+     * Defines the name of the company or person who gives access to the editors or the editor authors.
+     */
     private String name;
+
+    /**
+     * Defines the phone of the company or person who gives access to the editors or the editor authors.
+     */
     private String phone;
+
+    /**
+     * Defines the home website address of the above company or person.
+     */
     private String www;
 }

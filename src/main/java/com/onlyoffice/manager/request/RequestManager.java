@@ -18,6 +18,7 @@
 
 package com.onlyoffice.manager.request;
 
+import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.model.service.Service;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -26,66 +27,67 @@ import org.json.JSONObject;
 public interface RequestManager {
 
     /**
-     * Execute a GET request to the document server If the internal address of the document server was specified
-     * in the settings, the address will be replaced with an internal one.
+     * Executes a GET request to the document server. If the internal address of the document server was specified
+     * in the settings, the address will be replaced with this URL.
      *
-     * @param <R> the type of the result
-     * @param url the url address to the document editing server
-     * @param callback the callback method
-     * @return result of execution callback method
+     * @param <R> The result type.
+     * @param url The URL address to the document editing server.
+     * @param callback The callback method.
+     * @return The result of the execution callback method.
      */
     <R> R executeGetRequest(String url, Callback<R> callback) throws Exception;
 
     /**
-     * Execute a POST request to the specified service, authorization data and the address of the document editing
-     * service are taken from the SettingsManager.
+     * Executes a POST request to the specified service. The authorization data and the address of the document editing
+     * service are taken from {@link SettingsManager}.
      *
-     * @param <R> the type of the result
-     * @param service the url address to the document editing server
-     * @param data the json data
-     * @param callback the callback method
+     * @param <R> The result type.
+     * @param service The URL address to the document editing server.
+     * @param data The JSON data.
+     * @param callback The callback method.
      * @see com.onlyoffice.manager.settings.SettingsManager
      * @see Service
-     * @return result of execution callback method
+     * @return The result of the execution callback method.
      */
     <R> R executePostRequest(Service service, JSONObject data, Callback<R> callback) throws Exception;
 
     /**
-     * Execute a POST request to the specified service.
+     * Executes a POST request to the specified service. The authorization data and the address of the document editing
+     * service are passed in the method.
      *
-     * @param <R> the type of the result
-     * @param service the url address to the document editing server
-     * @param data the json data
-     * @param url the url address where the document server is located
-     * @param secretKey  the secret authorization key
-     * @param jwtHeader  the authorization header
-     * @param jwtPrefix the authorization prefix
-     * @param callback the callback method
+     * @param <R> The result type.
+     * @param service The URL address to the document editing server.
+     * @param data The JSON data.
+     * @param url The URL address where the document server is located.
+     * @param secretKey  The secret authorization key.
+     * @param jwtHeader  The authorization header.
+     * @param jwtPrefix The authorization prefix.
+     * @param callback The callback method.
      * @see Service
-     * @return result of execution callback method
+     * @return The result of the execution callback method.
      */
     <R> R executePostRequest(Service service, JSONObject data, String url, String secretKey, String jwtHeader,
                              String jwtPrefix, Callback<R> callback) throws Exception;
 
     /**
-     * Execute a POST request to the specified service with the {@link HttpUriRequest} parameter.
+     * Executes a POST request to the specified service with the {@link HttpUriRequest} parameter.
      *
-     * @param <R> the type of the result
-     * @param service the url address to the document editing server
-     * @param request the {@link HttpUriRequest} request
-     * @param callback the callback method
+     * @param <R> The result type.
+     * @param service The URL address to the document editing server.
+     * @param request The {@link HttpUriRequest} request.
+     * @param callback The callback method.
      * @see Service
-     * @return result of execution callback method
+     * @return The result of the execution callback method.
      */
     <R> R executeRequest(Service service, HttpUriRequest request, Callback<R> callback)
             throws Exception;
     interface Callback<Result> {
 
         /**
-         * Callback method. Implement this method depending on your needs.
+         * The callback method. Implement this method depending on your needs.
          *
-         * @param httpEntity the type of the result
-         * @return result of execution callback method
+         * @param httpEntity The result type.
+         * @return The result of the execution callback method.
          */
         Result doWork(HttpEntity httpEntity) throws Exception;
     }

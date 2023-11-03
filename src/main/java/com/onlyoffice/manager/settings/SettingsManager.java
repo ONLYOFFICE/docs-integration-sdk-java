@@ -21,96 +21,96 @@ package com.onlyoffice.manager.settings;
 public interface SettingsManager {
 
     /**
-     * Gets setting value.
+     * Returns a value of the setting with the name specified in the request.
      *
-     * @param name the setting name
-     * @return the setting value
+     * @param name The setting name.
+     * @return The setting value.
      */
     String getSetting(String name);
 
     /**
-     * Sets setting value.
+     * Sets a value for the setting with the name specified in the request.
      *
-     * @param name the setting name
-     * @param value the setting value
+     * @param name The setting name.
+     * @param value The setting value.
      */
     void setSetting(String name, String value);
 
     /**
-     * Gets setting boolean value.
+     * Returns a boolean value of the setting with the name specified in the request.
      *
-     * @param name the setting name
-     * @param defaultValue the setting default value
-     * @return the setting boolean value
+     * @param name The setting name.
+     * @param defaultValue The setting default value.
+     * @return The setting boolean value.
      */
     Boolean getSettingBoolean(String name, Boolean defaultValue);
 
     /**
-     * Gets setting from file "settings.properties".
+     * Returns a value of the setting with the name specified in the request from the "settings.properties" file.
      *
-     * @param name the setting name
-     * @return the setting value
+     * @param name The setting name.
+     * @return The setting value.
      */
     String getSDKSetting(String name);
 
     /**
-     * Check if jwt check is enabled.
+     * Checks whether JWT validation is enabled.
      *
-     * @return true if jwt check is enabled
+     * @return True if JWT validation is enabled.
      */
     Boolean isSecurityEnabled();
 
     /**
-     * Check if the setting to ignore ssl certificate is enabled.
+     * Checks whether the setting to ignore SSL certificate is enabled.
      *
-     * @return true if setting to ignore ssl certificate is enabled
+     * @return True if the setting to ignore SSL certificate is enabled.
      */
     Boolean isIgnoreSSLCertificate();
 
     /**
-     * Gets security secret key.
+     * Returns the security secret key.
      *
-     * @return the security secret key
+     * @return The security secret key.
      */
     String getSecuritySecret();
 
     /**
-     * Gets authorization header.
+     * Returns the authorization header.
      *
-     * @return the authorization header
+     * @return The authorization header.
      */
     String getSecurityHeader();
 
     /**
-     * Gets authorization prefix.
+     * Returns the authorization prefix.
      *
-     * @return the authorization prefix
+     * @return The authorization prefix.
      */
     String getSecurityPrefix();
 
     /**
-     * Сheck if the demo editor is enabled.
+     * Сhecks whether the demo editor is enabled.
      *
-     * @return true if settings demo is enabled
+     * @return True if the demo editor is enabled.
      */
     Boolean enableDemo();
 
     /**
-     * Disable use of demo editor.
+     * Disables the use of the demo editor.
      */
     void disableDemo();
 
     /**
-     * Сheck if the demo editor is active.
+     * Сhecks whether the demo editor is active.
      *
-     * @return true if settings demo is enabled and period using demo not is over
+     * @return True if the demo editor is enabled and the demo version has not expired.
      */
     Boolean isDemoActive();
 
     /**
-     * Сheck if the demo editor is available.
+     * Сhecks whether the demo editor is available.
      *
-     * @return true if period using demo not is over
+     * @return True if the demo version has not expired.
      */
     Boolean isDemoAvailable();
 }

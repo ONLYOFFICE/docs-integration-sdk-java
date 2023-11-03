@@ -37,109 +37,109 @@ import java.util.List;
 public interface ConfigService {
 
     /**
-     * Create configuration for documents editor.
+     * Creates a configuration for the document editor using the User-Agent request header.
      *
-     * @param fileId the ID of the file
-     * @param mode the mode opening editor, see {@link Mode}
-     * @param userAgent the userAgent from request, for determine type editor (DESKTOP or MOBILE)
-     * @return the object {@link Config}
+     * @param fileId The file ID.
+     * @param mode The editor opening {@link Mode mode}.
+     * @param userAgent The User-Agent request header that is used to determine the platform type ("desktop" or "mobile").
+     * @return The {@link Config} object.
      */
     Config createConfig(String fileId, Mode mode, String userAgent);
 
     /**
-     * Create configuration for documents editor.
+     * Creates a configuration for the document editor using the {@link Type} parameter.
      *
-     * @param fileId the ID of the file
-     * @param mode the mode opening editor, see {@link Mode}
-     * @param type the type opening editor, see {@link Type}
-     * @return the object {@link Config}
+     * @param fileId The file ID.
+     * @param mode The editor opening {@link Mode mode}.
+     * @param type The platform {@link Type type} used to access the document.
+     * @return The {@link Config} object.
      */
     Config createConfig(String fileId, Mode mode, Type type);
 
     /**
-     * Gets {@link ReferenceData} object.
+     * Returns the {@link ReferenceData} object.
      *
-     * @param fileId the ID of the file
-     * @return the object {@link ReferenceData}
+     * @param fileId The file ID.
+     * @return The {@link ReferenceData} object.
      */
     ReferenceData getReferenceData(String fileId);
 
     /**
-     * Gets {@link Info} object.
+     * Returns the {@link Info} object.
      *
-     * @param fileId the ID of the file
-     * @return the object {@link Info}
+     * @param fileId The file ID.
+     * @return The {@link Info} object.
      */
     Info getInfo(String fileId);
 
     /**
-     * Gets {@link Permissions} object.
+     * Returns the {@link Permissions} object.
      *
-     * @param fileId the ID of the file
-     * @return the object {@link Permissions}
+     * @param fileId The file ID.
+     * @return The {@link Permissions} object.
      */
     Permissions getPermissions(String fileId);
 
     /**
-     * Gets {@link CoEditing} object.
+     * Returns the {@link CoEditing} object.
      *
      * @param object
-     * @return the object {@link CoEditing}
+     * @return The {@link CoEditing} object.
      */
     CoEditing getCoEditing(Object object);
 
     /**
-     * Gets list {@link Recent} objects.
+     * Returns a list of the {@link Recent} objects.
      *
      * @param object
-     * @return the List objects {@link Recent}
+     * @return A list of the {@link Recent} objects.
      */
     List<Recent> getRecent(Object object);
 
     /**
-     * Gets list {@link Template} objects.
+     * Returns a list of the {@link Template} objects.
      *
-     * @param fileId the ID of the file
-     * @return the List objects {@link Template}
+     * @param fileId The file ID.
+     * @return A list of the {@link Template} objects.
      */
     List<Template> getTemplates(String fileId);
 
     /**
-     * Gets {@link User} object.
+     * Returns the {@link User} object.
      *
-     * @return the objects {@link User}
+     * @return The {@link User} object.
      */
     User getUser();
 
     /**
-     * Gets {@link Customization} object.
+     * Returns the {@link Customization} object.
      *
-     * @param fileId the ID of the file
-     * @return the objects {@link Customization}
+     * @param fileId The file ID.
+     * @return The {@link Customization} object.
      */
     Customization getCustomization(String fileId);
 
     /**
-     * Gets {@link Embedded} object.
+     * Returns the {@link Embedded} object.
      *
-     * @param fileId the ID of the file
-     * @return the objects {@link Embedded}
+     * @param fileId The file ID.
+     * @return The {@link Embedded} object.
      */
     Embedded getEmbedded(String fileId);
 
     /**
-     * Gets {@link Plugins} object.
+     * Returns the {@link Plugins} object.
      *
      * @param object
-     * @return the objects {@link Plugins}
+     * @return The {@link Plugins} object.
      */
     Plugins getPlugins(Object object);
 
     /**
-     * Gets {@link Type} object.
+     * Returns the {@link Type} object.
      *
-     * @param userAgent the userAgent from request, for determine type editor (DESKTOP or MOBILE)
-     * @return the objects {@link Type}
+     * @param userAgent The User-Agent request header that is used to determine the platform type ("desktop" or "mobile").
+     * @return The {@link Type} object.
      */
     Type getType(String userAgent);
 }

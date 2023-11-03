@@ -26,18 +26,50 @@ import lombok.Getter;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Defines the status of the document.
+ */
 @AllArgsConstructor
 @Getter
 public enum Status {
+    /**
+     * The document is being edited (the status ID is 1).
+     */
     EDITING(1),
+
+    /**
+     * The document is ready for saving (the status ID is 2).
+     */
     SAVE(2),
+
+    /**
+     * The document saving error has occurred (the status ID is 3).
+     */
     SAVE_CORRUPTED(3),
+
+    /**
+     * The document is closed with no changes (the status ID is 4).
+     */
     CLOSED(4),
+
+    /**
+     * The document is being edited, but the current document state is saved (the status ID is 6).
+     */
     FORCESAVE(6),
+
+    /**
+     * The error has occurred while force saving the document (the status ID is 7).
+     */
     FORCESAVE_CORRUPTED(7);
 
+    /**
+     * Defines the status ID.
+     */
     private final int id;
 
+    /**
+     * Defines a map of the statuses with their IDs.
+     */
     private static final Map<Integer, Status> BY_ID = new HashMap<>();
 
     static {
@@ -46,11 +78,21 @@ public enum Status {
         }
     }
 
+    /**
+     * Returns the enum constant of this type with the specified ID.
+     * The integer must match exactly an identifier used to declare an enum constant in this type.
+     * 
+     * @param code The ID of the enum constant to be returned.
+     * @return The enum constant with the specified ID.
+     */
     @JsonCreator
     public static Status valueOfId(final Integer code) {
         return BY_ID.get(code);
     }
 
+    /**
+     * Returns the status ID.
+     */
     @JsonValue
     int getId() {
         return this.id;

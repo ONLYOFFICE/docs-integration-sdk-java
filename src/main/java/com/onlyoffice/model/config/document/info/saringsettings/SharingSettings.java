@@ -24,12 +24,26 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Defines the information about the settings which allow to share the document with other users.
+ */
 @Getter
 @Setter
 @Builder
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 public class SharingSettings {
+    /**
+     * Specifies whether to change the user icon to the link icon.
+     */
     private Boolean isLink;
+
+    /**
+     * Defines the access rights for the user with the name above.
+     */
     private Permissions permissions;
+
+    /**
+     * Defines the name of the user the document will be shared with.
+     */
     private String user;
 }

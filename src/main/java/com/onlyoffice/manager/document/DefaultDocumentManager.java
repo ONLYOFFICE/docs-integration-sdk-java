@@ -44,16 +44,16 @@ import java.util.Map;
 public abstract class DefaultDocumentManager implements DocumentManager {
 
     /**
-     * Default maximum file size, used if "settings.properties" does not specify
-     * "integration-sdk.data.filesize.editing.max" or "integration-sdk.data.filesize.conversion.max" properties.
+     * Defines the default maximum file size, used if the "integration-sdk.data.filesize.editing.max"
+     * or "integration-sdk.data.filesize.conversion.max" properties are not specified in "settings.properties".
      */
     private static final int DEFAULT_MAX_FILE_SIZE = 5242880;
 
-    /** The {@link SettingsManager}. */
+    /** {@link SettingsManager}. */
     @Getter(AccessLevel.PROTECTED)
     private SettingsManager settingsManager;
 
-    /** The list containing data about supported formats. */
+    /** Defines a list containing data about supported formats. */
     private static List<Format> formats;
 
     static {
