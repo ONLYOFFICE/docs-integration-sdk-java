@@ -16,7 +16,7 @@
  *
  */
 
-package com.onlyoffice.service.config;
+package com.onlyoffice.service.documenteditor.config;
 
 import com.onlyoffice.manager.document.DocumentManager;
 import com.onlyoffice.manager.security.JwtManager;

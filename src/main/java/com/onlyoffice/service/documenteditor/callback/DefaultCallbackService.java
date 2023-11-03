@@ -16,7 +16,7 @@
  *
  */
 
-package com.onlyoffice.service.callback;
+package com.onlyoffice.service.documenteditor.callback;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

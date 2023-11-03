@@ -16,7 +16,7 @@
  *
  */
 
-package com.onlyoffice.service.config;
+package com.onlyoffice.service.documenteditor.config;
 
 import com.onlyoffice.model.common.User;
 import com.onlyoffice.model.documenteditor.Config;
