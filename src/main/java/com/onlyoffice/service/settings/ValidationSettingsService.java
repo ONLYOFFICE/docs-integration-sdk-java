@@ -18,15 +18,17 @@
 
 package com.onlyoffice.service.settings;
 
+import com.onlyoffice.model.security.Credentials;
 import com.onlyoffice.model.settings.validation.ValidationResult;
 
 public interface ValidationSettingsService {
     ValidationResult checkDocumentServer() throws Exception;
     ValidationResult checkDocumentServer(String url) throws Exception;
     ValidationResult checkCommandService() throws Exception;
-    ValidationResult checkCommandService(String url, String secretKey, String jwtHeader, String jwtPrefix)
-            throws Exception;
+
+    ValidationResult checkCommandService(String url, Credentials credentials) throws Exception;
     ValidationResult checkConvertService() throws Exception;
-    ValidationResult checkConvertService(String url, String secretKey, String jwtHeader, String jwtPrefix)
+
+    ValidationResult checkConvertService(String url, Credentials credentials)
             throws Exception;
 }

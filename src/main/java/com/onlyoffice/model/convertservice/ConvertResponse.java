@@ -34,7 +34,6 @@ public class ConvertResponse {
         DATABASE_ERROR(-6, "Error while accessing the conversion result database"),
         INPUT_ERROR(-7, "Input error"),
         TOKEN_ERROR(-8, "Invalid token"),
-        DOWNLOAD_RESULT_ERROR(-98, "Download result file error"),
         CONNECTION_ERROR(-99, "Connection error");
 
         private final Integer code;

@@ -20,7 +20,6 @@ package com.onlyoffice.manager.request;
 
 import com.onlyoffice.model.common.RequestEntity;
 import com.onlyoffice.model.common.RequestableService;
-import com.onlyoffice.model.common.Service;
 import com.onlyoffice.model.security.Credentials;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpUriRequest;

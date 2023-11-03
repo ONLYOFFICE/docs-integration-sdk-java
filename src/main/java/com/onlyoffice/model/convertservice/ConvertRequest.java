@@ -17,7 +17,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ConvertRequest extends RequestEntity {
+public class ConvertRequest implements RequestEntity {
     private Boolean async;
     private int codePage;
     private int delimiter;
@@ -28,5 +28,16 @@ public class ConvertRequest extends RequestEntity {
     private String region;
     private Thumbnail thumbnail;
     private String title;
+    private String token;
     private String url;
+
+    @Override
+    public String getToken() {
+        return token;
+    }
+
+    @Override
+    public void setToken(String token) {
+        this.token = token;
+    }
 }

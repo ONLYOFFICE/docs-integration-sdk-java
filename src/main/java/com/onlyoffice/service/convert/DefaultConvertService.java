@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onlyoffice.manager.document.DocumentManager;
 import com.onlyoffice.manager.request.RequestManager;
 import com.onlyoffice.manager.url.UrlManager;
-import com.onlyoffice.model.common.Service;
+import com.onlyoffice.model.common.RequestableService;
 import com.onlyoffice.model.convertservice.ConvertRequest;
 import com.onlyoffice.model.convertservice.convertrequest.Thumbnail;
 import lombok.AllArgsConstructor;
@@ -38,7 +38,7 @@ import java.util.Arrays;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DefaultConvertService implements ConvertService {
+public class DefaultConvertService implements ConvertService, RequestableService {
     private DocumentManager documentManager;
     private UrlManager urlManager;
     private RequestManager requestManager;
@@ -83,7 +83,7 @@ public class DefaultConvertService implements ConvertService {
         ObjectMapper mapper = new ObjectMapper();
         JSONObject bodyJson = new JSONObject(mapper.writeValueAsString(convertRequest));
 
-        return requestManager.executePostRequest(Service.CONVERT_SERVICE, bodyJson,
+        return requestManager.executePostRequest(this, convertRequest,
                 new RequestManager.Callback<JSONObject>() {
                     public JSONObject doWork(final HttpEntity httpEntity) throws IOException {
                         String content = IOUtils.toString(httpEntity.getContent(), "utf-8");

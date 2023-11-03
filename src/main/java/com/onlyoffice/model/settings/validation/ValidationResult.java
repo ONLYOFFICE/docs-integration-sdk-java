@@ -19,7 +19,6 @@
 package com.onlyoffice.model.settings.validation;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.onlyoffice.model.common.Service;
 import com.onlyoffice.model.common.Error;
 import com.onlyoffice.model.settings.validation.status.Status;
 import lombok.Builder;
@@ -32,6 +31,5 @@ import lombok.Setter;
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 public class ValidationResult {
     private Status status;
-    private Service service;
     private Error errorCode;
 }
