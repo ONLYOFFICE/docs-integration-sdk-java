@@ -19,12 +19,15 @@
 package com.onlyoffice.manager.url;
 
 import com.onlyoffice.manager.settings.SettingsManager;
+import com.onlyoffice.model.common.RequestableService;
 import com.onlyoffice.model.settings.SettingsConstants;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.text.MessageFormat;
 
 @Getter(AccessLevel.PROTECTED)
 @Setter
@@ -59,6 +62,21 @@ public class DefaultUrlManager implements UrlManager {
           return getDocumentServerUrl() + settingsManager.getSDKSetting("integration-sdk.api.url");
      }
 
+     public String getServiceUrl(final RequestableService requestableService) {
+          String serviceName = requestableService
+                  .getClass()
+                  .getSimpleName()
+                  .replaceAll("Service", "")
+                  .toLowerCase();
+
+          String serviceUrl = settingsManager.getSDKSetting(
+                  MessageFormat.format("integration-sdk.service.{0}.url", serviceName)
+          );
+
+          return getInnerDocumentServerUrl() + serviceUrl;
+     }
+
+     @Override
      public String sanitizeUrl(final String url) {
           if (url != null) {
                return url.endsWith("/") ? url.substring(0, url.length() - 1) : url;
