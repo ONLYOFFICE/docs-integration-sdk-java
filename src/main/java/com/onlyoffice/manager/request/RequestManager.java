@@ -18,18 +18,23 @@
 
 package com.onlyoffice.manager.request;
 
+import com.onlyoffice.model.common.RequestEntity;
+import com.onlyoffice.model.common.RequestableService;
 import com.onlyoffice.model.common.Service;
+import com.onlyoffice.model.security.Credentials;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpUriRequest;
-import org.json.JSONObject;
 
 public interface RequestManager {
-    <R> R executeGetRequest(String url, Callback<R> callback) throws Exception;
-    <R> R executePostRequest(Service service, JSONObject data, Callback<R> callback) throws Exception;
-    <R> R executePostRequest(Service service, JSONObject data, String url, String secretKey, String jwtHeader,
-                             String jwtPrefix, Callback<R> callback) throws Exception;
-    <R> R executeRequest(Service service, HttpUriRequest request, Callback<R> callback)
+    <R> R executePostRequest(RequestableService requestableService, RequestEntity requestEntity, Callback<R> callback)
             throws Exception;
+
+    <R> R executePostRequest(String url, RequestEntity requestEntity, Credentials credentials, Callback<R> callback)
+            throws Exception;
+
+    <R> R executeRequest(final HttpUriRequest request, final Callback<R> callback)
+            throws Exception;
+
     interface Callback<Result> {
         Result doWork(HttpEntity httpEntity) throws Exception;
     }

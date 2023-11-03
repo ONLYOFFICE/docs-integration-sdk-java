@@ -18,10 +18,14 @@
 
 package com.onlyoffice.manager.request;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onlyoffice.manager.security.JwtManager;
 import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.manager.url.UrlManager;
-import com.onlyoffice.model.common.Service;
+import com.onlyoffice.model.common.RequestEntity;
+import com.onlyoffice.model.common.RequestableService;
+import com.onlyoffice.model.security.Credentials;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,7 +37,6 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
@@ -45,7 +48,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.ssl.TrustStrategy;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONObject;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
@@ -54,6 +56,8 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Getter(AccessLevel.PROTECTED)
@@ -65,48 +69,27 @@ public class DefaultRequestManager implements RequestManager {
     private JwtManager jwtManager;
     private SettingsManager settingsManager;
 
-    public <R> R executeGetRequest(final String url, final Callback<R> callback) throws Exception {
-        HttpGet request = new HttpGet(urlManager.replaceToInnerDocumentServerUrl(url));
-
-        return executeRequest(Service.DOCUMENT_SERVER, request, callback);
-    }
-
-    public <R> R executePostRequest(final Service service, final JSONObject data,
+    public <R> R executePostRequest(final RequestableService requestableService, final RequestEntity requestEntity,
                                     final Callback<R> callback) throws Exception {
-        String url = urlManager.getInnerDocumentServerUrl();
-        String secretKey = settingsManager.getSecuritySecret();
-        String jwtHeader = settingsManager.getSecurityHeader();
-        String jwtPrefix = settingsManager.getSecurityPrefix();
+         Credentials credentials = Credentials.builder()
+                 .key(settingsManager.getSecuritySecret())
+                 .header(settingsManager.getSecurityHeader())
+                 .prefix(settingsManager.getSecurityPrefix())
+                 .build();
 
-        return executePostRequest(service, data, url, secretKey, jwtHeader, jwtPrefix, callback);
+         String url = urlManager.getServiceUrl(requestableService);
+
+         return executePostRequest(url, requestEntity, credentials, callback);
     }
 
-    public <R> R executePostRequest(final Service service, final JSONObject data, final String url,
-                                    final String secretKey, final String jwtHeader,
-                                    final String jwtPrefix, final Callback<R> callback) throws Exception {
-        HttpPost request = new HttpPost(urlManager.sanitizeUrl(url) + service.getPath());
+    public <R> R executePostRequest(final String url, final RequestEntity requestEntity, final Credentials credentials,
+                                    final Callback<R> callback) throws Exception {
+        HttpPost request = createPostRequest(url, requestEntity, credentials);
 
-        if (secretKey != null && !secretKey.isEmpty()) {
-            String token = jwtManager.createToken(data, secretKey);
-
-            JSONObject payloadBody = new JSONObject();
-            payloadBody.put("payload", data);
-
-            String headerToken = jwtManager.createToken(data, secretKey);
-
-            data.put("token", token);
-            request.setHeader(jwtHeader, jwtPrefix + headerToken);
-        }
-
-        StringEntity requestEntity = new StringEntity(data.toString(), ContentType.APPLICATION_JSON);
-
-        request.setEntity(requestEntity);
-        request.setHeader("Accept", "application/json");
-
-        return executeRequest(service, request, callback);
+        return executeRequest(request, callback);
     }
 
-    public <R> R executeRequest(final Service service, final HttpUriRequest request, final Callback<R> callback)
+    public <R> R executeRequest(final HttpUriRequest request, final Callback<R> callback)
             throws Exception {
         try (CloseableHttpClient httpClient = getHttpClient()) {
             try (CloseableHttpResponse response = httpClient.execute(request)) {
@@ -114,7 +97,7 @@ public class DefaultRequestManager implements RequestManager {
                 if (statusLine == null) {
                     throw new ClientProtocolException(
                             settingsManager.getSDKSetting("integration-sdk.product.name")
-                                    + " " + service.name() + " did not return a response.\n"
+                                    + " URL: " + request.getURI() + " did not return a response.\n"
                                     + "Request: " + request.toString() + "\n"
                                     + "Response: " + response
                     );
@@ -124,7 +107,7 @@ public class DefaultRequestManager implements RequestManager {
                 if (resEntity == null) {
                     throw new ClientProtocolException(
                             settingsManager.getSDKSetting("integration-sdk.product.name")
-                                    + " " + service.name() + " did not return content.\n"
+                                    + " URL: " + request.getURI() + " did not return content.\n"
                                     + "Request: " + request.toString() + "\n"
                                     + "Response: " + response
                     );
@@ -134,7 +117,7 @@ public class DefaultRequestManager implements RequestManager {
                 if (statusCode != HttpStatus.SC_OK) {
                     throw new ClientProtocolException(
                             settingsManager.getSDKSetting("integration-sdk.product.name")
-                                    + " " + service.name() + " return unexpected response.\n"
+                                    + " URL: " + request.getURI() + " return unexpected response.\n"
                                     + "Request: " + request.toString() + "\n"
                                     + "Response: " + response.toString()
                     );
@@ -146,6 +129,29 @@ public class DefaultRequestManager implements RequestManager {
                 return result;
             }
         }
+    }
+
+    private HttpPost createPostRequest(String url, RequestEntity requestEntity, Credentials credentials) throws JsonProcessingException {
+        HttpPost request = new HttpPost(url);
+
+        if (credentials.getKey() != null && !credentials.getKey().isEmpty()) {
+            Map<String,RequestEntity> payloadMap = new HashMap<>();
+            payloadMap.put("payload", requestEntity);
+
+            String headerToken = jwtManager.createToken(payloadMap, credentials.getKey());
+            request.setHeader(credentials.getHeader(), credentials.getPrefix() + headerToken);
+
+            String bodyToken = jwtManager.createToken(requestEntity, credentials.getKey());
+            requestEntity.setToken(bodyToken);
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        StringEntity entity = new StringEntity(mapper.writeValueAsString(requestEntity), ContentType.APPLICATION_JSON);
+
+        request.setEntity(entity);
+        request.setHeader("Accept", "application/json");
+
+        return request;
     }
 
     private CloseableHttpClient getHttpClient()
