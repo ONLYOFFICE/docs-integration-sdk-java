@@ -25,23 +25,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public enum DocumentType {
     /**
-     * Text document (.djvu, .doc, .docm, .docx, .docxf, .dot, .dotm,
-     * .dotx, .epub, .fb2, .fodt, .htm, .html, .mht, .mhtml, .odt, .oform,
-     * .ott, .oxps, .pdf, .rtf, .stw, .sxw, .txt, .wps, .wpt, .xml, .xps).
+     * Text document.
+     * @see <a target="_top" href="https://github.com/ONLYOFFICE/document-formats">Formats repository</a>.
      */
     @JsonProperty("word")
     WORD,
 
     /**
-     * Spreadsheet (.csv, .et, .ett, .fods, .ods, .ots, .sxc, .xls, .xlsb,
-     * .xlsm, .xlsx, .xlt, .xltm, .xltx, .xml).
+     * Spreadsheet.
+     * @see <a target="_top" href="https://github.com/ONLYOFFICE/document-formats">Formats repository</a>.
      */
     @JsonProperty("cell")
     CELL,
 
     /**
-     * Presentation (.dps, .dpt, .fodp, .odp, .otp, .pot, .potm, .potx, .pps,
-     * .ppsm, .ppsx, .ppt, .pptm, .pptx, .sxi).
+     * Presentation.
+     * @see <a target="_top" href="https://github.com/ONLYOFFICE/document-formats">Formats repository</a>.
      */
     @JsonProperty("slide")
     SLIDE

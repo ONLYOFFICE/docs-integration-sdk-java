@@ -19,7 +19,7 @@
 package com.onlyoffice.model.documenteditor.config.editorconfig.customization.review;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.onlyoffice.model.config.editor.mode.Mode;
+import com.onlyoffice.model.documenteditor.config.editorconfig.Mode;
 
 /**
  * Defines the review editing mode which will be used when the document is opened for viewing.

@@ -28,7 +28,8 @@ import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Mac
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Review;
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.review.ReviewDisplay;
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Unit;
-import com.onlyoffice.model.config.editor.mode.Mode;
+import com.onlyoffice.model.documenteditor.config.document.Permissions;
+import com.onlyoffice.model.documenteditor.Callback;
 
 import lombok.Builder;
 import lombok.Getter;
