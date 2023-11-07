@@ -48,7 +48,8 @@ public class Document {
      * Defines the unique document identifier used by the service to recognize the document.
      * In case the known key is sent, the document will be taken from the cache.
      * Every time the document is edited and saved, the key must be generated anew.
-     * The document url can be used as the key but without the special characters and the length is limited to 128 symbols.
+     * The document url can be used as the key but without the special characters and the length is limited to
+     * 128 symbols.
      */
     private String key;
 
@@ -58,7 +59,8 @@ public class Document {
     private ReferenceData referenceData;
 
     /**
-     * Defines the desired file name for the viewed or edited document which will also be used as file name when the document is downloaded.
+     * Defines the desired file name for the viewed or edited document which will also be used as file name when the
+     * document is downloaded.
      * The length is limited to 128 symbols.
      */
     private String title;

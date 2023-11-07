@@ -27,7 +27,6 @@ import com.onlyoffice.model.documenteditor.config.editorconfig.Mode;
 import com.onlyoffice.model.documenteditor.config.editorconfig.Plugins;
 import com.onlyoffice.model.documenteditor.config.editorconfig.Recent;
 import com.onlyoffice.model.documenteditor.config.editorconfig.Template;
-import com.onlyoffice.model.documenteditor.Config;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -47,9 +46,11 @@ public class EditorConfig {
      * Specifies the data received from the document editing service using the "onMakeActionLink" event
      * or the "onRequestSendNotify" event in "data.actionLink" parameter,
      * which contains the information about the action in the document that will be scrolled to.
-     * 
-     * @see <a target="_top" href="https://api.onlyoffice.com/editors/config/events#onMakeActionLink">onMakeActionLink event in API ONLYOFFICE</a>
-     * @see <a target="_top" href="https://api.onlyoffice.com/editors/config/events#onRequestSendNotify">onRequestSendNotify event in API ONLYOFFICE</a>
+     *
+     * @see <a target="_top" href="https://api.onlyoffice.com/editors/config/events#onMakeActionLink">onMakeActionLink
+     * event in API ONLYOFFICE</a>
+     * @see <a target="_top" href="https://api.onlyoffice.com/editors/config/events#onRequestSendNotify">
+     *     onRequestSendNotify event in API ONLYOFFICE</a>
      */
     private JSONObject actionLink;
 
@@ -69,8 +70,9 @@ public class EditorConfig {
      * Defines the absolute URL of the document where it will be created and available after creation.
      * If not specified, there will be no creation button.
      * Instead of this field, you can use the "onRequestCreateNew" event.
-     * 
-     * @see <a target="_top" href="https://api.onlyoffice.com/editors/config/events#onRequestCreateNew">"onRequestCreateNew" event in API ONLYOFFICE</a>
+     *
+     * @see <a target="_top"href="https://api.onlyoffice.com/editors/config/events#onRequestCreateNew">
+     * "onRequestCreateNew" event in API ONLYOFFICE</a>
      */
     private String createUrl;
 
@@ -101,7 +103,8 @@ public class EditorConfig {
     /**
      * Defines the default display format for currency and date and time (in the "Spreadsheet Editor" only).
      * Is set using the four letter (en-US, fr-FR, etc.) language codes.
-     * For the default value the "lang" parameter is taken, or, if no regional setting corresponding to the "lang" value is available, "en-US" is used.
+     * For the default value the "lang" parameter is taken, or, if no regional setting corresponding to the "lang"
+     * value is available, "en-US" is used.
      */
     private String region;
 
@@ -116,13 +119,15 @@ public class EditorConfig {
     private User user;
 
     /**
-     * Defines the parameters to customize the editor interface so that it looked like your other products (if there are any)
-     * and change the presence or absence of the additional buttons, links, change logos and editor owner details.
+     * Defines the parameters to customize the editor interface so that it looked like your other products (if
+     * there are any) and change the presence or absence of the additional buttons, links, change logos and editor owner
+     * details.
      */
     private Customization customization;
 
     /**
-     * Defines the parameters for the embedded document type only (see the {@link Config} section to find out how to define the embedded document type).
+     * Defines the parameters for the embedded document type only (see the
+     * {@link com.onlyoffice.model.documenteditor.Config} section to find out how to define the embedded document type).
      * It allows to change the settings which define the behavior of the buttons in the embedded mode.
      */
     private Embedded embedded;

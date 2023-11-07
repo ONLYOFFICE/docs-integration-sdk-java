@@ -19,7 +19,6 @@
 package com.onlyoffice.manager.request;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.model.common.RequestEntity;
 import com.onlyoffice.model.common.RequestedService;
 import com.onlyoffice.model.security.Credentials;
@@ -30,13 +29,13 @@ import org.apache.http.client.methods.HttpUriRequest;
 public interface RequestManager {
     /**
      * Executes a POST request to the specified service. The authorization data and the address of the document server
-     * are taken from {@link SettingsManager}.
+     * are taken from {@link com.onlyoffice.manager.settings.SettingsManager}.
      *
      * @param <R> The result type.
      * @param requestedService The requested service.
      * @param requestEntity The request entity.
      * @param callback The callback method.
-     * @see SettingsManager
+     * @see com.onlyoffice.manager.settings.SettingsManager
      * @see RequestedService
      * @see RequestEntity
      * @return The result of the execution callback method.
@@ -47,7 +46,7 @@ public interface RequestManager {
 
     /**
      * Executes a POST request to the specified service. The authorization data and the address of the document server
-     * are taken from {@link SettingsManager}.
+     * are taken from {@link com.onlyoffice.manager.settings.SettingsManager}.
      *
      * @param <R> The result type.
      * @param url The URL address to the document server.

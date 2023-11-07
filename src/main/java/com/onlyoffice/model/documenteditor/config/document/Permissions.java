@@ -20,7 +20,6 @@ package com.onlyoffice.model.documenteditor.config.document;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.onlyoffice.model.documenteditor.config.document.permissions.CommentGroup;
-import com.onlyoffice.model.documenteditor.config.EditorConfig;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,22 +44,25 @@ public class Permissions {
     /**
      * Defines if the document can be commented or not.
      * In case the commenting permission is set to "true", the document side bar will contain the "Comment" menu option.
-     * The document commenting will only be available for the document editor if the {@link EditorConfig#mode mode} parameter is set to "edit".
-     * The default value coincides with the value of the {@link Permissions#edit edit} parameter.
+     * The document commenting will only be available for the document editor if the {@link
+     * com.onlyoffice.model.documenteditor.config.EditorConfig#mode mode} parameter is set to "edit". The default
+     * value coincides with the value of the {@link Permissions#edit edit} parameter.
      */
     private Boolean comment;
 
     /**
-     * Defines the {@link EditorConfig#user groups} whose comments the user can edit, remove and/or view.
-     * The [""] value means that the user can edit/remove/view comments made by someone who belongs to none of these groups
-     * (for example, if the document is reviewed in third-party editors). If the value is [], the user cannot edit/remove/view comments made by any group.
-     * If the "edit", "remove" and "view" parameters are "" or not specified, then the user can view/edit/remove comments made by any user.
+     * Defines the {@link com.onlyoffice.model.documenteditor.config.EditorConfig#user groups} whose comments the
+     * user can edit, remove and/or view. The [""] value means that the user can edit/remove/view comments made by
+     * someone who belongs to none of these groups (for example, if the document is reviewed in third-party editors).
+     * If the value is [], the user cannot edit/remove/view comments made by any group. If the "edit", "remove" and
+     * "view" parameters are "" or not specified, then the user can view/edit/remove comments made by any user.
      */
     private List<CommentGroup> commentGroups;
 
     /**
      * Defines if the content can be copied to the clipboard or not.
-     * In case the parameter is set to "false", pasting the content will be available within the current document editor only.
+     * In case the parameter is set to "false", pasting the content will be available within the current document editor
+     * only.
      * The default value is "true".
      */
     private Boolean copy;
@@ -72,7 +74,8 @@ public class Permissions {
 
     /**
      * Defines if the document can be downloaded or only viewed or edited online.
-     * In case the downloading permission is set to "false", the "Download as..." menu option will be absent from the "File" menu.
+     * In case the downloading permission is set to "false", the "Download as..." menu option will be absent from the
+     * "File" menu.
      * The default value is "true".
      */
     private Boolean download;
@@ -81,7 +84,8 @@ public class Permissions {
      * Defines if the document can be edited or only viewed.
      * In case the editing permission is set to "true", the "File" menu will contain the "Edit Document" menu option.
      * Please note that if the editing permission is set to "false", the document will be opened in viewer
-     * and you will not be able to switch it to the editor even if the {@link EditorConfig#mode mode} parameter is set to "edit".
+     * and you will not be able to switch it to the editor even if the
+     * {@link com.onlyoffice.model.documenteditor.config.EditorConfig#mode mode} parameter is set to "edit".
      * The default value is "true".
      */
     private Boolean edit;
@@ -93,21 +97,25 @@ public class Permissions {
 
     /**
      * Defines if the forms can be filled. Filling in forms will only be available for the document editor
-     * if the {@link EditorConfig#mode mode} parameter is set to "edit". The default value coincides with the value of the {@link Permissions#edit edit}
-     * or the {@link Permissions#review review} parameter.
+     * if the {@link com.onlyoffice.model.documenteditor.config.EditorConfig#mode mode} parameter is set to "edit".
+     * The default value coincides with the value of the {@link Permissions#edit edit} or the {@link Permissions#review
+     * review} parameter.
      */
     private Boolean fillForms;
 
     /**
      * Defines if the content control settings can be changed.
      * Content control modification will only be available for the document editor
-     * if the {@link EditorConfig#mode mode} parameter is set to "edit". The default value is "true".
+     * if the {@link com.onlyoffice.model.documenteditor.config.EditorConfig#mode mode} parameter is set to "edit".
+     * The default value is "true".
      */
     private Boolean modifyContentControl;
 
     /**
-     * Defines if the filter can applied globally ("true") affecting all the other users, or locally ("false"), i.e. for the current user only.
-     * Filter modification will only be available for the spreadsheet editor if the {@link EditorConfig#mode mode} parameter is set to "edit". The default value is "true".
+     * Defines if the filter can applied globally ("true") affecting all the other users, or locally ("false"), i.e.
+     * for the current user only. Filter modification will only be available for the spreadsheet editor if the
+     * {@link com.onlyoffice.model.documenteditor.config.EditorConfig#mode mode} parameter is set to "edit".
+     * The default value is "true".
      */
     private Boolean modifyFilter;
 
@@ -119,7 +127,8 @@ public class Permissions {
     private Boolean print;
 
     /**
-     * Defines if the "Protection" tab on the toolbar and the "Protect" button in the left menu are displayed ("true") or hidden ("false").
+     * Defines if the "Protection" tab on the toolbar and the "Protect" button in the left menu are displayed ("true")
+     * or hidden ("false").
      * The default value is "true"
      */
     private Boolean protect;
@@ -127,8 +136,9 @@ public class Permissions {
     /**
      * Defines if the "Rename..." button is displayed when using the "onRequestRename" event.
      * The default value is "false". Deprecated since version 6.0, please add the "onRequestRename" field instead.
-     * 
-     * @see <a target="_top" href="https://api.onlyoffice.com/editors/config/events#onRequestRename">"onRequestRename" event in API ONLYOFFICE</a>
+     *
+     * @see <a target="_top" href="https://api.onlyoffice.com/editors/config/events#onRequestRename">"onRequestRename"
+     * event in API ONLYOFFICE</a>
      */
     @Deprecated
     private Boolean rename;
@@ -136,15 +146,16 @@ public class Permissions {
     /**
      * Defines if the document can be reviewed or not.
      * In case the reviewing permission is set to "true", the document status bar will contain the "Review" menu option.
-     * The document review will only be available for the document editor if the {@link EditorConfig#mode mode} parameter is set to "edit".
+     * The document review will only be available for the document editor if the {@link
+     * com.onlyoffice.model.documenteditor.config.EditorConfig#mode mode} parameter is set to "edit".
      * The default value coincides with the value of the {@link Permissions#edit edit} parameter.
      */
     private Boolean review;
 
     /**
-     * Defines the {@link EditorConfig#user groups} whose changes the user can accept/reject.
-     * The [""] value means that the user can review changes made by someone who belongs to none of these groups
-     * (for example, if the document is reviewed in third-party editors).
+     * Defines the {@link com.onlyoffice.model.documenteditor.config.EditorConfig#user groups} whose changes the user
+     * can accept/reject. The [""] value means that the user can review changes made by someone who belongs to none of
+     * these groups (for example, if the document is reviewed in third-party editors).
      * If the value is [], the user cannot review changes made by any group.
      * If the value is "" or not specified, then the user can review changes made by any user.
      */
@@ -155,8 +166,8 @@ public class Permissions {
      * 1) the usernames are displayed in the list of the editing users in the editor header,
      * 2) when typing text, the user cursors and tooltips with their names are displayed,
      * 3) when locking objects in the strict co-editing mode, the usernames are displayed.
-     * The ["Group1", ""] means that the information about users from Group1 and users who don't belong to any group is displayed.
-     * The [] means that no user information is displayed at all.
+     * The ["Group1", ""] means that the information about users from Group1 and users who don't belong to any group
+     * is displayed. The [] means that no user information is displayed at all.
      * The "undefined" or "" values mean that the information about all users is displayed.
      */
     private List<String> userInfoGroups;

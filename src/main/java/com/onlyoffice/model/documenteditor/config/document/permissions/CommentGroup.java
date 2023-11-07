@@ -28,8 +28,9 @@ import java.util.List;
 /**
  * Defines the groups whose comments the user can edit, remove and/or view.
  * The [""] value means that the user can edit/remove/view comments made by someone who belongs to none of these groups
- * (for example, if the document is reviewed in third-party editors). If the value is [], the user cannot edit/remove/view comments made by any group.
- * If the "edit", "remove" and "view" parameters are "" or not specified, then the user can view/edit/remove comments made by any user.
+ * (for example, if the document is reviewed in third-party editors). If the value is [], the user cannot
+ * edit/remove/view comments made by any group. If the "edit", "remove" and "view" parameters are "" or not specified,
+ * then the user can view/edit/remove comments made by any user.
  */
 @Getter
 @Setter

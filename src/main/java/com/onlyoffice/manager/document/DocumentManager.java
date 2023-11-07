@@ -30,7 +30,8 @@ public interface DocumentManager {
 
     /**
      * Returns a list of file formats (electronic documents, forms, spreadsheets, presentations) supported
-     * by the ONLYOFFICE editors. The properties of each file format type are described in the list. This information is taken from the <a target="_top"
+     * by the ONLYOFFICE editors. The properties of each file format type are described in the list. This information
+     * is taken from the <a target="_top"
      * href="https://github.com/ONLYOFFICE/document-formats">Formats repository</a>.
      *
      * @return A list containing data about the supported formats.
@@ -135,7 +136,8 @@ public interface DocumentManager {
     String getDefaultExtension(DocumentType documentType);
 
     /**
-     * Returns the default OOXML extension to which the document with the name specified in the request should be converted.
+     * Returns the default OOXML extension to which the document with the name specified in the request should be
+     * converted.
      *
      * @param fileName The file name.
      * @return The default OOXML extension for conversion.
@@ -161,7 +163,8 @@ public interface DocumentManager {
     /**
      * Returns a list of image extensions that can be inserted into the document.
      *
-     * @see <a target="_top" href="https://api.onlyoffice.com/editors/methods#insertImage">insertImage method in API ONLYOFFICE</a>
+     * @see <a target="_top" href="https://api.onlyoffice.com/editors/methods#insertImage">
+     *     insertImage method in API ONLYOFFICE</a>
      * @return A list of image extensions.
      */
     List<String> getInsertImageExtensions();
@@ -169,7 +172,8 @@ public interface DocumentManager {
     /**
      * Returns a list of extensions that can be used for the document comparison functions.
      *
-     * @see <a target="_top" href="https://api.onlyoffice.com/editors/methods#setRequestedDocument">setRequestedDocument method in API ONLYOFFICE</a>
+     * @see <a target="_top" href="https://api.onlyoffice.com/editors/methods#setRequestedDocument">
+     *     setRequestedDocument method in API ONLYOFFICE</a>
      * @return A list of extensions for the document comparison.
      */
     List<String> getCompareFileExtensions();
@@ -177,7 +181,8 @@ public interface DocumentManager {
     /**
      * Returns a list of extensions that can be used for mail merge in the document.
      *
-     * @see <a target="_top" href="https://api.onlyoffice.com/editors/methods#setRequestedSpreadsheet">setRequestedSpreadsheet method in API ONLYOFFICE</a>
+     * @see <a target="_top" href="https://api.onlyoffice.com/editors/methods#setRequestedSpreadsheet">
+     *     setRequestedSpreadsheet method in API ONLYOFFICE</a>
      * @return A list of extensions for mail merge.
      */
     List<String> getMailMergeExtensions();

@@ -273,6 +273,7 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         return result;
     }
 
+    @Override
     public List<String> getInsertImageExtensions() {
         String insertImage = settingsManager.getSDKSetting("integration-sdk.data.formats.insert-image");
 
@@ -283,6 +284,7 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         return null;
     }
 
+    @Override
     public List<String> getCompareFileExtensions() {
         List<Format> supportedFormats = formats;
         List<String> result = new ArrayList<>();
@@ -296,6 +298,7 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         return result;
     }
 
+    @Override
     public List<String> getMailMergeExtensions() {
         List<Format> supportedFormats = formats;
         List<String> result = new ArrayList<>();

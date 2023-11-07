@@ -19,12 +19,12 @@
 package com.onlyoffice.model.documenteditor.config.editorconfig.customization.review;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.onlyoffice.model.documenteditor.config.editorconfig.Mode;
 
 /**
  * Defines the review editing mode which will be used when the document is opened for viewing.
- * It will only be available for the document editor if {@link Mode} is set to "view".
- * The default value is "original".
+ * It will only be available for the document editor if
+ * {@link com.onlyoffice.model.documenteditor.config.editorconfig.Mode} is set to "view". The default value is
+ * "original".
  */
 public enum ReviewDisplay {
     /**

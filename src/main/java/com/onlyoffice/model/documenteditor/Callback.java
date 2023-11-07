@@ -47,21 +47,23 @@ public class Callback {
     private List<Action> actions;
 
     /**
-     * Defines the link to the file with the document editing data used to track and display the document changes history.
-     * The link is present when the {@link Status} value is equal to 2 or 3 only.
+     * Defines the link to the file with the document editing data used to track and display the document changes
+     * history. The link is present when the {@link Status} value is equal to 2 or 3 only.
      * The file must be saved and its address must be sent as "changesUrl" parameter using the "setHistoryData" method
      * to show the changes corresponding to the specific document version.
-     * 
-     * @see <a target="_top" href="https://api.onlyoffice.com/editors/methods#setHistoryData">"setHistoryData" method in API ONLYOFFICE</a>
+     *
+     * @see <a target="_top" href="https://api.onlyoffice.com/editors/methods#setHistoryData">"setHistoryData"
+     * method in API ONLYOFFICE</a>
      */
     private String changesurl;
 
     /**
-     * Defines an extension of the document that is downloaded from the link specified with the {@link Callback#url url} parameter.
-     * The file type is OOXML by default but if the "assemblyFormatAsOrigin" server setting is enabled,
+     * Defines an extension of the document that is downloaded from the link specified with the {@link Callback#url url}
+     * parameter. The file type is OOXML by default but if the "assemblyFormatAsOrigin" server setting is enabled,
      * the file will be saved in its original format.
-     * 
-     * @see <a target="_top" href="https://api.onlyoffice.com/editors/save#assemblyFormatAsOrigin">"assemblyFormatAsOrigin" server setting in API ONLYOFFICE</a>
+     *
+     * @see <a target="_top" href="https://api.onlyoffice.com/editors/save#assemblyFormatAsOrigin">
+     *     "assemblyFormatAsOrigin" server setting in API ONLYOFFICE</a>
      */
     private String filetype;
 
@@ -75,9 +77,11 @@ public class Callback {
      * Defines the object with the document changes history.
      * The object is present when the {@link Status} value is equal to 2 or 3 only.
      * It contains the object "changes" and "serverVersion",
-     * which must be sent as properties "changes" and "serverVersion" of the object sent as the argument to the "refreshHistory" method.
-     * 
-     * @see <a target="_top" href="https://api.onlyoffice.com/editors/methods#refreshHistory">"refreshHistory" method in API ONLYOFFICE</a>
+     * which must be sent as properties "changes" and "serverVersion" of the object sent as the argument to the
+     * "refreshHistory" method.
+     *
+     * @see <a target="_top" href="https://api.onlyoffice.com/editors/methods#refreshHistory">"refreshHistory"
+     * method in API ONLYOFFICE</a>
      */
     private History history;
 

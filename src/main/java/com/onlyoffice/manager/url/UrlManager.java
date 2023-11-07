@@ -87,7 +87,8 @@ public interface UrlManager {
       *
       * @param url The URL to the Document Server.
       * @return The URL without the trailing slash.
-      */     String sanitizeUrl(String url);
+      */
+     String sanitizeUrl(String url);
 
      /**
       * Replaces the URL to the Document Server with the internal one.

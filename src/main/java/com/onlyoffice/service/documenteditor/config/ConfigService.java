@@ -41,7 +41,8 @@ public interface ConfigService {
      *
      * @param fileId The file ID.
      * @param mode The editor opening {@link Mode mode}.
-     * @param userAgent The User-Agent request header that is used to determine the platform type ("desktop" or "mobile").
+     * @param userAgent The User-Agent request header that is used to determine the platform type ("desktop" or
+     *                  "mobile").
      * @return The {@link Config} object.
      */
     Config createConfig(String fileId, Mode mode, String userAgent);
@@ -138,7 +139,8 @@ public interface ConfigService {
     /**
      * Returns the {@link Type} object.
      *
-     * @param userAgent The User-Agent request header that is used to determine the platform type ("desktop" or "mobile").
+     * @param userAgent The User-Agent request header that is used to determine the platform type ("desktop" or
+     *                  "mobile").
      * @return The {@link Type} object.
      */
     Type getType(String userAgent);

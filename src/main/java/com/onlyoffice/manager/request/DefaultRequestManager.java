@@ -73,6 +73,7 @@ public class DefaultRequestManager implements RequestManager {
     /** {@link SettingsManager}. */
     private SettingsManager settingsManager;
 
+    @Override
     public <R> R executePostRequest(final RequestedService requestedService, final RequestEntity requestEntity,
                                     final Callback<R> callback) throws Exception {
          Credentials credentials = Credentials.builder()

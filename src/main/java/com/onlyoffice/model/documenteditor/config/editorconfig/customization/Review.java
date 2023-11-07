@@ -20,8 +20,6 @@ package com.onlyoffice.model.documenteditor.config.editorconfig.customization;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.review.ReviewDisplay;
-import com.onlyoffice.model.documenteditor.config.document.Permissions;
-import com.onlyoffice.model.documenteditor.config.editorconfig.Mode;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -48,8 +46,9 @@ public class Review {
 
     /**
      * Defines the review editing mode which will be used when the document is opened for viewing.
-     * It will only be available for the document editor if {@link Mode} is set to "view".
-     * The default value is "original".
+     * It will only be available for the document editor if
+     * {@link com.onlyoffice.model.documenteditor.config.editorconfig.Mode} is set to "view". The default value is
+     * "original".
      */
     private ReviewDisplay reviewDisplay;
 
@@ -61,8 +60,9 @@ public class Review {
 
     /**
      * Defines if the document is opened in the review editing mode ("true") or not ("false")
-     * regardless of the {@link Permissions#review document.permissions.review} parameter (the review mode is changed only for the current user).
-     * If the parameter is undefined, the "document.permissions.review" value is used (for all the document users).
+     * regardless of the {@link com.onlyoffice.model.documenteditor.config.document.Permissions#review
+     * document.permissions.review} parameter (the review mode is changed only for the current user). If the parameter
+     * is undefined, the "document.permissions.review" value is used (for all the document users).
      */
     private Boolean trackChanges;
 }

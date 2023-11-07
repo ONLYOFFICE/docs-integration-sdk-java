@@ -41,8 +41,9 @@ public class Goback {
     /**
      * Defines that if the "Open file location" button is clicked, "events.onRequestClose" event is called
      * instead of opening a browser tab or window. The default value is "false".
-     * 
-     * @see <a target="_top" href="https://api.onlyoffice.com/editors/config/events#onRequestClose">"onRequestClose" event in API ONLYOFFICE</a>
+     *
+     * @see <a target="_top" href="https://api.onlyoffice.com/editors/config/events#onRequestClose">"onRequestClose"
+     * event in API ONLYOFFICE</a>
      */
     private Boolean requestClose;
 
@@ -53,7 +54,8 @@ public class Goback {
     private String text;
 
     /**
-     * Defines the absolute URL to the website address which will be opened when clicking the "Open file location" menu button.
+     * Defines the absolute URL to the website address which will be opened when clicking the "Open file location"
+     * menu button.
      */
     private String url;
 }

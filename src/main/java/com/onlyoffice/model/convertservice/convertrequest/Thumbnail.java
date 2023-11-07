@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Defines the settings for the thumbnail when specifying the image formats ("bmp", "gif", "jpg", "png") as "outputtype".
+ * Defines the settings for the thumbnail when specifying the image formats ("bmp", "gif", "jpg", "png") as
+ * "outputtype".
  */
 @Getter
 @Setter

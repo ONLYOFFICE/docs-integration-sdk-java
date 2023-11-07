@@ -20,13 +20,13 @@ package com.onlyoffice.model.documenteditor.config.editorconfig;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.onlyoffice.model.documenteditor.config.editorconfig.embedded.Toolbar;
-import com.onlyoffice.model.documenteditor.Config;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Defines the parameters for the embedded document type only (see the {@link Config} section to find out how to define the embedded document type).
+ * Defines the parameters for the embedded document type only (see the
+ * {@link com.onlyoffice.model.documenteditor.Config} section to find out how to define the embedded document type).
  * It allows to change the settings which define the behavior of the buttons in the embedded mode.
  */
 @Getter

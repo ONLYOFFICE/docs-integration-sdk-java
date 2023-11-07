@@ -45,6 +45,7 @@ public class DefaultConvertService implements ConvertService, RequestedService {
     /** {@link RequestManager}. */
     private RequestManager requestManager;
 
+    @Override
     public ConvertResponse processConvert(final ConvertRequest convertRequest, final String fileId) throws Exception {
         String fileName = documentManager.getDocumentName(fileId);
 

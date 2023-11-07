@@ -98,6 +98,7 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
         return checkCommandService(url, credentials);
     }
 
+    @Override
     public ValidationResult checkCommandService(final String url, final Credentials credentials) throws Exception {
         String commandServiceUrl = settingsManager.getSDKSetting("integration-sdk.service.command.url");
 
@@ -141,6 +142,7 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
         return checkConvertService(url, credentials);
     }
 
+    @Override
     public ValidationResult checkConvertService(final String url, final Credentials credentials) throws Exception {
         String convertServiceUrl = settingsManager.getSDKSetting("integration-sdk.service.convert.url");
 

@@ -81,7 +81,7 @@ public enum Status {
     /**
      * Returns the enum constant of this type with the specified ID.
      * The integer must match exactly an identifier used to declare an enum constant in this type.
-     * 
+     *
      * @param code The ID of the enum constant to be returned.
      * @return The enum constant with the specified ID.
      */

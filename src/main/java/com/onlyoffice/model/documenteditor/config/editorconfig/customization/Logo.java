@@ -19,7 +19,6 @@
 package com.onlyoffice.model.documenteditor.config.editorconfig.customization;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.onlyoffice.model.documenteditor.Config;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,7 +35,8 @@ public class Logo {
     /**
      * Defines the path to the image file used to show in the common work mode
      * (i.e. in view and edit modes for all editors) or in the embedded mode
-     * (see the {@link Config} section to find out how to define the "embedded" document type).
+     * (see the {@link com.onlyoffice.model.documenteditor.Config} section to find out how to define the
+     * "embedded" document type).
      * The image must have the following size: 172x40.
      */
     private String image;
@@ -49,8 +49,8 @@ public class Logo {
 
     /**
      * Defines the path to the image file used to show in the embedded mode
-     * (see the {@link Config} section to find out how to define the embedded document type).
-     * The image must have the following size: 248x40.
+     * (see the {@link com.onlyoffice.model.documenteditor.Config} section to find out how to define the embedded
+     * document type). The image must have the following size: 248x40.
      * Deprecated since version 7.0, please use the "image" field instead.
      */
     @Deprecated
