@@ -253,6 +253,7 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         return null;
     }
 
+    @Override
     public Map<String, Boolean> getLossyEditableMap() {
         Map<String, Boolean> result = new HashMap<>();
         List<String> formatsLossyEditList = new ArrayList<>();
