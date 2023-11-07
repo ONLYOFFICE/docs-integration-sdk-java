@@ -24,14 +24,13 @@ import com.onlyoffice.manager.request.RequestManager;
 import com.onlyoffice.manager.url.UrlManager;
 import com.onlyoffice.model.common.RequestableService;
 import com.onlyoffice.model.convertservice.ConvertRequest;
+import com.onlyoffice.model.convertservice.ConvertResponse;
 import com.onlyoffice.model.convertservice.convertrequest.Thumbnail;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -43,7 +42,7 @@ public class DefaultConvertService implements ConvertService, RequestableService
     private UrlManager urlManager;
     private RequestManager requestManager;
 
-    public JSONObject processConvert(final ConvertRequest convertRequest, final String fileId) throws Exception {
+    public ConvertResponse processConvert(final ConvertRequest convertRequest, final String fileId) throws Exception {
         String fileName = documentManager.getDocumentName(fileId);
 
         if (convertRequest.getFiletype() == null || convertRequest.getFiletype().isEmpty()) {
@@ -80,15 +79,14 @@ public class DefaultConvertService implements ConvertService, RequestableService
             convertRequest.setThumbnail(thumbnail);
         }
 
-        ObjectMapper mapper = new ObjectMapper();
-        JSONObject bodyJson = new JSONObject(mapper.writeValueAsString(convertRequest));
-
         return requestManager.executePostRequest(this, convertRequest,
-                new RequestManager.Callback<JSONObject>() {
-                    public JSONObject doWork(final HttpEntity httpEntity) throws IOException {
+                new RequestManager.Callback<ConvertResponse>() {
+                    public ConvertResponse doWork(final HttpEntity httpEntity) throws IOException {
                         String content = IOUtils.toString(httpEntity.getContent(), "utf-8");
 
-                        JSONObject convertResponse = new JSONObject(content);
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        ConvertResponse convertResponse = objectMapper.readValue(content.toString(),
+                                ConvertResponse.class);
 
                         return convertResponse;
                     }

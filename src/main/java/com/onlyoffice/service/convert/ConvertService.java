@@ -19,8 +19,8 @@
 package com.onlyoffice.service.convert;
 
 import com.onlyoffice.model.convertservice.ConvertRequest;
-import org.json.JSONObject;
+import com.onlyoffice.model.convertservice.ConvertResponse;
 
 public interface ConvertService {
-    JSONObject processConvert(ConvertRequest convertRequest, String fileId) throws Exception;
+    ConvertResponse processConvert(ConvertRequest convertRequest, String fileId) throws Exception;
 }
