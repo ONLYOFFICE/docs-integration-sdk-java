@@ -83,7 +83,7 @@ public interface ConfigService {
     /**
      * Returns the {@link CoEditing} object.
      *
-     * @param object
+     * @param object The object.
      * @return The {@link CoEditing} object.
      */
     CoEditing getCoEditing(Object object);
@@ -91,7 +91,7 @@ public interface ConfigService {
     /**
      * Returns a list of the {@link Recent} objects.
      *
-     * @param object
+     * @param object The object.
      * @return A list of the {@link Recent} objects.
      */
     List<Recent> getRecent(Object object);
@@ -130,7 +130,7 @@ public interface ConfigService {
     /**
      * Returns the {@link Plugins} object.
      *
-     * @param object
+     * @param object The object.
      * @return The {@link Plugins} object.
      */
     Plugins getPlugins(Object object);

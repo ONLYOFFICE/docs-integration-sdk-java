@@ -42,6 +42,7 @@ public interface JwtManager {
      * @param payload The JSON object to create JWT.
      * @param key  The secret key value.
      * @return A new JWT token.
+     * @throws JsonProcessingException An error occurred when processing the JSON data.
      */
     String createToken(JSONObject payload, String key) throws JsonProcessingException;
 

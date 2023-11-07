@@ -20,6 +20,7 @@ package com.onlyoffice.model.documenteditor.config.editorconfig;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.onlyoffice.model.documenteditor.config.editorconfig.embedded.Toolbar;
+import com.onlyoffice.model.documenteditor.Config;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

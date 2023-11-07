@@ -78,6 +78,8 @@ public enum ForcesaveType {
 
     /**
      * Returns the ID of the force saving request type.
+     *
+     * @return The ID.
      */
     @JsonValue
     int getId() {

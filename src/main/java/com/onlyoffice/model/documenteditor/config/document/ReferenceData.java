@@ -34,7 +34,7 @@ import lombok.Setter;
 public class ReferenceData {
     /**
      * Defines the unique document identifier used by the service to get a link to the file.
-     * It must not be changed when the document is edited and saved (i.e. it is not equal to the {@link Document#getKey()}  document.key} parameter).
+     * It must not be changed when the document is edited and saved (i.e. it is not equal to the {@link Document#key}  document.key} parameter).
      */
     private String fileKey;
 

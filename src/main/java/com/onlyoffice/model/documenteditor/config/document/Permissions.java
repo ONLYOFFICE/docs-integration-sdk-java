@@ -20,6 +20,7 @@ package com.onlyoffice.model.documenteditor.config.document;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.onlyoffice.model.documenteditor.config.document.permissions.CommentGroup;
+import com.onlyoffice.model.documenteditor.config.EditorConfig;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

@@ -27,6 +27,7 @@ import com.onlyoffice.model.documenteditor.config.editorconfig.Mode;
 import com.onlyoffice.model.documenteditor.config.editorconfig.Plugins;
 import com.onlyoffice.model.documenteditor.config.editorconfig.Recent;
 import com.onlyoffice.model.documenteditor.config.editorconfig.Template;
+import com.onlyoffice.model.documenteditor.Config;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

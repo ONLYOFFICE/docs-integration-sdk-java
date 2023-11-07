@@ -30,7 +30,7 @@ public interface CallbackService {
      * @param callback  The {@link Callback} object with the callback handler parameters.
      * @param authorizationHeader The authorization header from the callback request.
      * @return The verified callback object.
-     * @throws JsonProcessingException
+     * @throws JsonProcessingException An error occurred when processing the JSON data.
      */
     Callback verifyCallback(Callback callback, String authorizationHeader) throws JsonProcessingException;
 
@@ -39,7 +39,7 @@ public interface CallbackService {
      *
      * @param callback The {@link Callback} object with the callback handler parameters.
      * @param fileId The file ID.
-     * @throws Exception
+     * @throws Exception If the processing fails unexpectedly.
      */
     void processCallback(Callback callback, String fileId) throws Exception;
 
@@ -48,7 +48,7 @@ public interface CallbackService {
      *
      * @param callback The {@link Callback} object with the callback handler parameters.
      * @param fileId The file ID.
-     * @throws Exception
+     * @throws Exception If the processing fails unexpectedly.
      */
     void handlerEditing(Callback callback, String fileId) throws Exception;
 
@@ -57,7 +57,7 @@ public interface CallbackService {
      *
      * @param callback The {@link Callback} object with the callback handler parameters.
      * @param fileId The file ID.
-     * @throws Exception
+     * @throws Exception If the processing fails unexpectedly.
      */
     void handlerSave(Callback callback, String fileId) throws Exception;
 
@@ -66,7 +66,7 @@ public interface CallbackService {
      *
      * @param callback The {@link Callback} object with the callback handler parameters.
      * @param fileId The file ID.
-     * @throws Exception
+     * @throws Exception If the processing fails unexpectedly.
      */
     void handlerSaveCorrupted(Callback callback, String fileId) throws Exception;
 
@@ -75,7 +75,7 @@ public interface CallbackService {
      *
      * @param callback The {@link Callback} object with the callback handler parameters.
      * @param fileId The file ID.
-     * @throws Exception
+     * @throws Exception If the processing fails unexpectedly.
      */
     void handlerClosed(Callback callback, String fileId) throws Exception;
 
@@ -84,7 +84,7 @@ public interface CallbackService {
      *
      * @param callback The {@link Callback} object with the callback handler parameters.
      * @param fileId The file ID.
-     * @throws Exception
+     * @throws Exception If the processing fails unexpectedly.
      */
     void handlerForcesave(Callback callback, String fileId) throws Exception;
 
@@ -93,7 +93,7 @@ public interface CallbackService {
      *
      * @param callback The {@link Callback} object with the callback handler parameters.
      * @param fileId The file ID.
-     * @throws Exception
+     * @throws Exception If the processing fails unexpectedly.
      */
     void handlerForcesaveCurrupted(Callback callback, String fileId) throws Exception;
 }

@@ -29,7 +29,7 @@ public interface ConvertService {
      * @param fileId The ID of the file to be converted.
      * @see ConvertRequest
      * @return The JSON object containing the body of the response from the conversion service.
-     * @throws Exception
+     * @throws Exception If the processing fails unexpectedly.
      */
     ConvertResponse processConvert(ConvertRequest convertRequest, String fileId) throws Exception;
 }

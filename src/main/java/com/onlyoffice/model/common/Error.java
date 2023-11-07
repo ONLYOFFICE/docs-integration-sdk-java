@@ -21,11 +21,15 @@ package com.onlyoffice.model.common;
 public interface Error {
     /**
      * Returns the error code.
+     *
+     * @return The code of error.
      */
     Integer getCode();
 
     /**
      * Returns the error description.
+     *
+     * @return The description of error.
      */
     String getDescription();
 }

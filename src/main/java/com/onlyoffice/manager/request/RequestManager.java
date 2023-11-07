@@ -40,6 +40,7 @@ public interface RequestManager {
      * @see RequestedService
      * @see RequestEntity
      * @return The result of the execution callback method.
+     * @throws Exception If the processing fails unexpectedly.
      */
     <R> R executePostRequest(RequestedService requestedService, RequestEntity requestEntity, Callback<R> callback)
             throws Exception;
@@ -56,6 +57,7 @@ public interface RequestManager {
      * @see RequestEntity
      * @see Credentials
      * @return The result of the execution callback method.
+     * @throws Exception If the processing fails unexpectedly.
      */
     <R> R executePostRequest(String url, RequestEntity requestEntity, Credentials credentials, Callback<R> callback)
             throws Exception;
@@ -68,6 +70,7 @@ public interface RequestManager {
      * @param request The {@link HttpUriRequest} request.
      * @param callback The callback method.
      * @return The result of the execution callback method.
+     * @throws Exception If the processing fails unexpectedly.
      */
     <R> R executeRequest(HttpUriRequest request, Callback<R> callback)
             throws Exception;
@@ -79,7 +82,7 @@ public interface RequestManager {
      * @param requestEntity The request entity.
      * @param credentials The credentials.
      * @return The jwt signed http request.
-     * @throws JsonProcessingException
+     * @throws JsonProcessingException An error occurred when processing the JSON data
      */
     HttpPost createPostRequest(String url, RequestEntity requestEntity, Credentials credentials)
             throws JsonProcessingException;
@@ -91,6 +94,7 @@ public interface RequestManager {
          *
          * @param httpEntity The result type.
          * @return The result of the execution callback method.
+         * @throws Exception If the processing fails unexpectedly.
          */
         Result doWork(HttpEntity httpEntity) throws Exception;
     }

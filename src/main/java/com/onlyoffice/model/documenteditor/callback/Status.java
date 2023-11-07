@@ -92,6 +92,8 @@ public enum Status {
 
     /**
      * Returns the status ID.
+     *
+     * @return The ID.
      */
     @JsonValue
     int getId() {

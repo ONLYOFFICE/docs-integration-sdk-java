@@ -59,6 +59,8 @@ public enum Type {
 
     /**
      * Returns the action type ID.
+     *
+     * @return The ID.
      */
     @JsonValue
     int getId() {

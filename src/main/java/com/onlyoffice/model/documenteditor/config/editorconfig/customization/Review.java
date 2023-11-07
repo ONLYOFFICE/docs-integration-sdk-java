@@ -20,6 +20,8 @@ package com.onlyoffice.model.documenteditor.config.editorconfig.customization;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.review.ReviewDisplay;
+import com.onlyoffice.model.documenteditor.config.document.Permissions;
+import com.onlyoffice.model.documenteditor.config.editorconfig.Mode;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

@@ -26,7 +26,7 @@ public interface ValidationSettingsService {
      * Checks the Document Server.
      *
      * @return The {@link ValidationResult} object.
-     * @throws Exception
+     * @throws Exception If the processing fails unexpectedly.
      */
     ValidationResult checkDocumentServer() throws Exception;
 
@@ -35,7 +35,7 @@ public interface ValidationSettingsService {
      *
      * @param url The URL to the Document Server.
      * @return The {@link ValidationResult} object.
-     * @throws Exception
+     * @throws Exception If the processing fails unexpectedly.
      */
     ValidationResult checkDocumentServer(String url) throws Exception;
 
@@ -43,7 +43,7 @@ public interface ValidationSettingsService {
      * Checks the Command Service.
      *
      * @return The {@link ValidationResult} object.
-     * @throws Exception
+     * @throws Exception If the processing fails unexpectedly.
      */
     ValidationResult checkCommandService() throws Exception;
 
@@ -54,7 +54,7 @@ public interface ValidationSettingsService {
      * @param credentials The credentials.
      * @see Credentials
      * @return The {@link ValidationResult} object.
-     * @throws Exception
+     * @throws Exception If the processing fails unexpectedly.
      */
     ValidationResult checkCommandService(String url, Credentials credentials) throws Exception;
 
@@ -62,7 +62,7 @@ public interface ValidationSettingsService {
      * Checks the Convert Service.
      *
      * @return The {@link ValidationResult} object.
-     * @throws Exception
+     * @throws Exception If the processing fails unexpectedly.
      */
     ValidationResult checkConvertService() throws Exception;
 
@@ -73,7 +73,7 @@ public interface ValidationSettingsService {
      * @param credentials The credentials.
      * @see Credentials
      * @return The {@link ValidationResult} object.
-     * @throws Exception
+     * @throws Exception If the processing fails unexpectedly.
      */
     ValidationResult checkConvertService(String url, Credentials credentials)
             throws Exception;
