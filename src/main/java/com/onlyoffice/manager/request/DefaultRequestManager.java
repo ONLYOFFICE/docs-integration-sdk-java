@@ -131,7 +131,8 @@ public class DefaultRequestManager implements RequestManager {
         }
     }
 
-    private HttpPost createPostRequest(final String url, final RequestEntity requestEntity,
+    @Override
+    public HttpPost createPostRequest(final String url, final RequestEntity requestEntity,
                                        final Credentials credentials) throws JsonProcessingException {
         HttpPost request = new HttpPost(url);
 
