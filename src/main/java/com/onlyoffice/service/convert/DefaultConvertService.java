@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onlyoffice.manager.document.DocumentManager;
 import com.onlyoffice.manager.request.RequestManager;
 import com.onlyoffice.manager.url.UrlManager;
-import com.onlyoffice.model.common.RequestableService;
+import com.onlyoffice.model.common.RequestedService;
 import com.onlyoffice.model.convertservice.ConvertRequest;
 import com.onlyoffice.model.convertservice.ConvertResponse;
 import com.onlyoffice.model.convertservice.convertrequest.Thumbnail;
@@ -37,7 +37,7 @@ import java.util.Arrays;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DefaultConvertService implements ConvertService, RequestableService {
+public class DefaultConvertService implements ConvertService, RequestedService {
     /** {@link DocumentManager}. */
     private DocumentManager documentManager;
     /** {@link UrlManager}. */

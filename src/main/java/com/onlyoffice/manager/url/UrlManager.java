@@ -18,7 +18,7 @@
 
 package com.onlyoffice.manager.url;
 
-import com.onlyoffice.model.common.RequestableService;
+import com.onlyoffice.model.common.RequestedService;
 
 public interface UrlManager {
      /**
@@ -74,7 +74,7 @@ public interface UrlManager {
       */
      String getCreateUrl(String fileId);
 
-     String getServiceUrl(RequestableService requestableService);
+     String getServiceUrl(RequestedService requestedService);
 
      /**
       * Removes the trailing slash from the URL if it exists.

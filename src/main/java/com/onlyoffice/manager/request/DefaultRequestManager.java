@@ -24,7 +24,7 @@ import com.onlyoffice.manager.security.JwtManager;
 import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.manager.url.UrlManager;
 import com.onlyoffice.model.common.RequestEntity;
-import com.onlyoffice.model.common.RequestableService;
+import com.onlyoffice.model.common.RequestedService;
 import com.onlyoffice.model.security.Credentials;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -73,9 +73,7 @@ public class DefaultRequestManager implements RequestManager {
     /** {@link SettingsManager}. */
     private SettingsManager settingsManager;
 
-        HttpGet request = new HttpGet(urlManager.replaceToInnerDocumentServerUrl(url));
-    @Override
-    public <R> R executePostRequest(final RequestableService requestableService, final RequestEntity requestEntity,
+    public <R> R executePostRequest(final RequestedService requestedService, final RequestEntity requestEntity,
                                     final Callback<R> callback) throws Exception {
          Credentials credentials = Credentials.builder()
                  .key(settingsManager.getSecuritySecret())
@@ -83,7 +81,7 @@ public class DefaultRequestManager implements RequestManager {
                  .prefix(settingsManager.getSecurityPrefix())
                  .build();
 
-         String url = urlManager.getServiceUrl(requestableService);
+         String url = urlManager.getServiceUrl(requestedService);
 
          return executePostRequest(url, requestEntity, credentials, callback);
     }
