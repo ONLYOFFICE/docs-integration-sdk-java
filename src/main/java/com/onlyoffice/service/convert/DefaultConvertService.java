@@ -59,7 +59,7 @@ public class DefaultConvertService implements ConvertService, RequestableService
 
         if (convertRequest.getTitle() == null || convertRequest.getTitle().isEmpty()) {
             convertRequest.setTitle(
-                    documentManager.geBaseName(fileName)
+                    documentManager.getBaseName(fileName)
                     + "."
                     + convertRequest.getOutputtype()
             );

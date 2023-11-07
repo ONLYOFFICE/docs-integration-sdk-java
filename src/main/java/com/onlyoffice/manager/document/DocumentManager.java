@@ -31,7 +31,7 @@ public interface DocumentManager {
     String getDocumentKey(String fileId, boolean embedded);
     String getDocumentName(String fileId);
     String getExtension(String fileName);
-    String geBaseName(String fileName);
+    String getBaseName(String fileName);
     DocumentType getDocumentType(String fileName);
     boolean isEditable(String fileName);
     boolean isViewable(String fileName);

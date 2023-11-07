@@ -79,7 +79,7 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         return extension.toLowerCase();
     }
 
-    public String geBaseName(final String fileName) {
+    public String getBaseName(final String fileName) {
         if (fileName == null) {
             return null;
         }
