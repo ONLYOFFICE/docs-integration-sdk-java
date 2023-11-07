@@ -32,5 +32,4 @@ public class Goback {
     private Boolean requestClose;
     private String text;
     private String url;
-    private Boolean help;
 }
