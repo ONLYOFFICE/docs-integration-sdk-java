@@ -18,6 +18,8 @@
 
 package com.onlyoffice.manager.url;
 
+import com.onlyoffice.model.common.RequestableService;
+
 public interface UrlManager {
      /**
       * Returns the URL to the Document Server.
@@ -72,13 +74,14 @@ public interface UrlManager {
       */
      String getCreateUrl(String fileId);
 
+     String getServiceUrl(RequestableService requestableService);
+
      /**
       * Removes the trailing slash from the URL if it exists.
       *
       * @param url The URL to the Document Server.
       * @return The URL without the trailing slash.
-      */
-     String sanitizeUrl(String url);
+      */     String sanitizeUrl(String url);
 
      /**
       * Replaces the URL to the Document Server with the internal one.

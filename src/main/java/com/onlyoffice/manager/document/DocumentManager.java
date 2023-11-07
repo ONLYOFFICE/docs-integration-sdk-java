@@ -18,7 +18,7 @@
 
 package com.onlyoffice.manager.document;
 
-import com.onlyoffice.model.config.document.documenttype.DocumentType;
+import com.onlyoffice.model.documenteditor.config.document.DocumentType;
 import com.onlyoffice.model.format.Format;
 
 import java.io.InputStream;
@@ -69,7 +69,7 @@ public interface DocumentManager {
      * @param fileName The file name to get the base name.
      * @return The file name without the full path and extension, or an empty string if it doesn't exist, or null if the file name is null.
      */
-    String geBaseName(String fileName);
+    String getBaseName(String fileName);
 
     /**
      * Returns the document type by the file name.

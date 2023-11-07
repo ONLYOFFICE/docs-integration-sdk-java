@@ -22,23 +22,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onlyoffice.manager.document.DocumentManager;
 import com.onlyoffice.manager.request.RequestManager;
 import com.onlyoffice.manager.url.UrlManager;
-import com.onlyoffice.model.convert.Convert;
-import com.onlyoffice.model.convert.thumbnail.Thumbnail;
-import com.onlyoffice.model.service.Service;
+import com.onlyoffice.model.common.RequestableService;
+import com.onlyoffice.model.convertservice.ConvertRequest;
+import com.onlyoffice.model.convertservice.ConvertResponse;
+import com.onlyoffice.model.convertservice.convertrequest.Thumbnail;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.Arrays;
 
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DefaultConvertService implements ConvertService {
+public class DefaultConvertService implements ConvertService, RequestableService {
     /** {@link DocumentManager}. */
     private DocumentManager documentManager;
     /** {@link UrlManager}. */
@@ -46,53 +45,51 @@ public class DefaultConvertService implements ConvertService {
     /** {@link RequestManager}. */
     private RequestManager requestManager;
 
-    @Override
-    public JSONObject processConvert(final Convert convert, final String fileId) throws Exception {
+    public ConvertResponse processConvert(final ConvertRequest convertRequest, final String fileId) throws Exception {
         String fileName = documentManager.getDocumentName(fileId);
 
-        if (convert.getFiletype() == null || convert.getFiletype().isEmpty()) {
-            convert.setFiletype(documentManager.getExtension(fileName));
+        if (convertRequest.getFiletype() == null || convertRequest.getFiletype().isEmpty()) {
+            convertRequest.setFiletype(documentManager.getExtension(fileName));
         }
 
-        if (convert.getKey() == null || convert.getKey().isEmpty()) {
-            convert.setKey(documentManager.getDocumentKey(fileId, false));
+        if (convertRequest.getKey() == null || convertRequest.getKey().isEmpty()) {
+            convertRequest.setKey(documentManager.getDocumentKey(fileId, false));
         }
 
-        if (convert.getOutputtype() == null || convert.getOutputtype().isEmpty()) {
-            convert.setOutputtype(documentManager.getDefaultConvertExtension(fileName));
+        if (convertRequest.getOutputtype() == null || convertRequest.getOutputtype().isEmpty()) {
+            convertRequest.setOutputtype(documentManager.getDefaultConvertExtension(fileName));
         }
 
-        if (convert.getTitle() == null || convert.getTitle().isEmpty()) {
-            convert.setTitle(
-                    documentManager.geBaseName(fileName)
+        if (convertRequest.getTitle() == null || convertRequest.getTitle().isEmpty()) {
+            convertRequest.setTitle(
+                    documentManager.getBaseName(fileName)
                     + "."
-                    + convert.getOutputtype()
+                    + convertRequest.getOutputtype()
             );
         }
 
-        if (convert.getUrl() == null || convert.getUrl().isEmpty()) {
-            convert.setUrl(urlManager.getFileUrl(fileId));
+        if (convertRequest.getUrl() == null || convertRequest.getUrl().isEmpty()) {
+            convertRequest.setUrl(urlManager.getFileUrl(fileId));
         }
 
-        if (Arrays.asList("bmp", "gif", "jpg", "png").contains(convert.getOutputtype())
-                && convert.getThumbnail() == null) {
+        if (Arrays.asList("bmp", "gif", "jpg", "png").contains(convertRequest.getOutputtype())
+                && convertRequest.getThumbnail() == null) {
 
             Thumbnail thumbnail = Thumbnail.builder()
                     .first(false)
                     .build();
 
-            convert.setThumbnail(thumbnail);
+            convertRequest.setThumbnail(thumbnail);
         }
 
-        ObjectMapper mapper = new ObjectMapper();
-        JSONObject bodyJson = new JSONObject(mapper.writeValueAsString(convert));
-
-        return requestManager.executePostRequest(Service.CONVERT_SERVICE, bodyJson,
-                new RequestManager.Callback<JSONObject>() {
-                    public JSONObject doWork(final HttpEntity httpEntity) throws IOException {
+        return requestManager.executePostRequest(this, convertRequest,
+                new RequestManager.Callback<ConvertResponse>() {
+                    public ConvertResponse doWork(final HttpEntity httpEntity) throws IOException {
                         String content = IOUtils.toString(httpEntity.getContent(), "utf-8");
 
-                        JSONObject convertResponse = new JSONObject(content);
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        ConvertResponse convertResponse = objectMapper.readValue(content.toString(),
+                                ConvertResponse.class);
 
                         return convertResponse;
                     }

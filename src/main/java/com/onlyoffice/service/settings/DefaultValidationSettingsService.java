@@ -18,15 +18,16 @@
 
 package com.onlyoffice.service.settings;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onlyoffice.manager.request.RequestManager;
 import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.manager.url.UrlManager;
-import com.onlyoffice.model.convert.Convert;
-import com.onlyoffice.model.service.CommandServiceErrorCode;
-import com.onlyoffice.model.service.ConvertServiceErrorCode;
-import com.onlyoffice.model.service.DocumentServerErrorCode;
-import com.onlyoffice.model.service.Service;
+import com.onlyoffice.model.commandservice.CommandRequest;
+import com.onlyoffice.model.commandservice.CommandResponse;
+import com.onlyoffice.model.commandservice.commandrequest.Command;
+import com.onlyoffice.model.common.CommonResponse;
+import com.onlyoffice.model.convertservice.ConvertRequest;
+import com.onlyoffice.model.convertservice.ConvertResponse;
+import com.onlyoffice.model.security.Credentials;
 import com.onlyoffice.model.settings.validation.ValidationResult;
 import com.onlyoffice.model.settings.validation.status.Status;
 import lombok.AccessLevel;
@@ -58,27 +59,27 @@ public class DefaultValidationSettingsService implements ValidationSettingsServi
 
     @Override
     public ValidationResult checkDocumentServer() throws Exception {
-        return checkDocumentServer(urlManager.getDocumentServerUrl());
+        return checkDocumentServer(urlManager.getInnerDocumentServerUrl());
     }
 
     @Override
     public ValidationResult checkDocumentServer(final String url) throws Exception {
-        HttpGet request = new HttpGet(urlManager.sanitizeUrl(url) + "/healthcheck");
+        String healthCheckUrl = settingsManager.getSDKSetting("integration-sdk.service.health-check.url");
 
-        return requestManager.executeRequest(Service.DOCUMENT_SERVER, request,
+        HttpGet request = new HttpGet(urlManager.sanitizeUrl(url) + healthCheckUrl);
+
+        return requestManager.executeRequest(request,
                 new RequestManager.Callback<ValidationResult>() {
             public ValidationResult doWork(final HttpEntity httpEntity) throws IOException {
                 String content = IOUtils.toString(httpEntity.getContent(), "utf-8").trim();
                 if (content.equalsIgnoreCase("true")) {
                     return ValidationResult.builder()
                             .status(Status.SUCCESS)
-                            .service(Service.DOCUMENT_SERVER)
                             .build();
                 } else {
                     return ValidationResult.builder()
                             .status(Status.FAILED)
-                            .service(Service.DOCUMENT_SERVER)
-                            .errorCode(DocumentServerErrorCode.HEALTHCHECK_ERROR)
+                            .errorCode(CommonResponse.Error.HEALTHCHECK_ERROR)
                             .build();
                 }
             }
@@ -88,26 +89,26 @@ public class DefaultValidationSettingsService implements ValidationSettingsServi
     @Override
     public ValidationResult checkCommandService() throws Exception {
         String url = urlManager.getInnerDocumentServerUrl();
-        String secretKey = settingsManager.getSecuritySecret();
-        String jwtHeader = settingsManager.getSecurityHeader();
-        String jwtPrefix = settingsManager.getSecurityPrefix();
+        Credentials credentials = Credentials.builder()
+                .key(settingsManager.getSecuritySecret())
+                .header(settingsManager.getSecurityHeader())
+                .prefix(settingsManager.getSecurityPrefix())
+                .build();
 
-        return checkCommandService(url, secretKey, jwtHeader, jwtPrefix);
+        return checkCommandService(url, credentials);
     }
 
-    @Override
-    public ValidationResult checkCommandService(final String url, final String secretKey, final String jwtHeader,
-                                                final String jwtPrefix) throws Exception {
-        JSONObject body = new JSONObject();
-        body.put("c", "version");
+    public ValidationResult checkCommandService(final String url, final Credentials credentials) throws Exception {
+        String commandServiceUrl = settingsManager.getSDKSetting("integration-sdk.service.command.url");
+
+        CommandRequest commandRequest = CommandRequest.builder()
+                .c(Command.VERSION)
+                .build();
 
         return requestManager.executePostRequest(
-                Service.COMMAND_SERVICE,
-                body,
-                url,
-                secretKey,
-                jwtHeader,
-                jwtPrefix,
+                urlManager.sanitizeUrl(url) + commandServiceUrl,
+                commandRequest,
+                credentials,
                 new RequestManager.Callback<ValidationResult>() {
                     public ValidationResult doWork(final HttpEntity httpEntity) throws IOException {
                         String content = IOUtils.toString(httpEntity.getContent(), "utf-8").trim();
@@ -115,15 +116,13 @@ public class DefaultValidationSettingsService implements ValidationSettingsServi
                         if (result.has("error") && result.getInt("error") == 0) {
                             return ValidationResult.builder()
                                     .status(Status.SUCCESS)
-                                    .service(Service.COMMAND_SERVICE)
                                     .build();
                         } else {
                             Integer errorCode = result.getInt("error");
 
                             return ValidationResult.builder()
                                     .status(Status.FAILED)
-                                    .service(Service.COMMAND_SERVICE)
-                                    .errorCode(CommandServiceErrorCode.valueOfCode(errorCode))
+                                    .errorCode(CommandResponse.Error.valueOfCode(errorCode))
                                     .build();
                         }
                     }
@@ -133,18 +132,19 @@ public class DefaultValidationSettingsService implements ValidationSettingsServi
     @Override
     public ValidationResult checkConvertService() throws Exception {
         String url = urlManager.getInnerDocumentServerUrl();
-        String secretKey = settingsManager.getSecuritySecret();
-        String jwtHeader = settingsManager.getSecurityHeader();
-        String jwtPrefix = settingsManager.getSecurityPrefix();
+        Credentials credentials = Credentials.builder()
+                .key(settingsManager.getSecuritySecret())
+                .header(settingsManager.getSecurityHeader())
+                .prefix(settingsManager.getSecurityPrefix())
+                .build();
 
-        return checkConvertService(url, secretKey, jwtHeader, jwtPrefix);
+        return checkConvertService(url, credentials);
     }
 
-    @Override
-    public ValidationResult checkConvertService(final String url, final String secretKey, final String jwtHeader,
-                                                final String jwtPrefix) throws Exception {
+    public ValidationResult checkConvertService(final String url, final Credentials credentials) throws Exception {
+        String convertServiceUrl = settingsManager.getSDKSetting("integration-sdk.service.convert.url");
 
-        Convert convert = Convert.builder()
+        ConvertRequest convertRequest = ConvertRequest.builder()
                 .async(false)
                 .filetype("txt")
                 .outputtype("docx")
@@ -152,16 +152,10 @@ public class DefaultValidationSettingsService implements ValidationSettingsServi
                 .url(urlManager.getTestConvertUrl())
                 .build();
 
-        ObjectMapper mapper = new ObjectMapper();
-        JSONObject bodyJson = new JSONObject(mapper.writeValueAsString(convert));
-
         return requestManager.executePostRequest(
-                Service.CONVERT_SERVICE,
-                bodyJson,
-                url,
-                secretKey,
-                jwtHeader,
-                jwtPrefix,
+                urlManager.sanitizeUrl(url) + convertServiceUrl,
+                convertRequest,
+                credentials,
                 new RequestManager.Callback<ValidationResult>() {
                     public ValidationResult doWork(final HttpEntity httpEntity) throws Exception {
                         String content = IOUtils.toString(httpEntity.getContent(), "utf-8").trim();
@@ -172,8 +166,7 @@ public class DefaultValidationSettingsService implements ValidationSettingsServi
 
                             return ValidationResult.builder()
                                     .status(Status.FAILED)
-                                    .service(Service.CONVERT_SERVICE)
-                                    .errorCode(ConvertServiceErrorCode.valueOfCode(errorCode))
+                                    .errorCode(ConvertResponse.Error.valueOfCode(errorCode))
                                     .build();
                         }
 
@@ -181,7 +174,6 @@ public class DefaultValidationSettingsService implements ValidationSettingsServi
 
                         HttpGet request = new HttpGet(fileUrl);
                         return requestManager.executeRequest(
-                                Service.DOCUMENT_SERVER,
                                 request,
                                 new RequestManager.Callback<ValidationResult>() {
                             @Override
@@ -190,13 +182,11 @@ public class DefaultValidationSettingsService implements ValidationSettingsServi
                                 if (bytes.length > 0) {
                                     return ValidationResult.builder()
                                             .status(Status.SUCCESS)
-                                            .service(Service.CONVERT_SERVICE)
                                             .build();
                                 } else {
                                     return ValidationResult.builder()
                                             .status(Status.FAILED)
-                                            .service(Service.CONVERT_SERVICE)
-                                            .errorCode(ConvertServiceErrorCode.DOWNLOAD_RESULT_ERROR)
+                                            .errorCode(CommonResponse.Error.DOWNLOAD_RESULT_ERROR)
                                             .build();
                                 }
                             }

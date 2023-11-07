@@ -18,18 +18,9 @@
 
 package com.onlyoffice.service.convert;
 
-import com.onlyoffice.model.convert.Convert;
-import org.json.JSONObject;
+import com.onlyoffice.model.convertservice.ConvertRequest;
+import com.onlyoffice.model.convertservice.ConvertResponse;
 
 public interface ConvertService {
-
-    /**
-     * Starts the file conversion process.
-     *
-     * @param convert The {@link Convert} object with the request parameters that are sent to the "https://documentserver/ConvertService.ashx" address.
-     * @param fileId The ID of the file to be converted.
-     * @return The JSON object containing the body of the response from the conversion service.
-     * @throws Exception
-     */
-    JSONObject processConvert(Convert convert, String fileId) throws Exception;
+    ConvertResponse processConvert(ConvertRequest convertRequest, String fileId) throws Exception;
 }

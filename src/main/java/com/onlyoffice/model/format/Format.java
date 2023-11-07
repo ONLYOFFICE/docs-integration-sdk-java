@@ -19,7 +19,7 @@
 package com.onlyoffice.model.format;
 
 
-import com.onlyoffice.model.config.document.documenttype.DocumentType;
+import com.onlyoffice.model.documenteditor.config.document.DocumentType;
 import lombok.Getter;
 import lombok.Setter;
 

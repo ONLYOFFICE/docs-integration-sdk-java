@@ -18,6 +18,7 @@
 
 package com.onlyoffice.service.settings;
 
+import com.onlyoffice.model.security.Credentials;
 import com.onlyoffice.model.settings.validation.ValidationResult;
 
 public interface ValidationSettingsService {
@@ -46,18 +47,7 @@ public interface ValidationSettingsService {
      */
     ValidationResult checkCommandService() throws Exception;
 
-    /**
-     * Checks the Command Service.
-     *
-     * @param url The URL to the Document Server.
-     * @param secretKey The secret authorization key.
-     * @param jwtHeader The authorization header.
-     * @param jwtPrefix The authorization prefix.
-     * @return The {@link ValidationResult} object.
-     * @throws Exception
-     */
-    ValidationResult checkCommandService(String url, String secretKey, String jwtHeader, String jwtPrefix)
-            throws Exception;
+    ValidationResult checkCommandService(String url, Credentials credentials) throws Exception;
 
     /**
      * Checks the Convert Service.
@@ -67,16 +57,6 @@ public interface ValidationSettingsService {
      */
     ValidationResult checkConvertService() throws Exception;
 
-    /**
-     * Checks the Convert Service by the Document Server URL.
-     *
-     * @param url The URL to the Document Server.
-     * @param secretKey The secret authorization key.
-     * @param jwtHeader The authorization header.
-     * @param jwtPrefix Te authorization prefix.
-     * @return The {@link ValidationResult} object.
-     * @throws Exception
-     */
-    ValidationResult checkConvertService(String url, String secretKey, String jwtHeader, String jwtPrefix)
+    ValidationResult checkConvertService(String url, Credentials credentials)
             throws Exception;
 }

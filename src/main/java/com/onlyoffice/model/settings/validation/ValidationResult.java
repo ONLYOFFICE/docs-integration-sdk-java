@@ -19,8 +19,7 @@
 package com.onlyoffice.model.settings.validation;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.onlyoffice.model.service.ErrorCode;
-import com.onlyoffice.model.service.Service;
+import com.onlyoffice.model.common.Error;
 import com.onlyoffice.model.settings.validation.status.Status;
 import lombok.Builder;
 import lombok.Getter;
@@ -38,14 +37,8 @@ public class ValidationResult {
      * Defines the validation result status.
      */
     private Status status;
-
-    /**
-     * Defines the server service which will be checked.
-     */
-    private Service service;
-
     /**
      * Defines the error code.
      */
-    private ErrorCode errorCode;
+    private Error errorCode;
 }
