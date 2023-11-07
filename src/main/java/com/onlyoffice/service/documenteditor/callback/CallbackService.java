@@ -20,7 +20,6 @@ package com.onlyoffice.service.documenteditor.callback;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.onlyoffice.model.documenteditor.Callback;
-import org.json.JSONObject;
 
 public interface CallbackService {
     Callback verifyCallback(Callback callback, String authorizationHeader) throws JsonProcessingException;
