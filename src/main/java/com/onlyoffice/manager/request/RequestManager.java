@@ -20,14 +20,14 @@ package com.onlyoffice.manager.request;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.onlyoffice.model.common.RequestEntity;
-import com.onlyoffice.model.common.RequestableService;
+import com.onlyoffice.model.common.RequestedService;
 import com.onlyoffice.model.security.Credentials;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 
 public interface RequestManager {
-    <R> R executePostRequest(RequestableService requestableService, RequestEntity requestEntity, Callback<R> callback)
+    <R> R executePostRequest(RequestedService requestedService, RequestEntity requestEntity, Callback<R> callback)
             throws Exception;
 
     <R> R executePostRequest(String url, RequestEntity requestEntity, Credentials credentials, Callback<R> callback)

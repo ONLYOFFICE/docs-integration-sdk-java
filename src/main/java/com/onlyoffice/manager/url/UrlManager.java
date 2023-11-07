@@ -18,7 +18,7 @@
 
 package com.onlyoffice.manager.url;
 
-import com.onlyoffice.model.common.RequestableService;
+import com.onlyoffice.model.common.RequestedService;
 
 public interface UrlManager {
      String getDocumentServerUrl();
@@ -29,7 +29,7 @@ public interface UrlManager {
      String getGobackUrl(String fileId);
      String getCreateUrl(String fileId);
 
-     String getServiceUrl(RequestableService requestableService);
+     String getServiceUrl(RequestedService requestedService);
 
      String sanitizeUrl(String url);
      String replaceToInnerDocumentServerUrl(String url);
