@@ -124,6 +124,4 @@ public class DefaultCallbackService implements CallbackService {
         handlerForcesave(callback, fileId);
     }
 
-    public
-
 }
