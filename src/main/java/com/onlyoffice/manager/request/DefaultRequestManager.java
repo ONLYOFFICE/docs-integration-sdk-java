@@ -131,11 +131,12 @@ public class DefaultRequestManager implements RequestManager {
         }
     }
 
-    private HttpPost createPostRequest(String url, RequestEntity requestEntity, Credentials credentials) throws JsonProcessingException {
+    private HttpPost createPostRequest(final String url, final RequestEntity requestEntity,
+                                       final Credentials credentials) throws JsonProcessingException {
         HttpPost request = new HttpPost(url);
 
         if (credentials.getKey() != null && !credentials.getKey().isEmpty()) {
-            Map<String,RequestEntity> payloadMap = new HashMap<>();
+            Map<String, RequestEntity> payloadMap = new HashMap<>();
             payloadMap.put("payload", requestEntity);
 
             String headerToken = jwtManager.createToken(payloadMap, credentials.getKey());

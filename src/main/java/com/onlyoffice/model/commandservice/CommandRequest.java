@@ -34,7 +34,7 @@ public class CommandRequest implements RequestEntity {
     }
 
     @Override
-    public void setToken(final String token) {
-        this.token = token;
+    public void setToken(final String tn) {
+        this.token = tn;
     }
 }

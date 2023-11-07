@@ -37,7 +37,7 @@ public class ConvertRequest implements RequestEntity {
     }
 
     @Override
-    public void setToken(String token) {
-        this.token = token;
+    public void setToken(final String tn) {
+        this.token = tn;
     }
 }
