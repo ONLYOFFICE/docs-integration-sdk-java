@@ -49,7 +49,7 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DefaultValidationSettingsService implements ValidationSettingsService {
+public class DefaultSettingsValidationService implements SettingsValidationService {
 
     private RequestManager requestManager;
     private UrlManager urlManager;

@@ -21,7 +21,7 @@ package com.onlyoffice.service.settings;
 import com.onlyoffice.model.security.Credentials;
 import com.onlyoffice.model.settings.validation.ValidationResult;
 
-public interface ValidationSettingsService {
+public interface SettingsValidationService {
     ValidationResult checkDocumentServer() throws Exception;
     ValidationResult checkDocumentServer(String url) throws Exception;
     ValidationResult checkCommandService() throws Exception;
