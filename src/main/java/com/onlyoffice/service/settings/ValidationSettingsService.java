@@ -47,6 +47,15 @@ public interface ValidationSettingsService {
      */
     ValidationResult checkCommandService() throws Exception;
 
+    /**
+     * Checks the Command Service.
+     *
+     * @param url The URL to the Document Server.
+     * @param credentials The credentials.
+     * @see Credentials
+     * @return The {@link ValidationResult} object.
+     * @throws Exception
+     */
     ValidationResult checkCommandService(String url, Credentials credentials) throws Exception;
 
     /**
@@ -57,6 +66,15 @@ public interface ValidationSettingsService {
      */
     ValidationResult checkConvertService() throws Exception;
 
+    /**
+     * Checks the Convert Service by the Document Server URL.
+     *
+     * @param url The URL to the Document Server.
+     * @param credentials The credentials.
+     * @see Credentials
+     * @return The {@link ValidationResult} object.
+     * @throws Exception
+     */
     ValidationResult checkConvertService(String url, Credentials credentials)
             throws Exception;
 }
