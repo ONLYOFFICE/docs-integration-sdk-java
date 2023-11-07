@@ -23,7 +23,6 @@ import com.onlyoffice.model.documenteditor.Callback;
 import org.json.JSONObject;
 
 public interface CallbackService {
-    Callback verifyCallback(JSONObject body, String authorizationHeader) throws JsonProcessingException;
     Callback verifyCallback(Callback callback, String authorizationHeader) throws JsonProcessingException;
     void processCallback(Callback callback, String fileId) throws Exception;
     void handlerEditing(Callback callback, String fileId) throws Exception;

@@ -40,14 +40,6 @@ public class DefaultCallbackService implements CallbackService {
     private JwtManager jwtManager;
     private SettingsManager settingsManager;
 
-    public Callback verifyCallback(final JSONObject body, final String authorizationHeader)
-            throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        Callback callback = objectMapper.readValue(body.toString(), Callback.class);
-
-        return verifyCallback(callback, authorizationHeader);
-    }
-
     public Callback verifyCallback(final Callback callback, final String authorizationHeader)
             throws JsonProcessingException {
         if (settingsManager.isSecurityEnabled()) {
@@ -131,5 +123,7 @@ public class DefaultCallbackService implements CallbackService {
     public void handlerForcesaveCurrupted(final Callback callback, final String fileId) throws Exception {
         handlerForcesave(callback, fileId);
     }
+
+    public
 
 }
