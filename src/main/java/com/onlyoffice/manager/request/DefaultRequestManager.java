@@ -142,19 +142,22 @@ public class DefaultRequestManager implements RequestManager {
     public HttpPost createPostRequest(final String url, final RequestEntity requestEntity,
                                        final Credentials credentials) throws JsonProcessingException {
         HttpPost request = new HttpPost(url);
+        ObjectMapper mapper = new ObjectMapper();
 
         if (credentials.getKey() != null && !credentials.getKey().isEmpty()) {
             Map<String, RequestEntity> payloadMap = new HashMap<>();
             payloadMap.put("payload", requestEntity);
 
-            String headerToken = jwtManager.createToken(payloadMap, credentials.getKey());
+            String headerToken = jwtManager.createToken(
+                    mapper.convertValue(payloadMap, Map.class),
+                    credentials.getKey()
+            );
             request.setHeader(credentials.getHeader(), credentials.getPrefix() + headerToken);
 
             String bodyToken = jwtManager.createToken(requestEntity, credentials.getKey());
             requestEntity.setToken(bodyToken);
         }
 
-        ObjectMapper mapper = new ObjectMapper();
         StringEntity entity = new StringEntity(mapper.writeValueAsString(requestEntity), ContentType.APPLICATION_JSON);
 
         request.setEntity(entity);
