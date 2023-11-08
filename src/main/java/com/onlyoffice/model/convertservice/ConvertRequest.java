@@ -39,13 +39,13 @@ public class ConvertRequest implements RequestEntity {
      * @see <a target="_top" href="https://github.com/ONLYOFFICE/server/blob/master/Common/sources/commondefines.js">
      *     All the supported values</a>
      */
-    private int codePage;
+    private Integer codePage;
 
     /**
      * Defines the delimiter characters for separating values when converting from "csv" format.
      * Supported values: "0" - no delimiter, "1" - tab, "2" - semicolon, "3" - colon, "4" - comma, "5" - space.
      */
-    private int delimiter;
+    private Integer delimiter;
 
     /**
      * Defines the type of the document file to be converted.

@@ -1,5 +1,6 @@
 package com.onlyoffice.model.convertservice.convertrequest;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,6 +16,7 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_ABSENT)
 public class Thumbnail {
     /**
      * Defines the mode to fit the image to the height and width specified. Supported values:
@@ -25,7 +27,7 @@ public class Thumbnail {
      * E.g., the A4 (210x297mm) page will turn out to be a picture with the 794x1123pix dimensions.
      * The default value is "2".
      */
-    private int aspect;
+    private Integer aspect;
 
     /**
      * Defines if the thumbnails should be generated for the first page only or for all the document pages.
@@ -36,10 +38,10 @@ public class Thumbnail {
     /**
      * Defines the thumbnail height in pixels. The default value is "100".
      */
-    private int height;
+    private Integer height;
 
     /**
      * Defines the thumbnail width in pixels. The default value is "100".
      */
-    private int width;
+    private Integer width;
 }
