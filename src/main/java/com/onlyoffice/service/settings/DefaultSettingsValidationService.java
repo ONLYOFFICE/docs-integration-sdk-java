@@ -18,6 +18,7 @@
 
 package com.onlyoffice.service.settings;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onlyoffice.manager.request.RequestManager;
 import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.manager.url.UrlManager;
@@ -106,18 +107,20 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
                 credentials,
                 new RequestManager.Callback<ValidationResult>() {
                     public ValidationResult doWork(final HttpEntity httpEntity) throws IOException {
-                        String content = IOUtils.toString(httpEntity.getContent(), "utf-8").trim();
-                        JSONObject result = new JSONObject(content);
-                        if (result.has("error") && result.getInt("error") == 0) {
+                        ObjectMapper mapper = new ObjectMapper();
+                        String content = IOUtils.toString(httpEntity.getContent(), "utf-8");
+
+                        CommandResponse commandResponse = mapper.readValue(content, CommandResponse.class);
+
+                        if (commandResponse.getError() != null && commandResponse.getError().equals(
+                                CommandResponse.Error.NO_ERROR)) {
                             return ValidationResult.builder()
                                     .status(Status.SUCCESS)
                                     .build();
                         } else {
-                            Integer errorCode = result.getInt("error");
-
                             return ValidationResult.builder()
                                     .status(Status.FAILED)
-                                    .errorCode(CommandResponse.Error.valueOfCode(errorCode))
+                                    .errorCode(commandResponse.getError())
                                     .build();
                         }
                     }
