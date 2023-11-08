@@ -12,8 +12,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Thumbnail {
-    private int aspect;
+    private Integer aspect;
     private boolean first;
-    private int height;
-    private int width;
+    private Integer height;
+    private Integer width;
 }

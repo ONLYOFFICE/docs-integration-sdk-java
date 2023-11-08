@@ -19,8 +19,8 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ConvertRequest implements RequestEntity {
     private Boolean async;
-    private int codePage;
-    private int delimiter;
+    private Integer codePage;
+    private Integer delimiter;
     private String filetype;
     private String key;
     private String outputtype;
