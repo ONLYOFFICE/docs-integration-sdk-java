@@ -65,6 +65,7 @@ public class DefaultUrlManager implements UrlManager {
      public String getServiceUrl(final RequestedService requestedService) {
           String serviceName = requestedService
                   .getClass()
+                  .getInterfaces()[0]
                   .getSimpleName()
                   .replaceAll("Service", "")
                   .toLowerCase();
