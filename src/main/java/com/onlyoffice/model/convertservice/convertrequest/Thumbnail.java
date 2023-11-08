@@ -1,5 +1,6 @@
 package com.onlyoffice.model.convertservice.convertrequest;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,6 +12,7 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_ABSENT)
 public class Thumbnail {
     private Integer aspect;
     private boolean first;
