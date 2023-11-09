@@ -18,9 +18,16 @@
 
 package com.onlyoffice.manager.settings;
 
+import com.onlyoffice.model.settings.Settings;
+
+import java.beans.IntrospectionException;
+import java.lang.reflect.InvocationTargetException;
+
 public interface SettingsManager {
     String getSetting(String name);
     Void setSetting(String name, String value);
+    void setSettings(Settings settings)
+            throws IntrospectionException, InvocationTargetException, IllegalAccessException;
     Boolean getSettingBoolean(String name, Boolean defaultValue);
     String getSDKSetting(String name);
     Boolean isSecurityEnabled();

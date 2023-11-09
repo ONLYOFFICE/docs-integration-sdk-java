@@ -1,4 +1,4 @@
-package com.onlyoffice.model.security;
+package com.onlyoffice.model.settings.security;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -25,7 +25,7 @@ import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.manager.url.UrlManager;
 import com.onlyoffice.model.common.RequestEntity;
 import com.onlyoffice.model.common.RequestedService;
-import com.onlyoffice.model.security.Credentials;
+import com.onlyoffice.model.settings.security.Credentials;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -21,7 +21,7 @@ package com.onlyoffice.manager.request;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.onlyoffice.model.common.RequestEntity;
 import com.onlyoffice.model.common.RequestedService;
-import com.onlyoffice.model.security.Credentials;
+import com.onlyoffice.model.settings.security.Credentials;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;

@@ -18,7 +18,7 @@
 
 package com.onlyoffice.service.settings;
 
-import com.onlyoffice.model.security.Credentials;
+import com.onlyoffice.model.settings.security.Credentials;
 import com.onlyoffice.model.settings.validation.ValidationResult;
 
 public interface SettingsValidationService {

@@ -28,7 +28,7 @@ import com.onlyoffice.model.commandservice.commandrequest.Command;
 import com.onlyoffice.model.common.CommonResponse;
 import com.onlyoffice.model.convertservice.ConvertRequest;
 import com.onlyoffice.model.convertservice.ConvertResponse;
-import com.onlyoffice.model.security.Credentials;
+import com.onlyoffice.model.settings.security.Credentials;
 import com.onlyoffice.model.settings.validation.ValidationResult;
 import com.onlyoffice.model.settings.validation.status.Status;
 import lombok.AccessLevel;

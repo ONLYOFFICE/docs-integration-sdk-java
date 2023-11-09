@@ -6,7 +6,7 @@
 
     <groupId>com.onlyoffice</groupId>
     <artifactId>core-integration-sdk</artifactId>
-    <version>1.0.9</version>
+    <version>1.0.22</version>
     <packaging>jar</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -98,6 +98,12 @@
             <artifactId>lombok</artifactId>
             <version>1.18.30</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.4</version>
         </dependency>
         <!-- TESTS -->
         <dependency>

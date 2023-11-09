@@ -18,14 +18,22 @@
 
 package com.onlyoffice.manager.settings;
 
-
+import com.onlyoffice.model.settings.Settings;
 import com.onlyoffice.model.settings.SettingsConstants;
 
+import java.beans.BeanInfo;
+
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 public abstract class DefaultSettingsManager implements SettingsManager {
@@ -39,6 +47,16 @@ public abstract class DefaultSettingsManager implements SettingsManager {
 
     public abstract Void setSetting(String name, String value);
 
+    public void setSettings(Settings settings)
+            throws IntrospectionException, InvocationTargetException, IllegalAccessException {
+         Map<String, String> mapSettings = convertObjectToDotNotationMap(settings);
+
+         for (Map.Entry<String, String> setting : mapSettings.entrySet()) {
+             setSetting(setting.getKey(), setting.getValue());
+         }
+    }
+
+    @Override
     public Boolean getSettingBoolean(final String name, final Boolean defaultValue) {
         String setting = getSetting(name);
 
@@ -130,11 +148,11 @@ public abstract class DefaultSettingsManager implements SettingsManager {
 
     public Boolean enableDemo() {
         setSetting(SettingsConstants.DEMO, "true");
-        String demoStart = getSetting(SettingsConstants.DEMO_START);
+        String demoStart = getSetting("demo-start");
         if (demoStart == null || demoStart.isEmpty()) {
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             Date date = new Date();
-            setSetting(SettingsConstants.DEMO_START, dateFormat.format(date));
+            setSetting("demo-start", dateFormat.format(date));
             return true;
         } else {
             return false;
@@ -155,7 +173,7 @@ public abstract class DefaultSettingsManager implements SettingsManager {
 
         Boolean isDemo = Boolean.parseBoolean(demo);
 
-        String demoStart = getSetting(SettingsConstants.DEMO_START);
+        String demoStart = getSetting("demo-start");
         if (demoStart != null && !demoStart.isEmpty() && isDemo) {
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             try {
@@ -173,7 +191,7 @@ public abstract class DefaultSettingsManager implements SettingsManager {
     }
 
     public Boolean isDemoAvailable() {
-        String demoStart = getSetting(SettingsConstants.DEMO_START);
+        String demoStart = getSetting("demo-start");
         if (demoStart != null && !demoStart.isEmpty()) {
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             try {
@@ -199,6 +217,30 @@ public abstract class DefaultSettingsManager implements SettingsManager {
         } catch (Exception e) {
             properties = null;
         }
+    }
+
+    private <T> Map<String, String> convertObjectToDotNotationMap(T object)
+            throws IntrospectionException, InvocationTargetException, IllegalAccessException {
+        Class<T> beanClass = (Class<T>) object.getClass();
+        BeanInfo beanInfo = Introspector.getBeanInfo(beanClass);
+
+        Map<String, String> result = new HashMap<>();
+
+        for (PropertyDescriptor propertyDescriptor : beanInfo.getPropertyDescriptors()) {
+            String name = propertyDescriptor.getName();
+            Object value = propertyDescriptor.getReadMethod().invoke(object);
+            if (value != null && !name.equals("class")) {
+                if (value.toString().startsWith("com.onlyoffice.model")) {
+                    for (Map.Entry<String, String> map : convertObjectToDotNotationMap(value).entrySet()) {
+                        result.put(name + "." + map.getKey(), map.getValue());
+                    }
+                } else {
+                    result.put(name, value.toString());
+                }
+            }
+        }
+
+        return result;
     }
 
 }
