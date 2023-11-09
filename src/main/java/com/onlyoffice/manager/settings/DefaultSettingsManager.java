@@ -27,6 +27,7 @@ import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Log
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Review;
 import com.onlyoffice.model.settings.Settings;
 import com.onlyoffice.model.settings.SettingsConstants;
+import com.onlyoffice.model.settings.security.Security;
 
 import java.beans.BeanInfo;
 
@@ -68,6 +69,9 @@ public abstract class DefaultSettingsManager implements SettingsManager {
     public Map<String, String> getSettings()
             throws IntrospectionException, InvocationTargetException, IllegalAccessException {
         Settings settings = Settings.builder()
+                .security(
+                        Security.builder().build()
+                )
                 .customization(
                         Customization.builder()
                                 .goback(
@@ -95,7 +99,7 @@ public abstract class DefaultSettingsManager implements SettingsManager {
 
         Map<String, String> settinsMap = new HashMap<>();
 
-        for(String name : namesSettings) {
+        for (String name : namesSettings) {
             settinsMap.put(name, getSetting(name));
         }
 
@@ -265,7 +269,7 @@ public abstract class DefaultSettingsManager implements SettingsManager {
         }
     }
 
-    private <T> Map<String, String> convertObjectToDotNotationMap(T object)
+    private <T> Map<String, String> convertObjectToDotNotationMap(final T object)
             throws IntrospectionException, InvocationTargetException, IllegalAccessException {
         Class<T> beanClass = (Class<T>) object.getClass();
         BeanInfo beanInfo = Introspector.getBeanInfo(beanClass);

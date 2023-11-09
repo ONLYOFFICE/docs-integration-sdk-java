@@ -29,7 +29,7 @@ public interface SettingsManager {
     Void setSetting(String name, String value);
     void setSettings(Settings settings)
             throws IntrospectionException, InvocationTargetException, IllegalAccessException;
-    public Map<String, String> getSettings()
+    Map<String, String> getSettings()
             throws IntrospectionException, InvocationTargetException, IllegalAccessException;
     Boolean getSettingBoolean(String name, Boolean defaultValue);
     String getSDKSetting(String name);
