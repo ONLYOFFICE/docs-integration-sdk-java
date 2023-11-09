@@ -6,7 +6,7 @@
 
     <groupId>com.onlyoffice</groupId>
     <artifactId>core-integration-sdk</artifactId>
-    <version>1.0.22</version>
+    <version>1.0.22-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
