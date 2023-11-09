@@ -18,6 +18,13 @@
 
 package com.onlyoffice.manager.settings;
 
+import com.onlyoffice.model.documenteditor.config.editorconfig.Customization;
+import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Anonymous;
+import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Customer;
+import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Features;
+import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Goback;
+import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Logo;
+import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Review;
 import com.onlyoffice.model.settings.Settings;
 import com.onlyoffice.model.settings.SettingsConstants;
 
@@ -30,9 +37,11 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -47,13 +56,50 @@ public abstract class DefaultSettingsManager implements SettingsManager {
 
     public abstract Void setSetting(String name, String value);
 
-    public void setSettings(Settings settings)
+    public void setSettings(final Settings settings)
             throws IntrospectionException, InvocationTargetException, IllegalAccessException {
          Map<String, String> mapSettings = convertObjectToDotNotationMap(settings);
 
          for (Map.Entry<String, String> setting : mapSettings.entrySet()) {
              setSetting(setting.getKey(), setting.getValue());
          }
+    }
+
+    public Map<String, String> getSettings()
+            throws IntrospectionException, InvocationTargetException, IllegalAccessException {
+        Settings settings = Settings.builder()
+                .customization(
+                        Customization.builder()
+                                .goback(
+                                        Goback.builder().build()
+                                )
+                                .anonymous(
+                                        Anonymous.builder().build()
+                                )
+                                .customer(
+                                        Customer.builder().build()
+                                )
+                                .features(
+                                        Features.builder().build()
+                                )
+                                .logo(
+                                        Logo.builder().build()
+                                )
+                                .review(
+                                        Review.builder().build()
+                                )
+                                .build()
+                )
+                .build();
+        List<String> namesSettings = getNamesSettings(settings);
+
+        Map<String, String> settinsMap = new HashMap<>();
+
+        for(String name : namesSettings) {
+            settinsMap.put(name, getSetting(name));
+        }
+
+        return settinsMap;
     }
 
     @Override
@@ -243,4 +289,27 @@ public abstract class DefaultSettingsManager implements SettingsManager {
         return result;
     }
 
+    private <T> List<String> getNamesSettings(final T object)
+            throws IntrospectionException, InvocationTargetException, IllegalAccessException {
+        Class<T> beanClass = (Class<T>) object.getClass();
+        BeanInfo beanInfo = Introspector.getBeanInfo(beanClass);
+
+        List<String> result = new ArrayList<>();
+
+        for (PropertyDescriptor propertyDescriptor : beanInfo.getPropertyDescriptors()) {
+            String name = propertyDescriptor.getName();
+            Object value = propertyDescriptor.getReadMethod().invoke(object);
+            if (!name.equals("class")) {
+                if (value != null && value.toString().startsWith("com.onlyoffice.model")) {
+                    for (String name1 : getNamesSettings(value)) {
+                        result.add(name + "." + name1);
+                    }
+                } else {
+                    result.add(name);
+                }
+            }
+        }
+
+        return result;
+    }
 }
