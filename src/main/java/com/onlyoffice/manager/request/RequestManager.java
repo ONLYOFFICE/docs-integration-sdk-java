@@ -28,12 +28,13 @@ import org.apache.http.client.methods.HttpUriRequest;
 
 public interface RequestManager {
     /**
-     * Executes a POST request to the specified service. The authorization data and the address of the document server
-     * are taken from {@link com.onlyoffice.manager.settings.SettingsManager}.
+     * Executes a POST request to the specified service.
+     * The URL to the service is taken from the "requestedService" parameter.
+     * The authorization data is taken from {@link com.onlyoffice.manager.settings.SettingsManager}.
      *
      * @param <R> The result type.
      * @param requestedService The requested service.
-     * @param requestEntity The request entity.
+     * @param requestEntity The requested entity.
      * @param callback The callback method.
      * @see com.onlyoffice.manager.settings.SettingsManager
      * @see RequestedService
@@ -45,12 +46,12 @@ public interface RequestManager {
             throws Exception;
 
     /**
-     * Executes a POST request to the specified service. The authorization data and the address of the document server
-     * are taken from {@link com.onlyoffice.manager.settings.SettingsManager}.
+     * Executes a POST request to the specified service. The URL to the service is passed in the method.
+     * The authorization data is passed in the method as the "credentials" parameter.
      *
      * @param <R> The result type.
      * @param url The URL address to the document server.
-     * @param requestEntity The request entity.
+     * @param requestEntity The requested entity.
      * @param credentials The credentials.
      * @param callback The callback method.
      * @see RequestEntity
@@ -63,7 +64,7 @@ public interface RequestManager {
 
 
     /**
-     * Execute a POST request to the specified service with the {@link HttpUriRequest} parameter.
+     * Executes a POST request to the specified service with the {@link HttpUriRequest} parameter.
      *
      * @param <R> The result type.
      * @param request The {@link HttpUriRequest} request.
@@ -75,13 +76,13 @@ public interface RequestManager {
             throws Exception;
 
     /**
-     * Returns jwt signed http request.
+     * Returns the JWT signed HTTP request.
      *
      * @param url The URL address to the document server.
-     * @param requestEntity The request entity.
+     * @param requestEntity The requested entity.
      * @param credentials The credentials.
-     * @return The jwt signed http request.
-     * @throws JsonProcessingException An error occurred when processing the JSON data
+     * @return The JWT signed HTTP request.
+     * @throws JsonProcessingException An error occurred when processing the JSON data.
      */
     HttpPost createPostRequest(String url, RequestEntity requestEntity, Credentials credentials)
             throws JsonProcessingException;
@@ -91,7 +92,7 @@ public interface RequestManager {
         /**
          * The callback method. Implement this method depending on your needs.
          *
-         * @param httpEntity The result type.
+         * @param httpEntity The HTTP entity.
          * @return The result of the execution callback method.
          * @throws Exception If the processing fails unexpectedly.
          */

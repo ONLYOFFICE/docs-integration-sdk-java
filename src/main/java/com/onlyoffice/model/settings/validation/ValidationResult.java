@@ -38,7 +38,7 @@ public class ValidationResult {
      */
     private Status status;
     /**
-     * Defines the error code.
+     * Defines the error parameters.
      */
     private Error errorCode;
 }

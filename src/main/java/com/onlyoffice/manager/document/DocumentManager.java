@@ -59,7 +59,7 @@ public interface DocumentManager {
      * Returns the file extension from the file name.
      *
      * @param fileName The file name to get the extension.
-     * @return The file extension, or null if it doesn't exist or the file name is null.
+     * @return The file extension, or null if it doesn't exist, or the file name is empty.
      */
     String getExtension(String fileName);
 
@@ -68,7 +68,7 @@ public interface DocumentManager {
      * Returns the file base name without the full path and extension.
      *
      * @param fileName The file name to get the base name.
-     * @return The file name without the extension or null if the file name is null.
+     * @return The file name without the extension or null if the file name is empty.
      */
     String getBaseName(String fileName);
 
@@ -153,8 +153,8 @@ public interface DocumentManager {
     List<String> getConvertExtensionList(String fileName);
 
     /**
-     * Returns a map of extensions that can be edited with the possible loss of information,
-     * if the extension is contained in the "formats.lossy-edit" settings, the value is true.
+     * Returns a map of extensions that can be edited with the possible loss of information.
+     * If the extension is contained in the "formats.lossy-edit" settings, the value is "true".
      *
      * @return A map of extensions that can be edited with the possible loss of information.
      */

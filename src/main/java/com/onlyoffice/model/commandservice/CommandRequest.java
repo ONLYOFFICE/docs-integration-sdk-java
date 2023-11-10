@@ -13,6 +13,10 @@ import lombok.Setter;
 
 import java.util.List;
 
+/**
+ * Defines the request parameters that are sent to the "https://documentserver/coauthoring/CommandService.ashx"
+ * address where "documentserver" is the name of the server with the ONLYOFFICE Document Server installed.
+ */
 @Getter
 @Setter
 @AllArgsConstructor
@@ -21,18 +25,52 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CommandRequest implements RequestEntity {
+    /**
+     * Defines the command type.
+     */
     private Command c;
+
+    /**
+     * Defines the document identifier used to unambiguously identify the document file.
+     */
     private String key;
+
+    /**
+     * Defines the list of the user identifiers.
+     */
     private List<String> users;
+
+    /**
+     * Defines some custom identifier which will help distinguish the specific request
+     * in case there were more than one.
+     */
     private String userdata;
+
+    /**
+     * Defines the new meta information of the document.
+     */
     private Meta meta;
+
+    /**
+     * Defines the encrypted signature added to the Document Server config in the form of a token.
+     */
     private String token;
 
+    /**
+     * Returns a token from the command request.
+     * 
+     * @return The token from the command request.
+     */
     @Override
     public String getToken() {
         return this.token;
     }
 
+    /**
+     * Adds a token to the command request.
+     * 
+     * @param tn The token.
+     */
     @Override
     public void setToken(final String tn) {
         this.token = tn;

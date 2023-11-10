@@ -75,7 +75,7 @@ public interface UrlManager {
      String getCreateUrl(String fileId);
 
      /**
-      * Returns the URL to create a new file with the ID specified in the request.
+      * Returns the URL to the service using the requested service properties specified in the request.
       *
       * @param requestedService The requested service.
       * @return The URL to ONLYOFFICE service.

@@ -60,7 +60,7 @@ public enum Type {
     /**
      * Returns the action type ID.
      *
-     * @return The ID.
+     * @return The action type ID.
      */
     @JsonValue
     int getId() {

@@ -103,11 +103,21 @@ public class ConvertRequest implements RequestEntity {
      */
     private String url;
 
+    /**
+     * Returns a token from the conversion request.
+     * 
+     * @return The token from the conversion request.
+     */
     @Override
     public String getToken() {
         return token;
     }
 
+    /**
+     * Adds a token to the conversion request.
+     * 
+     * @param tn The token.
+     */
     @Override
     public void setToken(final String tn) {
         this.token = tn;

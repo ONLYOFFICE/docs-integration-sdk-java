@@ -89,7 +89,7 @@ public interface SettingsManager {
     String getSecurityPrefix();
 
     /**
-     * Сhecks whether the demo editor is enabled.
+     * Checks whether the demo editor is enabled.
      *
      * @return True if the demo editor is enabled.
      */
@@ -101,14 +101,14 @@ public interface SettingsManager {
     void disableDemo();
 
     /**
-     * Сhecks whether the demo editor is active.
+     * Checks whether the demo editor is active.
      *
      * @return True if the demo editor is enabled and the demo version has not expired.
      */
     Boolean isDemoActive();
 
     /**
-     * Сhecks whether the demo editor is available.
+     * Checks whether the demo editor is available.
      *
      * @return True if the demo version has not expired.
      */

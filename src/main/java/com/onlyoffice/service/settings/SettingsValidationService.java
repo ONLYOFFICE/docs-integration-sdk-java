@@ -48,7 +48,7 @@ public interface SettingsValidationService {
     ValidationResult checkCommandService() throws Exception;
 
     /**
-     * Checks the Command Service.
+     * Checks the Command Service by the Document Server URL.
      *
      * @param url The URL to the Document Server.
      * @param credentials The credentials.

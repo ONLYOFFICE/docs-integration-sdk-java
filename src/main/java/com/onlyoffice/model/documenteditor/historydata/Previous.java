@@ -23,13 +23,28 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-
+/**
+ * Defines the object of the previous version of the document
+ * if {@link com.onlyoffice.model.documenteditor.Callback#changesurl changesurl} address
+ * was returned after saving the document.
+ */
 @Getter
 @Setter
 @Builder
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 public class Previous {
+    /**
+     * Defines an extension of the document specified with the "previous.url" parameter.
+     */
     private String fileType;
+
+    /**
+     * Defines the document identifier of the previous version of the document.
+     */
     private String key;
+
+    /**
+     * Defines the url address of the previous version of the document.
+     */
     private String url;
 }
