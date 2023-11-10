@@ -18,6 +18,12 @@
 
 package com.onlyoffice.manager.settings;
 
+import com.onlyoffice.model.settings.Settings;
+
+import java.beans.IntrospectionException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
+
 public interface SettingsManager {
 
     /**
@@ -43,6 +49,10 @@ public interface SettingsManager {
      * @param defaultValue The setting default value.
      * @return The setting boolean value.
      */
+    void setSettings(Settings settings)
+            throws IntrospectionException, InvocationTargetException, IllegalAccessException;
+    Map<String, String> getSettings()
+            throws IntrospectionException, InvocationTargetException, IllegalAccessException;
     Boolean getSettingBoolean(String name, Boolean defaultValue);
 
     /**
@@ -68,11 +78,11 @@ public interface SettingsManager {
     Boolean isIgnoreSSLCertificate();
 
     /**
-     * Returns the security secret key.
+     * Returns the security key.
      *
-     * @return The security secret key.
+     * @return The security key.
      */
-    String getSecuritySecret();
+    String getSecurityKey();
 
     /**
      * Returns the authorization header.

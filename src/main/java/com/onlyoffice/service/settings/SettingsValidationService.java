@@ -18,7 +18,7 @@
 
 package com.onlyoffice.service.settings;
 
-import com.onlyoffice.model.security.Credentials;
+import com.onlyoffice.model.settings.security.Security;
 import com.onlyoffice.model.settings.validation.ValidationResult;
 
 public interface SettingsValidationService {
@@ -34,10 +34,12 @@ public interface SettingsValidationService {
      * Checks the Document Server by its URL.
      *
      * @param url The URL to the Document Server.
+     * @param security The security parameters.
+     * @see Security
      * @return The {@link ValidationResult} object.
      * @throws Exception If the processing fails unexpectedly.
      */
-    ValidationResult checkDocumentServer(String url) throws Exception;
+    ValidationResult checkDocumentServer(String url, Security security) throws Exception;
 
     /**
      * Checks the Command Service.
@@ -51,12 +53,12 @@ public interface SettingsValidationService {
      * Checks the Command Service by the Document Server URL.
      *
      * @param url The URL to the Document Server.
-     * @param credentials The credentials.
-     * @see Credentials
+     * @param security The security parameters.
+     * @see Security
      * @return The {@link ValidationResult} object.
      * @throws Exception If the processing fails unexpectedly.
      */
-    ValidationResult checkCommandService(String url, Credentials credentials) throws Exception;
+    ValidationResult checkCommandService(String url,  security) throws Exception;
 
     /**
      * Checks the Convert Service.
@@ -70,11 +72,11 @@ public interface SettingsValidationService {
      * Checks the Convert Service by the Document Server URL.
      *
      * @param url The URL to the Document Server.
-     * @param credentials The credentials.
-     * @see Credentials
+     * @param security The security parameters.
+     * @see Security
      * @return The {@link ValidationResult} object.
      * @throws Exception If the processing fails unexpectedly.
      */
-    ValidationResult checkConvertService(String url, Credentials credentials)
+    ValidationResult checkConvertService(String url, Security security)
             throws Exception;
 }

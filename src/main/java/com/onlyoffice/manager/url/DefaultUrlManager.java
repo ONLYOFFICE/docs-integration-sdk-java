@@ -42,7 +42,7 @@ public class DefaultUrlManager implements UrlManager {
          if (settingsManager.isDemoActive()) {
               return sanitizeUrl(settingsManager.getSDKSetting("integration-sdk.demo.url"));
          } else {
-              return sanitizeUrl(settingsManager.getSetting(SettingsConstants.DOCUMENT_SERVER_URL));
+              return sanitizeUrl(settingsManager.getSetting(SettingsConstants.URL));
          }
      }
 
@@ -51,7 +51,7 @@ public class DefaultUrlManager implements UrlManager {
           if (settingsManager.isDemoActive()) {
                return sanitizeUrl(settingsManager.getSDKSetting("integration-sdk.demo.url"));
           } else {
-               String documentServerInnerUrl = settingsManager.getSetting(SettingsConstants.DOCUMENT_SERVER_INNER_URL);
+               String documentServerInnerUrl = settingsManager.getSetting(SettingsConstants.INNER_URL);
 
                if (documentServerInnerUrl != null && !documentServerInnerUrl.isEmpty()) {
                     return sanitizeUrl(documentServerInnerUrl);

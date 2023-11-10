@@ -44,7 +44,7 @@ public class DefaultJwtManager implements JwtManager {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, ?> payloadMap = objectMapper.convertValue(object, Map.class);
 
-        return createToken(payloadMap, settingsManager.getSecuritySecret());
+        return createToken(payloadMap, settingsManager.getSecurityKey());
     }
 
     @Override
@@ -76,7 +76,7 @@ public class DefaultJwtManager implements JwtManager {
 
     @Override
     public String verify(final String token) {
-        return verifyToken(token, settingsManager.getSecuritySecret());
+        return verifyToken(token, settingsManager.getSecurityKey());
     }
 
     @Override

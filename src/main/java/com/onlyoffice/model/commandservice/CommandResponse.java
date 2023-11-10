@@ -76,43 +76,38 @@ public class CommandResponse {
         /**
          * No errors (the error code is 0).
          */
-        NO_ERROR(0, "No errors"),
+        NO(0, "No errors"),
 
         /**
          * Document key is missing or no document with such key could be found (the error code is 1).
          */
-        KEY_ERRORErrorCode(1, "Document key is missing or no document with such key could be found"),
+        KEY(1, "Document key is missing or no document with such key could be found"),
 
         /**
          * Callback url not correct (the error code is 2).
          */
-        CALLBACK_URL_ERROR(2, "Callback url not correct"),
+        CALLBACK_URL(2, "Callback url not correct"),
 
         /**
          * Internal server error (the error code is 3).
          */
-        INTERNAL_SERVER_ERROR(3, "Internal server error"),
+        INTERNAL_SERVER(3, "Internal server error"),
 
         /**
          * No changes were applied to the document
          * before the forcesave command was received (the error code is 4).
          */
-        FORCESAVE_ERROR(4, "No changes were applied to the document before the forcesave command was received"),
+        FORCESAVE(4, "No changes were applied to the document before the forcesave command was received"),
 
         /**
          * Command not correct (the error code is 5).
          */
-        COMMAND_ERROR(5, "Command not correct"),
+        COMMAND(5, "Command not correct"),
 
         /**
          * Invalid token (the error code is 6).
          */
-        ErrorCode(6, "Invalid token"),
-
-        /**
-         * Connection error (the error code is -99).
-         */
-        CONNECTION_ERROR(-99, "Connection error");
+        TOKEN(6, "Invalid token");
 
         /**
          * Defines the error code.

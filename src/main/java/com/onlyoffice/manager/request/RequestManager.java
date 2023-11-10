@@ -21,7 +21,7 @@ package com.onlyoffice.manager.request;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.onlyoffice.model.common.RequestEntity;
 import com.onlyoffice.model.common.RequestedService;
-import com.onlyoffice.model.security.Credentials;
+import com.onlyoffice.model.settings.security.Security;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -46,20 +46,21 @@ public interface RequestManager {
             throws Exception;
 
     /**
-     * Executes a POST request to the specified service. The URL to the service is passed in the method.
-     * The authorization data is passed in the method as the "credentials" parameter.
+     * Executes a POST request to the specified service.
+     * The URL to the service is passed in the method.
+     * The authorization data is passed in the method as the "security" parameter.
      *
      * @param <R> The result type.
      * @param url The URL address to the document server.
      * @param requestEntity The requested entity.
-     * @param credentials The credentials.
+     * @param security The security parameters.
      * @param callback The callback method.
      * @see RequestEntity
      * @see Credentials
      * @return The result of the execution callback method.
      * @throws Exception If the processing fails unexpectedly.
      */
-    <R> R executePostRequest(String url, RequestEntity requestEntity, Credentials credentials, Callback<R> callback)
+    <R> R executePostRequest(String url, RequestEntity requestEntity, Security security, Callback<R> callback)
             throws Exception;
 
 
@@ -78,13 +79,13 @@ public interface RequestManager {
     /**
      * Returns the JWT signed HTTP request.
      *
-     * @param url The URL address to the document server.
+     * @param url The URL address to the Document Server.
      * @param requestEntity The requested entity.
-     * @param credentials The credentials.
+     * @param security The security parameters.
      * @return The JWT signed HTTP request.
      * @throws JsonProcessingException An error occurred when processing the JSON data.
      */
-    HttpPost createPostRequest(String url, RequestEntity requestEntity, Credentials credentials)
+    HttpPost createPostRequest(String url, RequestEntity requestEntity, Security security)
             throws JsonProcessingException;
 
     interface Callback<Result> {

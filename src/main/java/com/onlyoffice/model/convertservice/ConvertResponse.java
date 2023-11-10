@@ -56,47 +56,42 @@ public class ConvertResponse {
         /**
          * Unknown error (the error code is -1).
          */
-        UNKNOWN_ERROR(-1, "Unknown error"),
+        UNKNOWN(-1, "Unknown error"),
 
         /**
          * Conversion timeout error (the error code is -2).
          */
-        TIMEOUT_ERROR(-2, "Conversion timeout error"),
+        TIMEOUT(-2, "Conversion timeout error"),
 
         /**
          * Conversion error (the error code is -3).
          */
-        CONVERSION_ERROR(-3, "Conversion error"),
+        CONVERSION(-3, "Conversion error"),
 
         /**
          * Error while downloading the document file to be converted (the error code is -4).
          */
-        DOWNLOADING_ERROR(-4, "Error while downloading the document file to be converted"),
+        DOWNLOADING(-4, "Error while downloading the document file to be converted"),
 
         /**
          * Incorrect password (the error code is -5).
          */
-        PASSWORD_ERROR(-5, "Incorrect password"),
+        PASSWORD(-5, "Incorrect password"),
 
         /**
          * Error while accessing the conversion result database (the error code is -6).
          */
-        DATABASE_ERROR(-6, "Error while accessing the conversion result database"),
+        DATABASE(-6, "Error while accessing the conversion result database"),
 
         /**
          * Input error (the error code is -7).
          */
-        INPUT_ERROR(-7, "Input error"),
+        INPUT(-7, "Input error"),
 
         /**
          * Invalid token (the error code is -8).
          */
-        TOKEN_ERROR(-8, "Invalid token"),
-
-        /**
-         * Connection error (the error code is -99).
-         */
-        CONNECTION_ERROR(-99, "Connection error");
+        TOKEN(-8, "Invalid token");
 
         /**
          * Defines the error code.

@@ -16,17 +16,17 @@ public class CommonResponse {
         /**
          * Healthcheck return false (the error code is -1).
          */
-        HEALTHCHECK_ERROR(-1, "Healthcheck return false"),
+        HEALTHCHECK(-1, "Healthcheck return false"),
 
         /**
          * Download result file error (the error code is -98).
          */
-        DOWNLOAD_RESULT_ERROR(-98, "Download result file error"),
+        DOWNLOAD_RESULT(-98, "Download result file error"),
 
         /**
          * Connection error (the error code is -99).
          */
-        CONNECTION_ERROR(-99, "Connection error");
+        CONNECTION(-99, "Connection error");
 
         /**
          * Defines the error code.

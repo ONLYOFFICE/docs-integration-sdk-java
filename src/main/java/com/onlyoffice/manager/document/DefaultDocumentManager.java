@@ -31,6 +31,7 @@ import lombok.Setter;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -169,15 +170,23 @@ public abstract class DefaultDocumentManager implements DocumentManager {
 
     @Override
     public InputStream getNewBlankFile(final String extension, final Locale locale) {
-        String path = "assets/document-templates/" + locale.toLanguageTag() + "/new." + extension;
+        String pathTemplate = "assets/document-templates/{0}/new.{1}";
 
-        if (this.getClass().getClassLoader().getResourceAsStream(path) == null) {
-            path = "assets/document-templates/en-US/new." + extension;
+        String path = MessageFormat.format(pathTemplate, locale.toLanguageTag(), extension);
+
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(path);
+
+        if (inputStream == null) {
+            path = MessageFormat.format(pathTemplate, locale.getLanguage(), extension);
+            inputStream = this.getClass().getClassLoader().getResourceAsStream(path);
         }
 
-        return this.getClass()
-                .getClassLoader()
-                .getResourceAsStream(path);
+        if (inputStream == null) {
+            path = MessageFormat.format(pathTemplate, "en", extension);
+            inputStream = this.getClass().getClassLoader().getResourceAsStream(path);
+        }
+
+        return inputStream;
     }
 
     @Override

@@ -25,7 +25,7 @@ import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.manager.url.UrlManager;
 import com.onlyoffice.model.common.RequestEntity;
 import com.onlyoffice.model.common.RequestedService;
-import com.onlyoffice.model.security.Credentials;
+import com.onlyoffice.model.settings.security.Security;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -76,29 +76,42 @@ public class DefaultRequestManager implements RequestManager {
     @Override
     public <R> R executePostRequest(final RequestedService requestedService, final RequestEntity requestEntity,
                                     final Callback<R> callback) throws Exception {
-         Credentials credentials = Credentials.builder()
-                 .key(settingsManager.getSecuritySecret())
+         Security security = Security.builder()
+                 .key(settingsManager.getSecurityKey())
                  .header(settingsManager.getSecurityHeader())
                  .prefix(settingsManager.getSecurityPrefix())
+                 .ignoreSSLCertificate(settingsManager.isIgnoreSSLCertificate())
                  .build();
 
          String url = urlManager.getServiceUrl(requestedService);
 
-         return executePostRequest(url, requestEntity, credentials, callback);
+         return executePostRequest(url, requestEntity, security, callback);
     }
 
     @Override
-    public <R> R executePostRequest(final String url, final RequestEntity requestEntity, final Credentials credentials,
+    public <R> R executePostRequest(final String url, final RequestEntity requestEntity, final Security security,
                                     final Callback<R> callback) throws Exception {
-        HttpPost request = createPostRequest(url, requestEntity, credentials);
+        HttpPost request = createPostRequest(url, requestEntity, security);
 
-        return executeRequest(request, callback);
+        return executeRequest(request, security, callback);
     }
 
     @Override
     public <R> R executeRequest(final HttpUriRequest request, final Callback<R> callback)
             throws Exception {
-        try (CloseableHttpClient httpClient = getHttpClient()) {
+        Security security = Security.builder()
+                .key(settingsManager.getSecurityKey())
+                .header(settingsManager.getSecurityHeader())
+                .prefix(settingsManager.getSecurityPrefix())
+                .ignoreSSLCertificate(settingsManager.isIgnoreSSLCertificate())
+                .build();
+
+        return executeRequest(request, security, callback);
+    }
+
+    public <R> R executeRequest(final HttpUriRequest request, final Security security, final Callback<R> callback)
+            throws Exception {
+        try (CloseableHttpClient httpClient = getHttpClient(security.getIgnoreSSLCertificate())) {
             try (CloseableHttpResponse response = httpClient.execute(request)) {
                 StatusLine statusLine = response.getStatusLine();
                 if (statusLine == null) {
@@ -140,21 +153,21 @@ public class DefaultRequestManager implements RequestManager {
 
     @Override
     public HttpPost createPostRequest(final String url, final RequestEntity requestEntity,
-                                       final Credentials credentials) throws JsonProcessingException {
+                                       final Security security) throws JsonProcessingException {
         HttpPost request = new HttpPost(url);
         ObjectMapper mapper = new ObjectMapper();
 
-        if (credentials.getKey() != null && !credentials.getKey().isEmpty()) {
+        if (security.getKey() != null && !security.getKey().isEmpty()) {
             Map<String, RequestEntity> payloadMap = new HashMap<>();
             payloadMap.put("payload", requestEntity);
 
             String headerToken = jwtManager.createToken(
                     mapper.convertValue(payloadMap, Map.class),
-                    credentials.getKey()
+                    security.getKey()
             );
-            request.setHeader(credentials.getHeader(), credentials.getPrefix() + headerToken);
+            request.setHeader(security.getHeader(), security.getPrefix() + headerToken);
 
-            String bodyToken = jwtManager.createToken(requestEntity, credentials.getKey());
+            String bodyToken = jwtManager.createToken(requestEntity, security.getKey());
             requestEntity.setToken(bodyToken);
         }
 
@@ -166,7 +179,7 @@ public class DefaultRequestManager implements RequestManager {
         return request;
     }
 
-    private CloseableHttpClient getHttpClient()
+    private CloseableHttpClient getHttpClient(final boolean ignoreSSLCertificate)
             throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
         Integer timeout = (int) TimeUnit.SECONDS.toMillis(
                 Long.parseLong(
@@ -181,7 +194,7 @@ public class DefaultRequestManager implements RequestManager {
 
         CloseableHttpClient httpClient;
 
-        if (settingsManager.isIgnoreSSLCertificate()) {
+        if (ignoreSSLCertificate) {
             SSLContextBuilder builder = new SSLContextBuilder();
 
             builder.loadTrustMaterial(null, new TrustStrategy() {
