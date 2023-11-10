@@ -26,15 +26,14 @@ public class ConvertResponse {
     @AllArgsConstructor
     @Getter
     public enum Error implements com.onlyoffice.model.common.Error {
-        UNKNOWN_ERROR(-1, "Unknown error"),
-        TIMEOUT_ERROR(-2, "Conversion timeout error"),
-        CONVERSION_ERROR(-3, "Conversion error"),
-        DOWNLOADING_ERROR(-4, "Error while downloading the document file to be converted"),
-        PASSWORD_ERROR(-5, "Incorrect password"),
-        DATABASE_ERROR(-6, "Error while accessing the conversion result database"),
-        INPUT_ERROR(-7, "Input error"),
-        TOKEN_ERROR(-8, "Invalid token"),
-        CONNECTION_ERROR(-99, "Connection error");
+        UNKNOWN(-1, "Unknown error"),
+        TIMEOUT(-2, "Conversion timeout error"),
+        CONVERSION(-3, "Conversion error"),
+        DOWNLOADING(-4, "Error while downloading the document file to be converted"),
+        PASSWORD(-5, "Incorrect password"),
+        DATABASE(-6, "Error while accessing the conversion result database"),
+        INPUT(-7, "Input error"),
+        TOKEN(-8, "Invalid token");
 
         private final Integer code;
         private final String description;
