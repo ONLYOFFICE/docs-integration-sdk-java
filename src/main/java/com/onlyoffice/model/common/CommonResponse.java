@@ -10,9 +10,9 @@ public class CommonResponse {
     @AllArgsConstructor
     @Getter
     public enum Error implements com.onlyoffice.model.common.Error {
-        HEALTHCHECK_ERROR(-1, "Healthcheck return false"),
-        DOWNLOAD_RESULT_ERROR(-98, "Download result file error"),
-        CONNECTION_ERROR(-99, "Connection error");
+        HEALTHCHECK(-1, "Healthcheck return false"),
+        DOWNLOAD_RESULT(-98, "Download result file error"),
+        CONNECTION(-99, "Connection error");
 
         private final Integer code;
         private final String description;

@@ -28,14 +28,13 @@ public class CommandResponse {
     @AllArgsConstructor
     @Getter
     public enum Error implements com.onlyoffice.model.common.Error {
-        NO_ERROR(0, "No errors"),
-        KEY_ERRORErrorCode(1, "Document key is missing or no document with such key could be found"),
-        CALLBACK_URL_ERROR(2, "Callback url not correct"),
-        INTERNAL_SERVER_ERROR(3, "Internal server error"),
-        FORCESAVE_ERROR(4, "No changes were applied to the document before the forcesave command was received"),
-        COMMAND_ERROR(5, "Command not correct"),
-        ErrorCode(6, "Invalid token"),
-        CONNECTION_ERROR(-99, "Connection error");
+        NO(0, "No errors"),
+        KEY(1, "Document key is missing or no document with such key could be found"),
+        CALLBACK_URL(2, "Callback url not correct"),
+        INTERNAL_SERVER(3, "Internal server error"),
+        FORCESAVE(4, "No changes were applied to the document before the forcesave command was received"),
+        COMMAND(5, "Command not correct"),
+        TOKEN(6, "Invalid token");
 
         private final Integer code;
         private final String description;

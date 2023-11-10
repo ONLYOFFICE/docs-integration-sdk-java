@@ -84,7 +84,7 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
                 } else {
                     return ValidationResult.builder()
                             .status(Status.FAILED)
-                            .errorCode(CommonResponse.Error.HEALTHCHECK_ERROR)
+                            .errorCode(CommonResponse.Error.HEALTHCHECK)
                             .build();
                 }
             }
@@ -122,7 +122,7 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
                         CommandResponse commandResponse = mapper.readValue(content, CommandResponse.class);
 
                         if (commandResponse.getError() != null && commandResponse.getError().equals(
-                                CommandResponse.Error.NO_ERROR)) {
+                                CommandResponse.Error.NO)) {
                             return ValidationResult.builder()
                                     .status(Status.SUCCESS)
                                     .build();
@@ -194,7 +194,7 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
                                 } else {
                                     return ValidationResult.builder()
                                             .status(Status.FAILED)
-                                            .errorCode(CommonResponse.Error.DOWNLOAD_RESULT_ERROR)
+                                            .errorCode(CommonResponse.Error.DOWNLOAD_RESULT)
                                             .build();
                                 }
                             }
