@@ -72,7 +72,7 @@ public class DefaultRequestManager implements RequestManager {
     public <R> R executePostRequest(final RequestedService requestedService, final RequestEntity requestEntity,
                                     final Callback<R> callback) throws Exception {
          Security security = Security.builder()
-                 .key(settingsManager.getSecuritySecret())
+                 .key(settingsManager.getSecurityKey())
                  .header(settingsManager.getSecurityHeader())
                  .prefix(settingsManager.getSecurityPrefix())
                  .ignoreSSLCertificate(settingsManager.isIgnoreSSLCertificate())
@@ -93,7 +93,7 @@ public class DefaultRequestManager implements RequestManager {
     public <R> R executeRequest(final HttpUriRequest request, final Callback<R> callback)
             throws Exception {
         Security security = Security.builder()
-                .key(settingsManager.getSecuritySecret())
+                .key(settingsManager.getSecurityKey())
                 .header(settingsManager.getSecurityHeader())
                 .prefix(settingsManager.getSecurityPrefix())
                 .ignoreSSLCertificate(settingsManager.isIgnoreSSLCertificate())
@@ -172,7 +172,7 @@ public class DefaultRequestManager implements RequestManager {
         return request;
     }
 
-    private CloseableHttpClient getHttpClient(boolean ignoreSSLCertificate)
+    private CloseableHttpClient getHttpClient(final boolean ignoreSSLCertificate)
             throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
         Integer timeout = (int) TimeUnit.SECONDS.toMillis(
                 Long.parseLong(

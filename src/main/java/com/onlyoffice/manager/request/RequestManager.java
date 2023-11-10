@@ -33,7 +33,7 @@ public interface RequestManager {
     <R> R executePostRequest(String url, RequestEntity requestEntity, Security security, Callback<R> callback)
             throws Exception;
 
-    <R> R executeRequest(final HttpUriRequest request, final Callback<R> callback) throws Exception;
+    <R> R executeRequest(HttpUriRequest request, Callback<R> callback) throws Exception;
 
     <R> R executeRequest(HttpUriRequest request, Security security, Callback<R> callback)
             throws Exception;

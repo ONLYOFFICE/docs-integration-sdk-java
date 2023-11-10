@@ -126,21 +126,21 @@ public abstract class DefaultSettingsManager implements SettingsManager {
     }
 
     public Boolean isSecurityEnabled() {
-        String secret = getSecuritySecret();
-        return secret != null && !secret.isEmpty();
+        String key = getSecurityKey();
+        return key != null && !key.isEmpty();
     }
 
-    public String getSecuritySecret() {
+    public String getSecurityKey() {
         if (isDemoActive()) {
-            return getSDKSetting("integration-sdk.demo.security.secret");
+            return getSDKSetting("integration-sdk.demo.security.key");
         } else {
-            String secret = getSetting(SettingsConstants.SECURITY_SECRET);
-            if (secret == null || secret.isEmpty()) {
-                secret = getSDKSetting("integration-sdk.security.secret");
+            String key = getSetting(SettingsConstants.SECURITY_KEY);
+            if (key == null || key.isEmpty()) {
+                key = getSDKSetting("integration-sdk.security.key");
             }
 
-            if (secret != null && !secret.isEmpty()) {
-                return secret;
+            if (key != null && !key.isEmpty()) {
+                return key;
             }
 
             return null;

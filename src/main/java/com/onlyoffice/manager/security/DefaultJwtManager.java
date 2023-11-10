@@ -42,7 +42,7 @@ public class DefaultJwtManager implements JwtManager {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, ?> payloadMap = objectMapper.convertValue(object, Map.class);
 
-        return createToken(payloadMap, settingsManager.getSecuritySecret());
+        return createToken(payloadMap, settingsManager.getSecurityKey());
     }
 
     public String createToken(final Object object, final String key) {
@@ -70,7 +70,7 @@ public class DefaultJwtManager implements JwtManager {
     }
 
     public String verify(final String token) {
-        return verifyToken(token, settingsManager.getSecuritySecret());
+        return verifyToken(token, settingsManager.getSecurityKey());
     }
 
     public String verifyToken(final String token, final String key) {

@@ -24,7 +24,7 @@ public final class SettingsConstants {
     public static final String URL = "url";
     public static final String INNER_URL = "innerUrl";
     public static final String PRODUCT_INNER_URL = "productInnerUrl";
-    public static final String SECURITY_SECRET = "security.secret";
+    public static final String SECURITY_KEY = "security.key";
     public static final String SECURITY_HEADER = "security.header";
     public static final String SECURITY_PREFIX  = "security.prefix";
     public static final String SECURITY_IGNORE_SSL_CERTIFICATE = "security.ignoreSSLCertificate";

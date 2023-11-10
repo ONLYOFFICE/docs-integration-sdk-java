@@ -58,7 +58,7 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
 
     public ValidationResult checkDocumentServer() throws Exception {
         Security security = Security.builder()
-                .key(settingsManager.getSecuritySecret())
+                .key(settingsManager.getSecurityKey())
                 .header(settingsManager.getSecurityHeader())
                 .prefix(settingsManager.getSecurityPrefix())
                 .ignoreSSLCertificate(settingsManager.isIgnoreSSLCertificate())
@@ -94,7 +94,7 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
     public ValidationResult checkCommandService() throws Exception {
         String url = urlManager.getInnerDocumentServerUrl();
         Security security = Security.builder()
-                .key(settingsManager.getSecuritySecret())
+                .key(settingsManager.getSecurityKey())
                 .header(settingsManager.getSecurityHeader())
                 .prefix(settingsManager.getSecurityPrefix())
                 .ignoreSSLCertificate(settingsManager.isIgnoreSSLCertificate())
@@ -139,7 +139,7 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
     public ValidationResult checkConvertService() throws Exception {
         String url = urlManager.getInnerDocumentServerUrl();
         Security security = Security.builder()
-                .key(settingsManager.getSecuritySecret())
+                .key(settingsManager.getSecurityKey())
                 .header(settingsManager.getSecurityHeader())
                 .prefix(settingsManager.getSecurityPrefix())
                 .ignoreSSLCertificate(settingsManager.isIgnoreSSLCertificate())

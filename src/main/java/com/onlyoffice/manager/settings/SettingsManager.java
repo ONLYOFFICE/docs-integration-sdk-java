@@ -35,7 +35,7 @@ public interface SettingsManager {
     String getSDKSetting(String name);
     Boolean isSecurityEnabled();
     Boolean isIgnoreSSLCertificate();
-    String getSecuritySecret();
+    String getSecurityKey();
     String getSecurityHeader();
     String getSecurityPrefix();
     Boolean enableDemo();
