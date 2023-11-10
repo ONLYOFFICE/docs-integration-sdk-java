@@ -21,7 +21,7 @@ package com.onlyoffice.manager.request;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.onlyoffice.model.common.RequestEntity;
 import com.onlyoffice.model.common.RequestedService;
-import com.onlyoffice.model.settings.security.Credentials;
+import com.onlyoffice.model.settings.security.Security;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -30,13 +30,15 @@ public interface RequestManager {
     <R> R executePostRequest(RequestedService requestedService, RequestEntity requestEntity, Callback<R> callback)
             throws Exception;
 
-    <R> R executePostRequest(String url, RequestEntity requestEntity, Credentials credentials, Callback<R> callback)
+    <R> R executePostRequest(String url, RequestEntity requestEntity, Security security, Callback<R> callback)
             throws Exception;
 
-    <R> R executeRequest(HttpUriRequest request, Callback<R> callback)
+    <R> R executeRequest(final HttpUriRequest request, final Callback<R> callback) throws Exception;
+
+    <R> R executeRequest(HttpUriRequest request, Security security, Callback<R> callback)
             throws Exception;
 
-    HttpPost createPostRequest(String url, RequestEntity requestEntity, Credentials credentials)
+    HttpPost createPostRequest(String url, RequestEntity requestEntity, Security security)
             throws JsonProcessingException;
 
     interface Callback<Result> {
