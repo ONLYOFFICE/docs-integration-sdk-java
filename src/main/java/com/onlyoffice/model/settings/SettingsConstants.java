@@ -27,17 +27,19 @@ public final class SettingsConstants {
     /**
      * Defines the URL to the Document Server.
      */
-    public static final String DOCUMENT_SERVER_URL = "document-server-url";
+    public static final String URL = "url";
 
     /**
      * Defines the internal URL to the Document Server.
      */
-    public static final String DOCUMENT_SERVER_INNER_URL = "document-server-inner-url";
+    public static final String INNER_URL = "innerUrl";
+
+    public static final String PRODUCT_INNER_URL = "productInnerUrl";
 
     /**
      * Defines the secret authorization key.
      */
-    public static final String SECURITY_SECRET = "security.secret";
+    public static final String SECURITY_KEY = "security.key";
 
     /**
      * Defines the authorization header.
@@ -52,15 +54,11 @@ public final class SettingsConstants {
     /**
      * Defines the setting to ignore SSL certificate.
      */
-    public static final String SECURITY_IGNORE_SSL_CERTIFICATE = "security.ignore-ssl-certificate";
+    public static final String SECURITY_IGNORE_SSL_CERTIFICATE = "security.ignoreSSLCertificate";
 
     /**
      * Defines the demo editor.
      */
     public static final String DEMO = "demo";
-
-    /**
-     * Defines the setting to enable the demo editor.
-     */
-    public static final String DEMO_START = "demo-start";
+    public static final String LOSSY_EDIT = "lossyEdit";
 }

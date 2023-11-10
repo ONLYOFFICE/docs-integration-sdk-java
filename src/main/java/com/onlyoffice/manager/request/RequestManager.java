@@ -21,7 +21,7 @@ package com.onlyoffice.manager.request;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.onlyoffice.model.common.RequestEntity;
 import com.onlyoffice.model.common.RequestedService;
-import com.onlyoffice.model.security.Credentials;
+import com.onlyoffice.model.settings.security.Security;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -51,14 +51,14 @@ public interface RequestManager {
      * @param <R> The result type.
      * @param url The URL address to the document server.
      * @param requestEntity The request entity.
-     * @param credentials The credentials.
+     * @param security The security.
      * @param callback The callback method.
      * @see RequestEntity
      * @see Credentials
      * @return The result of the execution callback method.
      * @throws Exception If the processing fails unexpectedly.
      */
-    <R> R executePostRequest(String url, RequestEntity requestEntity, Credentials credentials, Callback<R> callback)
+    <R> R executePostRequest(String url, RequestEntity requestEntity, Security security, Callback<R> callback)
             throws Exception;
 
 
@@ -74,16 +74,17 @@ public interface RequestManager {
     <R> R executeRequest(HttpUriRequest request, Callback<R> callback)
             throws Exception;
 
+    HttpPost createPostRequest(String url, RequestEntity requestEntity, Security security)
     /**
      * Returns jwt signed http request.
      *
      * @param url The URL address to the document server.
      * @param requestEntity The request entity.
-     * @param credentials The credentials.
+     * @param security The security.
      * @return The jwt signed http request.
      * @throws JsonProcessingException An error occurred when processing the JSON data
      */
-    HttpPost createPostRequest(String url, RequestEntity requestEntity, Credentials credentials)
+    HttpPost createPostRequest(String url, RequestEntity requestEntity, Security security)
             throws JsonProcessingException;
 
     interface Callback<Result> {

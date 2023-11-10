@@ -18,6 +18,7 @@
 
 package com.onlyoffice.model.documenteditor.config.editorconfig;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Anonymous;
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Customer;
@@ -28,9 +29,10 @@ import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Mac
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Review;
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.review.ReviewDisplay;
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Unit;
-
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -40,7 +42,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Customization {
     /**
      * Adds a request for the anonymous name.

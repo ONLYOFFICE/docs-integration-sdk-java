@@ -18,14 +18,32 @@
 
 package com.onlyoffice.manager.settings;
 
-
+import com.onlyoffice.model.documenteditor.config.editorconfig.Customization;
+import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Anonymous;
+import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Customer;
+import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Features;
+import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Goback;
+import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Logo;
+import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Review;
+import com.onlyoffice.model.settings.Settings;
 import com.onlyoffice.model.settings.SettingsConstants;
+import com.onlyoffice.model.settings.security.Security;
 
+import java.beans.BeanInfo;
+
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 public abstract class DefaultSettingsManager implements SettingsManager {
@@ -42,6 +60,55 @@ public abstract class DefaultSettingsManager implements SettingsManager {
 
     @Override
     public abstract void setSetting(String name, String value);
+
+    public void setSettings(final Settings settings)
+            throws IntrospectionException, InvocationTargetException, IllegalAccessException {
+         Map<String, String> mapSettings = convertObjectToDotNotationMap(settings);
+
+         for (Map.Entry<String, String> setting : mapSettings.entrySet()) {
+             setSetting(setting.getKey(), setting.getValue());
+         }
+    }
+
+    public Map<String, String> getSettings()
+            throws IntrospectionException, InvocationTargetException, IllegalAccessException {
+        Settings settings = Settings.builder()
+                .security(
+                        Security.builder().build()
+                )
+                .customization(
+                        Customization.builder()
+                                .goback(
+                                        Goback.builder().build()
+                                )
+                                .anonymous(
+                                        Anonymous.builder().build()
+                                )
+                                .customer(
+                                        Customer.builder().build()
+                                )
+                                .features(
+                                        Features.builder().build()
+                                )
+                                .logo(
+                                        Logo.builder().build()
+                                )
+                                .review(
+                                        Review.builder().build()
+                                )
+                                .build()
+                )
+                .build();
+        List<String> namesSettings = getNamesSettings(settings);
+
+        Map<String, String> settinsMap = new HashMap<>();
+
+        for (String name : namesSettings) {
+            settinsMap.put(name, getSetting(name));
+        }
+
+        return settinsMap;
+    }
 
     @Override
     public Boolean getSettingBoolean(final String name, final Boolean defaultValue) {
@@ -65,22 +132,22 @@ public abstract class DefaultSettingsManager implements SettingsManager {
 
     @Override
     public Boolean isSecurityEnabled() {
-        String secret = getSecuritySecret();
-        return secret != null && !secret.isEmpty();
+        String key = getSecurityKey();
+        return key != null && !key.isEmpty();
     }
 
     @Override
-    public String getSecuritySecret() {
+    public String getSecurityKey() {
         if (isDemoActive()) {
-            return getSDKSetting("integration-sdk.demo.security.secret");
+            return getSDKSetting("integration-sdk.demo.security.key");
         } else {
-            String secret = getSetting(SettingsConstants.SECURITY_SECRET);
-            if (secret == null || secret.isEmpty()) {
-                secret = getSDKSetting("integration-sdk.security.secret");
+            String key = getSetting(SettingsConstants.SECURITY_KEY);
+            if (key == null || key.isEmpty()) {
+                key = getSDKSetting("integration-sdk.security.key");
             }
 
-            if (secret != null && !secret.isEmpty()) {
-                return secret;
+            if (key != null && !key.isEmpty()) {
+                return key;
             }
 
             return null;
@@ -142,11 +209,11 @@ public abstract class DefaultSettingsManager implements SettingsManager {
     @Override
     public Boolean enableDemo() {
         setSetting(SettingsConstants.DEMO, "true");
-        String demoStart = getSetting(SettingsConstants.DEMO_START);
+        String demoStart = getSetting("demo-start");
         if (demoStart == null || demoStart.isEmpty()) {
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             Date date = new Date();
-            setSetting(SettingsConstants.DEMO_START, dateFormat.format(date));
+            setSetting("demo-start", dateFormat.format(date));
             return true;
         } else {
             return false;
@@ -168,7 +235,7 @@ public abstract class DefaultSettingsManager implements SettingsManager {
 
         Boolean isDemo = Boolean.parseBoolean(demo);
 
-        String demoStart = getSetting(SettingsConstants.DEMO_START);
+        String demoStart = getSetting("demo-start");
         if (demoStart != null && !demoStart.isEmpty() && isDemo) {
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             try {
@@ -187,7 +254,7 @@ public abstract class DefaultSettingsManager implements SettingsManager {
 
     @Override
     public Boolean isDemoAvailable() {
-        String demoStart = getSetting(SettingsConstants.DEMO_START);
+        String demoStart = getSetting("demo-start");
         if (demoStart != null && !demoStart.isEmpty()) {
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             try {
@@ -215,4 +282,51 @@ public abstract class DefaultSettingsManager implements SettingsManager {
         }
     }
 
+    private <T> Map<String, String> convertObjectToDotNotationMap(final T object)
+            throws IntrospectionException, InvocationTargetException, IllegalAccessException {
+        Class<T> beanClass = (Class<T>) object.getClass();
+        BeanInfo beanInfo = Introspector.getBeanInfo(beanClass);
+
+        Map<String, String> result = new HashMap<>();
+
+        for (PropertyDescriptor propertyDescriptor : beanInfo.getPropertyDescriptors()) {
+            String name = propertyDescriptor.getName();
+            Object value = propertyDescriptor.getReadMethod().invoke(object);
+            if (value != null && !name.equals("class")) {
+                if (value.toString().startsWith("com.onlyoffice.model")) {
+                    for (Map.Entry<String, String> map : convertObjectToDotNotationMap(value).entrySet()) {
+                        result.put(name + "." + map.getKey(), map.getValue());
+                    }
+                } else {
+                    result.put(name, value.toString());
+                }
+            }
+        }
+
+        return result;
+    }
+
+    private <T> List<String> getNamesSettings(final T object)
+            throws IntrospectionException, InvocationTargetException, IllegalAccessException {
+        Class<T> beanClass = (Class<T>) object.getClass();
+        BeanInfo beanInfo = Introspector.getBeanInfo(beanClass);
+
+        List<String> result = new ArrayList<>();
+
+        for (PropertyDescriptor propertyDescriptor : beanInfo.getPropertyDescriptors()) {
+            String name = propertyDescriptor.getName();
+            Object value = propertyDescriptor.getReadMethod().invoke(object);
+            if (!name.equals("class")) {
+                if (value != null && value.toString().startsWith("com.onlyoffice.model")) {
+                    for (String name1 : getNamesSettings(value)) {
+                        result.add(name + "." + name1);
+                    }
+                } else {
+                    result.add(name);
+                }
+            }
+        }
+
+        return result;
+    }
 }
