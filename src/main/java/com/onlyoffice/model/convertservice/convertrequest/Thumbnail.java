@@ -9,7 +9,7 @@ import lombok.Setter;
 
 /**
  * Defines the settings for the thumbnail when specifying the image formats ("bmp", "gif", "jpg", "png") as
- * "outputtype".
+ * {@link com.onlyoffice.model.convertservice.ConvertRequest#outputtype outputtype}.
  */
 @Getter
 @Setter
@@ -24,7 +24,7 @@ public class Thumbnail {
      * "1" - keep the aspect for the image,
      * "2" - in this case, the width and height settings are not used.
      *  Instead of that, metric sizes of the page are converted into pixels with 96dpi.
-     * E.g., the A4 (210x297mm) page will turn out to be a picture with the 794x1123pix dimensions.
+     * E.g., the A4 (210 x 297 mm) page will turn out to be a picture with the 794 x 1123 pix dimensions.
      * The default value is "2".
      */
     private Integer aspect;

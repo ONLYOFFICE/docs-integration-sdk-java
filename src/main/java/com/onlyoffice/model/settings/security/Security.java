@@ -8,6 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Defines the security parameters.
+ */
 @Getter
 @Setter
 @AllArgsConstructor

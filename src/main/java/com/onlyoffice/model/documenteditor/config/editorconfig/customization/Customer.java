@@ -50,14 +50,14 @@ public class Customer {
     /**
      * Defines the path to the image logo (there are no special recommendations for this file,
      * but it would be better if it was in the ".png" format with transparent background).
-     * The image must have the following size: 432x70.
+     * The image must have the following size: 432 x 70.
      */
     private String logo;
 
     /**
      * Defines the path to the image logo for the dark theme (there are no special recommendations for this file,
      * but it would be better if it was in ".png" format with transparent background).
-     * The image must have the following size: 432x70.
+     * The image must have the following size: 432 x 70.
      */
     private String logoDark;
 

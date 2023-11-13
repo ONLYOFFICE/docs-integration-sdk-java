@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * Defines the object with the document changes history.
  * The object is present when the {@link Status} value is equal to 2 or 3 only.
- * It contains the object "changes" and "s"erverVersion",
+ * It contains the object "changes" and "serverVersion",
  * which must be sent as properties "changes" and "serverVersion" of the object sent as the argument to the
  * "refreshHistory" method.
  *

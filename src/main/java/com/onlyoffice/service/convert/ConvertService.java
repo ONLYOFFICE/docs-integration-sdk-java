@@ -25,7 +25,7 @@ public interface ConvertService {
     /**
      * Starts the file conversion process.
      *
-     * @param convertRequest The {@link ConvertRequest} convert request object.
+     * @param convertRequest The {@link ConvertRequest} object.
      * @param fileId The ID of the file to be converted.
      * @see ConvertRequest
      * @return The JSON object containing the body of the response from the conversion service.

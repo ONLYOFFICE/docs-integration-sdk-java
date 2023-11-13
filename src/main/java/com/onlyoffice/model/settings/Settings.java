@@ -13,7 +13,7 @@ import lombok.Setter;
 import java.util.Set;
 
 /**
- * Defines the setting to edit the specified extensions with the possible loss of information.
+ * Defines the Document Server settings.
  */
 @Getter
 @Setter

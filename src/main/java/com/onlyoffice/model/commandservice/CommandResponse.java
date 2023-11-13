@@ -56,7 +56,7 @@ public class CommandResponse {
     /**
      * Defines the user quota value: "users" - the user quota for the user license
      * where "userid" - the id of the user who opened the editor,
-     * "expire" - date of license expiration for this user, "users_view" - the user quota for the live viewer
+     * "expire" - date of license expiration for this user; "users_view" - the user quota for the live viewer
      * where "userid" - the id of the user who opened the editor,
      * "expire" - date of viewing expiration for this user.
      */

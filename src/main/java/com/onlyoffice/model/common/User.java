@@ -29,7 +29,7 @@ public class User {
 
     /**
      * Defines the full name of the user. The length is limited to 128 symbols.
-     * Used since version 4.2
+     * Used since version 4.2.
      */
     private String name;
 

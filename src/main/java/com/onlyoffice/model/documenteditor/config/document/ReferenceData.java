@@ -34,7 +34,7 @@ public class ReferenceData {
     /**
      * Defines the unique document identifier used by the service to get a link to the file.
      * It must not be changed when the document is edited and saved (i.e. it is not equal to the {@link
-     * com.onlyoffice.model.documenteditor.config.Document#key}  document.key} parameter).
+     * com.onlyoffice.model.documenteditor.config.Document#key document.key} parameter).
      */
     private String fileKey;
 

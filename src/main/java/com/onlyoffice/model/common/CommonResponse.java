@@ -7,9 +7,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Defines the Document Server error codes.
+ * Defines the response parameters that are received from the Document Server.
  */
 public class CommonResponse {
+    /**
+     * Defines the Document Server error codes.
+     */
     @AllArgsConstructor
     @Getter
     public enum Error implements com.onlyoffice.model.common.Error {

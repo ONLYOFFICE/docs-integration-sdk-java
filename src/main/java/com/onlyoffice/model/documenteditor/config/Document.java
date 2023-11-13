@@ -36,11 +36,9 @@ import lombok.Setter;
 public class Document {
     /**
      * Defines the type of the file for the source viewed or edited document.
-     * Must be lowercase. The following file types are available:
-     * .csv, .djvu, .doc, .docm, .docx, .docxf, .dot, .dotm, .dotx, .epub, .fb2,
-     * .fodp, .fods, .fodt, .htm, .html, .mht, .odp, .ods, .odt, .oform, .otp, .ots,
-     * .ott, .oxps, .pdf, .pot, .potm, .potx, .pps, .ppsm, .ppsx, .ppt, .pptm, .pptx,
-     * .rtf, .txt, .xls, .xlsb, .xlsm, .xlsx, .xlt, .xltm, .xltx, .xml, .xps.
+     * Must be lowercase. The available file types can be found in the
+     * <a target="_top"
+     * href="https://github.com/ONLYOFFICE/document-formats">Formats repository</a>.
      */
     private String fileType;
 

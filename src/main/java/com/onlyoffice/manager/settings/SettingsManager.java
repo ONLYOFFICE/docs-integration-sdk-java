@@ -43,16 +43,28 @@ public interface SettingsManager {
     void setSetting(String name, String value);
 
     /**
+     * Sets the settings specified with the "Settings" object.
+     *
+     * @param settings The settings to be set.
+     */
+    void setSettings(Settings settings)
+            throws IntrospectionException, InvocationTargetException, IllegalAccessException;
+
+    /**
+     * Returns a map of the settings.
+     *
+     * @return A map of the settings.
+     */
+    Map<String, String> getSettings()
+            throws IntrospectionException, InvocationTargetException, IllegalAccessException;
+
+    /**
      * Returns a boolean value of the setting with the name specified in the request.
      *
      * @param name The setting name.
      * @param defaultValue The setting default value.
      * @return The setting boolean value.
      */
-    void setSettings(Settings settings)
-            throws IntrospectionException, InvocationTargetException, IllegalAccessException;
-    Map<String, String> getSettings()
-            throws IntrospectionException, InvocationTargetException, IllegalAccessException;
     Boolean getSettingBoolean(String name, Boolean defaultValue);
 
     /**

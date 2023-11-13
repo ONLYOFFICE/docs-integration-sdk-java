@@ -58,7 +58,7 @@ public interface SettingsValidationService {
      * @return The {@link ValidationResult} object.
      * @throws Exception If the processing fails unexpectedly.
      */
-    ValidationResult checkCommandService(String url,  security) throws Exception;
+    ValidationResult checkCommandService(String url, Security security) throws Exception;
 
     /**
      * Checks the Convert Service.

@@ -56,7 +56,7 @@ public interface RequestManager {
      * @param security The security parameters.
      * @param callback The callback method.
      * @see RequestEntity
-     * @see Credentials
+     * @see Security
      * @return The result of the execution callback method.
      * @throws Exception If the processing fails unexpectedly.
      */
