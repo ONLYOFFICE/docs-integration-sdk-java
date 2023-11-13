@@ -31,5 +31,6 @@ import lombok.Setter;
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 public class ValidationResult {
     private Status status;
-    private Error errorCode;
+    private Error error;
+    private String message;
 }

@@ -84,7 +84,7 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
                 } else {
                     return ValidationResult.builder()
                             .status(Status.FAILED)
-                            .errorCode(CommonResponse.Error.HEALTHCHECK)
+                            .error(CommonResponse.Error.HEALTHCHECK)
                             .build();
                 }
             }
@@ -129,7 +129,7 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
                         } else {
                             return ValidationResult.builder()
                                     .status(Status.FAILED)
-                                    .errorCode(commandResponse.getError())
+                                    .error(commandResponse.getError())
                                     .build();
                         }
                     }
@@ -145,10 +145,11 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
                 .ignoreSSLCertificate(settingsManager.isIgnoreSSLCertificate())
                 .build();
 
-        return checkConvertService(url, security);
+        return checkConvertService(url, null, security);
     }
 
-    public ValidationResult checkConvertService(final String url, final Security security) throws Exception {
+    public ValidationResult checkConvertService(final String url, final String productInnerUrl, final Security security)
+            throws Exception {
         String convertServiceUrl = settingsManager.getSDKSetting("integration-sdk.service.convert.url");
 
         ConvertRequest convertRequest = ConvertRequest.builder()
@@ -156,7 +157,7 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
                 .filetype("txt")
                 .outputtype("docx")
                 .key(new SimpleDateFormat("MMddyyyyHHmmss").format(new Date()))
-                .url(urlManager.getTestConvertUrl())
+                .url(urlManager.getTestConvertUrl(productInnerUrl))
                 .build();
 
         return requestManager.executePostRequest(
@@ -173,7 +174,7 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
 
                             return ValidationResult.builder()
                                     .status(Status.FAILED)
-                                    .errorCode(ConvertResponse.Error.valueOfCode(errorCode))
+                                    .error(ConvertResponse.Error.valueOfCode(errorCode))
                                     .build();
                         }
 
@@ -194,7 +195,7 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
                                 } else {
                                     return ValidationResult.builder()
                                             .status(Status.FAILED)
-                                            .errorCode(CommonResponse.Error.DOWNLOAD_RESULT)
+                                            .error(CommonResponse.Error.DOWNLOAD_RESULT)
                                             .build();
                                 }
                             }

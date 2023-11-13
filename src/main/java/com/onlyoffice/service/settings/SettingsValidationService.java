@@ -25,10 +25,7 @@ public interface SettingsValidationService {
     ValidationResult checkDocumentServer() throws Exception;
     ValidationResult checkDocumentServer(String url, Security security) throws Exception;
     ValidationResult checkCommandService() throws Exception;
-
     ValidationResult checkCommandService(String url, Security security) throws Exception;
     ValidationResult checkConvertService() throws Exception;
-
-    ValidationResult checkConvertService(String url, Security security)
-            throws Exception;
+    ValidationResult checkConvertService(String url, String productInnerUrl, Security security) throws Exception;
 }
