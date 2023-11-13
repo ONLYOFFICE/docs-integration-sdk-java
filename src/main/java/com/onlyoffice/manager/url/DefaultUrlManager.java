@@ -113,7 +113,7 @@ public class DefaultUrlManager implements UrlManager {
           return null;
      }
 
-     public String getTestConvertUrl() {
+     public String getTestConvertUrl(final String url) {
           return null;
      }
 }

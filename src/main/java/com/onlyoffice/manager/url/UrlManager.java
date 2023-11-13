@@ -33,5 +33,5 @@ public interface UrlManager {
 
      String sanitizeUrl(String url);
      String replaceToInnerDocumentServerUrl(String url);
-     String getTestConvertUrl();
+     String getTestConvertUrl(String url);
 }
