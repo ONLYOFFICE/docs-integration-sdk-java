@@ -26,7 +26,7 @@ import java.util.Map;
 
 public interface SettingsManager {
     String getSetting(String name);
-    Void setSetting(String name, String value);
+    void setSetting(String name, String value);
     void setSettings(Settings settings)
             throws IntrospectionException, InvocationTargetException, IllegalAccessException;
     Map<String, String> getSettings()

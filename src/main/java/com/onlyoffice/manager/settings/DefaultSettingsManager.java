@@ -55,7 +55,7 @@ public abstract class DefaultSettingsManager implements SettingsManager {
 
     public abstract String getSetting(String name);
 
-    public abstract Void setSetting(String name, String value);
+    public abstract void setSetting(String name, String value);
 
     public void setSettings(final Settings settings)
             throws IntrospectionException, InvocationTargetException, IllegalAccessException {
