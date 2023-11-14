@@ -56,6 +56,8 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
     private UrlManager urlManager;
     private SettingsManager settingsManager;
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
     public ValidationResult checkDocumentServer() throws Exception {
         Security security = Security.builder()
                 .key(settingsManager.getSecurityKey())
@@ -116,10 +118,9 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
                 security,
                 new RequestManager.Callback<ValidationResult>() {
                     public ValidationResult doWork(final HttpEntity httpEntity) throws IOException {
-                        ObjectMapper mapper = new ObjectMapper();
                         String content = IOUtils.toString(httpEntity.getContent(), "utf-8");
 
-                        CommandResponse commandResponse = mapper.readValue(content, CommandResponse.class);
+                        CommandResponse commandResponse = objectMapper.readValue(content, CommandResponse.class);
 
                         if (commandResponse.getError() != null && commandResponse.getError().equals(
                                 CommandResponse.Error.NO)) {

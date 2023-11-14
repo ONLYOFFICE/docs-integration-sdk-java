@@ -69,6 +69,8 @@ public class DefaultRequestManager implements RequestManager {
     private JwtManager jwtManager;
     private SettingsManager settingsManager;
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
     public <R> R executePostRequest(final RequestedService requestedService, final RequestEntity requestEntity,
                                     final Callback<R> callback) throws Exception {
          Security security = Security.builder()
@@ -148,14 +150,13 @@ public class DefaultRequestManager implements RequestManager {
     public HttpPost createPostRequest(final String url, final RequestEntity requestEntity,
                                        final Security security) throws JsonProcessingException {
         HttpPost request = new HttpPost(url);
-        ObjectMapper mapper = new ObjectMapper();
 
         if (security.getKey() != null && !security.getKey().isEmpty()) {
             Map<String, RequestEntity> payloadMap = new HashMap<>();
             payloadMap.put("payload", requestEntity);
 
             String headerToken = jwtManager.createToken(
-                    mapper.convertValue(payloadMap, Map.class),
+                    objectMapper.convertValue(payloadMap, Map.class),
                     security.getKey()
             );
             request.setHeader(security.getHeader(), security.getPrefix() + headerToken);
@@ -164,7 +165,10 @@ public class DefaultRequestManager implements RequestManager {
             requestEntity.setToken(bodyToken);
         }
 
-        StringEntity entity = new StringEntity(mapper.writeValueAsString(requestEntity), ContentType.APPLICATION_JSON);
+        StringEntity entity = new StringEntity(
+                objectMapper.writeValueAsString(requestEntity),
+                ContentType.APPLICATION_JSON
+        );
 
         request.setEntity(entity);
         request.setHeader("Accept", "application/json");

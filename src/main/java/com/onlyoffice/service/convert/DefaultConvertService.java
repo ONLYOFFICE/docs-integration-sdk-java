@@ -42,6 +42,8 @@ public class DefaultConvertService implements ConvertService, RequestedService {
     private UrlManager urlManager;
     private RequestManager requestManager;
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
     public ConvertResponse processConvert(final ConvertRequest convertRequest, final String fileId) throws Exception {
         String fileName = documentManager.getDocumentName(fileId);
 
@@ -84,7 +86,6 @@ public class DefaultConvertService implements ConvertService, RequestedService {
                     public ConvertResponse doWork(final HttpEntity httpEntity) throws IOException {
                         String content = IOUtils.toString(httpEntity.getContent(), "utf-8");
 
-                        ObjectMapper objectMapper = new ObjectMapper();
                         ConvertResponse convertResponse = objectMapper.readValue(content.toString(),
                                 ConvertResponse.class);
 

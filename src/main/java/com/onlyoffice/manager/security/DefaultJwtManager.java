@@ -38,22 +38,21 @@ import java.util.Map;
 public class DefaultJwtManager implements JwtManager {
     private SettingsManager settingsManager;
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
     public String createToken(final Object object) {
-        ObjectMapper objectMapper = new ObjectMapper();
         Map<String, ?> payloadMap = objectMapper.convertValue(object, Map.class);
 
         return createToken(payloadMap, settingsManager.getSecurityKey());
     }
 
     public String createToken(final Object object, final String key) {
-        ObjectMapper objectMapper = new ObjectMapper();
         Map<String, ?> payloadMap = objectMapper.convertValue(object, Map.class);
 
         return createToken(payloadMap, key);
     }
 
     public String createToken(final JSONObject payload, final String key) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
         Map<String, ?> payloadMap = objectMapper.readValue(payload.toString(), Map.class);
 
         return createToken(payloadMap, key);

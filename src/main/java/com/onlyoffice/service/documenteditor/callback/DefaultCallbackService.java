@@ -40,6 +40,8 @@ public class DefaultCallbackService implements CallbackService {
     private JwtManager jwtManager;
     private SettingsManager settingsManager;
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
     public Callback verifyCallback(final Callback callback, final String authorizationHeader)
             throws JsonProcessingException {
         if (settingsManager.isSecurityEnabled()) {
@@ -68,7 +70,6 @@ public class DefaultCallbackService implements CallbackService {
                 callbackFromToken = callbackFromToken.getJSONObject("payload");
             }
 
-            ObjectMapper objectMapper = new ObjectMapper();
             return objectMapper.readValue(callbackFromToken.toString(), Callback.class);
         }
 
