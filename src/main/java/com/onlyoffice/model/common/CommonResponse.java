@@ -1,12 +1,24 @@
 package com.onlyoffice.model.common;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_ABSENT)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CommonResponse {
+    private Error error;
+
     @AllArgsConstructor
     @Getter
     public enum Error implements com.onlyoffice.model.common.Error {
@@ -17,16 +29,16 @@ public class CommonResponse {
         private final Integer code;
         private final String description;
 
-        private static final Map<Integer, CommonResponse.Error>
+        private static final Map<Integer, Error>
                 BY_CODE = new HashMap<>();
 
         static {
-            for (CommonResponse.Error e: values()) {
+            for (Error e: values()) {
                 BY_CODE.put(e.getCode(), e);
             }
         }
 
-        public static CommonResponse.Error valueOfCode(final Integer code) {
+        public static Error valueOfCode(final Integer code) {
             return BY_CODE.get(code);
         }
     }
