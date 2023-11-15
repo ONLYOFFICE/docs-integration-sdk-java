@@ -18,8 +18,8 @@
 
 package com.onlyoffice.manager.document;
 
+import com.onlyoffice.model.common.Format;
 import com.onlyoffice.model.documenteditor.config.document.DocumentType;
-import com.onlyoffice.model.format.Format;
 
 import java.io.InputStream;
 import java.util.List;
@@ -202,3 +202,4 @@ public interface DocumentManager {
      */
     long getMaxConversionFileSize();
 }
+

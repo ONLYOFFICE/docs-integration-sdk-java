@@ -97,11 +97,10 @@ public interface UrlManager {
       * @return The internal URL.
       */
      String replaceToInnerDocumentServerUrl(String url);
-
      /**
       * Returns the URL to the test file.
       *
       * @return The URL to the test file.
       */
-     String getTestConvertUrl();
+     String getTestConvertUrl(String url);
 }

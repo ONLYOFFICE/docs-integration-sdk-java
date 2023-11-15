@@ -48,7 +48,6 @@ public interface SettingsValidationService {
      * @throws Exception If the processing fails unexpectedly.
      */
     ValidationResult checkCommandService() throws Exception;
-
     /**
      * Checks the Command Service by the Document Server URL.
      *
@@ -67,7 +66,6 @@ public interface SettingsValidationService {
      * @throws Exception If the processing fails unexpectedly.
      */
     ValidationResult checkConvertService() throws Exception;
-
     /**
      * Checks the Convert Service by the Document Server URL.
      *
@@ -77,6 +75,5 @@ public interface SettingsValidationService {
      * @return The {@link ValidationResult} object.
      * @throws Exception If the processing fails unexpectedly.
      */
-    ValidationResult checkConvertService(String url, Security security)
-            throws Exception;
+    ValidationResult checkConvertService(String url, String productInnerUrl, Security security) throws Exception;
 }

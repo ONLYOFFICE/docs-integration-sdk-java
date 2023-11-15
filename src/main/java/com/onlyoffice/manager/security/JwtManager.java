@@ -18,8 +18,6 @@
 
 package com.onlyoffice.manager.security;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import org.json.JSONObject;
 
 import java.util.Map;
 
@@ -34,17 +32,6 @@ public interface JwtManager {
      * @return A new JWT token.
      */
     String createToken(Object object);
-
-    /**
-     * Creates a new JWT for the specified JSON object.
-     * The key is passed as a method parameter.
-     *
-     * @param payload The JSON object to create JWT.
-     * @param key  The secret key value.
-     * @return A new JWT token.
-     * @throws JsonProcessingException An error occurred when processing the JSON data.
-     */
-    String createToken(JSONObject payload, String key) throws JsonProcessingException;
 
     /**
      * Creates a new JWT for the specified object.

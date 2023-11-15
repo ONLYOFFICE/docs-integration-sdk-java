@@ -40,5 +40,6 @@ public class ValidationResult {
     /**
      * Defines the error parameters.
      */
-    private Error errorCode;
+    private Error error;
+    private String message;
 }

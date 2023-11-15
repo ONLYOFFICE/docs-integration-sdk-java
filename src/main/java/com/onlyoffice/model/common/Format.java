@@ -16,7 +16,7 @@
  *
  */
 
-package com.onlyoffice.model.format;
+package com.onlyoffice.model.common;
 
 
 import com.onlyoffice.model.documenteditor.config.document.DocumentType;

@@ -21,13 +21,11 @@ package com.onlyoffice.manager.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onlyoffice.manager.settings.SettingsManager;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.json.JSONObject;
 
 import java.util.Base64;
 import java.util.Map;
@@ -39,9 +37,10 @@ public class DefaultJwtManager implements JwtManager {
     /** {@link SettingsManager}. */
     private SettingsManager settingsManager;
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
     @Override
     public String createToken(final Object object) {
-        ObjectMapper objectMapper = new ObjectMapper();
         Map<String, ?> payloadMap = objectMapper.convertValue(object, Map.class);
 
         return createToken(payloadMap, settingsManager.getSecurityKey());
@@ -49,16 +48,7 @@ public class DefaultJwtManager implements JwtManager {
 
     @Override
     public String createToken(final Object object, final String key) {
-        ObjectMapper objectMapper = new ObjectMapper();
         Map<String, ?> payloadMap = objectMapper.convertValue(object, Map.class);
-
-        return createToken(payloadMap, key);
-    }
-
-    @Override
-    public String createToken(final JSONObject payload, final String key) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, ?> payloadMap = objectMapper.readValue(payload.toString(), Map.class);
 
         return createToken(payloadMap, key);
     }

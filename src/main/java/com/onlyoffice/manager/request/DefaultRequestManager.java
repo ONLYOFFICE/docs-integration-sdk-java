@@ -37,6 +37,7 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
@@ -73,6 +74,26 @@ public class DefaultRequestManager implements RequestManager {
     /** {@link SettingsManager}. */
     private SettingsManager settingsManager;
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    public <R> R executeGetRequest(final String url, final Callback<R> callback) throws Exception {
+        Security security = Security.builder()
+                .key(settingsManager.getSecurityKey())
+                .header(settingsManager.getSecurityHeader())
+                .prefix(settingsManager.getSecurityPrefix())
+                .ignoreSSLCertificate(settingsManager.isIgnoreSSLCertificate())
+                .build();
+
+        return executeGetRequest(url, security, callback);
+    }
+
+    public <R> R executeGetRequest(final String url, final Security security, final Callback<R> callback)
+            throws Exception {
+        HttpGet httpGet = new HttpGet(url);
+
+        return executeRequest(httpGet, security, callback);
+    }
+
     @Override
     public <R> R executePostRequest(final RequestedService requestedService, final RequestEntity requestEntity,
                                     final Callback<R> callback) throws Exception {
@@ -96,20 +117,7 @@ public class DefaultRequestManager implements RequestManager {
         return executeRequest(request, security, callback);
     }
 
-    @Override
-    public <R> R executeRequest(final HttpUriRequest request, final Callback<R> callback)
-            throws Exception {
-        Security security = Security.builder()
-                .key(settingsManager.getSecurityKey())
-                .header(settingsManager.getSecurityHeader())
-                .prefix(settingsManager.getSecurityPrefix())
-                .ignoreSSLCertificate(settingsManager.isIgnoreSSLCertificate())
-                .build();
-
-        return executeRequest(request, security, callback);
-    }
-
-    public <R> R executeRequest(final HttpUriRequest request, final Security security, final Callback<R> callback)
+    private <R> R executeRequest(final HttpUriRequest request, final Security security, final Callback<R> callback)
             throws Exception {
         try (CloseableHttpClient httpClient = getHttpClient(security.getIgnoreSSLCertificate())) {
             try (CloseableHttpResponse response = httpClient.execute(request)) {
@@ -151,18 +159,16 @@ public class DefaultRequestManager implements RequestManager {
         }
     }
 
-    @Override
     public HttpPost createPostRequest(final String url, final RequestEntity requestEntity,
                                        final Security security) throws JsonProcessingException {
         HttpPost request = new HttpPost(url);
-        ObjectMapper mapper = new ObjectMapper();
 
         if (security.getKey() != null && !security.getKey().isEmpty()) {
             Map<String, RequestEntity> payloadMap = new HashMap<>();
             payloadMap.put("payload", requestEntity);
 
             String headerToken = jwtManager.createToken(
-                    mapper.convertValue(payloadMap, Map.class),
+                    objectMapper.convertValue(payloadMap, Map.class),
                     security.getKey()
             );
             request.setHeader(security.getHeader(), security.getPrefix() + headerToken);
@@ -171,7 +177,10 @@ public class DefaultRequestManager implements RequestManager {
             requestEntity.setToken(bodyToken);
         }
 
-        StringEntity entity = new StringEntity(mapper.writeValueAsString(requestEntity), ContentType.APPLICATION_JSON);
+        StringEntity entity = new StringEntity(
+                objectMapper.writeValueAsString(requestEntity),
+                ContentType.APPLICATION_JSON
+        );
 
         request.setEntity(entity);
         request.setHeader("Accept", "application/json");

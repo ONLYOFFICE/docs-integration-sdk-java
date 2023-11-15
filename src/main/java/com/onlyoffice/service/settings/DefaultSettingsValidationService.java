@@ -38,7 +38,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
@@ -58,6 +57,8 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
     /** {@link SettingsManager}. */
     private SettingsManager settingsManager;
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
     @Override
     public ValidationResult checkDocumentServer() throws Exception {
         Security security = Security.builder()
@@ -74,13 +75,13 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
     public ValidationResult checkDocumentServer(final String url, final Security security) throws Exception {
         String healthCheckUrl = settingsManager.getSDKSetting("integration-sdk.service.health-check.url");
 
-        HttpGet request = new HttpGet(urlManager.sanitizeUrl(url) + healthCheckUrl);
+        healthCheckUrl = urlManager.sanitizeUrl(url) + healthCheckUrl;
 
-        return requestManager.executeRequest(request,
+        return requestManager.executeGetRequest(healthCheckUrl,
                 security,
                 new RequestManager.Callback<ValidationResult>() {
-            public ValidationResult doWork(final HttpEntity httpEntity) throws IOException {
-                String content = IOUtils.toString(httpEntity.getContent(), "utf-8").trim();
+            public ValidationResult doWork(final Object response) throws IOException {
+                String content = IOUtils.toString(((HttpEntity) response).getContent(), "utf-8").trim();
                 if (content.equalsIgnoreCase("true")) {
                     return ValidationResult.builder()
                             .status(Status.SUCCESS)
@@ -88,7 +89,7 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
                 } else {
                     return ValidationResult.builder()
                             .status(Status.FAILED)
-                            .errorCode(CommonResponse.Error.HEALTHCHECK)
+                            .error(CommonResponse.Error.HEALTHCHECK)
                             .build();
                 }
             }
@@ -121,11 +122,10 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
                 commandRequest,
                 security,
                 new RequestManager.Callback<ValidationResult>() {
-                    public ValidationResult doWork(final HttpEntity httpEntity) throws IOException {
-                        ObjectMapper mapper = new ObjectMapper();
-                        String content = IOUtils.toString(httpEntity.getContent(), "utf-8");
+                    public ValidationResult doWork(final Object response) throws IOException {
+                        String content = IOUtils.toString(((HttpEntity) response).getContent(), "utf-8");
 
-                        CommandResponse commandResponse = mapper.readValue(content, CommandResponse.class);
+                        CommandResponse commandResponse = objectMapper.readValue(content, CommandResponse.class);
 
                         if (commandResponse.getError() != null && commandResponse.getError().equals(
                                 CommandResponse.Error.NO)) {
@@ -135,7 +135,7 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
                         } else {
                             return ValidationResult.builder()
                                     .status(Status.FAILED)
-                                    .errorCode(commandResponse.getError())
+                                    .error(commandResponse.getError())
                                     .build();
                         }
                     }
@@ -152,11 +152,12 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
                 .ignoreSSLCertificate(settingsManager.isIgnoreSSLCertificate())
                 .build();
 
-        return checkConvertService(url, security);
+        return checkConvertService(url, null, security);
     }
 
-    @Override
-    public ValidationResult checkConvertService(final String url, final Security security) throws Exception {
+
+    @Override    public ValidationResult checkConvertService(final String url, final String productInnerUrl, final Security security)
+            throws Exception {
         String convertServiceUrl = settingsManager.getSDKSetting("integration-sdk.service.convert.url");
 
         ConvertRequest convertRequest = ConvertRequest.builder()
@@ -164,7 +165,7 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
                 .filetype("txt")
                 .outputtype("docx")
                 .key(new SimpleDateFormat("MMddyyyyHHmmss").format(new Date()))
-                .url(urlManager.getTestConvertUrl())
+                .url(urlManager.getTestConvertUrl(productInnerUrl))
                 .build();
 
         return requestManager.executePostRequest(
@@ -172,8 +173,8 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
                 convertRequest,
                 security,
                 new RequestManager.Callback<ValidationResult>() {
-                    public ValidationResult doWork(final HttpEntity httpEntity) throws Exception {
-                        String content = IOUtils.toString(httpEntity.getContent(), "utf-8").trim();
+                    public ValidationResult doWork(final Object response) throws Exception {
+                        String content = IOUtils.toString(((HttpEntity) response).getContent(), "utf-8").trim();
                         JSONObject result = new JSONObject(content);
 
                         if (result.has("error")) {
@@ -181,20 +182,19 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
 
                             return ValidationResult.builder()
                                     .status(Status.FAILED)
-                                    .errorCode(ConvertResponse.Error.valueOfCode(errorCode))
+                                    .error(ConvertResponse.Error.valueOfCode(errorCode))
                                     .build();
                         }
 
                         String fileUrl = result.getString("fileUrl");
 
-                        HttpGet request = new HttpGet(fileUrl);
-                        return requestManager.executeRequest(
-                                request,
+                        return requestManager.executeGetRequest(
+                                fileUrl,
                                 security,
                                 new RequestManager.Callback<ValidationResult>() {
                             @Override
-                            public ValidationResult doWork(final HttpEntity httpEntity) throws IOException {
-                                byte[] bytes = EntityUtils.toByteArray(httpEntity);
+                            public ValidationResult doWork(final Object response) throws IOException {
+                                byte[] bytes = EntityUtils.toByteArray((HttpEntity) response);
                                 if (bytes.length > 0) {
                                     return ValidationResult.builder()
                                             .status(Status.SUCCESS)
@@ -202,7 +202,7 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
                                 } else {
                                     return ValidationResult.builder()
                                             .status(Status.FAILED)
-                                            .errorCode(CommonResponse.Error.DOWNLOAD_RESULT)
+                                            .error(CommonResponse.Error.DOWNLOAD_RESULT)
                                             .build();
                                 }
                             }

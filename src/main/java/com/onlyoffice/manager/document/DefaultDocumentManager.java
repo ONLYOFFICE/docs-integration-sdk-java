@@ -22,7 +22,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.model.documenteditor.config.document.DocumentType;
-import com.onlyoffice.model.format.Format;
+import com.onlyoffice.model.common.Format;
+import com.onlyoffice.model.settings.SettingsConstants;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -267,10 +268,17 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         Map<String, Boolean> result = new HashMap<>();
         List<String> formatsLossyEditList = new ArrayList<>();
 
-        String formatsLossyEdit = settingsManager.getSetting("formats.lossy-edit");
+        String formatsLossyEdit = settingsManager.getSetting(SettingsConstants.LOSSY_EDIT);
 
         if (formatsLossyEdit != null && !formatsLossyEdit.isEmpty()) {
-            formatsLossyEditList = Arrays.asList(formatsLossyEdit.split(","));
+            formatsLossyEditList = Arrays.asList(
+                    formatsLossyEdit
+                            .replace("[", "")
+                            .replace("]", "")
+                            .split(", ")
+            );
+        } else {
+            formatsLossyEditList = Arrays.asList("csv", "txt");
         }
 
         for (Format format : formats) {

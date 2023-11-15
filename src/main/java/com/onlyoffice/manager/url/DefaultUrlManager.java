@@ -124,7 +124,7 @@ public class DefaultUrlManager implements UrlManager {
      }
 
      @Override
-     public String getTestConvertUrl() {
+     public String getTestConvertUrl(final String url) {
           return null;
      }
 }

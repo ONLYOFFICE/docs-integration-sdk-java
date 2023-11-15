@@ -1,7 +1,11 @@
 package com.onlyoffice.model.common;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +13,15 @@ import java.util.Map;
 /**
  * Defines the response parameters that are received from the Document Server.
  */
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_ABSENT)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CommonResponse {
+    private Error error;
+
     /**
      * Defines the Document Server error codes.
      */
@@ -44,11 +56,11 @@ public class CommonResponse {
         /**
          * Defines a map of the {@link Error} objects with the common error codes.
          */
-        private static final Map<Integer, CommonResponse.Error>
+        private static final Map<Integer, Error>
                 BY_CODE = new HashMap<>();
 
         static {
-            for (CommonResponse.Error e: values()) {
+            for (Error e: values()) {
                 BY_CODE.put(e.getCode(), e);
             }
         }
@@ -60,7 +72,7 @@ public class CommonResponse {
          * @param code The code of the enum constant to be returned.
          * @return The enum constant with the specified code.
          */
-        public static CommonResponse.Error valueOfCode(final Integer code) {
+        public static Error valueOfCode(final Integer code) {
             return BY_CODE.get(code);
         }
     }

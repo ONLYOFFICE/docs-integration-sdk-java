@@ -18,85 +18,24 @@
 
 package com.onlyoffice.manager.request;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.onlyoffice.model.common.RequestEntity;
 import com.onlyoffice.model.common.RequestedService;
 import com.onlyoffice.model.settings.security.Security;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpUriRequest;
 
 public interface RequestManager {
-    /**
-     * Executes a POST request to the specified service.
-     * The URL to the service is taken from the "requestedService" parameter.
-     * The authorization data is taken from {@link com.onlyoffice.manager.settings.SettingsManager}.
-     *
-     * @param <R> The result type.
-     * @param requestedService The requested service.
-     * @param requestEntity The requested entity.
-     * @param callback The callback method.
-     * @see com.onlyoffice.manager.settings.SettingsManager
-     * @see RequestedService
-     * @see RequestEntity
-     * @return The result of the execution callback method.
-     * @throws Exception If the processing fails unexpectedly.
-     */
+    <R> R executeGetRequest(String url, Callback<R> callback)
+            throws Exception;
+
+    <R> R executeGetRequest(String url, Security security, Callback<R> callback)
+            throws Exception;
+
     <R> R executePostRequest(RequestedService requestedService, RequestEntity requestEntity, Callback<R> callback)
             throws Exception;
 
-    /**
-     * Executes a POST request to the specified service.
-     * The URL to the service is passed in the method.
-     * The authorization data is passed in the method as the "security" parameter.
-     *
-     * @param <R> The result type.
-     * @param url The URL address to the document server.
-     * @param requestEntity The requested entity.
-     * @param security The security parameters.
-     * @param callback The callback method.
-     * @see RequestEntity
-     * @see Security
-     * @return The result of the execution callback method.
-     * @throws Exception If the processing fails unexpectedly.
-     */
     <R> R executePostRequest(String url, RequestEntity requestEntity, Security security, Callback<R> callback)
             throws Exception;
 
-
-    /**
-     * Executes a POST request to the specified service with the {@link HttpUriRequest} parameter.
-     *
-     * @param <R> The result type.
-     * @param request The {@link HttpUriRequest} request.
-     * @param callback The callback method.
-     * @return The result of the execution callback method.
-     * @throws Exception If the processing fails unexpectedly.
-     */
-    <R> R executeRequest(HttpUriRequest request, Callback<R> callback)
-            throws Exception;
-
-    /**
-     * Returns the JWT signed HTTP request.
-     *
-     * @param url The URL address to the Document Server.
-     * @param requestEntity The requested entity.
-     * @param security The security parameters.
-     * @return The JWT signed HTTP request.
-     * @throws JsonProcessingException An error occurred when processing the JSON data.
-     */
-    HttpPost createPostRequest(String url, RequestEntity requestEntity, Security security)
-            throws JsonProcessingException;
-
     interface Callback<Result> {
-
-        /**
-         * The callback method. Implement this method depending on your needs.
-         *
-         * @param httpEntity The HTTP entity.
-         * @return The result of the execution callback method.
-         * @throws Exception If the processing fails unexpectedly.
-         */
-        Result doWork(HttpEntity httpEntity) throws Exception;
+        Result doWork(Object object) throws Exception;
     }
 }
