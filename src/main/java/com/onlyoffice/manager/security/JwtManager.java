@@ -18,14 +18,11 @@
 
 package com.onlyoffice.manager.security;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import org.json.JSONObject;
 
 import java.util.Map;
 
 public interface JwtManager {
     String createToken(Object object);
-    String createToken(JSONObject payload, String key) throws JsonProcessingException;
     String createToken(Object object, String key);
     String createToken(Map<String, ?> payloadMap, String key);
     String verify(String token);

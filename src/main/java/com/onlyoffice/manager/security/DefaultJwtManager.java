@@ -52,12 +52,6 @@ public class DefaultJwtManager implements JwtManager {
         return createToken(payloadMap, key);
     }
 
-    public String createToken(final JSONObject payload, final String key) throws JsonProcessingException {
-        Map<String, ?> payloadMap = objectMapper.readValue(payload.toString(), Map.class);
-
-        return createToken(payloadMap, key);
-    }
-
     public String createToken(final Map<String, ?> payloadMap, final String key) {
         Algorithm algorithm = Algorithm.HMAC256(key);
 
