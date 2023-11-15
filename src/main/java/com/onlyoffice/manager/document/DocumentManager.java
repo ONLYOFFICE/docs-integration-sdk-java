@@ -18,8 +18,34 @@
 
 package com.onlyoffice.manager.document;
 
-import com.onlyoffice.util.Files;
-import com.onlyoffice.util.Formats;
+import com.onlyoffice.model.common.Format;
+import com.onlyoffice.model.documenteditor.config.document.DocumentType;
 
-public interface DocumentManager extends Formats, Files {
+import java.io.InputStream;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+public interface DocumentManager {
+    List<Format> getFormats();
+    String getDocumentKey(String fileId, boolean embedded);
+    String getDocumentName(String fileId);
+    String getExtension(String fileName);
+    String getBaseName(String fileName);
+    DocumentType getDocumentType(String fileName);
+    boolean isEditable(String fileName);
+    boolean isViewable(String fileName);
+    boolean isFillable(String fileName);
+    boolean hasAction(String fileName, String action);
+    InputStream getNewBlankFile(String extension, Locale locale);
+    String getDefaultExtension(DocumentType documentType);
+    String getDefaultConvertExtension(String fileName);
+    List<String> getConvertExtensionList(String fileName);
+    Map<String, Boolean> getLossyEditableMap();
+    List<String> getInsertImageExtensions();
+    List<String> getCompareFileExtensions();
+    List<String> getMailMergeExtensions();
+    long getMaxFileSize();
+    long getMaxConversionFileSize();
 }
+
