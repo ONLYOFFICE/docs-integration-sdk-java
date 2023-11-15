@@ -70,6 +70,7 @@ public interface SettingsValidationService {
      * Checks the Convert Service by the Document Server URL.
      *
      * @param url The URL to the Document Server.
+     * @param productInnerUrl The internal URL to the integration product.
      * @param security The security parameters.
      * @see Security
      * @return The {@link ValidationResult} object.

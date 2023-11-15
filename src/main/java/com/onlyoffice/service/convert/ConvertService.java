@@ -20,6 +20,7 @@ package com.onlyoffice.service.convert;
 
 import com.onlyoffice.model.convertservice.ConvertRequest;
 import com.onlyoffice.model.convertservice.ConvertResponse;
+import com.onlyoffice.model.documenteditor.Config;
 
 public interface ConvertService {
     /**
@@ -28,7 +29,7 @@ public interface ConvertService {
      * @param convertRequest The {@link ConvertRequest} object.
      * @param fileId The ID of the file to be converted.
      * @see ConvertRequest
-     * @return The JSON object containing the body of the response from the conversion service.
+     * @return The {@link ConvertResponse} object.
      * @throws Exception If the processing fails unexpectedly.
      */
     ConvertResponse processConvert(ConvertRequest convertRequest, String fileId) throws Exception;
