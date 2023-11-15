@@ -19,7 +19,7 @@
 package com.onlyoffice.util;
 
 import com.onlyoffice.model.documenteditor.config.document.DocumentType;
-import com.onlyoffice.model.format.Format;
+import com.onlyoffice.model.common.Format;
 
 import java.util.List;
 import java.util.Map;
