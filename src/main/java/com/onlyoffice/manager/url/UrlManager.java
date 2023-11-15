@@ -100,6 +100,7 @@ public interface UrlManager {
      /**
       * Returns the URL to the test file.
       *
+      * @param url The URL to the integration Product.
       * @return The URL to the test file.
       */
      String getTestConvertUrl(String url);

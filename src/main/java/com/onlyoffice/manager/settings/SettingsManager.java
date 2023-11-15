@@ -45,6 +45,7 @@ public interface SettingsManager {
     /**
      * Sets the settings specified with the "Settings" object.
      *
+     * @see Settings
      * @param settings The settings to be set.
      */
     void setSettings(Settings settings)
