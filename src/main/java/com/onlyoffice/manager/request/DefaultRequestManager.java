@@ -37,6 +37,7 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
@@ -71,6 +72,24 @@ public class DefaultRequestManager implements RequestManager {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    public <R> R executeGetRequest(final String url, final Callback<R> callback) throws Exception {
+        Security security = Security.builder()
+                .key(settingsManager.getSecurityKey())
+                .header(settingsManager.getSecurityHeader())
+                .prefix(settingsManager.getSecurityPrefix())
+                .ignoreSSLCertificate(settingsManager.isIgnoreSSLCertificate())
+                .build();
+
+        return executeGetRequest(url, security, callback);
+    }
+
+    public <R> R executeGetRequest(final String url, final Security security, final Callback<R> callback)
+            throws Exception {
+        HttpGet httpGet = new HttpGet(url);
+
+        return executeRequest(httpGet, security, callback);
+    }
+
     public <R> R executePostRequest(final RequestedService requestedService, final RequestEntity requestEntity,
                                     final Callback<R> callback) throws Exception {
          Security security = Security.builder()
@@ -92,19 +111,7 @@ public class DefaultRequestManager implements RequestManager {
         return executeRequest(request, security, callback);
     }
 
-    public <R> R executeRequest(final HttpUriRequest request, final Callback<R> callback)
-            throws Exception {
-        Security security = Security.builder()
-                .key(settingsManager.getSecurityKey())
-                .header(settingsManager.getSecurityHeader())
-                .prefix(settingsManager.getSecurityPrefix())
-                .ignoreSSLCertificate(settingsManager.isIgnoreSSLCertificate())
-                .build();
-
-        return executeRequest(request, security, callback);
-    }
-
-    public <R> R executeRequest(final HttpUriRequest request, final Security security, final Callback<R> callback)
+    private <R> R executeRequest(final HttpUriRequest request, final Security security, final Callback<R> callback)
             throws Exception {
         try (CloseableHttpClient httpClient = getHttpClient(security.getIgnoreSSLCertificate())) {
             try (CloseableHttpResponse response = httpClient.execute(request)) {
@@ -146,7 +153,6 @@ public class DefaultRequestManager implements RequestManager {
         }
     }
 
-    @Override
     public HttpPost createPostRequest(final String url, final RequestEntity requestEntity,
                                        final Security security) throws JsonProcessingException {
         HttpPost request = new HttpPost(url);

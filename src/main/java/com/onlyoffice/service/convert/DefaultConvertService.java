@@ -83,8 +83,8 @@ public class DefaultConvertService implements ConvertService, RequestedService {
 
         return requestManager.executePostRequest(this, convertRequest,
                 new RequestManager.Callback<ConvertResponse>() {
-                    public ConvertResponse doWork(final HttpEntity httpEntity) throws IOException {
-                        String content = IOUtils.toString(httpEntity.getContent(), "utf-8");
+                    public ConvertResponse doWork(final Object response) throws IOException {
+                        String content = IOUtils.toString(((HttpEntity) response).getContent(), "utf-8");
 
                         ConvertResponse convertResponse = objectMapper.readValue(content.toString(),
                                 ConvertResponse.class);

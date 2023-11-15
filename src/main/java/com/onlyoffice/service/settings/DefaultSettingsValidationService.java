@@ -38,7 +38,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
@@ -72,13 +71,13 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
     public ValidationResult checkDocumentServer(final String url, final Security security) throws Exception {
         String healthCheckUrl = settingsManager.getSDKSetting("integration-sdk.service.health-check.url");
 
-        HttpGet request = new HttpGet(urlManager.sanitizeUrl(url) + healthCheckUrl);
+        healthCheckUrl = urlManager.sanitizeUrl(url) + healthCheckUrl;
 
-        return requestManager.executeRequest(request,
+        return requestManager.executeGetRequest(healthCheckUrl,
                 security,
                 new RequestManager.Callback<ValidationResult>() {
-            public ValidationResult doWork(final HttpEntity httpEntity) throws IOException {
-                String content = IOUtils.toString(httpEntity.getContent(), "utf-8").trim();
+            public ValidationResult doWork(final Object response) throws IOException {
+                String content = IOUtils.toString(((HttpEntity) response).getContent(), "utf-8").trim();
                 if (content.equalsIgnoreCase("true")) {
                     return ValidationResult.builder()
                             .status(Status.SUCCESS)
@@ -117,8 +116,8 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
                 commandRequest,
                 security,
                 new RequestManager.Callback<ValidationResult>() {
-                    public ValidationResult doWork(final HttpEntity httpEntity) throws IOException {
-                        String content = IOUtils.toString(httpEntity.getContent(), "utf-8");
+                    public ValidationResult doWork(final Object response) throws IOException {
+                        String content = IOUtils.toString(((HttpEntity) response).getContent(), "utf-8");
 
                         CommandResponse commandResponse = objectMapper.readValue(content, CommandResponse.class);
 
@@ -166,8 +165,8 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
                 convertRequest,
                 security,
                 new RequestManager.Callback<ValidationResult>() {
-                    public ValidationResult doWork(final HttpEntity httpEntity) throws Exception {
-                        String content = IOUtils.toString(httpEntity.getContent(), "utf-8").trim();
+                    public ValidationResult doWork(final Object response) throws Exception {
+                        String content = IOUtils.toString(((HttpEntity) response).getContent(), "utf-8").trim();
                         JSONObject result = new JSONObject(content);
 
                         if (result.has("error")) {
@@ -181,14 +180,13 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
 
                         String fileUrl = result.getString("fileUrl");
 
-                        HttpGet request = new HttpGet(fileUrl);
-                        return requestManager.executeRequest(
-                                request,
+                        return requestManager.executeGetRequest(
+                                fileUrl,
                                 security,
                                 new RequestManager.Callback<ValidationResult>() {
                             @Override
-                            public ValidationResult doWork(final HttpEntity httpEntity) throws IOException {
-                                byte[] bytes = EntityUtils.toByteArray(httpEntity);
+                            public ValidationResult doWork(final Object response) throws IOException {
+                                byte[] bytes = EntityUtils.toByteArray((HttpEntity) response);
                                 if (bytes.length > 0) {
                                     return ValidationResult.builder()
                                             .status(Status.SUCCESS)
