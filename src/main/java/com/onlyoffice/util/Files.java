@@ -16,10 +16,17 @@
  *
  */
 
-package com.onlyoffice.manager.document;
+package com.onlyoffice.util;
 
-import com.onlyoffice.util.Files;
-import com.onlyoffice.util.Formats;
+import java.io.InputStream;
+import java.util.Locale;
 
-public interface DocumentManager extends Formats, Files {
+public interface Files {
+    String getDocumentKey(String fileId, boolean embedded);
+    String getDocumentName(String fileId);
+    String getExtension(String fileName);
+    String getBaseName(String fileName);
+    InputStream getNewBlankFile(String extension, Locale locale);
+    long getMaxFileSize();
+    long getMaxConversionFileSize();
 }
