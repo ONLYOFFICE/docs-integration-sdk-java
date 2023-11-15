@@ -20,6 +20,10 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CommonResponse {
+
+    /**
+     * Defines an error code.
+     */
     private Error error;
 
     /**
