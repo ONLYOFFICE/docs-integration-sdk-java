@@ -32,14 +32,18 @@ import org.json.JSONObject;
 @AllArgsConstructor
 public class DefaultCallbackService implements CallbackService {
 
+    /** {@link JwtManager}. */
     @Getter(AccessLevel.PROTECTED)
     private final JwtManager jwtManager;
 
+    /** {@link SettingsManager}. */
     @Getter(AccessLevel.PROTECTED)
     private final SettingsManager settingsManager;
 
+    /** {@link ObjectMapper}. */
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    @Override
     public Callback verifyCallback(final Callback callback, final String authorizationHeader)
             throws JsonProcessingException {
         if (settingsManager.isSecurityEnabled()) {
@@ -74,6 +78,7 @@ public class DefaultCallbackService implements CallbackService {
         return callback;
     }
 
+    @Override
     public void processCallback(final Callback callback, final String fileId) throws Exception {
         switch (callback.getStatus()) {
             case EDITING:
@@ -99,26 +104,32 @@ public class DefaultCallbackService implements CallbackService {
         }
     }
 
+    @Override
     public void handlerEditing(final Callback callback, final String fileId) throws Exception {
 
     }
 
+    @Override
     public void handlerSave(final Callback callback, final String fileId) throws Exception {
 
     }
 
+    @Override
     public void handlerSaveCorrupted(final Callback callback, final String fileId) throws Exception {
         handlerSave(callback, fileId);
     }
 
+    @Override
     public void handlerClosed(final Callback callback, final String fileId) throws Exception {
 
     }
 
+    @Override
     public void handlerForcesave(final Callback callback, final String fileId) throws Exception {
 
     }
 
+    @Override
     public void handlerForcesaveCurrupted(final Callback callback, final String fileId) throws Exception {
         handlerForcesave(callback, fileId);
     }

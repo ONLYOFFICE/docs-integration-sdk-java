@@ -38,17 +38,22 @@ import java.util.Arrays;
 @AllArgsConstructor
 public class DefaultConvertService implements ConvertService, RequestedService {
 
+    /** {@link DocumentManager}. */
     @Getter(AccessLevel.PROTECTED)
     private final DocumentManager documentManager;
 
+    /** {@link UrlManager}. */
     @Getter(AccessLevel.PROTECTED)
     private final UrlManager urlManager;
 
+    /** {@link RequestManager}. */
     @Getter(AccessLevel.PROTECTED)
     private final RequestManager requestManager;
 
+    /** {@link ObjectMapper}. */
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    @Override
     public ConvertResponse processConvert(final ConvertRequest convertRequest, final String fileId) throws Exception {
         String fileName = documentManager.getDocumentName(fileId);
 

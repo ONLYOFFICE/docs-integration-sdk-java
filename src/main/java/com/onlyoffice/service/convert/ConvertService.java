@@ -24,5 +24,14 @@ import com.onlyoffice.model.convertservice.ConvertResponse;
 
 public interface ConvertService {
 
+    /**
+     * Starts the file conversion process.
+     *
+     * @param convertRequest The {@link ConvertRequest} object.
+     * @param fileId The ID of the file to be converted.
+     * @see ConvertRequest
+     * @return The {@link ConvertResponse} object.
+     * @throws Exception If the processing fails unexpectedly.
+     */
     ConvertResponse processConvert(ConvertRequest convertRequest, String fileId) throws Exception;
 }
