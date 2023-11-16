@@ -27,6 +27,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
+/**
+ * Defines the parameters that the user can disable or customize if possible.
+ */
 @Getter
 @Setter
 @Builder
@@ -36,5 +39,10 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Features {
 
+    /**
+     * Defines if the spell checker is automatically switched on or off when the editor is loaded.
+     * It is set as the initial spell checker value and the spell checker setting will not be hidden.
+     * The default value is "true".
+     */
     private Boolean spellcheck;
 }

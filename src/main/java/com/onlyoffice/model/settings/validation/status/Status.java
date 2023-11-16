@@ -21,11 +21,20 @@ package com.onlyoffice.model.settings.validation.status;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
+/**
+ * Defines the validation result status.
+ */
 public enum Status {
 
+    /**
+     * Defines a status of the success operation.
+     */
     @JsonProperty("success")
     SUCCESS,
 
+    /**
+     * Defines a status of the failed operation.
+     */
     @JsonProperty("failed")
     FAILED
 }

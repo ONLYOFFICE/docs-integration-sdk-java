@@ -21,17 +21,35 @@ package com.onlyoffice.model.documenteditor.config.editorconfig.customization.re
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
+/**
+ * Defines the review editing mode which will be used when the document is opened for viewing.
+ * It will only be available for the document editor if
+ * {@link com.onlyoffice.model.documenteditor.config.editorconfig.Mode} is set to "view". The default value is
+ * "original".
+ */
 public enum ReviewDisplay {
 
+    /**
+     * The document is displayed with proposed changes highlighted.
+     */
     @JsonProperty("markup")
     MARKUP,
 
+    /**
+     * The document is displayed with proposed changes highlighted, but the balloons are turned off.
+     */
     @JsonProperty("simple")
     SIMPLE,
 
+    /**
+     * The document is displayed with all the proposed changes applied.
+     */
     @JsonProperty("final")
     FINAL,
 
+    /**
+     * The original document is displayed without the proposed changes.
+     */
     @JsonProperty("original")
     ORIGINAL
 }

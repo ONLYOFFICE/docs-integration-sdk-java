@@ -24,15 +24,27 @@ import lombok.Getter;
 import lombok.Setter;
 
 
+/**
+ * Defines the presence or absence of the documents in the "Open Recent..." menu option.
+ */
 @Getter
 @Setter
 @Builder
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 public class Recent {
 
+    /**
+     * Defines the folder where the document is stored (can be empty in case the document is stored in the root folder).
+     */
     private String folder;
 
+    /**
+     * Defines the document title that will be displayed in the "Open Recent..." menu option.
+     */
     private String title;
 
+    /**
+     * Defines the absolute URL to the document where it is stored.
+     */
     private String url;
 }

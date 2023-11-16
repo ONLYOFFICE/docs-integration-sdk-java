@@ -27,6 +27,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
+/**
+ * Adds a request for the anonymous name.
+ */
 @Getter
 @Setter
 @Builder
@@ -36,7 +39,13 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Anonymous {
 
+    /**
+     * Defines if the request is sent or not. The default value is "true".
+     */
     private Boolean request;
 
+    /**
+     * Defines a postfix added to the user name. The default value is "Guest".
+     */
     private String label;
 }

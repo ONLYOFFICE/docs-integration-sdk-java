@@ -19,9 +19,22 @@
 package com.onlyoffice.model.common;
 
 
+/**
+ * Defines the requested entity parameters.
+ */
 public interface RequestEntity {
 
+    /**
+     * Returns a token from the request.
+     *
+     * @return The token from the request.
+     */
     String getToken();
 
+    /**
+     * Adds a token to the request.
+     *
+     * @param token The token.
+     */
     void setToken(String token);
 }

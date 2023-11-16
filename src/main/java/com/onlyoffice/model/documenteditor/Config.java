@@ -28,23 +28,47 @@ import lombok.Getter;
 import lombok.Setter;
 
 
+/**
+ * Defines the Document Server config.
+ */
 @Getter
 @Setter
 @Builder
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 public class Config {
 
+    /**
+     * Defines the document type to be opened.
+     */
     private DocumentType documentType;
 
+    /**
+     * Defines the document height (100% by default) in the browser window.
+     */
     private String height;
 
+    /**
+     * Defines the encrypted signature added to the Document Server config in the form of a token.
+     */
     private String token;
 
+    /**
+     * Defines the platform type used to access the document.
+     */
     private Type type;
 
+    /**
+     * Defines the document width (100% by default) in the browser window.
+     */
     private String width;
 
+    /**
+     * Defines the editor interface parameters.
+     */
     private EditorConfig editorConfig;
 
+    /**
+     * Defines the document parameters.
+     */
     private Document document;
 }

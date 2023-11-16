@@ -21,14 +21,27 @@ package com.onlyoffice.model.documenteditor.config.editorconfig.customization;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
+/**
+ * Defines the measurement units used on the ruler and in dialog boxes.
+ * The default value is centimeters ("cm").
+ */
 public enum Unit {
 
+    /**
+     * Centimeters.
+     */
     @JsonProperty("cm")
     CM,
 
+    /**
+     * Points.
+     */
     @JsonProperty("pt")
     PT,
 
+    /**
+     * Inches.
+     */
     @JsonProperty("inch")
     INCH
 }

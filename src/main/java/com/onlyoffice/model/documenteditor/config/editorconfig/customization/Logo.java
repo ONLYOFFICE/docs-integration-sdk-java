@@ -27,6 +27,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
+/**
+ * Changes the image file at the top left corner of the editor header.
+ * The recommended image height is 20 pixels.
+ */
 @Getter
 @Setter
 @Builder
@@ -36,12 +40,34 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Logo {
 
+    /**
+     * Defines the path to the image file used to show in the common work mode
+     * (i.e. in view and edit modes for all editors) or in the embedded mode
+     * (see the {@link com.onlyoffice.model.documenteditor.Config} section to find out how to define the
+     * "embedded" document type).
+     * The image must have the following size: 172 x 40.
+     */
     private String image;
 
+    /**
+     * Defines the path to the image file used for the dark theme.
+     * The image must have the following size: 172 x 40.
+     */
     private String imageDark;
 
+    /**
+     * Defines the path to the image file used to show in the embedded mode
+     * (see the {@link com.onlyoffice.model.documenteditor.Config} section to find out how to define the embedded
+     * document type). The image must have the following size: 248 x 40.
+     * Deprecated since version 7.0, please use the "image" field instead.
+     */
     @Deprecated
     private String imageEmbedded;
 
+    /**
+     * Defines the absolute URL which will be used when someone clicks the logo image
+     * (can be used to go to your web site, etc.).
+     * Leave as an empty string or null to make the logo not clickable.
+     */
     private String url;
 }

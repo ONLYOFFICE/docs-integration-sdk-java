@@ -21,14 +21,29 @@ package com.onlyoffice.model.documenteditor.config.document;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
+/**
+ * Defines the document type to be opened.
+ */
 public enum DocumentType {
 
+    /**
+     * Text document.
+     * @see <a target="_top" href="https://github.com/ONLYOFFICE/document-formats">Formats repository</a>.
+     */
     @JsonProperty("word")
     WORD,
 
+    /**
+     * Spreadsheet.
+     * @see <a target="_top" href="https://github.com/ONLYOFFICE/document-formats">Formats repository</a>.
+     */
     @JsonProperty("cell")
     CELL,
 
+    /**
+     * Presentation.
+     * @see <a target="_top" href="https://github.com/ONLYOFFICE/document-formats">Formats repository</a>.
+     */
     @JsonProperty("slide")
     SLIDE
 }

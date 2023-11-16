@@ -26,15 +26,27 @@ import lombok.Getter;
 import lombok.Setter;
 
 
+/**
+ * Defines the validation result properties.
+ */
 @Getter
 @Setter
 @Builder
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 public class ValidationResult {
 
+    /**
+     * Defines the validation result status.
+     */
     private Status status;
 
+    /**
+     * Defines the error parameters.
+     */
     private Error error;
 
+    /**
+     * Defines the message.
+     */
     private String message;
 }
