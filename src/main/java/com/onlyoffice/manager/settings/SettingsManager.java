@@ -27,35 +27,122 @@ import java.util.Map;
 
 public interface SettingsManager {
 
+    /**
+     * Returns a value of the setting with the name specified in the request.
+     *
+     * @param name The setting name.
+     * @return The setting value.
+     */
     String getSetting(String name);
 
+    /**
+     * Sets a value for the setting with the name specified in the request.
+     *
+     * @param name The setting name.
+     * @param value The setting value.
+     */
     void setSetting(String name, String value);
 
+    /**
+     * Sets the settings specified with the "Settings" object.
+     *
+     * @see Settings
+     * @param settings The settings to be set.
+     * @throws IntrospectionException If the processing fails unexpectedly.
+     * @throws InvocationTargetException – If the underlying method throws an exception.
+     * @throws IllegalAccessException – If this Method object is enforcing Java language access control and the
+     * underlying method is inaccessible.
+     */
     void setSettings(Settings settings)
             throws IntrospectionException, InvocationTargetException, IllegalAccessException;
 
+    /**
+     * Returns a map of the settings.
+     *
+     * @return A map of the settings.
+     * @throws IntrospectionException If the processing fails unexpectedly.
+     * @throws InvocationTargetException – If the underlying method throws an exception.
+     * @throws IllegalAccessException – If this Method object is enforcing Java language access control and the
+     * underlying method is inaccessible.
+     */
     Map<String, String> getSettings()
             throws IntrospectionException, InvocationTargetException, IllegalAccessException;
 
+    /**
+     * Returns a boolean value of the setting with the name specified in the request.
+     *
+     * @param name The setting name.
+     * @param defaultValue The setting default value.
+     * @return The setting boolean value.
+     */
     Boolean getSettingBoolean(String name, Boolean defaultValue);
 
+    /**
+     * Returns a value of the setting with the name specified in the request from the "settings.properties" file.
+     *
+     * @param name The setting name.
+     * @return The setting value.
+     */
     String getSDKSetting(String name);
 
+    /**
+     * Checks whether JWT validation is enabled.
+     *
+     * @return True if JWT validation is enabled.
+     */
     Boolean isSecurityEnabled();
 
+    /**
+     * Checks whether the setting to ignore SSL certificate is enabled.
+     *
+     * @return True if the setting to ignore SSL certificate is enabled.
+     */
     Boolean isIgnoreSSLCertificate();
 
+    /**
+     * Returns the security key.
+     *
+     * @return The security key.
+     */
     String getSecurityKey();
 
+    /**
+     * Returns the authorization header.
+     *
+     * @return The authorization header.
+     */
     String getSecurityHeader();
 
+    /**
+     * Returns the authorization prefix.
+     *
+     * @return The authorization prefix.
+     */
     String getSecurityPrefix();
 
+    /**
+     * Checks whether the demo editor is enabled.
+     *
+     * @return True if the demo editor is enabled.
+     */
     Boolean enableDemo();
 
+    /**
+     * Disables the use of the demo editor.
+     */
     void disableDemo();
 
+    /**
+     * Checks whether the demo editor is active.
+     *
+     * @return True if the demo editor is enabled and the demo version has not expired.
+     */
     Boolean isDemoActive();
 
+    /**
+     * Checks whether the demo editor is available.
+     *
+     * @return True if the demo version has not expired.
+     */
     Boolean isDemoAvailable();
 }

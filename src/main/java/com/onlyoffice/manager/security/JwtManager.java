@@ -23,13 +23,53 @@ import java.util.Map;
 
 public interface JwtManager {
 
+    /**
+     * Creates a new JWT for the specified object using the key from
+     * {@link com.onlyoffice.manager.settings.SettingsManager}.
+     *
+     * @param object The object to create JWT.
+     * @see com.onlyoffice.manager.settings.SettingsManager
+     * @return A new JWT token.
+     */
     String createToken(Object object);
 
+    /**
+     * Creates a new JWT for the specified object.
+     * The key is passed as a method parameter.
+     *
+     * @param object The object to create JWT.
+     * @param key  The secret key value.
+     * @return A new JWT token.
+     */
     String createToken(Object object, String key);
 
+    /**
+     * Creates a new JWT for the specified payload map.
+     * The key is passed as a method parameter.
+     *
+     * @param payloadMap The payload map to create JWT.
+     * @param key  The secret key value.
+     * @return A new JWT token.
+     */
     String createToken(Map<String, ?> payloadMap, String key);
 
+    /**
+     * Performs the verification against the given token using the key from
+     * {@link com.onlyoffice.manager.settings.SettingsManager}.
+     *
+     * @param token The token to be verified.
+     * @see com.onlyoffice.manager.settings.SettingsManager
+     * @return The verified and decoded payload.
+     */
     String verify(String token);
 
+    /**
+     * Performs the verification against the given token
+     * using the key passed as a method parameter.
+     *
+     * @param token The token to be verified.
+     * @param key  The secret key value.
+     * @return The verified and decoded payload.
+     */
     String verifyToken(String token, String key);
 }

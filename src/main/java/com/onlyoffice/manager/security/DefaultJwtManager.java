@@ -34,23 +34,28 @@ import java.util.Map;
 @AllArgsConstructor
 public class DefaultJwtManager implements JwtManager {
 
+    /** {@link SettingsManager}. */
     @Getter(AccessLevel.PROTECTED)
     private final SettingsManager settingsManager;
 
+    /** {@link ObjectMapper}. */
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    @Override
     public String createToken(final Object object) {
         Map<String, ?> payloadMap = objectMapper.convertValue(object, Map.class);
 
         return createToken(payloadMap, settingsManager.getSecurityKey());
     }
 
+    @Override
     public String createToken(final Object object, final String key) {
         Map<String, ?> payloadMap = objectMapper.convertValue(object, Map.class);
 
         return createToken(payloadMap, key);
     }
 
+    @Override
     public String createToken(final Map<String, ?> payloadMap, final String key) {
         Algorithm algorithm = Algorithm.HMAC256(key);
 
@@ -61,10 +66,12 @@ public class DefaultJwtManager implements JwtManager {
         return token;
     }
 
+    @Override
     public String verify(final String token) {
         return verifyToken(token, settingsManager.getSecurityKey());
     }
 
+    @Override
     public String verifyToken(final String token, final String key) {
         Algorithm algorithm = Algorithm.HMAC256(key);
         Base64.Decoder decoder = Base64.getUrlDecoder();

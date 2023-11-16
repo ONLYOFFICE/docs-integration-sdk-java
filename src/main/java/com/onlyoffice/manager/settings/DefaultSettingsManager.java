@@ -49,16 +49,20 @@ import java.util.Properties;
 
 public abstract class DefaultSettingsManager implements SettingsManager {
 
+    /** Properties from the "settings.properties" file. */
     private static Properties properties;
 
     static {
         init();
     }
 
+    @Override
     public abstract String getSetting(String name);
 
+    @Override
     public abstract void setSetting(String name, String value);
 
+    @Override
     public void setSettings(final Settings settings)
             throws IntrospectionException, InvocationTargetException, IllegalAccessException {
          Map<String, String> mapSettings = convertObjectToDotNotationMap(settings);
@@ -68,6 +72,7 @@ public abstract class DefaultSettingsManager implements SettingsManager {
          }
     }
 
+    @Override
     public Map<String, String> getSettings()
             throws IntrospectionException, InvocationTargetException, IllegalAccessException {
         Settings settings = Settings.builder()
@@ -108,6 +113,7 @@ public abstract class DefaultSettingsManager implements SettingsManager {
         return settinsMap;
     }
 
+    @Override
     public Boolean getSettingBoolean(final String name, final Boolean defaultValue) {
         String setting = getSetting(name);
 
@@ -118,6 +124,7 @@ public abstract class DefaultSettingsManager implements SettingsManager {
         return Boolean.parseBoolean(setting);
     }
 
+    @Override
     public String getSDKSetting(final String name) {
         if (properties == null) {
             return null;
@@ -126,11 +133,13 @@ public abstract class DefaultSettingsManager implements SettingsManager {
        return properties.getProperty(name);
     }
 
+    @Override
     public Boolean isSecurityEnabled() {
         String key = getSecurityKey();
         return key != null && !key.isEmpty();
     }
 
+    @Override
     public String getSecurityKey() {
         if (isDemoActive()) {
             return getSDKSetting("integration-sdk.demo.security.key");
@@ -148,6 +157,7 @@ public abstract class DefaultSettingsManager implements SettingsManager {
         }
     }
 
+    @Override
     public String getSecurityHeader() {
         if (isDemoActive()) {
             return getSDKSetting("integration-sdk.demo.security.header");
@@ -165,6 +175,7 @@ public abstract class DefaultSettingsManager implements SettingsManager {
         }
     }
 
+    @Override
     public String getSecurityPrefix() {
         if (isDemoActive()) {
             return getSDKSetting("integration-sdk.demo.security.prefix");
@@ -182,6 +193,7 @@ public abstract class DefaultSettingsManager implements SettingsManager {
         }
     }
 
+    @Override
     public Boolean isIgnoreSSLCertificate() {
         if (!isDemoActive()) {
             String ignoreSSLCertificate = getSetting(SettingsConstants.SECURITY_IGNORE_SSL_CERTIFICATE);
@@ -197,6 +209,7 @@ public abstract class DefaultSettingsManager implements SettingsManager {
         return false;
     }
 
+    @Override
     public Boolean enableDemo() {
         setSetting(SettingsConstants.DEMO, "true");
         String demoStart = getSetting("demo-start");
@@ -210,10 +223,12 @@ public abstract class DefaultSettingsManager implements SettingsManager {
         }
     }
 
+    @Override
     public void disableDemo() {
         setSetting(SettingsConstants.DEMO, "false");
     }
 
+    @Override
     public Boolean isDemoActive() {
         String demo = getSetting(SettingsConstants.DEMO);
 
@@ -240,6 +255,7 @@ public abstract class DefaultSettingsManager implements SettingsManager {
         }
     }
 
+    @Override
     public Boolean isDemoAvailable() {
         String demoStart = getSetting("demo-start");
         if (demoStart != null && !demoStart.isEmpty()) {

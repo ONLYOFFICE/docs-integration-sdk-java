@@ -41,25 +41,36 @@ import java.util.Map;
 
 @AllArgsConstructor
 public abstract class DefaultDocumentManager implements DocumentManager {
+
+    /**
+     * Defines the default maximum file size, used if the "integration-sdk.data.filesize.editing.max"
+     * or "integration-sdk.data.filesize.conversion.max" properties are not specified in "settings.properties".
+     */
     private static final int DEFAULT_MAX_FILE_SIZE = 5242880;
 
+    /** {@link SettingsManager}. */
     @Getter(AccessLevel.PROTECTED)
     private final SettingsManager settingsManager;
 
+    /** Defines a list containing data about supported formats. */
     private static List<Format> formats;
 
     static {
         init();
     }
 
+    @Override
     public List<Format> getFormats() {
         return this.formats;
     }
 
+    @Override
     public abstract String getDocumentKey(String fileId, boolean embedded);
 
+    @Override
     public abstract String getDocumentName(String fileId);
 
+    @Override
     public String getExtension(final String fileName) {
         if (fileName == null) {
             return null;
@@ -78,6 +89,7 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         return extension.toLowerCase();
     }
 
+    @Override
     public String getBaseName(final String fileName) {
         if (fileName == null) {
             return null;
@@ -96,6 +108,7 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         return baseName;
     }
 
+    @Override
     public DocumentType getDocumentType(final String fileName) {
         String fileExtension = getExtension(fileName);
 
@@ -108,6 +121,7 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         return null;
     }
 
+    @Override
     public boolean isEditable(final String fileName) {
         String extension = getExtension(fileName);
 
@@ -124,14 +138,17 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         return hasAction(fileName, "edit");
     }
 
+    @Override
     public boolean isViewable(final String fileName) {
         return hasAction(fileName, "view");
     }
 
+    @Override
     public boolean isFillable(final String fileName) {
         return hasAction(fileName, "fill");
     }
 
+    @Override
     public boolean hasAction(final String fileName, final String action) {
         String fileExtension = getExtension(fileName);
 
@@ -148,6 +165,7 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         return false;
     }
 
+    @Override
     public InputStream getNewBlankFile(final String extension, final Locale locale) {
         String pathTemplate = "assets/document-templates/{0}/new.{1}";
 
@@ -168,6 +186,7 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         return inputStream;
     }
 
+    @Override
     public String getDefaultExtension(final DocumentType documentType) {
         if (documentType == null) {
             return null;
@@ -185,6 +204,7 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         }
     }
 
+    @Override
     public String getDefaultConvertExtension(final String fileName) {
         String extension = getExtension(fileName);
 
@@ -222,6 +242,7 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         return null;
     }
 
+    @Override
     public List<String> getConvertExtensionList(final String fileName) {
         String extension = getExtension(fileName);
 
@@ -238,6 +259,7 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         return null;
     }
 
+    @Override
     public Map<String, Boolean> getLossyEditableMap() {
         Map<String, Boolean> result = new HashMap<>();
         List<String> formatsLossyEditList = new ArrayList<>();
@@ -264,6 +286,7 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         return result;
     }
 
+    @Override
     public List<String> getInsertImageExtensions() {
         String insertImage = settingsManager.getSDKSetting("integration-sdk.data.formats.insert-image");
 
@@ -274,6 +297,7 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         return null;
     }
 
+    @Override
     public List<String> getCompareFileExtensions() {
         List<Format> supportedFormats = formats;
         List<String> result = new ArrayList<>();
@@ -287,6 +311,7 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         return result;
     }
 
+    @Override
     public List<String> getMailMergeExtensions() {
         List<Format> supportedFormats = formats;
         List<String> result = new ArrayList<>();
@@ -300,6 +325,7 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         return result;
     }
 
+    @Override
     public long getMaxFileSize() {
         long size;
         try {
@@ -312,6 +338,7 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         return size > 0 ? size : DEFAULT_MAX_FILE_SIZE;
     }
 
+    @Override
     public long getMaxConversionFileSize() {
         long size;
         try {
