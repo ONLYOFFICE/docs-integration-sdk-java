@@ -21,14 +21,26 @@ package com.onlyoffice.model.documenteditor.config.editorconfig.customization;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
+/**
+ * Defines the macros run mode when autostart is enabled. The default value is "warn".
+ */
 public enum MacrosMode {
 
+    /**
+     * Doesn't run macros at all.
+     */
     @JsonProperty("disable")
     DISABLE,
 
+    /**
+     * Runs all macros automatically.
+     */
     @JsonProperty("enable")
     ENABLE,
 
+    /**
+     * Warns about macros and asks permission to run them.
+     */
     @JsonProperty("warn")
     WARN
 }

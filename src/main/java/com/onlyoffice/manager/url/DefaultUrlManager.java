@@ -31,9 +31,11 @@ import java.text.MessageFormat;
 @AllArgsConstructor
 public class DefaultUrlManager implements UrlManager {
 
+     /** {@link SettingsManager}. */
      @Getter(AccessLevel.PROTECTED)
      private final SettingsManager settingsManager;
 
+     @Override
      public String getDocumentServerUrl() {
          if (settingsManager.isDemoActive()) {
               return sanitizeUrl(settingsManager.getSDKSetting("integration-sdk.demo.url"));
@@ -42,6 +44,7 @@ public class DefaultUrlManager implements UrlManager {
          }
      }
 
+     @Override
      public String getInnerDocumentServerUrl() {
           if (settingsManager.isDemoActive()) {
                return sanitizeUrl(settingsManager.getSDKSetting("integration-sdk.demo.url"));
@@ -56,10 +59,12 @@ public class DefaultUrlManager implements UrlManager {
           }
      }
 
+     @Override
      public String getDocumentServerApiUrl() {
           return getDocumentServerUrl() + settingsManager.getSDKSetting("integration-sdk.api.url");
      }
 
+     @Override
      public String getServiceUrl(final RequestedService requestedService) {
           String serviceName = requestedService
                   .getClass()
@@ -75,6 +80,7 @@ public class DefaultUrlManager implements UrlManager {
           return getInnerDocumentServerUrl() + serviceUrl;
      }
 
+     @Override
      public String sanitizeUrl(final String url) {
           if (url != null) {
                return url.endsWith("/") ? url.substring(0, url.length() - 1) : url;
@@ -83,6 +89,7 @@ public class DefaultUrlManager implements UrlManager {
           }
      }
 
+     @Override
      public String replaceToInnerDocumentServerUrl(final String url) {
           String documentServerUrl = getDocumentServerUrl();
           String innerDocumentServerUrl = getInnerDocumentServerUrl();
@@ -94,22 +101,27 @@ public class DefaultUrlManager implements UrlManager {
           return url;
      }
 
+     @Override
      public String getFileUrl(final String fileId) {
           return null;
      }
 
+     @Override
      public String getCallbackUrl(final String fileId) {
           return null;
      }
 
+     @Override
      public String getGobackUrl(final String fileId) {
           return null;
      }
 
+     @Override
      public String getCreateUrl(final String fileId) {
           return null;
      }
 
+     @Override
      public String getTestConvertUrl(final String url) {
           return null;
      }

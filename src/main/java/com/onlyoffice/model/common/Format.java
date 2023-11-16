@@ -25,17 +25,35 @@ import lombok.Setter;
 import java.util.List;
 
 
+/**
+ * Defines the document format properties.
+ */
 @Getter
 @Setter
 public class Format {
 
+    /**
+     * Defines the document format name.
+     */
     private String name;
 
+    /**
+     * Defines the document format type.
+     */
     private DocumentType type;
 
+    /**
+     * Defines a list of actions that can be performed with the current document format.
+     */
     private List<String>  actions;
 
+    /**
+     * Defines a list of extensions to which the current format can be converted.
+     */
     private List<String> convert;
 
+    /**
+     * Defines a list of MIME types of the current document format.
+     */
     private List<String> mime;
 }

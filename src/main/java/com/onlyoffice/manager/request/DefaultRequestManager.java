@@ -63,17 +63,22 @@ import java.util.concurrent.TimeUnit;
 @AllArgsConstructor
 public class DefaultRequestManager implements RequestManager {
 
+    /** {@link UrlManager}. */
     @Getter(AccessLevel.PROTECTED)
     private final UrlManager urlManager;
 
+    /** {@link JwtManager}. */
     @Getter(AccessLevel.PROTECTED)
     private final JwtManager jwtManager;
 
+    /** {@link SettingsManager}. */
     @Getter(AccessLevel.PROTECTED)
     private final SettingsManager settingsManager;
 
+    /** {@link ObjectMapper}. */
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    @Override
     public <R> R executeGetRequest(final String url, final Callback<R> callback) throws Exception {
         Security security = Security.builder()
                 .key(settingsManager.getSecurityKey())
@@ -85,6 +90,7 @@ public class DefaultRequestManager implements RequestManager {
         return executeGetRequest(url, security, callback);
     }
 
+    @Override
     public <R> R executeGetRequest(final String url, final Security security, final Callback<R> callback)
             throws Exception {
         HttpGet httpGet = new HttpGet(url);
@@ -92,6 +98,7 @@ public class DefaultRequestManager implements RequestManager {
         return executeRequest(httpGet, security, callback);
     }
 
+    @Override
     public <R> R executePostRequest(final RequestedService requestedService, final RequestEntity requestEntity,
                                     final Callback<R> callback) throws Exception {
          Security security = Security.builder()
@@ -106,6 +113,7 @@ public class DefaultRequestManager implements RequestManager {
          return executePostRequest(url, requestEntity, security, callback);
     }
 
+    @Override
     public <R> R executePostRequest(final String url, final RequestEntity requestEntity, final Security security,
                                     final Callback<R> callback) throws Exception {
         HttpPost request = createPostRequest(url, requestEntity, security);

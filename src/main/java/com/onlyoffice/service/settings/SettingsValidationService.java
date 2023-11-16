@@ -24,15 +24,61 @@ import com.onlyoffice.model.settings.validation.ValidationResult;
 
 public interface SettingsValidationService {
 
+    /**
+     * Checks the Document Server.
+     *
+     * @return The {@link ValidationResult} object.
+     * @throws Exception If the processing fails unexpectedly.
+     */
     ValidationResult checkDocumentServer() throws Exception;
 
+    /**
+     * Checks the Document Server by its URL.
+     *
+     * @param url The URL to the Document Server.
+     * @param security The security parameters.
+     * @see Security
+     * @return The {@link ValidationResult} object.
+     * @throws Exception If the processing fails unexpectedly.
+     */
     ValidationResult checkDocumentServer(String url, Security security) throws Exception;
 
+    /**
+     * Checks the Command Service.
+     *
+     * @return The {@link ValidationResult} object.
+     * @throws Exception If the processing fails unexpectedly.
+     */
     ValidationResult checkCommandService() throws Exception;
 
+    /**
+     * Checks the Command Service by the Document Server URL.
+     *
+     * @param url The URL to the Document Server.
+     * @param security The security parameters.
+     * @see Security
+     * @return The {@link ValidationResult} object.
+     * @throws Exception If the processing fails unexpectedly.
+     */
     ValidationResult checkCommandService(String url, Security security) throws Exception;
 
+    /**
+     * Checks the Convert Service.
+     *
+     * @return The {@link ValidationResult} object.
+     * @throws Exception If the processing fails unexpectedly.
+     */
     ValidationResult checkConvertService() throws Exception;
 
+    /**
+     * Checks the Convert Service by the Document Server URL.
+     *
+     * @param url The URL to the Document Server.
+     * @param productInnerUrl The internal URL to the integration product.
+     * @param security The security parameters.
+     * @see Security
+     * @return The {@link ValidationResult} object.
+     * @throws Exception If the processing fails unexpectedly.
+     */
     ValidationResult checkConvertService(String url, String productInnerUrl, Security security) throws Exception;
 }

@@ -28,6 +28,16 @@ import lombok.Setter;
 import java.util.List;
 
 
+/**
+ * Defines the object with the document changes history.
+ * The object is present when the {@link Status} value is equal to 2 or 3 only.
+ * It contains the object "changes" and "serverVersion",
+ * which must be sent as properties "changes" and "serverVersion" of the object sent as the argument to the
+ * "refreshHistory" method.
+ *
+ * @see <a target="_top" href="https://api.onlyoffice.com/editors/methods#refreshHistory">"refreshHistory"
+ * method in API ONLYOFFICE</a>
+ */
 @Getter
 @Setter
 @AllArgsConstructor
@@ -35,7 +45,13 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 public class History {
 
+    /**
+     * Defines the current server version number.
+     */
     private String serverVersion;
 
+    /**
+     * Defines the changes from the history object returned after saving the document.
+     */
     private List<Changes> changes;
 }

@@ -19,9 +19,22 @@
 package com.onlyoffice.model.common;
 
 
+/**
+ * Defines the error parameters.
+ */
 public interface Error {
 
+    /**
+     * Returns the error code.
+     *
+     * @return The error code.
+     */
     Integer getCode();
 
+    /**
+     * Returns the error description.
+     *
+     * @return The error description.
+     */
     String getDescription();
 }

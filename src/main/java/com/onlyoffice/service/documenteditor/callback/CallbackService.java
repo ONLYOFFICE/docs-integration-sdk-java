@@ -24,19 +24,76 @@ import com.onlyoffice.model.documenteditor.Callback;
 
 public interface CallbackService {
 
+    /**
+     * Verifies the {@link Callback} object.
+     *
+     * @param callback  The {@link Callback} object with the callback handler parameters.
+     * @param authorizationHeader The authorization header from the callback request.
+     * @return The verified callback object.
+     * @throws JsonProcessingException An error occurred when processing the JSON data.
+     */
     Callback verifyCallback(Callback callback, String authorizationHeader) throws JsonProcessingException;
 
+    /**
+     * Starts the callback handler.
+     *
+     * @param callback The {@link Callback} object with the callback handler parameters.
+     * @param fileId The file ID.
+     * @throws Exception If the processing fails unexpectedly.
+     */
     void processCallback(Callback callback, String fileId) throws Exception;
 
+    /**
+     * Starts the handler that is called if the callback status is 1 (EDITING).
+     *
+     * @param callback The {@link Callback} object with the callback handler parameters.
+     * @param fileId The file ID.
+     * @throws Exception If the processing fails unexpectedly.
+     */
     void handlerEditing(Callback callback, String fileId) throws Exception;
 
+    /**
+     * Starts the handler that is called if the callback status is 2 (SAVE).
+     *
+     * @param callback The {@link Callback} object with the callback handler parameters.
+     * @param fileId The file ID.
+     * @throws Exception If the processing fails unexpectedly.
+     */
     void handlerSave(Callback callback, String fileId) throws Exception;
 
+    /**
+     * Starts the handler that is called if the callback status is 3 (SAVE_CORRUPTED).
+     *
+     * @param callback The {@link Callback} object with the callback handler parameters.
+     * @param fileId The file ID.
+     * @throws Exception If the processing fails unexpectedly.
+     */
     void handlerSaveCorrupted(Callback callback, String fileId) throws Exception;
 
+    /**
+     * Starts the handler that is called if the callback status is 4 (CLOSED).
+     *
+     * @param callback The {@link Callback} object with the callback handler parameters.
+     * @param fileId The file ID.
+     * @throws Exception If the processing fails unexpectedly.
+     */
     void handlerClosed(Callback callback, String fileId) throws Exception;
 
+    /**
+     * Starts the handler that is called if the callback status is 6 (FORCESAVE).
+     *
+     * @param callback The {@link Callback} object with the callback handler parameters.
+     * @param fileId The file ID.
+     * @throws Exception If the processing fails unexpectedly.
+     */
     void handlerForcesave(Callback callback, String fileId) throws Exception;
 
+    /**
+     * Starts the handler that is called if the callback status is 7 (FORCESAVE_CORRUPTED).
+     *
+     * @param callback The {@link Callback} object with the callback handler parameters.
+     * @param fileId The file ID.
+     * @throws Exception If the processing fails unexpectedly.
+     */
     void handlerForcesaveCurrupted(Callback callback, String fileId) throws Exception;
 }

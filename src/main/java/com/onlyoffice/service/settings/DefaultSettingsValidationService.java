@@ -47,17 +47,22 @@ import java.util.Date;
 @AllArgsConstructor
 public class DefaultSettingsValidationService implements SettingsValidationService {
 
+    /** {@link RequestManager}. */
     @Getter(AccessLevel.PROTECTED)
     private final RequestManager requestManager;
 
+    /** {@link UrlManager}. */
     @Getter(AccessLevel.PROTECTED)
     private final UrlManager urlManager;
 
+    /** {@link SettingsManager}. */
     @Getter(AccessLevel.PROTECTED)
     private final SettingsManager settingsManager;
 
+    /** {@link ObjectMapper}. */
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    @Override
     public ValidationResult checkDocumentServer() throws Exception {
         Security security = Security.builder()
                 .key(settingsManager.getSecurityKey())
@@ -69,6 +74,7 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
         return checkDocumentServer(urlManager.getInnerDocumentServerUrl(), security);
     }
 
+    @Override
     public ValidationResult checkDocumentServer(final String url, final Security security) throws Exception {
         String healthCheckUrl = settingsManager.getSDKSetting("integration-sdk.service.health-check.url");
 
@@ -93,6 +99,7 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
         });
     }
 
+    @Override
     public ValidationResult checkCommandService() throws Exception {
         String url = urlManager.getInnerDocumentServerUrl();
         Security security = Security.builder()
@@ -105,6 +112,7 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
         return checkCommandService(url, security);
     }
 
+    @Override
     public ValidationResult checkCommandService(final String url, final Security security) throws Exception {
         String commandServiceUrl = settingsManager.getSDKSetting("integration-sdk.service.command.url");
 
@@ -138,6 +146,7 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
                 });
     }
 
+    @Override
     public ValidationResult checkConvertService() throws Exception {
         String url = urlManager.getInnerDocumentServerUrl();
         Security security = Security.builder()
@@ -150,6 +159,8 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
         return checkConvertService(url, null, security);
     }
 
+
+    @Override
     public ValidationResult checkConvertService(final String url, final String productInnerUrl, final Security security)
             throws Exception {
         String convertServiceUrl = settingsManager.getSDKSetting("integration-sdk.service.convert.url");

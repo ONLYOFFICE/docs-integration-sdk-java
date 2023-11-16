@@ -51,22 +51,28 @@ import java.util.regex.Pattern;
 @AllArgsConstructor
 public class DefaultConfigService implements ConfigService {
 
+    /** {@link DocumentManager}. */
     @Getter(AccessLevel.PROTECTED)
     private final DocumentManager documentManager;
 
+    /** {@link UrlManager}. */
     @Getter(AccessLevel.PROTECTED)
     private final UrlManager urlManager;
 
+    /** {@link JwtManager}. */
     @Getter(AccessLevel.PROTECTED)
     private final JwtManager jwtManager;
 
+    /** {@link SettingsManager}. */
     @Getter(AccessLevel.PROTECTED)
     private final SettingsManager settingsManager;
 
+    @Override
     public Config createConfig(final String fileId, final Mode mode, final String userAgent) {
         return createConfig(fileId, mode, getType(userAgent));
     }
 
+    @Override
     public Config createConfig(final String fileId, final Mode mode, final Type type) {
         String documentName = documentManager.getDocumentName(fileId);
 
@@ -118,34 +124,42 @@ public class DefaultConfigService implements ConfigService {
         return config;
     }
 
+    @Override
     public ReferenceData getReferenceData(final String fileId) {
         return null;
     }
 
+    @Override
     public Info getInfo(final String fileId) {
         return null;
     }
 
+    @Override
     public Permissions getPermissions(final String fileId) {
         return null;
     }
 
+    @Override
     public CoEditing getCoEditing(final Object object) {
         return null;
     }
 
+    @Override
     public List<Recent> getRecent(final Object object) {
         return null;
     }
 
+    @Override
     public List<Template> getTemplates(final String fileId) {
         return null;
     }
 
+    @Override
     public User getUser() {
         return null;
     }
 
+    @Override
     public Customization getCustomization(final String fileId) {
         Goback goback = Goback.builder().build();
 
@@ -180,14 +194,17 @@ public class DefaultConfigService implements ConfigService {
         return customization;
     }
 
+    @Override
     public Embedded getEmbedded(final String fileId) {
         return null;
     }
 
+    @Override
     public Plugins getPlugins(final Object object) {
         return null;
     }
 
+    @Override
     public Type getType(final String userAgent) {
         Pattern pattern = Pattern.compile(
                 settingsManager.getSDKSetting("integration-sdk.mobile.user-agent"),

@@ -27,13 +27,22 @@ import lombok.Setter;
 import java.util.List;
 
 
+/**
+ * Defines the document version history.
+ */
 @Getter
 @Setter
 @Builder
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 public class History {
 
+    /**
+     * Defines the current document version number.
+     */
     private String currentVersion;
 
+    /**
+     * Defines the array with the document versions.
+     */
     private List<Version> history;
 }
