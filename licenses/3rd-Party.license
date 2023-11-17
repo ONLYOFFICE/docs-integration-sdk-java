@@ -1,0 +1,34 @@
+ONLYOFFICE Core Integration SDK uses code from the following 3rd party projects:
+
+
+org.apache.httpcomponents.httpclient - HTTPClient provides an efficient, up-to-date, and feature-rich package implementing the client side of the most recent HTTP standards and recommendations. (https://www.apache.org/licenses/LICENSE-2.0.txt)
+License:              Apache License 2.0
+License File:         org.apache.httpcomponents.httpclient.license
+
+com.auth0.java-jwt  - Java implementation of JSON Web Token (JWT) (https://github.com/auth0/java-jwt/blob/master/LICENSE)
+License:              MIT License
+License File:         com.auth0.java-jwt.license
+
+com.fasterxml.jackson.core.jackson-databind - General data-binding functionality for Jackson: works on core streaming API (https://github.com/FasterXML/jackson-databind/blob/2.16/LICENSE)
+License:              Apache License 2.0
+License File:         com.fasterxml.jackson.core.jackson-databind.license
+
+org.json.json       - JSON is a light-weight, language independent, data interchange format. See http://www.JSON.org/ The files in this package implement JSON encoders/decoders in Java. It also includes the capability to convert between JSON and XML, HTTP headers, Cookies, and CDL. This is a reference implementation. (https://github.com/stleary/JSON-java/blob/master/LICENSE)
+License:              Public Domain
+License File:         org.json.json.license
+
+commons-io.commons-io - The Apache Commons IO library contains utility classes, stream implementations, file filters, file comparators, endian transformation classes, and much more. (https://www.apache.org/licenses/LICENSE-2.0.txt)
+License:              Apache License 2.0
+License File:         commons-io.commons-io.license
+
+org.projectlombok.lombok - Spice up your java: Automatic Resource Management, automatic generation of getters, setters, equals, hashCode and toString, and more! (https://projectlombok.org/LICENSE)
+License:              MIT License
+License File:         org.projectlombok.lombok.license
+
+org.junit.jupiter.junit-jupiter-api - JUnit Jupiter is the API for writing tests using JUnit 5. (https://www.eclipse.org/legal/epl-v20.html)
+License:              Eclipse Public License v2.0
+License File:         org.junit.jupiter.junit-jupiter-api.license
+
+org.mockito.mockito-junit-jupiter - Mockito JUnit 5 support (https://github.com/mockito/mockito/blob/main/LICENSE)
+License:              MIT License
+License File:         org.mockito.mockito-junit-jupiter.license
