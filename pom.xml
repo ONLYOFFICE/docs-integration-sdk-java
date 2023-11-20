@@ -10,7 +10,7 @@
     <packaging>jar</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
-    <description>Core ONLYOFFICE integration SDK</description>
+    <description>ONLYOFFICE Docs integration SDK</description>
     <url>https://github.com/ONLYOFFICE/onlyoffice-integration-java-sdk</url>
 
     <inceptionYear>2023</inceptionYear>
