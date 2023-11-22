@@ -129,7 +129,6 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
                         String content = IOUtils.toString(((HttpEntity) response).getContent(), "utf-8");
 
                         CommandResponse commandResponse = objectMapper.readValue(content, CommandResponse.class);
-                        System.out.println(commandResponse.getError().getDescription());
 
                         if (commandResponse.getError() != null && commandResponse.getError().equals(
                                 CommandResponse.Error.NO)) {
