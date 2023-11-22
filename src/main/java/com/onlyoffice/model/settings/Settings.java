@@ -18,6 +18,7 @@
 
 package com.onlyoffice.model.settings;
 
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.onlyoffice.model.documenteditor.config.editorconfig.Customization;
@@ -28,6 +29,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -80,4 +83,7 @@ public class Settings {
      * Defines a set of extensions that can be edited with the possible loss of information.
      */
     private Set<String> lossyEdit;
+
+    @JsonAnySetter
+    private Map<String, Object> extra = new HashMap<>();
 }
