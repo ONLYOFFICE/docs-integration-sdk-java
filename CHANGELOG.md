@@ -1,6 +1,6 @@
 # Change Log
 
-##
+## 0.0.1
 ## Added
 - common interfaces (DocumentManager, RequestManager, JwtManager, SettingsManager, UrlManager, ConfigService,
 CallbackService, ConvertService, SettingsValidationService)
