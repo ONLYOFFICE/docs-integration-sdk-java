@@ -278,7 +278,7 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         }
 
         for (Format format : formats) {
-            if (format.getActions().contains("lossy-edit")) {
+            if (format.getActions().contains(SettingsConstants.LOSSY_EDIT)) {
                 result.put(format.getName(), formatsLossyEditList.contains(format.getName()));
             }
         }
