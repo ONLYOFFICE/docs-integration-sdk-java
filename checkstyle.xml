@@ -91,10 +91,10 @@
 
     <!-- Checks for Headers                                -->
     <!-- See https://checkstyle.org/checks/header/index.html   -->
-    <!-- <module name="Header"> -->
-    <!--   <property name="headerFile" value="${checkstyle.header.file}"/> -->
-    <!--   <property name="fileExtensions" value="java"/> -->
-    <!-- </module> -->
+    <module name="Header">
+        <property name="headerFile" value="onlyoffice.header"/>
+        <property name="fileExtensions" value="java"/>
+    </module>
 
     <module name="TreeWalker">
 
