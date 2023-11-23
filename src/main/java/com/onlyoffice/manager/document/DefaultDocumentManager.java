@@ -273,8 +273,6 @@ public abstract class DefaultDocumentManager implements DocumentManager {
                             .replace("]", "")
                             .split(", ")
             );
-        } else {
-            formatsLossyEditList = Arrays.asList("csv", "txt");
         }
 
         for (Format format : formats) {

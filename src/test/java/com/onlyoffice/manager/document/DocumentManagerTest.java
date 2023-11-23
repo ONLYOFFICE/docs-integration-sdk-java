@@ -31,7 +31,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import static org.mockito.Mockito.when;
 
@@ -151,19 +150,6 @@ public class DocumentManagerTest {
         Assertions.assertEquals(
                 true, !documentManager.getDefaultConvertExtension("sample.txt").isEmpty()
         );
-    }
-
-    @Test
-    void getLossyEditableMapTest() {
-        Map<String, Boolean> lossyEditableMap2 = documentManager.getLossyEditableMap();
-
-        for (Map.Entry<String, Boolean> lossyEditable : lossyEditableMap2.entrySet()) {
-            if (lossyEditable.getKey().equals("txt") || lossyEditable.getKey().equals("csv")) {
-                Assertions.assertEquals(true, lossyEditable.getValue());
-            } else {
-                Assertions.assertEquals(false, lossyEditable.getValue());
-            }
-        }
     }
 
     @Test
