@@ -17,9 +17,8 @@
 
     <licenses>
         <license>
-            <name>The Apache Software License, Version 2.0</name>
+            <name>The Apache License, Version 2.0</name>
             <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
         </license>
     </licenses>
 
@@ -40,13 +39,11 @@
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
-            <!-- <url>https://oss.sonatype.org/content/repositories/snapshots/</url> -->
-            <url>${nexus.url}/repository/maven-snapshots/</url> <!-- todo: delete -->
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
         </snapshotRepository>
         <repository>
             <id>ossrh</id>
-            <!-- <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url> -->
-            <url>${nexus.url}/repository/maven-releases/</url> <!-- todo: delete -->
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
 
@@ -54,7 +51,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <nexus.url>http://localhost:8081</nexus.url> <!-- todo: delete -->
     </properties>
 
     <dependencies>
@@ -176,9 +172,7 @@
                 </executions>
                 <configuration>
                     <serverId>ossrh</serverId>
-                    <!-- <nexusUrl>https://oss.sonatype.org/</nexusUrl> -->
-                    <nexusUrl>${nexus.url}/nexus/</nexusUrl> <!-- todo: delete -->
-                    <skipStaging>true</skipStaging> <!-- todo: delete -->
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
             </plugin>
