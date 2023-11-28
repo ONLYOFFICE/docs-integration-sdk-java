@@ -18,6 +18,7 @@
 
 package com.onlyoffice.model.convertservice;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -143,6 +144,7 @@ public class ConvertResponse {
          * @param code The code of the enum constant to be returned.
          * @return The enum constant with the specified code.
          */
+        @JsonCreator
         public static Error valueOfCode(final Integer code) {
             return BY_CODE.get(code);
         }
