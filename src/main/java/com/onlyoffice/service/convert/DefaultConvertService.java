@@ -21,11 +21,13 @@ package com.onlyoffice.service.convert;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onlyoffice.manager.document.DocumentManager;
 import com.onlyoffice.manager.request.RequestManager;
+import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.manager.url.UrlManager;
 import com.onlyoffice.model.common.RequestedService;
 import com.onlyoffice.model.convertservice.ConvertRequest;
 import com.onlyoffice.model.convertservice.ConvertResponse;
 import com.onlyoffice.model.convertservice.convertrequest.Thumbnail;
+import com.onlyoffice.model.settings.HttpClientSettings;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,6 +35,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 
 @AllArgsConstructor
@@ -49,6 +52,10 @@ public class DefaultConvertService implements ConvertService, RequestedService {
     /** {@link RequestManager}. */
     @Getter(AccessLevel.PROTECTED)
     private final RequestManager requestManager;
+
+    /** {@link SettingsManager}. */
+    @Getter(AccessLevel.PROTECTED)
+    private final SettingsManager settingsManager;
 
     /** {@link ObjectMapper}. */
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -91,7 +98,21 @@ public class DefaultConvertService implements ConvertService, RequestedService {
             convertRequest.setThumbnail(thumbnail);
         }
 
-        return requestManager.executePostRequest(this, convertRequest,
+        Integer socketTimeout = (int) TimeUnit.SECONDS.toMillis(
+                Long.parseLong(
+                        settingsManager.getSDKSetting("integration-sdk.service.convert.request.sync.socket.timeout")
+                )
+        );
+
+        HttpClientSettings httpClientSettings = null;
+
+        if (!convertRequest.getAsync()) {
+            httpClientSettings = HttpClientSettings.builder()
+                    .socketTimeout(socketTimeout)
+                    .build();
+        }
+
+        return requestManager.executePostRequest(this, convertRequest, httpClientSettings,
                 new RequestManager.Callback<ConvertResponse>() {
                     public ConvertResponse doWork(final Object response) throws IOException {
                         String content = IOUtils.toString(((HttpEntity) response).getContent(), "utf-8");
