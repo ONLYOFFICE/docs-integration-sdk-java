@@ -84,6 +84,11 @@ public class Settings {
      */
     private Set<String> lossyEdit;
 
+    /**
+     * Specifies if the SSL certificate will be ignored or not.
+     */
+    private String ignoreSSLCertificate;
+
     @JsonAnySetter
     private Map<String, Object> extra = new HashMap<>();
 }

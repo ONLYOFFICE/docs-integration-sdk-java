@@ -28,6 +28,7 @@ import com.onlyoffice.model.commandservice.commandrequest.Command;
 import com.onlyoffice.model.common.CommonResponse;
 import com.onlyoffice.model.convertservice.ConvertRequest;
 import com.onlyoffice.model.convertservice.ConvertResponse;
+import com.onlyoffice.model.settings.HttpClientSettings;
 import com.onlyoffice.model.settings.security.Security;
 import com.onlyoffice.model.settings.validation.ValidationResult;
 import com.onlyoffice.model.settings.validation.status.Status;
@@ -64,24 +65,22 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
 
     @Override
     public ValidationResult checkDocumentServer() throws Exception {
-        Security security = Security.builder()
-                .key(settingsManager.getSecurityKey())
-                .header(settingsManager.getSecurityHeader())
-                .prefix(settingsManager.getSecurityPrefix())
+        HttpClientSettings httpClientSettings = HttpClientSettings.builder()
                 .ignoreSSLCertificate(settingsManager.isIgnoreSSLCertificate())
                 .build();
 
-        return checkDocumentServer(urlManager.getInnerDocumentServerUrl(), security);
+        return checkDocumentServer(urlManager.getInnerDocumentServerUrl(), httpClientSettings);
     }
 
     @Override
-    public ValidationResult checkDocumentServer(final String url, final Security security) throws Exception {
+    public ValidationResult checkDocumentServer(final String url, final HttpClientSettings httpClientSettings)
+            throws Exception {
         String healthCheckUrl = settingsManager.getSDKSetting("integration-sdk.service.health-check.url");
 
         healthCheckUrl = urlManager.sanitizeUrl(url) + healthCheckUrl;
 
         return requestManager.executeGetRequest(healthCheckUrl,
-                security,
+                httpClientSettings,
                 new RequestManager.Callback<ValidationResult>() {
             public ValidationResult doWork(final Object response) throws IOException {
                 String content = IOUtils.toString(((HttpEntity) response).getContent(), "utf-8").trim();
@@ -106,14 +105,18 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
                 .key(settingsManager.getSecurityKey())
                 .header(settingsManager.getSecurityHeader())
                 .prefix(settingsManager.getSecurityPrefix())
+                .build();
+
+        HttpClientSettings httpClientSettings = HttpClientSettings.builder()
                 .ignoreSSLCertificate(settingsManager.isIgnoreSSLCertificate())
                 .build();
 
-        return checkCommandService(url, security);
+        return checkCommandService(url, security, httpClientSettings);
     }
 
     @Override
-    public ValidationResult checkCommandService(final String url, final Security security) throws Exception {
+    public ValidationResult checkCommandService(final String url, final Security security,
+                                                final HttpClientSettings httpClientSettings) throws Exception {
         String commandServiceUrl = settingsManager.getSDKSetting("integration-sdk.service.command.url");
 
         CommandRequest commandRequest = CommandRequest.builder()
@@ -124,6 +127,7 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
                 urlManager.sanitizeUrl(url) + commandServiceUrl,
                 commandRequest,
                 security,
+                httpClientSettings,
                 new RequestManager.Callback<ValidationResult>() {
                     public ValidationResult doWork(final Object response) throws IOException {
                         String content = IOUtils.toString(((HttpEntity) response).getContent(), "utf-8");
@@ -152,15 +156,19 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
                 .key(settingsManager.getSecurityKey())
                 .header(settingsManager.getSecurityHeader())
                 .prefix(settingsManager.getSecurityPrefix())
+                .build();
+
+        HttpClientSettings httpClientSettings = HttpClientSettings.builder()
                 .ignoreSSLCertificate(settingsManager.isIgnoreSSLCertificate())
                 .build();
 
-        return checkConvertService(url, null, security);
+        return checkConvertService(url, null, security, httpClientSettings);
     }
 
 
     @Override
-    public ValidationResult checkConvertService(final String url, final String productInnerUrl, final Security security)
+    public ValidationResult checkConvertService(final String url, final String productInnerUrl, final Security security,
+                                                final HttpClientSettings httpClientSettings)
             throws Exception {
         String convertServiceUrl = settingsManager.getSDKSetting("integration-sdk.service.convert.url");
 
@@ -176,6 +184,7 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
                 urlManager.sanitizeUrl(url) + convertServiceUrl,
                 convertRequest,
                 security,
+                httpClientSettings,
                 new RequestManager.Callback<ValidationResult>() {
                     public ValidationResult doWork(final Object response) throws Exception {
                         String content = IOUtils.toString(((HttpEntity) response).getContent(), "utf-8").trim();
@@ -194,7 +203,7 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
 
                         return requestManager.executeGetRequest(
                                 fileUrl,
-                                security,
+                                httpClientSettings,
                                 new RequestManager.Callback<ValidationResult>() {
                             @Override
                             public ValidationResult doWork(final Object response) throws IOException {

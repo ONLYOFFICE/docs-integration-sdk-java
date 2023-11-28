@@ -105,7 +105,7 @@ public class SettingsManagerTest {
     void isIgnoreSSLCertificateTest() {
         Assertions.assertEquals(false, settingsManager.isIgnoreSSLCertificate());
 
-        settingsManager.setSetting(SettingsConstants.SECURITY_IGNORE_SSL_CERTIFICATE, "true");
+        settingsManager.setSetting(SettingsConstants.HTTP_CLIENT_IGNORE_SSL_CERTIFICATE, "true");
         Assertions.assertEquals(true, settingsManager.isIgnoreSSLCertificate());
 
         settingsManager.enableDemo();

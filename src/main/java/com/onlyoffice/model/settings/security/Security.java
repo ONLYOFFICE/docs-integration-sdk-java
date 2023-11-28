@@ -53,9 +53,4 @@ public class Security {
      * Defines the authorization prefix.
      */
     private String prefix;
-
-    /**
-     * Specifies if the SSL certificate will be ignored or not.
-     */
-    private Boolean ignoreSSLCertificate;
 }

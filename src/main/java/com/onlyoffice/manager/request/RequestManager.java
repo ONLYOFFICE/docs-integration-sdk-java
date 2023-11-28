@@ -20,6 +20,7 @@ package com.onlyoffice.manager.request;
 
 import com.onlyoffice.model.common.RequestEntity;
 import com.onlyoffice.model.common.RequestedService;
+import com.onlyoffice.model.settings.HttpClientSettings;
 import com.onlyoffice.model.settings.security.Security;
 
 
@@ -46,12 +47,12 @@ public interface RequestManager {
      *
      * @param <R> The result type.
      * @param url The URL address to the document server.
-     * @param security The security parameters.
+     * @param httpClientSettings The settings for http client.
      * @param callback The callback method.
      * @return The result of the execution callback method.
      * @throws Exception If the processing fails unexpectedly.
      */
-    <R> R executeGetRequest(String url, Security security, Callback<R> callback)
+    <R> R executeGetRequest(String url, HttpClientSettings httpClientSettings, Callback<R> callback)
             throws Exception;
 
     /**
@@ -78,17 +79,36 @@ public interface RequestManager {
      * The authorization data is passed in the method as the "security" parameter.
      *
      * @param <R> The result type.
-     * @param url The URL address to the document server.
+     * @param requestedService The requested service.
      * @param requestEntity The requested entity.
-     * @param security The security parameters.
+     * @param httpClientSettings The settings for http client.
      * @param callback The callback method.
      * @see RequestEntity
      * @see Security
      * @return The result of the execution callback method.
      * @throws Exception If the processing fails unexpectedly.
      */
-    <R> R executePostRequest(String url, RequestEntity requestEntity, Security security, Callback<R> callback)
-            throws Exception;
+    <R> R executePostRequest(RequestedService requestedService, RequestEntity requestEntity,
+                             HttpClientSettings httpClientSettings, Callback<R> callback) throws Exception;
+
+    /**
+     * Executes a POST request to the url.
+     * The URL to the service is passed in the method.
+     * The authorization data is passed in the method as the "security" parameter.
+     *
+     * @param <R> The result type.
+     * @param url The URL address to the document server.
+     * @param requestEntity The requested entity.
+     * @param security The security parameters.
+     * @param httpClientSettings The settings for http client.
+     * @param callback The callback method.
+     * @see RequestEntity
+     * @see Security
+     * @return The result of the execution callback method.
+     * @throws Exception If the processing fails unexpectedly.
+     */
+    <R> R executePostRequest(String url, RequestEntity requestEntity, Security security,
+                             HttpClientSettings httpClientSettings, Callback<R> callback) throws Exception;
 
     interface Callback<Result> {
 

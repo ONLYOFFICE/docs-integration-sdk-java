@@ -196,9 +196,9 @@ public abstract class DefaultSettingsManager implements SettingsManager {
     @Override
     public Boolean isIgnoreSSLCertificate() {
         if (!isDemoActive()) {
-            String ignoreSSLCertificate = getSetting(SettingsConstants.SECURITY_IGNORE_SSL_CERTIFICATE);
+            String ignoreSSLCertificate = getSetting(SettingsConstants.HTTP_CLIENT_IGNORE_SSL_CERTIFICATE);
             if (ignoreSSLCertificate == null || ignoreSSLCertificate.isEmpty()) {
-                ignoreSSLCertificate =  getSDKSetting("integration-sdk.security.ignore-ssl-certificate");
+                ignoreSSLCertificate =  getSDKSetting("integration-sdk.http.client.ignore-ssl-certificate");
             }
 
             if (ignoreSSLCertificate != null && !ignoreSSLCertificate.isEmpty()) {

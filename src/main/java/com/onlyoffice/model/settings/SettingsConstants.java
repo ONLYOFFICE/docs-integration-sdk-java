@@ -58,7 +58,7 @@ public final class SettingsConstants {
     /**
      * Defines the setting to ignore SSL certificate.
      */
-    public static final String SECURITY_IGNORE_SSL_CERTIFICATE = "security.ignoreSSLCertificate";
+    public static final String HTTP_CLIENT_IGNORE_SSL_CERTIFICATE = "ignoreSSLCertificate";
 
     /**
      * Defines the demo editor.

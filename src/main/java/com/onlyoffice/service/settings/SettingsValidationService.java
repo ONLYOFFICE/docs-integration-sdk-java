@@ -18,6 +18,7 @@
 
 package com.onlyoffice.service.settings;
 
+import com.onlyoffice.model.settings.HttpClientSettings;
 import com.onlyoffice.model.settings.security.Security;
 import com.onlyoffice.model.settings.validation.ValidationResult;
 
@@ -36,12 +37,12 @@ public interface SettingsValidationService {
      * Checks the Document Server by its URL.
      *
      * @param url The URL to the Document Server.
-     * @param security The security parameters.
-     * @see Security
+     * @param httpClientSettings The settings for http client.
+     * @see HttpClientSettings
      * @return The {@link ValidationResult} object.
      * @throws Exception If the processing fails unexpectedly.
      */
-    ValidationResult checkDocumentServer(String url, Security security) throws Exception;
+    ValidationResult checkDocumentServer(String url, HttpClientSettings httpClientSettings) throws Exception;
 
     /**
      * Checks the Command Service.
@@ -56,11 +57,13 @@ public interface SettingsValidationService {
      *
      * @param url The URL to the Document Server.
      * @param security The security parameters.
+     * @param httpClientSettings The settings for http client.
      * @see Security
      * @return The {@link ValidationResult} object.
      * @throws Exception If the processing fails unexpectedly.
      */
-    ValidationResult checkCommandService(String url, Security security) throws Exception;
+    ValidationResult checkCommandService(String url, Security security, HttpClientSettings httpClientSettings)
+            throws Exception;
 
     /**
      * Checks the Convert Service.
@@ -76,9 +79,12 @@ public interface SettingsValidationService {
      * @param url The URL to the Document Server.
      * @param productInnerUrl The internal URL to the integration product.
      * @param security The security parameters.
+     * @param httpClientSettings The settings for http client.
      * @see Security
+     * @see HttpClientSettings
      * @return The {@link ValidationResult} object.
      * @throws Exception If the processing fails unexpectedly.
      */
-    ValidationResult checkConvertService(String url, String productInnerUrl, Security security) throws Exception;
+    ValidationResult checkConvertService(String url, String productInnerUrl, Security security,
+                                         HttpClientSettings httpClientSettings) throws Exception;
 }

@@ -25,6 +25,7 @@ import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.manager.url.UrlManager;
 import com.onlyoffice.model.common.RequestEntity;
 import com.onlyoffice.model.common.RequestedService;
+import com.onlyoffice.model.settings.HttpClientSettings;
 import com.onlyoffice.model.settings.security.Security;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -80,22 +81,20 @@ public class DefaultRequestManager implements RequestManager {
 
     @Override
     public <R> R executeGetRequest(final String url, final Callback<R> callback) throws Exception {
-        Security security = Security.builder()
-                .key(settingsManager.getSecurityKey())
-                .header(settingsManager.getSecurityHeader())
-                .prefix(settingsManager.getSecurityPrefix())
+        HttpClientSettings httpClientSettings = HttpClientSettings.builder()
                 .ignoreSSLCertificate(settingsManager.isIgnoreSSLCertificate())
                 .build();
 
-        return executeGetRequest(url, security, callback);
+        return executeGetRequest(url, httpClientSettings, callback);
     }
 
     @Override
-    public <R> R executeGetRequest(final String url, final Security security, final Callback<R> callback)
+    public <R> R executeGetRequest(final String url, final HttpClientSettings httpClientSettings,
+                                   final Callback<R> callback)
             throws Exception {
         HttpGet httpGet = new HttpGet(url);
 
-        return executeRequest(httpGet, security, callback);
+        return executeRequest(httpGet, httpClientSettings, callback);
     }
 
     @Override
@@ -105,25 +104,41 @@ public class DefaultRequestManager implements RequestManager {
                  .key(settingsManager.getSecurityKey())
                  .header(settingsManager.getSecurityHeader())
                  .prefix(settingsManager.getSecurityPrefix())
-                 .ignoreSSLCertificate(settingsManager.isIgnoreSSLCertificate())
                  .build();
 
          String url = urlManager.getServiceUrl(requestedService);
 
-         return executePostRequest(url, requestEntity, security, callback);
+         return executePostRequest(url, requestEntity, security, null, callback);
+    }
+
+    @Override
+    public <R> R executePostRequest(final RequestedService requestedService, final RequestEntity requestEntity,
+                                    final HttpClientSettings httpClientSettings, final Callback<R> callback)
+            throws Exception {
+        Security security = Security.builder()
+                .key(settingsManager.getSecurityKey())
+                .header(settingsManager.getSecurityHeader())
+                .prefix(settingsManager.getSecurityPrefix())
+                .build();
+
+        String url = urlManager.getServiceUrl(requestedService);
+
+        return executePostRequest(url, requestEntity, security, httpClientSettings, callback);
     }
 
     @Override
     public <R> R executePostRequest(final String url, final RequestEntity requestEntity, final Security security,
-                                    final Callback<R> callback) throws Exception {
+                                    final HttpClientSettings httpClientSettings, final Callback<R> callback)
+            throws Exception {
         HttpPost request = createPostRequest(url, requestEntity, security);
 
-        return executeRequest(request, security, callback);
+        return executeRequest(request, httpClientSettings, callback);
     }
 
-    private <R> R executeRequest(final HttpUriRequest request, final Security security, final Callback<R> callback)
+    private <R> R executeRequest(final HttpUriRequest request, final HttpClientSettings httpClientSettings,
+                                 final Callback<R> callback)
             throws Exception {
-        try (CloseableHttpClient httpClient = getHttpClient(security.getIgnoreSSLCertificate())) {
+        try (CloseableHttpClient httpClient = getHttpClient(httpClientSettings)) {
             try (CloseableHttpResponse response = httpClient.execute(request)) {
                 StatusLine statusLine = response.getStatusLine();
                 if (statusLine == null) {
@@ -192,17 +207,52 @@ public class DefaultRequestManager implements RequestManager {
         return request;
     }
 
-    private CloseableHttpClient getHttpClient(final boolean ignoreSSLCertificate)
+    private CloseableHttpClient getHttpClient(final HttpClientSettings httpClientSettings)
             throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
-        Integer timeout = (int) TimeUnit.SECONDS.toMillis(
+        Boolean ignoreSSLCertificate = settingsManager.isIgnoreSSLCertificate();
+
+        Integer connectionTimeout = (int) TimeUnit.SECONDS.toMillis(
                 Long.parseLong(
-                        settingsManager.getSDKSetting("integration-sdk.request.timeout")
+                        settingsManager.getSDKSetting("integration-sdk.http.client.request.connection.timeout")
                 )
         );
+
+        Integer connectionRequestTimeout = (int) TimeUnit.SECONDS.toMillis(
+                Long.parseLong(
+                        settingsManager.getSDKSetting("integration-sdk.http.client.request.connectionRequest.timeout")
+                )
+        );
+
+        Integer socketTimeout = (int) TimeUnit.SECONDS.toMillis(
+                Long.parseLong(
+                        settingsManager.getSDKSetting("integration-sdk.http.client.request.socket.timeout")
+                )
+        );
+
+        if (httpClientSettings != null) {
+            if (httpClientSettings.getConnectionTimeout() != null) {
+                connectionTimeout = httpClientSettings.getConnectionTimeout();
+            }
+
+            if (httpClientSettings.getConnectionRequestTimeout() != null) {
+                connectionRequestTimeout = httpClientSettings.getConnectionRequestTimeout();
+            }
+
+
+            if (httpClientSettings.getSocketTimeout() != null) {
+                socketTimeout = httpClientSettings.getSocketTimeout();
+            }
+
+            if (httpClientSettings.getIgnoreSSLCertificate() != null) {
+                ignoreSSLCertificate = httpClientSettings.getIgnoreSSLCertificate();
+            }
+        }
+
         RequestConfig config = RequestConfig
                 .custom()
-                .setConnectTimeout(timeout)
-                .setSocketTimeout(timeout)
+                .setConnectTimeout(connectionTimeout)
+                .setConnectionRequestTimeout(connectionRequestTimeout)
+                .setSocketTimeout(socketTimeout)
                 .build();
 
         CloseableHttpClient httpClient;
