@@ -168,16 +168,16 @@ public class DefaultConfigService implements ConfigService {
         }
 
         Customization customization = Customization.builder()
-                .chat(settingsManager.getSettingBoolean("editor.customization.chat", true))
-                .compactHeader(settingsManager.getSettingBoolean("editor.customization.compactHeader", false))
-                .feedback(settingsManager.getSettingBoolean("editor.customization.feedback", false))
-                .forcesave(settingsManager.getSettingBoolean("editor.customization.forcesave", false))
+                .chat(settingsManager.getSettingBoolean("customization.chat", true))
+                .compactHeader(settingsManager.getSettingBoolean("customization.compactHeader", false))
+                .feedback(settingsManager.getSettingBoolean("customization.feedback", false))
+                .forcesave(settingsManager.getSettingBoolean("customization.forcesave", false))
                 .goback(goback)
-                .help(settingsManager.getSettingBoolean("editor.customization.help", true))
-                .toolbarNoTabs(settingsManager.getSettingBoolean("editor.customization.toolbarNoTabs", false))
+                .help(settingsManager.getSettingBoolean("customization.help", true))
+                .toolbarNoTabs(settingsManager.getSettingBoolean("customization.toolbarNoTabs", false))
                 .build();
 
-        String reviewDisplay = settingsManager.getSetting("editor.customization.reviewDisplay");
+        String reviewDisplay = settingsManager.getSetting("customization.review.reviewDisplay");
 
         if (reviewDisplay == null || reviewDisplay.isEmpty()) {
             reviewDisplay = ReviewDisplay.ORIGINAL.name().toLowerCase();
