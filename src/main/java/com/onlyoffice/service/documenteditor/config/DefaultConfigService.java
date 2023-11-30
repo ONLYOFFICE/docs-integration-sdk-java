@@ -180,10 +180,10 @@ public class DefaultConfigService implements ConfigService {
         String reviewDisplay = settingsManager.getSetting("customization.review.reviewDisplay");
 
         if (reviewDisplay == null || reviewDisplay.isEmpty()) {
-            reviewDisplay = ReviewDisplay.ORIGINAL.name().toLowerCase();
+            reviewDisplay = ReviewDisplay.ORIGINAL.name();
         }
 
-        if (!reviewDisplay.equals("original")) {
+        if (!reviewDisplay.equals("ORIGINAL")) {
             Review review = Review.builder()
                     .reviewDisplay(ReviewDisplay.valueOf(reviewDisplay))
                     .build();
