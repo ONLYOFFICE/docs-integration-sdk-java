@@ -42,55 +42,36 @@ DefaultSettingsManager:
 * getSetting(final String name)
 * setSetting(final String name, final String value)
 
-Example
-```
-public class SettingsManagerImpl extends DefaultSettingsManager {
-    private static final String SETTINGS_PREFIX = "onlyoffice.";
-
-    private final PluginSettings pluginSettings;
-
-    public SettingsManagerImpl(final PluginSettingsFactory pluginSettingsFactory) {
-        this.pluginSettings = pluginSettingsFactory.createGlobalSettings();
-    }
-
-    @Override
-    public String getSetting(final String name) {
-        return (String) pluginSettings.get(SETTINGS_PREFIX + name);
-    }
-
-    @Override
-    public void setSetting(final String name, final String value) {
-         pluginSettings.put(SETTINGS_PREFIX + name, value);
-    }
-}
-```
+Example [SettingsManagerImpl](https://github.com/ONLYOFFICE/docs-integration-sdk-java/blob/master/demo-example/src/main/java/com/onlyoffice/demoexample/manager/SettingsManagerImpl.java)
 
 DefaultDocumentManager:
 
-* getSetting(final String name)
-* setSetting(final String name, final String value)
+* getDocumentKey(final  String fileId, final boolean embedded)
+* getDocumentName(final String fileId)
 
-Example
-```
-public class DocumentManagerImpl extends DefaultDocumentManager {
-    private final SettingsManager settingsManager;
+Example [DocumentManagerImpl](https://github.com/ONLYOFFICE/docs-integration-sdk-java/blob/master/demo-example/src/main/java/com/onlyoffice/demoexample/manager/DocumentManagerImpl.java)
 
-    public DocumentManagerImpl(final SettingsManager settingsManager) {
-        super(settingsManager);
-    }
+Next you need to implement UrlManager:
 
-    @Override
-    public String getDocumentKey(final String fileId, final boolean embedded) {
-        String key = fileId;
 
-        return embedded ? key + "_embedded" : key;
-    }
+To open the editor in editing mode, you need to define:
 
-    @Override
-    public String getDocumentName(final String fileId) {
-       FileEntity file = FileManager.getFile(fileId);
-    
-        return file.getName();
-    }
-}
-```
+* getFileUrl(final String fileId)
+* getCallbackUrl(final String fileId)
+
+Example [UrlManagerImpl](https://github.com/ONLYOFFICE/docs-integration-sdk-java/blob/master/demo-example/src/main/java/com/onlyoffice/demoexample/manager/UrlMangerImpl.java)
+
+You also need to add dependencies to your DI container JwtManager and RequestManager:
+
+Example [JwtManager and RequestManager](https://github.com/ONLYOFFICE/docs-integration-sdk-java/blob/master/demo-example/src/main/java/com/onlyoffice/demoexample/DemoExampleApplication.java#L38-L47)
+
+
+After this, you can use all available services in their default implementation or by overriding and extending them.
+
+Example [ConfigServiceImpl](https://github.com/ONLYOFFICE/docs-integration-sdk-java/blob/master/demo-example/src/main/java/com/onlyoffice/demoexample/service/ConfigServiceImpl.java)
+
+Example using [ConfigService](https://github.com/ONLYOFFICE/docs-integration-sdk-java/blob/master/demo-example/src/main/java/com/onlyoffice/demoexample/controllers/MainController.java)
+
+Example [CallbackServiceImpl](https://github.com/ONLYOFFICE/docs-integration-sdk-java/blob/master/demo-example/src/main/java/com/onlyoffice/demoexample/service/CallbackServiceImpl.java)
+
+Example using [CallbackService](https://github.com/ONLYOFFICE/docs-integration-sdk-java/blob/master/demo-example/src/main/java/com/onlyoffice/demoexample/controllers/CallbackController.java)
