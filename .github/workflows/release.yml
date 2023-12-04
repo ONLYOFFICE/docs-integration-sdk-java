@@ -1,0 +1,52 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  artifact:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Get Info
+        run: |
+          echo "version=$(awk '/<version>/,/<\/version>/' pom.xml | head -n 1 | sed 's/^[[:space:]]*//g' | sed -n 's:.*<version>\(.*\)</version>.*:\1:p')" >> $GITHUB_OUTPUT
+          echo "artifact=$(awk '/<artifactId>/,/<\/artifactId>/' pom.xml | head -n 1 | sed 's/^[[:space:]]*//g' | sed -n 's:.*<artifactId>\(.*\)</artifactId>.*:\1:p')" >> $GITHUB_OUTPUT
+        id: info
+      - name: Install Java 11
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+          server-id: ossrh
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
+          gpg-private-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+      - name: Build Artifact
+        run: |
+          cd ${{ github.workspace }}
+          cwd=$(pwd)
+          git submodule update --init --recursive
+          mvn clean package
+          cd ./target
+          mv ${{ steps.info.outputs.artifact }}-${{ steps.info.outputs.version }}.jar $cwd
+      - name: Generate Changelog
+        run: |
+          awk '/## [0-9]/{p++} p; /## [0-9]/{if (p > 1) exit}' CHANGELOG.md | awk 'NR>2 {print last} {last=$0}' > RELEASE.md
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        id: create_release
+        with:
+          artifacts: "${{ steps.info.outputs.artifact }}-${{ steps.info.outputs.version }}.jar"
+          bodyFile: RELEASE.md
+          tag: v${{ steps.info.outputs.version }}
+      - name: Publish to the Maven Central Repository
+        run: |
+          mvn --no-transfer-progress --batch-mode deploy
+        env:
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
