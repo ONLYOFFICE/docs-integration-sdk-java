@@ -274,7 +274,7 @@ public abstract class DefaultSettingsManager implements SettingsManager {
         }
     }
 
-    private static void init() {
+    protected static void init() {
         try {
             properties = new Properties();
             InputStream stream = Thread.currentThread().getContextClassLoader()
@@ -285,7 +285,7 @@ public abstract class DefaultSettingsManager implements SettingsManager {
         }
     }
 
-    private <T> Map<String, String> convertObjectToDotNotationMap(final T object)
+    protected  <T> Map<String, String> convertObjectToDotNotationMap(final T object)
             throws IntrospectionException, InvocationTargetException, IllegalAccessException {
         Class<T> beanClass = (Class<T>) object.getClass();
         BeanInfo beanInfo = Introspector.getBeanInfo(beanClass);
@@ -309,7 +309,7 @@ public abstract class DefaultSettingsManager implements SettingsManager {
         return result;
     }
 
-    private <T> List<String> getNamesSettings(final T object)
+    protected  <T> List<String> getNamesSettings(final T object)
             throws IntrospectionException, InvocationTargetException, IllegalAccessException {
         Class<T> beanClass = (Class<T>) object.getClass();
         BeanInfo beanInfo = Introspector.getBeanInfo(beanClass);
