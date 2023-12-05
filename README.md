@@ -42,14 +42,14 @@ DefaultSettingsManager:
 * getSetting(final String name)
 * setSetting(final String name, final String value)
 
-Example [SettingsManagerImpl](https://github.com/ONLYOFFICE/docs-integration-sdk-java/blob/master/demo-example/src/main/java/com/onlyoffice/demoexample/manager/SettingsManagerImpl.java)
+Example [SettingsManagerImpl](/demo-example/src/main/java/com/onlyoffice/demoexample/manager/SettingsManagerImpl.java)
 
 DefaultDocumentManager:
 
 * getDocumentKey(final  String fileId, final boolean embedded)
 * getDocumentName(final String fileId)
 
-Example [DocumentManagerImpl](https://github.com/ONLYOFFICE/docs-integration-sdk-java/blob/master/demo-example/src/main/java/com/onlyoffice/demoexample/manager/DocumentManagerImpl.java)
+Example [DocumentManagerImpl](/demo-example/src/main/java/com/onlyoffice/demoexample/manager/DocumentManagerImpl.java)
 
 Next you need to implement UrlManager:
 
@@ -59,19 +59,19 @@ To open the editor in editing mode, you need to define:
 * getFileUrl(final String fileId)
 * getCallbackUrl(final String fileId)
 
-Example [UrlManagerImpl](https://github.com/ONLYOFFICE/docs-integration-sdk-java/blob/master/demo-example/src/main/java/com/onlyoffice/demoexample/manager/UrlMangerImpl.java)
+Example [UrlManagerImpl](/demo-example/src/main/java/com/onlyoffice/demoexample/manager/UrlMangerImpl.java)
 
 You also need to add dependencies to your DI container JwtManager and RequestManager:
 
-Example [JwtManager and RequestManager](https://github.com/ONLYOFFICE/docs-integration-sdk-java/blob/master/demo-example/src/main/java/com/onlyoffice/demoexample/DemoExampleApplication.java#L38-L47)
+Example [JwtManager and RequestManager](/demo-example/src/main/java/com/onlyoffice/demoexample/DemoExampleApplication.java#L38-L47)
 
 
 After this, you can use all available services in their default implementation or by overriding and extending them.
 
-Example [ConfigServiceImpl](https://github.com/ONLYOFFICE/docs-integration-sdk-java/blob/master/demo-example/src/main/java/com/onlyoffice/demoexample/service/ConfigServiceImpl.java)
+Example [ConfigServiceImpl](/demo-example/src/main/java/com/onlyoffice/demoexample/service/ConfigServiceImpl.java)
 
-Example using [ConfigService](https://github.com/ONLYOFFICE/docs-integration-sdk-java/blob/master/demo-example/src/main/java/com/onlyoffice/demoexample/controllers/MainController.java)
+Example using [ConfigService](/demo-example/src/main/java/com/onlyoffice/demoexample/controllers/MainController.java)
 
-Example [CallbackServiceImpl](https://github.com/ONLYOFFICE/docs-integration-sdk-java/blob/master/demo-example/src/main/java/com/onlyoffice/demoexample/service/CallbackServiceImpl.java)
+Example [CallbackServiceImpl](/demo-example/src/main/java/com/onlyoffice/demoexample/service/CallbackServiceImpl.java)
 
-Example using [CallbackService](https://github.com/ONLYOFFICE/docs-integration-sdk-java/blob/master/demo-example/src/main/java/com/onlyoffice/demoexample/controllers/CallbackController.java)
+Example using [CallbackService](/demo-example/src/main/java/com/onlyoffice/demoexample/controllers/CallbackController.java)
