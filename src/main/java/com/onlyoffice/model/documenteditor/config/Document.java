@@ -72,6 +72,11 @@ public class Document {
     private String url;
 
     /**
+     * The direct URL.
+     */
+    private String directUrl;
+
+    /**
      * Defines the additional parameters for the document.
      */
     private Info info;

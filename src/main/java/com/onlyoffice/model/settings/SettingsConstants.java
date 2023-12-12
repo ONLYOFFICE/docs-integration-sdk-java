@@ -69,4 +69,9 @@ public final class SettingsConstants {
      * Defines the setting to edit the specified extensions with the possible loss of information.
      */
     public static final String LOSSY_EDIT = "lossyEdit";
+
+    /**
+     * Defines the direct url setting.
+     */
+    public static final String DIRECT_URL = "directUrl";
 }
