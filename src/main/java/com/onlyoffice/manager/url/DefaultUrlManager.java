@@ -193,6 +193,11 @@ public class DefaultUrlManager implements UrlManager {
      }
 
      @Override
+     public String getDirectFileUrl(final String fileId) {
+          return null;
+     }
+
+     @Override
      public String getCallbackUrl(final String fileId) {
           return null;
      }

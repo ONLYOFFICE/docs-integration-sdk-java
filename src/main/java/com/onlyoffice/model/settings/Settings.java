@@ -91,6 +91,11 @@ public class Settings {
      */
     private String ignoreSSLCertificate;
 
+    /**
+     * Specifies whether the direct url is enabled.
+     */
+    private Boolean directUrl;
+
     @JsonAnySetter
     @Builder.Default
     private Map<String, Object> extra = new HashMap<>();

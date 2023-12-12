@@ -41,6 +41,7 @@ import com.onlyoffice.model.documenteditor.config.editorconfig.Mode;
 import com.onlyoffice.model.documenteditor.config.editorconfig.Plugins;
 import com.onlyoffice.model.documenteditor.config.editorconfig.Recent;
 import com.onlyoffice.model.documenteditor.config.editorconfig.Template;
+import com.onlyoffice.model.settings.SettingsConstants;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -107,7 +108,7 @@ public class DefaultConfigService implements ConfigService {
 
         Permissions permissions = getPermissions(fileId);
 
-        return Document.builder()
+        Document document = Document.builder()
                 .fileType(documentManager.getExtension(documentName))
                 .key(documentManager.getDocumentKey(fileId, type.equals(Type.EMBEDDED)))
                 .referenceData(getReferenceData(fileId))
@@ -116,6 +117,12 @@ public class DefaultConfigService implements ConfigService {
                 .info(getInfo(fileId))
                 .permissions(permissions)
                 .build();
+
+        if (settingsManager.getSettingBoolean(SettingsConstants.DIRECT_URL, false)) {
+            document.setDirectUrl(urlManager.getDirectFileUrl(fileId));
+        }
+
+        return document;
     }
 
     @Override

@@ -68,6 +68,14 @@ public interface UrlManager {
      String getFileUrl(String fileId);
 
      /**
+      * Returns the direct URL to download a file with the ID specified in the request.
+      *
+      * @param fileId The file ID.
+      * @return The URL to download a file.
+      */
+     String getDirectFileUrl(String fileId);
+
+     /**
       * Returns the URL to the callback handler.
       *
       * @param fileId The file ID.
