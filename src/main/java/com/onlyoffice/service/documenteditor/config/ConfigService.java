@@ -106,10 +106,12 @@ public interface ConfigService {
     /**
      * Returns the {@link CoEditing} object.
      *
-     * @param object The object.
+     * @param fileId The file ID.
+     * @param mode The editor opening {@link Mode mode}.
+     * @param type The platform {@link Type type} used to access the document.
      * @return The {@link CoEditing} object.
      */
-    CoEditing getCoEditing(Object object);
+    CoEditing getCoEditing(String fileId, Mode mode, Type type);
 
     /**
      * Returns a list of the {@link Recent} objects.
