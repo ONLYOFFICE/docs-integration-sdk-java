@@ -118,7 +118,7 @@ public class DefaultConfigService implements ConfigService {
         Permissions permissions = getPermissions(fileId);
 
         EditorConfig editorConfig = EditorConfig.builder()
-                .coEditing(getCoEditing(null))
+                .coEditing(getCoEditing(fileId, mode, type))
                 .createUrl(urlManager.getCreateUrl(fileId))
                 .mode(mode)
                 .user(getUser())
@@ -155,7 +155,7 @@ public class DefaultConfigService implements ConfigService {
     }
 
     @Override
-    public CoEditing getCoEditing(final Object object) {
+    public CoEditing getCoEditing(final String fileId, final Mode mode, final Type type) {
         return null;
     }
 
