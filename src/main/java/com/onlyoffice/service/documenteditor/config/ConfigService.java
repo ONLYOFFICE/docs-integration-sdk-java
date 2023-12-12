@@ -20,6 +20,8 @@ package com.onlyoffice.service.documenteditor.config;
 
 import com.onlyoffice.model.common.User;
 import com.onlyoffice.model.documenteditor.Config;
+import com.onlyoffice.model.documenteditor.config.Document;
+import com.onlyoffice.model.documenteditor.config.EditorConfig;
 import com.onlyoffice.model.documenteditor.config.document.Info;
 import com.onlyoffice.model.documenteditor.config.document.Permissions;
 import com.onlyoffice.model.documenteditor.config.document.ReferenceData;
@@ -57,6 +59,25 @@ public interface ConfigService {
      * @return The {@link Config} object.
      */
     Config createConfig(String fileId, Mode mode, Type type);
+
+    /**
+     * Returns the {@link Document} object.
+     *
+     * @param fileId The file ID.
+     * @param type The platform {@link Type type} used to access the document.
+     * @return The {@link ReferenceData} object.
+     */
+    Document getDocument(String fileId, Type type);
+
+    /**
+     * Returns the {@link EditorConfig} object.
+     *
+     * @param fileId The file ID.
+     * @param mode The editor opening {@link Mode mode}.
+     * @param type The platform {@link Type type} used to access the document.
+     * @return The {@link EditorConfig} object.
+     */
+    EditorConfig getEditorConfig(String fileId, Mode mode, Type type);
 
     /**
      * Returns the {@link ReferenceData} object.

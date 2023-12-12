@@ -25,6 +25,7 @@ import com.onlyoffice.manager.url.UrlManager;
 import com.onlyoffice.model.common.User;
 import com.onlyoffice.model.documenteditor.Config;
 import com.onlyoffice.model.documenteditor.config.Document;
+import com.onlyoffice.model.documenteditor.config.document.DocumentType;
 import com.onlyoffice.model.documenteditor.config.document.Info;
 import com.onlyoffice.model.documenteditor.config.document.Permissions;
 import com.onlyoffice.model.documenteditor.config.document.ReferenceData;
@@ -75,10 +76,33 @@ public class DefaultConfigService implements ConfigService {
     @Override
     public Config createConfig(final String fileId, final Mode mode, final Type type) {
         String documentName = documentManager.getDocumentName(fileId);
+        DocumentType documentType = documentManager.getDocumentType(documentName);
+        Document document = getDocument(fileId, type);
+        EditorConfig editorConfig = getEditorConfig(fileId, mode, type);
+
+        Config config = Config.builder()
+                .width("100%")
+                .height("100%")
+                .type(type)
+                .documentType(documentType)
+                .document(document)
+                .editorConfig(editorConfig)
+                .build();
+
+        if (settingsManager.isSecurityEnabled()) {
+            config.setToken(jwtManager.createToken(config));
+        }
+
+        return config;
+    }
+
+    @Override
+    public Document getDocument(final String fileId, final Type type) {
+        String documentName = documentManager.getDocumentName(fileId);
 
         Permissions permissions = getPermissions(fileId);
 
-        Document document = Document.builder()
+        return Document.builder()
                 .fileType(documentManager.getExtension(documentName))
                 .key(documentManager.getDocumentKey(fileId, type.equals(Type.EMBEDDED)))
                 .referenceData(getReferenceData(fileId))
@@ -87,7 +111,11 @@ public class DefaultConfigService implements ConfigService {
                 .info(getInfo(fileId))
                 .permissions(permissions)
                 .build();
+    }
 
+    @Override
+    public EditorConfig getEditorConfig(final String fileId, final Mode mode, final Type type) {
+        Permissions permissions = getPermissions(fileId);
 
         EditorConfig editorConfig = EditorConfig.builder()
                 .coEditing(getCoEditing(null))
@@ -108,20 +136,7 @@ public class DefaultConfigService implements ConfigService {
             editorConfig.setEmbedded(getEmbedded(fileId));
         }
 
-        Config config = Config.builder()
-                .width("100%")
-                .height("100%")
-                .type(type)
-                .documentType(documentManager.getDocumentType(documentName))
-                .document(document)
-                .editorConfig(editorConfig)
-                .build();
-
-        if (settingsManager.isSecurityEnabled()) {
-            config.setToken(jwtManager.createToken(config));
-        }
-
-        return config;
+        return editorConfig;
     }
 
     @Override
