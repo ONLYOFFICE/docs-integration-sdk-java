@@ -19,8 +19,10 @@
 package com.onlyoffice.model.documenteditor.config.document.permissions;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -36,8 +38,10 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-public class CommentGroup {
+public class CommentGroups {
 
     /**
      * Defines a list of groups whose comments the user can edit.
