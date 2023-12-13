@@ -87,7 +87,7 @@ public RequestManager requestManager(final UrlManager urlManager, final JwtManag
     return new DefaultRequestManager(urlManager, jwtManager, settingsManager);
 }
 ```
-The full example code can be found [here](/demo-example/src/main/java/com/onlyoffice/demoexample/DemoExampleApplication.java#L38-L47).
+The full example code can be found [here](/demo-example/src/main/java/com/onlyoffice/demoexample/DemoExampleApplication.java).
 
 5. After this, you can use all available services in their default implementations or by overriding and extending them:
 * To use the [callback service](/demo-example/src/main/java/com/onlyoffice/demoexample/service/CallbackServiceImpl.java), create the [callback controller](/demo-example/src/main/java/com/onlyoffice/demoexample/controllers/CallbackController.java) where the request body is wrapped in the *Callback* model and the callback service is called to handle this model.
