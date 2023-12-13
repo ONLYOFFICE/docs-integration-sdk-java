@@ -57,4 +57,9 @@ public class User {
      * Defines the group the user belongs to.
      */
     private String group;
+
+    /**
+     * Defines the user image url.
+     */
+    private String image;
 }
