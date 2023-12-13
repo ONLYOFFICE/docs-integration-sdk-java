@@ -99,6 +99,12 @@ public class Customization {
     private Boolean compactHeader;
 
     /**
+     * Defines if the top toolbar type displayed is full ("false") or compact ("true").
+     * The default value is "false".
+     */
+    private Boolean compactToolbar;
+
+    /**
      * Defines the use of functionality only compatible with the OOXML format.
      * For example, do not use comments on the entire document. The default value is "false".
      */
