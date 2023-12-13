@@ -13,20 +13,20 @@ SDK consists of 5 main managers and 4 services.
 
 | Manager                       | Description                                                             | Default implementation           |
 | ----------------------------- | ----------------------------------------------------------------------- | -------------------------------- |
-| DocumentManager               | This manager is used for working with files and document formats.       | DefaultDocumentManager (abstract)|
-| RequestManager                | This manager is used to make requests to the ONLYOFFICE Document Server.| DefaultRequestManager            |
-| JwtManager                    | This manager is used for generating and verifying authorization tokens. | DefaultJwtManager                |
-| SettingsManager               | This manager is used to manage integration application settings.        | DefaultSettingsManager (abstract)|
-| UrlManager                    | This manager is used as a URL provider.                                 | DefaultUrlManager                |
+| [DocumentManager](/src/main/java/com/onlyoffice/manager/document/DocumentManager.java)| This manager is used for working with files and document formats.| [DefaultDocumentManager](/src/main/java/com/onlyoffice/manager/document/DefaultDocumentManager.java)  (abstract)|
+| [RequestManager](/src/main/java/com/onlyoffice/manager/request/RequestManager.java)| This manager is used to make requests to the ONLYOFFICE Document Server.| [DefaultRequestManager](/src/main/java/com/onlyoffice/manager/request/DefaultRequestManager.java)|
+| [JwtManager](/src/main/java/com/onlyoffice/manager/security/JwtManager.java) | This manager is used for generating and verifying authorization tokens. | [DefaultJwtManager](/src/main/java/com/onlyoffice/manager/security/DefaultJwtManager.java)|
+| [SettingsManager](/src/main/java/com/onlyoffice/manager/settings/SettingsManager.java)| This manager is used to manage integration application settings.| [DefaultSettingsManager](/src/main/java/com/onlyoffice/manager/settings/DefaultSettingsManager.java)  (abstract)|
+| [UrlManager](/src/main/java/com/onlyoffice/manager/url/UrlManager.java) | This manager is used as a URL provider.| [DefaultUrlManager](/src/main/java/com/onlyoffice/manager/url/DefaultUrlManager.java)|
 
 ### Services
 
 | Service                       | Description                                                                   | Default implementation           |
 | ----------------------------- | ----------------------------------------------------------------------------- | -------------------------------- |
-| ConfigService                 | This configuration generation service is used for opening the document editor.| DefaultConfigService             |
-| CallbackService               | This service is used for processing the response of the document server.      | DefaultCallbackService           |
-| ConvertService                | This service is used for converting documents.                                | DefaultConvertService            |
-| SettingsValidationService     | This service is used for checking document server connection settings.        | DefaultSettingsValidationService |
+| [ConfigService](/src/main/java/com/onlyoffice/service/documenteditor/config/ConfigService.java) | This configuration generation service is used for opening the document editor.| [DefaultConfigService](/src/main/java/com/onlyoffice/service/documenteditor/config/DefaultConfigService.java)|
+| [CallbackService](/src/main/java/com/onlyoffice/service/documenteditor/callback/CallbackService.java)| This service is used for processing the response of the document server.| [DefaultCallbackService](/src/main/java/com/onlyoffice/service/documenteditor/callback/DefaultCallbackService.java)|
+| [ConvertService](/src/main/java/com/onlyoffice/service/convert/ConvertService.java)| This service is used for converting documents.| [DefaultConvertService](/src/main/java/com/onlyoffice/service/convert/DefaultConvertService.java)|
+| [SettingsValidationService](/src/main/java/com/onlyoffice/service/settings/SettingsValidationService.java)| This service is used for checking document server connection settings.| [DefaultSettingsValidationService](/src/main/java/com/onlyoffice/service/settings/DefaultSettingsValidationService.java)  |
 
 
 ## Usage
