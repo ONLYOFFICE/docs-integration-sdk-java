@@ -114,4 +114,6 @@ public class Callback {
      * Defines the encrypted signature in the form of a token.
      */
     private String token;
+
+    private String formsdataurl;
 }
