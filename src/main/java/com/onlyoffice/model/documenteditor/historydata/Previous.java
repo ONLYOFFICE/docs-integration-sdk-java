@@ -49,4 +49,9 @@ public class Previous {
      * Defines the url address of the previous version of the document.
      */
     private String url;
+
+    /**
+     * Defines the direct url address of the previous document version.
+     */
+    private String directUrl;
 }
