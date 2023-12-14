@@ -79,6 +79,11 @@ public class HistoryData {
     private String url;
 
     /**
+     * Defines the direct url address of the current document version.
+     */
+    private String directUrl;
+
+    /**
      * Defines the document version number.
      */
     private String version;
