@@ -25,6 +25,7 @@ import com.onlyoffice.manager.url.UrlManager;
 import com.onlyoffice.model.common.User;
 import com.onlyoffice.model.documenteditor.Config;
 import com.onlyoffice.model.documenteditor.config.Document;
+import com.onlyoffice.model.documenteditor.config.document.DocumentType;
 import com.onlyoffice.model.documenteditor.config.document.Info;
 import com.onlyoffice.model.documenteditor.config.document.Permissions;
 import com.onlyoffice.model.documenteditor.config.document.ReferenceData;
@@ -75,10 +76,33 @@ public class DefaultConfigService implements ConfigService {
     @Override
     public Config createConfig(final String fileId, final Mode mode, final Type type) {
         String documentName = documentManager.getDocumentName(fileId);
+        DocumentType documentType = documentManager.getDocumentType(documentName);
+        Document document = getDocument(fileId, type);
+        EditorConfig editorConfig = getEditorConfig(fileId, mode, type);
+
+        Config config = Config.builder()
+                .width("100%")
+                .height("100%")
+                .type(type)
+                .documentType(documentType)
+                .document(document)
+                .editorConfig(editorConfig)
+                .build();
+
+        if (settingsManager.isSecurityEnabled()) {
+            config.setToken(jwtManager.createToken(config));
+        }
+
+        return config;
+    }
+
+    @Override
+    public Document getDocument(final String fileId, final Type type) {
+        String documentName = documentManager.getDocumentName(fileId);
 
         Permissions permissions = getPermissions(fileId);
 
-        Document document = Document.builder()
+        return Document.builder()
                 .fileType(documentManager.getExtension(documentName))
                 .key(documentManager.getDocumentKey(fileId, type.equals(Type.EMBEDDED)))
                 .referenceData(getReferenceData(fileId))
@@ -87,10 +111,14 @@ public class DefaultConfigService implements ConfigService {
                 .info(getInfo(fileId))
                 .permissions(permissions)
                 .build();
+    }
 
+    @Override
+    public EditorConfig getEditorConfig(final String fileId, final Mode mode, final Type type) {
+        Permissions permissions = getPermissions(fileId);
 
         EditorConfig editorConfig = EditorConfig.builder()
-                .coEditing(getCoEditing(null))
+                .coEditing(getCoEditing(fileId, mode, type))
                 .createUrl(urlManager.getCreateUrl(fileId))
                 .mode(mode)
                 .user(getUser())
@@ -108,20 +136,7 @@ public class DefaultConfigService implements ConfigService {
             editorConfig.setEmbedded(getEmbedded(fileId));
         }
 
-        Config config = Config.builder()
-                .width("100%")
-                .height("100%")
-                .type(type)
-                .documentType(documentManager.getDocumentType(documentName))
-                .document(document)
-                .editorConfig(editorConfig)
-                .build();
-
-        if (settingsManager.isSecurityEnabled()) {
-            config.setToken(jwtManager.createToken(config));
-        }
-
-        return config;
+        return editorConfig;
     }
 
     @Override
@@ -140,7 +155,7 @@ public class DefaultConfigService implements ConfigService {
     }
 
     @Override
-    public CoEditing getCoEditing(final Object object) {
+    public CoEditing getCoEditing(final String fileId, final Mode mode, final Type type) {
         return null;
     }
 
@@ -168,22 +183,22 @@ public class DefaultConfigService implements ConfigService {
         }
 
         Customization customization = Customization.builder()
-                .chat(settingsManager.getSettingBoolean("editor.customization.chat", true))
-                .compactHeader(settingsManager.getSettingBoolean("editor.customization.compactHeader", false))
-                .feedback(settingsManager.getSettingBoolean("editor.customization.feedback", false))
-                .forcesave(settingsManager.getSettingBoolean("editor.customization.forcesave", false))
+                .chat(settingsManager.getSettingBoolean("customization.chat", true))
+                .compactHeader(settingsManager.getSettingBoolean("customization.compactHeader", false))
+                .feedback(settingsManager.getSettingBoolean("customization.feedback", false))
+                .forcesave(settingsManager.getSettingBoolean("customization.forcesave", false))
                 .goback(goback)
-                .help(settingsManager.getSettingBoolean("editor.customization.help", true))
-                .toolbarNoTabs(settingsManager.getSettingBoolean("editor.customization.toolbarNoTabs", false))
+                .help(settingsManager.getSettingBoolean("customization.help", true))
+                .toolbarNoTabs(settingsManager.getSettingBoolean("customization.toolbarNoTabs", false))
                 .build();
 
-        String reviewDisplay = settingsManager.getSetting("editor.customization.reviewDisplay");
+        String reviewDisplay = settingsManager.getSetting("customization.review.reviewDisplay");
 
         if (reviewDisplay == null || reviewDisplay.isEmpty()) {
-            reviewDisplay = ReviewDisplay.ORIGINAL.name().toLowerCase();
+            reviewDisplay = ReviewDisplay.ORIGINAL.name();
         }
 
-        if (!reviewDisplay.equals("original")) {
+        if (!reviewDisplay.equals("ORIGINAL")) {
             Review review = Review.builder()
                     .reviewDisplay(ReviewDisplay.valueOf(reviewDisplay))
                     .build();

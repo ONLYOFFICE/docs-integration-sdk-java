@@ -19,7 +19,7 @@
 package com.onlyoffice.model.documenteditor.config.document;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.onlyoffice.model.documenteditor.config.document.permissions.CommentGroup;
+import com.onlyoffice.model.documenteditor.config.document.permissions.CommentGroups;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -59,7 +59,7 @@ public class Permissions {
      * If the value is [], the user cannot edit/remove/view comments made by any group. If the "edit", "remove" and
      * "view" parameters are "" or not specified, then the user can view/edit/remove comments made by any user.
      */
-    private List<CommentGroup> commentGroups;
+    private CommentGroups commentGroups;
 
     /**
      * Defines if the content can be copied to the clipboard or not.

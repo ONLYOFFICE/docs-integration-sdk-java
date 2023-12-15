@@ -65,6 +65,11 @@ public class DefaultUrlManager implements UrlManager {
      }
 
      @Override
+     public String getDocumentServerPreloaderApiUrl() {
+          return getDocumentServerUrl() + settingsManager.getSDKSetting("integration-sdk.api.preloader.url");
+     }
+
+     @Override
      public String getServiceUrl(final RequestedService requestedService) {
           String serviceName = requestedService
                   .getClass()

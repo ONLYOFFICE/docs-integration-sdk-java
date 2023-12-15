@@ -106,7 +106,7 @@ public class DefaultConvertService implements ConvertService, RequestedService {
 
         HttpClientSettings httpClientSettings = null;
 
-        if (!convertRequest.getAsync()) {
+        if (convertRequest.getAsync() == null || !convertRequest.getAsync()) {
             httpClientSettings = HttpClientSettings.builder()
                     .socketTimeout(socketTimeout)
                     .build();
