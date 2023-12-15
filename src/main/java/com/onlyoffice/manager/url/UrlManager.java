@@ -45,6 +45,13 @@ public interface UrlManager {
      String getDocumentServerApiUrl();
 
      /**
+      * Returns the URL to the Document Server Preloader API.
+      *
+      * @return The URL to the Document Server Preloader API.
+      */
+     String getDocumentServerPreloaderApiUrl();
+
+     /**
       * Returns the URL to download a file with the ID specified in the request.
       *
       * @param fileId The file ID.
