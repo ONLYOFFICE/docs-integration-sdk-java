@@ -100,6 +100,14 @@ public interface UrlManager {
      String sanitizeUrl(String url);
 
      /**
+      * Replaces the internal URL from the Document Server with the Document Server URL.
+      *
+      * @param url The internal URL from the Document Server.
+      * @return The URL start with Document Server URL.
+      */
+     String replaceToDocumentServerUrl(final String url);
+
+     /**
       * Replaces the URL to the Document Server with the internal one.
       *
       * @param url The URL to the Document Server.
