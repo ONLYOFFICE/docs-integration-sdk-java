@@ -286,13 +286,10 @@ public abstract class DefaultDocumentManager implements DocumentManager {
 
     @Override
     public List<String> getInsertImageExtensions() {
-        String insertImage = settingsManager.getSDKSetting("integration-sdk.data.formats.insert-image");
-
-        if (insertImage != null && !insertImage.isEmpty()) {
-            return Arrays.asList(insertImage.split("\\|"));
-        }
-
-        return null;
+        return settingsManager.getDocsIntegrationSdkProperties()
+                .getDocumentServer()
+                .getEditingService()
+                .getInsertImage();
     }
 
     @Override
@@ -325,26 +322,20 @@ public abstract class DefaultDocumentManager implements DocumentManager {
 
     @Override
     public long getMaxFileSize() {
-        long size;
-        try {
-            String filesizeMax = settingsManager.getSDKSetting("integration-sdk.data.filesize.editing.max");
-            size = Long.parseLong(filesizeMax);
-        } catch (Exception ex) {
-            size = 0;
-        }
+        long size = settingsManager.getDocsIntegrationSdkProperties()
+                    .getDocumentServer()
+                    .getEditingService()
+                    .getMaxFileSize();
 
         return size > 0 ? size : DEFAULT_MAX_FILE_SIZE;
     }
 
     @Override
     public long getMaxConversionFileSize() {
-        long size;
-        try {
-            String filesizeMax = settingsManager.getSDKSetting("integration-sdk.data.filesize.conversion.max");
-            size = Long.parseLong(filesizeMax);
-        } catch (Exception ex) {
-            size = 0;
-        }
+        long size = settingsManager.getDocsIntegrationSdkProperties()
+                .getDocumentServer()
+                .getConvertService()
+                .getMaxFileSize();
 
         return size > 0 ? size : DEFAULT_MAX_FILE_SIZE;
     }

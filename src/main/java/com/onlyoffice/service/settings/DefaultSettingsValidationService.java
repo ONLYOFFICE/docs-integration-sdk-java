@@ -75,7 +75,9 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
     @Override
     public ValidationResult checkDocumentServer(final String url, final HttpClientSettings httpClientSettings)
             throws Exception {
-        String healthCheckUrl = settingsManager.getSDKSetting("integration-sdk.service.health-check.url");
+        String healthCheckUrl = settingsManager.getDocsIntegrationSdkProperties()
+                .getDocumentServer()
+                .getHealthCheckUrl();
 
         healthCheckUrl = urlManager.sanitizeUrl(url) + healthCheckUrl;
 
@@ -117,7 +119,10 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
     @Override
     public ValidationResult checkCommandService(final String url, final Security security,
                                                 final HttpClientSettings httpClientSettings) throws Exception {
-        String commandServiceUrl = settingsManager.getSDKSetting("integration-sdk.service.command.url");
+        String commandServiceUrl = settingsManager.getDocsIntegrationSdkProperties()
+                .getDocumentServer()
+                .getCommandService()
+                .getUrl();
 
         CommandRequest commandRequest = CommandRequest.builder()
                 .c(Command.VERSION)
@@ -170,7 +175,10 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
     public ValidationResult checkConvertService(final String url, final String productInnerUrl, final Security security,
                                                 final HttpClientSettings httpClientSettings)
             throws Exception {
-        String convertServiceUrl = settingsManager.getSDKSetting("integration-sdk.service.convert.url");
+        String convertServiceUrl = settingsManager.getDocsIntegrationSdkProperties()
+                .getDocumentServer()
+                .getConvertService()
+                .getUrl();
 
         ConvertRequest convertRequest = ConvertRequest.builder()
                 .async(false)

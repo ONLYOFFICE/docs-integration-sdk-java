@@ -28,6 +28,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,6 +45,7 @@ import java.util.Set;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonIgnoreProperties(ignoreUnknown = true)
+@FieldNameConstants
 public class Settings {
 
     /**

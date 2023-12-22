@@ -222,7 +222,10 @@ public class DefaultConfigService implements ConfigService {
     @Override
     public Type getType(final String userAgent) {
         Pattern pattern = Pattern.compile(
-                settingsManager.getSDKSetting("integration-sdk.mobile.user-agent"),
+                settingsManager.getDocsIntegrationSdkProperties()
+                        .getDocumentServer()
+                        .getEditingService()
+                        .getMobileUserAgent(),
                 Pattern.CASE_INSENSITIVE | Pattern.MULTILINE
         );
 

@@ -143,7 +143,7 @@ public class DefaultRequestManager implements RequestManager {
                 StatusLine statusLine = response.getStatusLine();
                 if (statusLine == null) {
                     throw new ClientProtocolException(
-                            settingsManager.getSDKSetting("integration-sdk.product.name")
+                            settingsManager.getDocsIntegrationSdkProperties().getProduct().getName()
                                     + " URL: " + request.getURI() + " did not return a response.\n"
                                     + "Request: " + request.toString() + "\n"
                                     + "Response: " + response
@@ -153,7 +153,7 @@ public class DefaultRequestManager implements RequestManager {
                 HttpEntity resEntity = response.getEntity();
                 if (resEntity == null) {
                     throw new ClientProtocolException(
-                            settingsManager.getSDKSetting("integration-sdk.product.name")
+                            settingsManager.getDocsIntegrationSdkProperties().getProduct().getName()
                                     + " URL: " + request.getURI() + " did not return content.\n"
                                     + "Request: " + request.toString() + "\n"
                                     + "Response: " + response
@@ -163,7 +163,7 @@ public class DefaultRequestManager implements RequestManager {
                 int statusCode = statusLine.getStatusCode();
                 if (statusCode != HttpStatus.SC_OK) {
                     throw new ClientProtocolException(
-                            settingsManager.getSDKSetting("integration-sdk.product.name")
+                            settingsManager.getDocsIntegrationSdkProperties().getProduct().getName()
                                     + " URL: " + request.getURI() + " return unexpected response.\n"
                                     + "Request: " + request.toString() + "\n"
                                     + "Response: " + response.toString()
@@ -212,21 +212,21 @@ public class DefaultRequestManager implements RequestManager {
         Boolean ignoreSSLCertificate = settingsManager.isIgnoreSSLCertificate();
 
         Integer connectionTimeout = (int) TimeUnit.SECONDS.toMillis(
-                Long.parseLong(
-                        settingsManager.getSDKSetting("integration-sdk.http.client.request.connection.timeout")
-                )
+                settingsManager.getDocsIntegrationSdkProperties()
+                        .getHttpClient()
+                        .getConnectionTimeout()
         );
 
         Integer connectionRequestTimeout = (int) TimeUnit.SECONDS.toMillis(
-                Long.parseLong(
-                        settingsManager.getSDKSetting("integration-sdk.http.client.request.connectionRequest.timeout")
-                )
+                settingsManager.getDocsIntegrationSdkProperties()
+                        .getHttpClient()
+                        .getConnectionRequestTimeout()
         );
 
         Integer socketTimeout = (int) TimeUnit.SECONDS.toMillis(
-                Long.parseLong(
-                        settingsManager.getSDKSetting("integration-sdk.http.client.request.socket.timeout")
-                )
+                settingsManager.getDocsIntegrationSdkProperties()
+                        .getHttpClient()
+                        .getSocketTimeout()
         );
 
         if (httpClientSettings != null) {

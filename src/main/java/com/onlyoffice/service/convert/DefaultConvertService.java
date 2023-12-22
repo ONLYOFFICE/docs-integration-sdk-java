@@ -99,9 +99,10 @@ public class DefaultConvertService implements ConvertService, RequestedService {
         }
 
         Integer socketTimeout = (int) TimeUnit.SECONDS.toMillis(
-                Long.parseLong(
-                        settingsManager.getSDKSetting("integration-sdk.service.convert.request.sync.socket.timeout")
-                )
+                settingsManager.getDocsIntegrationSdkProperties()
+                        .getDocumentServer()
+                        .getConvertService()
+                        .getSyncSocketTimeout()
         );
 
         HttpClientSettings httpClientSettings = null;
