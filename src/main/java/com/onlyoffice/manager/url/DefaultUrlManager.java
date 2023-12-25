@@ -95,6 +95,18 @@ public class DefaultUrlManager implements UrlManager {
      }
 
      @Override
+     public String replaceToDocumentServerUrl(final String url) {
+          String documentServerUrl = getDocumentServerUrl();
+          String innerDocumentServerUrl = getInnerDocumentServerUrl();
+
+          if (!documentServerUrl.equals(innerDocumentServerUrl)) {
+               return url.replace(innerDocumentServerUrl, documentServerUrl);
+          }
+
+          return url;
+     }
+
+     @Override
      public String replaceToInnerDocumentServerUrl(final String url) {
           String documentServerUrl = getDocumentServerUrl();
           String innerDocumentServerUrl = getInnerDocumentServerUrl();
