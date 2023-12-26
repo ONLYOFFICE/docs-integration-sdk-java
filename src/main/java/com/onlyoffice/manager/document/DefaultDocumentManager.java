@@ -19,6 +19,7 @@
 package com.onlyoffice.manager.document;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.model.documenteditor.config.document.DocumentType;
@@ -300,7 +301,7 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         List<String> result = new ArrayList<>();
 
         for (Format format : supportedFormats) {
-            if (format.getType().equals(DocumentType.WORD)) {
+            if (DocumentType.WORD.equals(format.getType())) {
                 result.add(format.getName());
             }
         }
@@ -314,7 +315,7 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         List<String> result = new ArrayList<>();
 
         for (Format format : supportedFormats) {
-            if (format.getType().equals(DocumentType.CELL)) {
+            if (DocumentType.CELL.equals(format.getType())) {
                 result.add(format.getName());
             }
         }
@@ -350,7 +351,8 @@ public abstract class DefaultDocumentManager implements DocumentManager {
                 .getContextClassLoader()
                 .getResourceAsStream("assets/document-formats/onlyoffice-docs-formats.json");
         try {
-            formats = objectMapper.readValue(inputStream, new TypeReference<List<Format>>() { });
+            formats = objectMapper.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true)
+                    .readValue(inputStream, new TypeReference<List<Format>>() { });
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
