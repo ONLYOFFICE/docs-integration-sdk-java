@@ -105,7 +105,7 @@ public interface UrlManager {
       * @param url The internal URL from the Document Server.
       * @return The URL start with Document Server URL.
       */
-     String replaceToDocumentServerUrl(final String url);
+     String replaceToDocumentServerUrl(String url);
 
      /**
       * Replaces the URL to the Document Server with the internal one.
