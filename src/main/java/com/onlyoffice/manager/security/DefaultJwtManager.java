@@ -77,7 +77,10 @@ public class DefaultJwtManager implements JwtManager {
         Base64.Decoder decoder = Base64.getUrlDecoder();
 
         DecodedJWT jwt = JWT.require(algorithm)
-                .acceptLeeway(Long.parseLong(settingsManager.getSDKSetting("integration-sdk.security.leeway")))
+                .acceptLeeway(settingsManager.getDocsIntegrationSdkProperties()
+                        .getDocumentServer()
+                        .getSecurity()
+                        .getLeeway())
                 .build()
                 .verify(token);
 

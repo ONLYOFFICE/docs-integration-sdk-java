@@ -20,12 +20,18 @@ package com.onlyoffice.manager.url;
 
 import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.model.common.RequestedService;
+import com.onlyoffice.model.properties.docsintegrationsdk.DocumentServerProperties;
 import com.onlyoffice.model.settings.SettingsConstants;
+import com.onlyoffice.utils.ConfigurationUtils;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.text.MessageFormat;
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
 
 
 @AllArgsConstructor
@@ -38,7 +44,7 @@ public class DefaultUrlManager implements UrlManager {
      @Override
      public String getDocumentServerUrl() {
          if (settingsManager.isDemoActive()) {
-              return sanitizeUrl(settingsManager.getSDKSetting("integration-sdk.demo.url"));
+              return sanitizeUrl(ConfigurationUtils.getDemoDocumentServerProperties().getUrl());
          } else {
               return sanitizeUrl(settingsManager.getSetting(SettingsConstants.URL));
          }
@@ -47,7 +53,7 @@ public class DefaultUrlManager implements UrlManager {
      @Override
      public String getInnerDocumentServerUrl() {
           if (settingsManager.isDemoActive()) {
-               return sanitizeUrl(settingsManager.getSDKSetting("integration-sdk.demo.url"));
+               return sanitizeUrl(ConfigurationUtils.getDemoDocumentServerProperties().getUrl());
           } else {
                String documentServerInnerUrl = settingsManager.getSetting(SettingsConstants.INNER_URL);
 
@@ -61,26 +67,66 @@ public class DefaultUrlManager implements UrlManager {
 
      @Override
      public String getDocumentServerApiUrl() {
-          return getDocumentServerUrl() + settingsManager.getSDKSetting("integration-sdk.api.url");
+          return getDocumentServerUrl() + settingsManager.getDocsIntegrationSdkProperties()
+                  .getDocumentServer()
+                  .getApiUrl();
      }
 
      @Override
      public String getDocumentServerPreloaderApiUrl() {
-          return getDocumentServerUrl() + settingsManager.getSDKSetting("integration-sdk.api.preloader.url");
+          return getDocumentServerUrl() + settingsManager.getDocsIntegrationSdkProperties()
+                  .getDocumentServer()
+                  .getApiPreloaderUrl();
      }
 
      @Override
      public String getServiceUrl(final RequestedService requestedService) {
+          String serviceUrl = null;
+
+          if (requestedService == null) {
+               return null;
+          }
+
           String serviceName = requestedService
                   .getClass()
                   .getInterfaces()[0]
                   .getSimpleName()
-                  .replaceAll("Service", "")
                   .toLowerCase();
 
-          String serviceUrl = settingsManager.getSDKSetting(
-                  MessageFormat.format("integration-sdk.service.{0}.url", serviceName)
-          );
+          DocumentServerProperties documentServerProperties = settingsManager.getDocsIntegrationSdkProperties()
+                  .getDocumentServer();
+
+          try {
+               Object serviceProperties = null;
+
+               BeanInfo beanInfo = Introspector.getBeanInfo(documentServerProperties.getClass());
+               for (PropertyDescriptor propertyDescriptor : beanInfo.getPropertyDescriptors()) {
+                    if (propertyDescriptor.getName().toLowerCase().equals(serviceName)) {
+                         serviceProperties = propertyDescriptor.getReadMethod().invoke(documentServerProperties);
+                    }
+               }
+
+               if (serviceProperties == null) {
+                    return null;
+               }
+
+               beanInfo = Introspector.getBeanInfo(serviceProperties.getClass());
+               for (PropertyDescriptor propertyDescriptor : beanInfo.getPropertyDescriptors()) {
+                    if (propertyDescriptor.getName().equals("url")) {
+                         serviceUrl = propertyDescriptor.getReadMethod().invoke(serviceProperties).toString();
+                    }
+               }
+          } catch (IntrospectionException e) {
+               throw new RuntimeException(e);
+          } catch (InvocationTargetException e) {
+               throw new RuntimeException(e);
+          } catch (IllegalAccessException e) {
+               throw new RuntimeException(e);
+          }
+
+          if (serviceUrl == null) {
+               return null;
+          }
 
           return getInnerDocumentServerUrl() + serviceUrl;
      }
