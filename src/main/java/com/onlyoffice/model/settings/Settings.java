@@ -92,5 +92,6 @@ public class Settings {
     private String ignoreSSLCertificate;
 
     @JsonAnySetter
+    @Builder.Default
     private Map<String, Object> extra = new HashMap<>();
 }
