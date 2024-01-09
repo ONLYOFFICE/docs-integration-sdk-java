@@ -31,6 +31,7 @@ import com.onlyoffice.model.settings.HttpClientSettings;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import java.io.IOException;
@@ -43,19 +44,23 @@ public class DefaultConvertService implements ConvertService, RequestedService {
 
     /** {@link DocumentManager}. */
     @Getter(AccessLevel.PROTECTED)
-    private final DocumentManager documentManager;
+    @Setter(AccessLevel.PROTECTED)
+    private DocumentManager documentManager;
 
     /** {@link UrlManager}. */
     @Getter(AccessLevel.PROTECTED)
-    private final UrlManager urlManager;
+    @Setter(AccessLevel.PROTECTED)
+    private UrlManager urlManager;
 
     /** {@link RequestManager}. */
     @Getter(AccessLevel.PROTECTED)
-    private final RequestManager requestManager;
+    @Setter(AccessLevel.PROTECTED)
+    private RequestManager requestManager;
 
     /** {@link SettingsManager}. */
     @Getter(AccessLevel.PROTECTED)
-    private final SettingsManager settingsManager;
+    @Setter(AccessLevel.PROTECTED)
+    private SettingsManager settingsManager;
 
     /** {@link ObjectMapper}. */
     private final ObjectMapper objectMapper = new ObjectMapper();

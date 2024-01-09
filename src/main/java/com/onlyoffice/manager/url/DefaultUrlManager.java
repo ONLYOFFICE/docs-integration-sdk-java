@@ -26,6 +26,7 @@ import com.onlyoffice.utils.ConfigurationUtils;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
@@ -39,7 +40,8 @@ public class DefaultUrlManager implements UrlManager {
 
      /** {@link SettingsManager}. */
      @Getter(AccessLevel.PROTECTED)
-     private final SettingsManager settingsManager;
+     @Setter(AccessLevel.PROTECTED)
+     private SettingsManager settingsManager;
 
      @Override
      public String getDocumentServerUrl() {

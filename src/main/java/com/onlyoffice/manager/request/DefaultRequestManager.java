@@ -30,6 +30,7 @@ import com.onlyoffice.model.settings.security.Security;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
@@ -66,15 +67,18 @@ public class DefaultRequestManager implements RequestManager {
 
     /** {@link UrlManager}. */
     @Getter(AccessLevel.PROTECTED)
-    private final UrlManager urlManager;
+    @Setter(AccessLevel.PROTECTED)
+    private UrlManager urlManager;
 
     /** {@link JwtManager}. */
     @Getter(AccessLevel.PROTECTED)
-    private final JwtManager jwtManager;
+    @Setter(AccessLevel.PROTECTED)
+    private JwtManager jwtManager;
 
     /** {@link SettingsManager}. */
     @Getter(AccessLevel.PROTECTED)
-    private final SettingsManager settingsManager;
+    @Setter(AccessLevel.PROTECTED)
+    private SettingsManager settingsManager;
 
     /** {@link ObjectMapper}. */
     private final ObjectMapper objectMapper = new ObjectMapper();
