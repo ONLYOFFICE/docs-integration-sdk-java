@@ -18,6 +18,7 @@
 
 package com.onlyoffice.manager.settings;
 
+import com.onlyoffice.model.properties.DocsIntegrationSdkProperties;
 import com.onlyoffice.model.settings.Settings;
 
 import java.beans.IntrospectionException;
@@ -78,12 +79,11 @@ public interface SettingsManager {
     Boolean getSettingBoolean(String name, Boolean defaultValue);
 
     /**
-     * Returns a value of the setting with the name specified in the request from the "settings.properties" file.
+     * Returns Docs Integration SDK Properties.
      *
-     * @param name The setting name.
-     * @return The setting value.
+     * @return The object {@link DocsIntegrationSdkProperties}.
      */
-    String getSDKSetting(String name);
+    DocsIntegrationSdkProperties getDocsIntegrationSdkProperties();
 
     /**
      * Checks whether JWT validation is enabled.

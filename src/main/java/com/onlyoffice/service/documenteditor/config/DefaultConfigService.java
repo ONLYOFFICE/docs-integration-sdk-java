@@ -45,6 +45,7 @@ import com.onlyoffice.model.settings.SettingsConstants;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -55,19 +56,23 @@ public class DefaultConfigService implements ConfigService {
 
     /** {@link DocumentManager}. */
     @Getter(AccessLevel.PROTECTED)
-    private final DocumentManager documentManager;
+    @Setter(AccessLevel.PROTECTED)
+    private DocumentManager documentManager;
 
     /** {@link UrlManager}. */
     @Getter(AccessLevel.PROTECTED)
-    private final UrlManager urlManager;
+    @Setter(AccessLevel.PROTECTED)
+    private UrlManager urlManager;
 
     /** {@link JwtManager}. */
     @Getter(AccessLevel.PROTECTED)
-    private final JwtManager jwtManager;
+    @Setter(AccessLevel.PROTECTED)
+    private JwtManager jwtManager;
 
     /** {@link SettingsManager}. */
     @Getter(AccessLevel.PROTECTED)
-    private final SettingsManager settingsManager;
+    @Setter(AccessLevel.PROTECTED)
+    private SettingsManager settingsManager;
 
     @Override
     public Config createConfig(final String fileId, final Mode mode, final String userAgent) {
@@ -229,7 +234,10 @@ public class DefaultConfigService implements ConfigService {
     @Override
     public Type getType(final String userAgent) {
         Pattern pattern = Pattern.compile(
-                settingsManager.getSDKSetting("integration-sdk.mobile.user-agent"),
+                settingsManager.getDocsIntegrationSdkProperties()
+                        .getDocumentServer()
+                        .getEditingService()
+                        .getMobileUserAgent(),
                 Pattern.CASE_INSENSITIVE | Pattern.MULTILINE
         );
 

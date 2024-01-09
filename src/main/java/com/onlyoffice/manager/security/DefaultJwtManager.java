@@ -26,6 +26,7 @@ import com.onlyoffice.manager.settings.SettingsManager;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Base64;
 import java.util.Map;
@@ -36,7 +37,8 @@ public class DefaultJwtManager implements JwtManager {
 
     /** {@link SettingsManager}. */
     @Getter(AccessLevel.PROTECTED)
-    private final SettingsManager settingsManager;
+    @Setter(AccessLevel.PROTECTED)
+    private SettingsManager settingsManager;
 
     /** {@link ObjectMapper}. */
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -77,7 +79,10 @@ public class DefaultJwtManager implements JwtManager {
         Base64.Decoder decoder = Base64.getUrlDecoder();
 
         DecodedJWT jwt = JWT.require(algorithm)
-                .acceptLeeway(Long.parseLong(settingsManager.getSDKSetting("integration-sdk.security.leeway")))
+                .acceptLeeway(settingsManager.getDocsIntegrationSdkProperties()
+                        .getDocumentServer()
+                        .getSecurity()
+                        .getLeeway())
                 .build()
                 .verify(token);
 

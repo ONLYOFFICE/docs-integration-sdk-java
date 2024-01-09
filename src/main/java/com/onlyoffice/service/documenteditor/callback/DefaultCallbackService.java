@@ -26,6 +26,7 @@ import com.onlyoffice.model.documenteditor.Callback;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import org.json.JSONObject;
 
 
@@ -34,11 +35,13 @@ public class DefaultCallbackService implements CallbackService {
 
     /** {@link JwtManager}. */
     @Getter(AccessLevel.PROTECTED)
-    private final JwtManager jwtManager;
+    @Setter(AccessLevel.PROTECTED)
+    private JwtManager jwtManager;
 
     /** {@link SettingsManager}. */
     @Getter(AccessLevel.PROTECTED)
-    private final SettingsManager settingsManager;
+    @Setter(AccessLevel.PROTECTED)
+    private SettingsManager settingsManager;
 
     /** {@link ObjectMapper}. */
     private final ObjectMapper objectMapper = new ObjectMapper();

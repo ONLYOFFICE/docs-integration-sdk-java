@@ -20,6 +20,7 @@ package com.onlyoffice.manager.document;
 
 import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.model.documenteditor.config.document.DocumentType;
+import com.onlyoffice.utils.ConfigurationUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -154,7 +155,9 @@ public class DocumentManagerTest {
 
     @Test
     void getInsertImageExtensionsTest() {
-        when(settingsManager.getSDKSetting("integration-sdk.data.formats.insert-image")).thenReturn("png|jpg");
+        when(settingsManager.getDocsIntegrationSdkProperties()).thenReturn(
+                ConfigurationUtils.getDocsIntegrationSdkProperties()
+        );
         List<String> insertImageExtensions = documentManager.getInsertImageExtensions();
 
         Assertions.assertEquals(true, insertImageExtensions.contains("png"));
@@ -177,7 +180,9 @@ public class DocumentManagerTest {
 
     @Test
     void getMaxFileSizeTest() {
-        when(settingsManager.getSDKSetting("integration-sdk.data.filesize.editing.max")).thenReturn("104857600");
+        when(settingsManager.getDocsIntegrationSdkProperties()).thenReturn(
+                ConfigurationUtils.getDocsIntegrationSdkProperties()
+        );
         Long maxFileSize = documentManager.getMaxFileSize();
 
         Assertions.assertEquals(104857600L, maxFileSize);
@@ -185,7 +190,9 @@ public class DocumentManagerTest {
 
     @Test
     void getMaxConversionFileSizeTest() {
-        when(settingsManager.getSDKSetting("integration-sdk.data.filesize.conversion.max")).thenReturn("104857600");
+        when(settingsManager.getDocsIntegrationSdkProperties()).thenReturn(
+                ConfigurationUtils.getDocsIntegrationSdkProperties()
+        );
         Long maxConversionFileSize = documentManager.getMaxConversionFileSize();
 
         Assertions.assertEquals(104857600L, maxConversionFileSize);

@@ -26,6 +26,7 @@ import com.onlyoffice.model.common.RequestedService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 
@@ -35,7 +36,8 @@ import java.io.IOException;
 public class DefaultCommandService implements CommandService, RequestedService {
     /** {@link RequestManager}. */
     @Getter(AccessLevel.PROTECTED)
-    private final RequestManager requestManager;
+    @Setter(AccessLevel.PROTECTED)
+    private RequestManager requestManager;
 
     /** {@link ObjectMapper}. */
     private final ObjectMapper objectMapper = new ObjectMapper();
