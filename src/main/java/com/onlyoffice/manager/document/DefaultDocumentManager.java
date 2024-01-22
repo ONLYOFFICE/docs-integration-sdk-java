@@ -1,6 +1,6 @@
 /**
  *
- * (c) Copyright Ascensio System SIA 2023
+ * (c) Copyright Ascensio System SIA 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@
 package com.onlyoffice.manager.document;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.model.documenteditor.config.document.DocumentType;
@@ -27,6 +28,7 @@ import com.onlyoffice.model.settings.SettingsConstants;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,7 +52,8 @@ public abstract class DefaultDocumentManager implements DocumentManager {
 
     /** {@link SettingsManager}. */
     @Getter(AccessLevel.PROTECTED)
-    private final SettingsManager settingsManager;
+    @Setter(AccessLevel.PROTECTED)
+    private SettingsManager settingsManager;
 
     /** Defines a list containing data about supported formats. */
     private static List<Format> formats;
@@ -286,13 +289,10 @@ public abstract class DefaultDocumentManager implements DocumentManager {
 
     @Override
     public List<String> getInsertImageExtensions() {
-        String insertImage = settingsManager.getSDKSetting("integration-sdk.data.formats.insert-image");
-
-        if (insertImage != null && !insertImage.isEmpty()) {
-            return Arrays.asList(insertImage.split("\\|"));
-        }
-
-        return null;
+        return settingsManager.getDocsIntegrationSdkProperties()
+                .getDocumentServer()
+                .getEditingService()
+                .getInsertImage();
     }
 
     @Override
@@ -301,7 +301,7 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         List<String> result = new ArrayList<>();
 
         for (Format format : supportedFormats) {
-            if (format.getType().equals(DocumentType.WORD)) {
+            if (DocumentType.WORD.equals(format.getType())) {
                 result.add(format.getName());
             }
         }
@@ -315,7 +315,7 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         List<String> result = new ArrayList<>();
 
         for (Format format : supportedFormats) {
-            if (format.getType().equals(DocumentType.CELL)) {
+            if (DocumentType.CELL.equals(format.getType())) {
                 result.add(format.getName());
             }
         }
@@ -325,26 +325,20 @@ public abstract class DefaultDocumentManager implements DocumentManager {
 
     @Override
     public long getMaxFileSize() {
-        long size;
-        try {
-            String filesizeMax = settingsManager.getSDKSetting("integration-sdk.data.filesize.editing.max");
-            size = Long.parseLong(filesizeMax);
-        } catch (Exception ex) {
-            size = 0;
-        }
+        long size = settingsManager.getDocsIntegrationSdkProperties()
+                    .getDocumentServer()
+                    .getEditingService()
+                    .getMaxFileSize();
 
         return size > 0 ? size : DEFAULT_MAX_FILE_SIZE;
     }
 
     @Override
     public long getMaxConversionFileSize() {
-        long size;
-        try {
-            String filesizeMax = settingsManager.getSDKSetting("integration-sdk.data.filesize.conversion.max");
-            size = Long.parseLong(filesizeMax);
-        } catch (Exception ex) {
-            size = 0;
-        }
+        long size = settingsManager.getDocsIntegrationSdkProperties()
+                .getDocumentServer()
+                .getConvertService()
+                .getMaxFileSize();
 
         return size > 0 ? size : DEFAULT_MAX_FILE_SIZE;
     }
@@ -357,7 +351,8 @@ public abstract class DefaultDocumentManager implements DocumentManager {
                 .getContextClassLoader()
                 .getResourceAsStream("assets/document-formats/onlyoffice-docs-formats.json");
         try {
-            formats = objectMapper.readValue(inputStream, new TypeReference<List<Format>>() { });
+            formats = objectMapper.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true)
+                    .readValue(inputStream, new TypeReference<List<Format>>() { });
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

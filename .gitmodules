@@ -1,7 +1,7 @@
 [submodule "src/main/resources/assets/document-templates"]
 	path = src/main/resources/assets/document-templates
 	url = https://github.com/ONLYOFFICE/document-templates
-	branch = main/new-lang-tag
+	branch = main/new-2letter-code
 [submodule "src/main/resources/assets/document-formats"]
 	path = src/main/resources/assets/document-formats
 	url = https://github.com/ONLYOFFICE/document-formats

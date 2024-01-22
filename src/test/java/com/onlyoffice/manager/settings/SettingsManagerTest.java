@@ -1,6 +1,6 @@
 /**
  *
- * (c) Copyright Ascensio System SIA 2023
+ * (c) Copyright Ascensio System SIA 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@
 package com.onlyoffice.manager.settings;
 
 import com.onlyoffice.model.settings.SettingsConstants;
+import com.onlyoffice.utils.ConfigurationUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,7 +58,7 @@ public class SettingsManagerTest {
 
     @Test
     void getSDKSettingsTest() {
-        System.out.println(settingsManager.getSDKSetting("integration-sdk.api.url"));
+        System.out.println(settingsManager.getDocsIntegrationSdkProperties().getDocumentServer().getApiUrl());
     }
 
     @Test
@@ -133,7 +134,7 @@ public class SettingsManagerTest {
         dateDemoStart.setTime(dateFormat.parse(demoStart));
         dateDemoStart.add(
                 Calendar.DATE,
-                -Integer.parseInt(settingsManager.getSDKSetting("integration-sdk.demo.trial-period"))
+                -ConfigurationUtils.getDemoTrialPeriod()
         );
 
         settingsManager.setSetting(SettingsConstants.DEMO, "false");
@@ -170,7 +171,7 @@ public class SettingsManagerTest {
         dateDemoStart.setTime(dateFormat.parse(demoStart));
         dateDemoStart.add(
                 Calendar.DATE,
-                -Integer.parseInt(settingsManager.getSDKSetting("integration-sdk.demo.trial-period"))
+                -ConfigurationUtils.getDemoTrialPeriod()
         );
         settingsManager.setSetting(
                 "demo-start",
@@ -193,7 +194,7 @@ public class SettingsManagerTest {
         dateDemoStart.setTime(date);
         dateDemoStart.add(
                 Calendar.DATE,
-                -Integer.parseInt(settingsManager.getSDKSetting("integration-sdk.demo.trial-period"))
+                -ConfigurationUtils.getDemoTrialPeriod()
         );
         settingsManager.setSetting(
                 "demo-start",
