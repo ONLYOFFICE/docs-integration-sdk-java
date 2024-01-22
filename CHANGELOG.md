@@ -1,5 +1,11 @@
 # Change Log
 
+## 
+## Changed
+- list supported formats
+- improved work with Settings
+- UrlManager (added method replaceToDocumentServerUrl)
+
 ## 0.0.1
 ## Added
 - common interfaces (DocumentManager, RequestManager, JwtManager, SettingsManager, UrlManager, ConfigService,
