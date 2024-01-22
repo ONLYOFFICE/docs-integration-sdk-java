@@ -5,6 +5,7 @@
 - list supported formats
 - improved work with Settings
 - UrlManager (added method replaceToDocumentServerUrl)
+- ar and sr empty file templates
 
 ## 0.0.1
 ## Added
