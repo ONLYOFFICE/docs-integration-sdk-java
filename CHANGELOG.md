@@ -1,5 +1,8 @@
 # Change Log
 
+## 0.0.2
+- test
+
 ## 1.0.0
 ## Changed
 - list supported formats
