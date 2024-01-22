@@ -1,6 +1,6 @@
 /**
  *
- * (c) Copyright Ascensio System SIA 2023
+ * (c) Copyright Ascensio System SIA 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,16 +25,17 @@ import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Fea
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Goback;
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Logo;
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Review;
+import com.onlyoffice.model.properties.DocsIntegrationSdkProperties;
 import com.onlyoffice.model.settings.Settings;
 import com.onlyoffice.model.settings.SettingsConstants;
 import com.onlyoffice.model.settings.security.Security;
+import com.onlyoffice.utils.ConfigurationUtils;
 
 import java.beans.BeanInfo;
 
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -44,17 +45,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 
 public abstract class DefaultSettingsManager implements SettingsManager {
-
-    /** Properties from the "settings.properties" file. */
-    private static Properties properties;
-
-    static {
-        init();
-    }
 
     @Override
     public abstract String getSetting(String name);
@@ -125,12 +118,8 @@ public abstract class DefaultSettingsManager implements SettingsManager {
     }
 
     @Override
-    public String getSDKSetting(final String name) {
-        if (properties == null) {
-            return null;
-        }
-
-       return properties.getProperty(name);
+    public DocsIntegrationSdkProperties getDocsIntegrationSdkProperties() {
+       return ConfigurationUtils.getDocsIntegrationSdkProperties();
     }
 
     @Override
@@ -142,11 +131,11 @@ public abstract class DefaultSettingsManager implements SettingsManager {
     @Override
     public String getSecurityKey() {
         if (isDemoActive()) {
-            return getSDKSetting("integration-sdk.demo.security.key");
+            return ConfigurationUtils.getDemoDocumentServerProperties().getSecurity().getKey();
         } else {
             String key = getSetting(SettingsConstants.SECURITY_KEY);
             if (key == null || key.isEmpty()) {
-                key = getSDKSetting("integration-sdk.security.key");
+                key = getDocsIntegrationSdkProperties().getDocumentServer().getSecurity().getKey();
             }
 
             if (key != null && !key.isEmpty()) {
@@ -160,11 +149,11 @@ public abstract class DefaultSettingsManager implements SettingsManager {
     @Override
     public String getSecurityHeader() {
         if (isDemoActive()) {
-            return getSDKSetting("integration-sdk.demo.security.header");
+            return ConfigurationUtils.getDemoDocumentServerProperties().getSecurity().getHeader();
         } else {
             String header = getSetting(SettingsConstants.SECURITY_HEADER);
             if (header == null || header.isEmpty()) {
-                header = getSDKSetting("integration-sdk.security.header");
+                header = getDocsIntegrationSdkProperties().getDocumentServer().getSecurity().getHeader();
             }
 
             if (header != null && !header.isEmpty()) {
@@ -178,11 +167,11 @@ public abstract class DefaultSettingsManager implements SettingsManager {
     @Override
     public String getSecurityPrefix() {
         if (isDemoActive()) {
-            return getSDKSetting("integration-sdk.demo.security.prefix");
+            return ConfigurationUtils.getDemoDocumentServerProperties().getSecurity().getPrefix();
         } else {
             String prefix = getSetting(SettingsConstants.SECURITY_PREFIX);
             if (prefix == null || prefix.isEmpty()) {
-                prefix = getSDKSetting("integration-sdk.security.prefix");
+                prefix = getDocsIntegrationSdkProperties().getDocumentServer().getSecurity().getPrefix();
             }
 
             if (prefix != null && !prefix.isEmpty()) {
@@ -196,13 +185,15 @@ public abstract class DefaultSettingsManager implements SettingsManager {
     @Override
     public Boolean isIgnoreSSLCertificate() {
         if (!isDemoActive()) {
-            String ignoreSSLCertificate = getSetting(SettingsConstants.HTTP_CLIENT_IGNORE_SSL_CERTIFICATE);
-            if (ignoreSSLCertificate == null || ignoreSSLCertificate.isEmpty()) {
-                ignoreSSLCertificate =  getSDKSetting("integration-sdk.http.client.ignore-ssl-certificate");
+            String ignoreSSLCertificateString = getSetting(SettingsConstants.HTTP_CLIENT_IGNORE_SSL_CERTIFICATE);
+            if (ignoreSSLCertificateString != null && !ignoreSSLCertificateString.isEmpty()) {
+                return Boolean.parseBoolean(ignoreSSLCertificateString);
             }
 
-            if (ignoreSSLCertificate != null && !ignoreSSLCertificate.isEmpty()) {
-                return Boolean.parseBoolean(ignoreSSLCertificate);
+            Boolean ignoreSSLCertificate = getDocsIntegrationSdkProperties().getHttpClient().getIgnoreSslCertificate();
+
+            if (ignoreSSLCertificate != null) {
+                return ignoreSSLCertificate;
             }
         }
 
@@ -244,7 +235,7 @@ public abstract class DefaultSettingsManager implements SettingsManager {
             try {
                 Calendar date = Calendar.getInstance();
                 date.setTime(dateFormat.parse(demoStart));
-                date.add(Calendar.DATE, Integer.parseInt(getSDKSetting("integration-sdk.demo.trial-period")));
+                date.add(Calendar.DATE, ConfigurationUtils.getDemoTrialPeriod());
 
                 return date.after(Calendar.getInstance());
             } catch (Exception e) {
@@ -263,7 +254,7 @@ public abstract class DefaultSettingsManager implements SettingsManager {
             try {
                 Calendar date = Calendar.getInstance();
                 date.setTime(dateFormat.parse(demoStart));
-                date.add(Calendar.DATE, Integer.parseInt(getSDKSetting("integration-sdk.demo.trial-period")));
+                date.add(Calendar.DATE, ConfigurationUtils.getDemoTrialPeriod());
 
                 return date.after(Calendar.getInstance());
             } catch (Exception e) {
@@ -271,17 +262,6 @@ public abstract class DefaultSettingsManager implements SettingsManager {
             }
         } else {
             return true;
-        }
-    }
-
-    protected static void init() {
-        try {
-            properties = new Properties();
-            InputStream stream = Thread.currentThread().getContextClassLoader()
-                    .getResourceAsStream("settings.properties");
-            properties.load(stream);
-        } catch (Exception e) {
-            properties = null;
         }
     }
 

@@ -1,6 +1,6 @@
 /**
  *
- * (c) Copyright Ascensio System SIA 2023
+ * (c) Copyright Ascensio System SIA 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -98,6 +98,14 @@ public interface UrlManager {
       * @return The URL without the trailing slash.
       */
      String sanitizeUrl(String url);
+
+     /**
+      * Replaces the internal URL from the Document Server with the Document Server URL.
+      *
+      * @param url The internal URL from the Document Server.
+      * @return The URL start with Document Server URL.
+      */
+     String replaceToDocumentServerUrl(String url);
 
      /**
       * Replaces the URL to the Document Server with the internal one.

@@ -1,6 +1,6 @@
 /**
  *
- * (c) Copyright Ascensio System SIA 2023
+ * (c) Copyright Ascensio System SIA 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,6 +35,7 @@ import com.onlyoffice.model.settings.validation.status.Status;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.util.EntityUtils;
@@ -50,15 +51,18 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
 
     /** {@link RequestManager}. */
     @Getter(AccessLevel.PROTECTED)
-    private final RequestManager requestManager;
+    @Setter(AccessLevel.PROTECTED)
+    private RequestManager requestManager;
 
     /** {@link UrlManager}. */
     @Getter(AccessLevel.PROTECTED)
-    private final UrlManager urlManager;
+    @Setter(AccessLevel.PROTECTED)
+    private UrlManager urlManager;
 
     /** {@link SettingsManager}. */
     @Getter(AccessLevel.PROTECTED)
-    private final SettingsManager settingsManager;
+    @Setter(AccessLevel.PROTECTED)
+    private SettingsManager settingsManager;
 
     /** {@link ObjectMapper}. */
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -75,7 +79,9 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
     @Override
     public ValidationResult checkDocumentServer(final String url, final HttpClientSettings httpClientSettings)
             throws Exception {
-        String healthCheckUrl = settingsManager.getSDKSetting("integration-sdk.service.health-check.url");
+        String healthCheckUrl = settingsManager.getDocsIntegrationSdkProperties()
+                .getDocumentServer()
+                .getHealthCheckUrl();
 
         healthCheckUrl = urlManager.sanitizeUrl(url) + healthCheckUrl;
 
@@ -117,7 +123,10 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
     @Override
     public ValidationResult checkCommandService(final String url, final Security security,
                                                 final HttpClientSettings httpClientSettings) throws Exception {
-        String commandServiceUrl = settingsManager.getSDKSetting("integration-sdk.service.command.url");
+        String commandServiceUrl = settingsManager.getDocsIntegrationSdkProperties()
+                .getDocumentServer()
+                .getCommandService()
+                .getUrl();
 
         CommandRequest commandRequest = CommandRequest.builder()
                 .c(Command.VERSION)
@@ -170,7 +179,10 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
     public ValidationResult checkConvertService(final String url, final String productInnerUrl, final Security security,
                                                 final HttpClientSettings httpClientSettings)
             throws Exception {
-        String convertServiceUrl = settingsManager.getSDKSetting("integration-sdk.service.convert.url");
+        String convertServiceUrl = settingsManager.getDocsIntegrationSdkProperties()
+                .getDocumentServer()
+                .getConvertService()
+                .getUrl();
 
         ConvertRequest convertRequest = ConvertRequest.builder()
                 .async(false)

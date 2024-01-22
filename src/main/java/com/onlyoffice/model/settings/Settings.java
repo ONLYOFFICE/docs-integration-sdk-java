@@ -1,6 +1,6 @@
 /**
  *
- * (c) Copyright Ascensio System SIA 2023
+ * (c) Copyright Ascensio System SIA 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,6 +45,7 @@ import java.util.Set;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonIgnoreProperties(ignoreUnknown = true)
+@FieldNameConstants
 public class Settings {
 
     /**
@@ -90,5 +92,6 @@ public class Settings {
     private String ignoreSSLCertificate;
 
     @JsonAnySetter
+    @Builder.Default
     private Map<String, Object> extra = new HashMap<>();
 }
