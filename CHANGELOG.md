@@ -1,6 +1,6 @@
 # Change Log
 
-## 
+## 1.0.0
 ## Changed
 - list supported formats
 - improved work with Settings
