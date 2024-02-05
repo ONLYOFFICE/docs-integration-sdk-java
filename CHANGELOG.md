@@ -1,5 +1,10 @@
 # Change Log
 
+##
+## Added
+- updated supported formats (filling pdf, remove filling for oform)
+- updated model Config for Document Editor
+
 ## 1.0.0
 ## Changed
 - list supported formats

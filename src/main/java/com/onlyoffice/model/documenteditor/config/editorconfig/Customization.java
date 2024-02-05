@@ -192,6 +192,11 @@ public class Customization {
     private Boolean mentionShare;
 
     /**
+     * Defines if the mobile document editor is opened in the view/edit mode on launch. The default value is "true".
+     */
+    private Boolean mobileForceView;
+
+    /**
      * Defines if plugins will be launched and available. The default value is "true".
      */
     private Boolean plugins;
@@ -226,6 +231,12 @@ public class Customization {
      */
     @Deprecated
     private Boolean spellcheck;
+
+    /**
+     * Defines if the Submit button is displayed or hidden on the top toolbar. Button will only be available for the pdf
+     * format. The default value is false.
+     */
+    private Boolean submitForm;
 
     /**
      * Defines if the document title is visible on the top toolbar ("false") or hidden ("true").

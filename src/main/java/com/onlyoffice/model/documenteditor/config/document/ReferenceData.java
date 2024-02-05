@@ -50,4 +50,12 @@ public class ReferenceData {
      * then pasting by link will not be available and there will be no corresponding button in the context menu.
      */
     private String instanceId;
+
+    /**
+     * defines the unique document identifier used by the service to take the data from the co-editing session. In case
+     * the known key is sent, the document will be taken from the cache. Every time the document is edited and saved,
+     * the key must be generated anew. The document url can be used as the key but without the special characters and
+     * the length is limited to 128 symbols.
+     */
+    private String key;
 }

@@ -59,7 +59,7 @@ public class User {
     private String group;
 
     /**
-     * Defines the user image url.
+     * The path to the user avatar.
      */
     private String image;
 }
