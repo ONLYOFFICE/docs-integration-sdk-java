@@ -1,6 +1,6 @@
 # Change Log
 
-##
+## 1.1.1
 ## Changed
 - default conversion format (from docxf to pdf instead oform)
 
