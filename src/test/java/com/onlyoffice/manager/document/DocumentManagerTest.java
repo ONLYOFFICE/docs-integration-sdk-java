@@ -106,9 +106,9 @@ public class DocumentManagerTest {
 
     @Test
     void isFillableTest() {
-        Assertions.assertEquals(true, documentManager.isFillable("sample.oform"));
-        Assertions.assertEquals(true, documentManager.isFillable(".oform"));
-        Assertions.assertEquals(false, documentManager.isFillable("oform"));
+        Assertions.assertEquals(true, documentManager.isFillable("sample.pdf"));
+        Assertions.assertEquals(true, documentManager.isFillable(".pdf"));
+        Assertions.assertEquals(false, documentManager.isFillable("pdf"));
         Assertions.assertEquals(false, documentManager.isFillable("sample.null"));
         Assertions.assertEquals(false, documentManager.isFillable("sample."));
     }
