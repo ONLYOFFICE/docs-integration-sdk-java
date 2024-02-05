@@ -57,4 +57,9 @@ public class User {
      * Defines the group the user belongs to.
      */
     private String group;
+
+    /**
+     * The path to the user avatar.
+     */
+    private String image;
 }
