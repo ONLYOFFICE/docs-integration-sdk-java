@@ -233,6 +233,12 @@ public class Customization {
     private Boolean spellcheck;
 
     /**
+     * Defines if the Submit button is displayed or hidden on the top toolbar. Button will only be available for the pdf
+     * format. The default value is false.
+     */
+    private Boolean submitForm;
+
+    /**
      * Defines if the document title is visible on the top toolbar ("false") or hidden ("true").
      * The default value is "false".
      */
