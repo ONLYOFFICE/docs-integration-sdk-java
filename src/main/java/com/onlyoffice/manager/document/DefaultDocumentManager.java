@@ -219,8 +219,8 @@ public abstract class DefaultDocumentManager implements DocumentManager {
             if (format.getName().equals(extension)) {
                 switch (format.getType()) {
                     case WORD:
-                        if (format.getName().equals("docxf") && format.getConvert().contains("oform")) {
-                            return "oform";
+                        if (format.getName().equals("docxf") && format.getConvert().contains("pdf")) {
+                            return "pdf";
                         }
                         if (format.getConvert().contains("docx")) {
                             return "docx";
