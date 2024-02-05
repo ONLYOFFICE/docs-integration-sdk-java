@@ -192,6 +192,11 @@ public class Customization {
     private Boolean mentionShare;
 
     /**
+     * Defines if the mobile document editor is opened in the view/edit mode on launch. The default value is "true".
+     */
+    private Boolean mobileForceView;
+
+    /**
      * Defines if plugins will be launched and available. The default value is "true".
      */
     private Boolean plugins;
