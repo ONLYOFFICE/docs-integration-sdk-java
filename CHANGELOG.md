@@ -1,5 +1,9 @@
 # Change Log
 
+## 
+## Changed
+- fixed load properties in ConfigurationUtils
+
 ## 1.1.1
 ## Changed
 - default conversion format (from docxf to pdf instead oform)
