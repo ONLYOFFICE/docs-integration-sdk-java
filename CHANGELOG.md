@@ -3,6 +3,7 @@
 ## 
 ## Changed
 - fixed load properties in ConfigurationUtils
+- improving DefaultConfigService
 
 ## 1.1.1
 ## Changed

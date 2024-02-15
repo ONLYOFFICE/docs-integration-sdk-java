@@ -133,7 +133,14 @@ public class DefaultConfigService implements ConfigService {
                 .plugins(getPlugins(null))
                 .build();
 
-        if (permissions != null && permissions.getEdit() && mode.equals(Mode.EDIT)) {
+        if (permissions != null
+                && (
+                        permissions.getEdit()
+                                || permissions.getFillForms()
+                                || permissions.getComment()
+                                || permissions.getReview()
+                )
+                && mode.equals(Mode.EDIT)) {
             editorConfig.setCallbackUrl(urlManager.getCallbackUrl(fileId));
         }
 
