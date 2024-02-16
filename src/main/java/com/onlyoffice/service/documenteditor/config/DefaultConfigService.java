@@ -135,10 +135,10 @@ public class DefaultConfigService implements ConfigService {
 
         if (permissions != null
                 && (
-                        permissions.getEdit()
-                                || permissions.getFillForms()
-                                || permissions.getComment()
-                                || permissions.getReview()
+                        Boolean.TRUE.equals(permissions.getEdit())
+                                || Boolean.TRUE.equals(permissions.getFillForms())
+                                || Boolean.TRUE.equals(permissions.getComment())
+                                || Boolean.TRUE.equals(permissions.getReview())
                 )
                 && mode.equals(Mode.EDIT)) {
             editorConfig.setCallbackUrl(urlManager.getCallbackUrl(fileId));
