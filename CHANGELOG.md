@@ -1,6 +1,15 @@
 # Change Log
 
-##
+## 1.1.2
+## Changed
+- fixed load properties in ConfigurationUtils
+- improving DefaultConfigService
+
+## 1.1.1
+## Changed
+- default conversion format (from docxf to pdf instead oform)
+
+## 1.1.0
 ## Added
 - updated supported formats (filling pdf, remove filling for oform)
 - updated model Config for Document Editor

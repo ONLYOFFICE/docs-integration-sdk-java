@@ -95,7 +95,8 @@ public final class ConfigurationUtils {
     private static void init() {
         Properties properties = new Properties();
         try {
-            InputStream stream = Thread.currentThread().getContextClassLoader()
+            InputStream stream = ConfigurationUtils.class
+                    .getClassLoader()
                     .getResourceAsStream(PROPERTIES_PREFIX + ".properties");
             properties.load(stream);
         } catch (Exception e) {
