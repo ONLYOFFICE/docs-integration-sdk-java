@@ -1,5 +1,10 @@
 # Change Log
 
+##
+## Added
+- the formsdataurl parameter to the Callback
+- the model FormData
+
 ## 1.1.2
 ## Changed
 - fixed load properties in ConfigurationUtils
