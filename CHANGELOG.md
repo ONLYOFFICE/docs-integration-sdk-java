@@ -1,6 +1,6 @@
 # Change Log
 
-## 
+## 1.1.2
 ## Changed
 - fixed load properties in ConfigurationUtils
 - improving DefaultConfigService
