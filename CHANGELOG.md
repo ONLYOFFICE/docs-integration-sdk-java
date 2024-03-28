@@ -1,5 +1,9 @@
 # Change Log
 
+##
+## Added
+- error status -9 for Convert Service
+
 ## 1.1.2
 ## Changed
 - fixed load properties in ConfigurationUtils
