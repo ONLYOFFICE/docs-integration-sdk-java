@@ -2,6 +2,8 @@
 
 ##
 ## Added
+- the formsdataurl parameter to the Callback
+- the model FormData
 - error status -9 for Convert Service
 
 ## 1.1.2
