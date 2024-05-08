@@ -35,7 +35,7 @@ public enum Command {
     /**
      * This command allows to forcibly save the document being edited without closing it.
      */
-    @JsonProperty("fercesave")
+    @JsonProperty("forcesave")
     FORCESAVE,
 
     /**
