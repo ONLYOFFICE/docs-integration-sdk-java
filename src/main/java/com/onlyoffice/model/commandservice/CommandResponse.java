@@ -27,6 +27,7 @@ import lombok.Setter;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -50,6 +51,11 @@ public class CommandResponse {
      * Defines the document identifier used to unambiguously identify the document file.
      */
     private String key;
+
+    /**
+     * Defines the document identifiers used to unambiguously identify the document file.
+     */
+    private List<String> keys;
 
     /**
      * Defines the document license information: "end_date" - the license expiration date,
@@ -81,6 +87,11 @@ public class CommandResponse {
      * "expire" - date of viewing expiration for this user.
      */
     private JSONObject quota;
+
+    /**
+     * Defines the link to the edited document to be saved with the document storage service.
+     */
+    private String url;
 
     /**
      * Defines the document version.

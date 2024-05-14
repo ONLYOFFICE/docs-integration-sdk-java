@@ -2,6 +2,7 @@
 
 ##
 ## Added
+- commands for working with forgotten files
 - the formsdataurl parameter to the Callback
 - the model FormData
 - error status -9 for Convert Service
