@@ -1,5 +1,9 @@
 # Change Log
 
+##
+## Added
+- commands for working with forgotten files
+
 ## 1.1.2
 ## Changed
 - fixed load properties in ConfigurationUtils
