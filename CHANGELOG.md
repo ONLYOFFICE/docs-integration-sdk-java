@@ -1,5 +1,7 @@
 # Change Log
 
+- sr-Cyrl-RS empty file templates
+
 ## 1.1.2
 ## Changed
 - fixed load properties in ConfigurationUtils
