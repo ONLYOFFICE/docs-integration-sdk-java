@@ -1,10 +1,11 @@
 # Change Log
 
-- sr-Cyrl-RS empty file templates
+## 
+## Changed
+- empty files, pdf instead docxf
 
 ## 1.1.2
 ## Changed
-- empty files, pdf instead docxf
 - fixed load properties in ConfigurationUtils
 - improving DefaultConfigService
 
