@@ -2,6 +2,14 @@
 
 - sr-Cyrl-RS empty file templates
 
+##
+## Added
+- editorconfig/customization/Features#roles
+- editorconfig/Customization#close
+
+## Changed
+- the editorconfig/customization/Goback#requestClose field is deprecated
+
 ## 1.1.2
 ## Changed
 - fixed load properties in ConfigurationUtils
