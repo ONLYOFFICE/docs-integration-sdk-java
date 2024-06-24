@@ -4,6 +4,7 @@
 
 ## 1.1.2
 ## Changed
+- empty files, pdf instead docxf
 - fixed load properties in ConfigurationUtils
 - improving DefaultConfigService
 
