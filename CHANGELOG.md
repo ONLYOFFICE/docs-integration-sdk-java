@@ -6,6 +6,7 @@
 - the formsdataurl parameter to the Callback
 - the model FormData
 - error status -9 for Convert Service
+- sr-Cyrl-RS empty file templates
 
 ## 1.1.2
 ## Changed
