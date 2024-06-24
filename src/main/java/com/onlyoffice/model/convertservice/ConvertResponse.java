@@ -118,7 +118,12 @@ public class ConvertResponse {
         /**
          * Error automatically determine the output file format (the error code is -9).
          */
-        OOXML_OUTPUT_TYPE(-9, "Error automatically determine the output file format");
+        OOXML_OUTPUT_TYPE(-9, "Error automatically determine the output file format"),
+
+        /**
+         * Size limit exceeded" (the error code is -10).
+         */
+        SIZE_LIMIT_EXCEEDED(-10, "Size limit exceeded");
 
         /**
          * Defines the error code.

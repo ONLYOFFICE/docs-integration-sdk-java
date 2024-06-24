@@ -2,7 +2,7 @@
 
 ##
 ## Added
-- error status -9 for Convert Service
+- error status -9 and -10 to ConvertResponse.Error
 - sr-Cyrl-RS empty file templates
 
 ## 1.1.2
