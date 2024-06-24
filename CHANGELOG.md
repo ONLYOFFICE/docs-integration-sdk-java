@@ -3,6 +3,7 @@
 ##
 ## Added
 - commands for working with forgotten files
+- sr-Cyrl-RS empty file templates
 
 ## 1.1.2
 ## Changed
