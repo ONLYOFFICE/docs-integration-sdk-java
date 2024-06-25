@@ -2,6 +2,7 @@
 
 ##
 ## Added
+- error status -9 and -10 to ConvertResponse.Error
 - commands for working with forgotten files
 - sr-Cyrl-RS empty file templates
 
