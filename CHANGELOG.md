@@ -2,6 +2,8 @@
 
 ##
 ## Added
+- the formsdataurl parameter to the Callback
+- the model FormData
 - editorconfig/customization/Features#roles
 - editorconfig/Customization#close
 - error status -9 and -10 to ConvertResponse.Error
