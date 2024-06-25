@@ -4,7 +4,15 @@
 ## Added
 - the formsdataurl parameter to the Callback
 - the model FormData
+- editorconfig/customization/Features#roles
+- editorconfig/Customization#close
+- error status -9 and -10 to ConvertResponse.Error
+- commands for working with forgotten files
 - sr-Cyrl-RS empty file templates
+
+## Changed
+- the editorconfig/customization/Goback#requestClose field is deprecated
+- pdf instead docxf
 
 ## 1.1.2
 ## Changed
