@@ -202,6 +202,8 @@ public abstract class DefaultDocumentManager implements DocumentManager {
                 return "xlsx";
             case SLIDE:
                 return "pptx";
+            case PDF:
+                return "pdf";
             default:
                 return null;
         }
@@ -219,9 +221,6 @@ public abstract class DefaultDocumentManager implements DocumentManager {
             if (format.getType() != null && format.getName().equals(extension)) {
                 switch (format.getType()) {
                     case WORD:
-                        if (format.getName().equals("docxf") && format.getConvert().contains("pdf")) {
-                            return "pdf";
-                        }
                         if (format.getConvert().contains("docx")) {
                             return "docx";
                         }
@@ -236,6 +235,10 @@ public abstract class DefaultDocumentManager implements DocumentManager {
                             return "pptx";
                         }
                         break;
+                    case PDF:
+                        if (format.getConvert().contains("pdf")) {
+                            return "pdf";
+                        }
                     default:
                         break;
                 }

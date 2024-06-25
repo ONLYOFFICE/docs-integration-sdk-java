@@ -2,6 +2,8 @@
 
 ##
 ## Added
+- DocumentType - PDF
+- format repository (pdf documentType for docxf and oform, fb2 additional mime, pdf as documentType in editor)
 - the formsdataurl parameter to the Callback
 - the model FormData
 - editorconfig/customization/Features#roles
