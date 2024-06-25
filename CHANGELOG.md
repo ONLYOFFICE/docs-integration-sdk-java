@@ -1,8 +1,12 @@
 # Change Log
 
-## 
+##
+## Added
+- commands for working with forgotten files
+- sr-Cyrl-RS empty file templates
+
 ## Changed
-- empty files, pdf instead docxf
+- pdf instead docxf
 
 ## 1.1.2
 ## Changed
