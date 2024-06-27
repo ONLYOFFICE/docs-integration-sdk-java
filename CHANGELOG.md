@@ -6,6 +6,7 @@
 - format repository (pdf documentType for docxf and oform, fb2 additional mime, pdf as documentType in editor)
 - the formsdataurl parameter to the Callback
 - the model FormData
+- documenteditor/callback/ForcesaveType#SUBMIT_FORM
 - editorconfig/customization/Features#roles
 - editorconfig/Customization#close
 - error status -9 and -10 to ConvertResponse.Error
