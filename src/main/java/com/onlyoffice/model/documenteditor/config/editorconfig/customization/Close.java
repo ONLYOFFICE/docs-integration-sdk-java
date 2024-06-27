@@ -26,10 +26,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
-/**
- * Defines the parameters that the user can disable or customize if possible.
- */
 @Getter
 @Setter
 @Builder
@@ -37,20 +33,16 @@ import lombok.Setter;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Features {
+public class Close {
 
     /**
-     * defines if the role settings will be disabled in the pdf forms or not. If the parameter is equal to "false",
-     * then the role manager is hidden and viewing the form on behalf of a specific role is disabled.
-     * In this case, the Manage Roles and View Form buttons on the Forms tab and a drop-down list for setting
-     * the field role in the right panel will not be displayed. The default value is "true".
+     * Defines if the cross button to close the editor is displayed or hidden. The default value is "true".
      */
-    private Boolean roles;
+    private Boolean visible;
 
     /**
-     * Defines if the spell checker is automatically switched on or off when the editor is loaded.
-     * It is set as the initial spell checker value and the spell checker setting will not be hidden.
-     * The default value is "true".
+     * defines the tooltip text for a button in the editor header or the menu item text in the mobile editors
+     * and in the File menu of the web editors.
      */
-    private Boolean spellcheck;
+    private String text;
 }

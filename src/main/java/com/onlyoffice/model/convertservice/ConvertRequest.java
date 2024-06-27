@@ -21,6 +21,7 @@ package com.onlyoffice.model.convertservice;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.onlyoffice.model.common.RequestEntity;
+import com.onlyoffice.model.convertservice.convertrequest.PDF;
 import com.onlyoffice.model.convertservice.convertrequest.Thumbnail;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -85,6 +86,11 @@ public class ConvertRequest implements RequestEntity {
      * content).
      */
     private String outputtype;
+
+    /**
+     * Defines settings for converting document files to pdf.
+     */
+    private PDF pdf;
 
     /**
      * Defines the password for the document file if it is protected with a password.

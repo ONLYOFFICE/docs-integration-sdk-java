@@ -45,5 +45,12 @@ public enum DocumentType {
      * @see <a target="_top" href="https://github.com/ONLYOFFICE/document-formats">Formats repository</a>.
      */
     @JsonProperty("slide")
-    SLIDE
+    SLIDE,
+
+    /**
+     * PDF.
+     * @see <a target="_top" href="https://github.com/ONLYOFFICE/document-formats">Formats repository</a>.
+     */
+    @JsonProperty("pdf")
+    PDF
 }

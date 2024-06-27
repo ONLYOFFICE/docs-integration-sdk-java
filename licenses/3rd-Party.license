@@ -13,6 +13,10 @@ com.fasterxml.jackson.core.jackson-databind - General data-binding functionality
 License:              Apache License 2.0
 License File:         com.fasterxml.jackson.core.jackson-databind.license
 
+com.fasterxml.jackson.dataformat.jackson-dataformat-properties - Support for reading and writing content of "Java Properties" style configuration files as if there was implied nesting structure (by default using dots as separators). (https://github.com/FasterXML/jackson-dataformats-text/blob/2.18/LICENSE)
+License:              Apache License 2.0
+License File:         com.fasterxml.jackson.dataformat.jackson-dataformat-properties.license
+
 org.json.json       - JSON is a light-weight, language independent, data interchange format. See http://www.JSON.org/ The files in this package implement JSON encoders/decoders in Java. It also includes the capability to convert between JSON and XML, HTTP headers, Cookies, and CDL. This is a reference implementation. (https://github.com/stleary/JSON-java/blob/master/LICENSE)
 License:              Public Domain
 License File:         org.json.json.license

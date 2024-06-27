@@ -21,6 +21,7 @@ package com.onlyoffice.model.documenteditor.config.editorconfig;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Anonymous;
+import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Close;
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Customer;
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Features;
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Goback;
@@ -71,6 +72,11 @@ public class Customization {
      */
     @Deprecated
     private Boolean chat;
+
+    /**
+     * Defines settings for the cross button to close the editor.
+     */
+    private Close close;
 
     /**
      * Defines if the user can edit and delete only his comments. The default value is "false".

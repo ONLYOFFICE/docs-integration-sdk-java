@@ -49,10 +49,12 @@ public class Goback {
     /**
      * Defines that if the "Open file location" button is clicked, "events.onRequestClose" event is called
      * instead of opening a browser tab or window. The default value is "false".
+     * Deprecated since version 8.1. Please use the {@link com.onlyoffice.model.documenteditor.config.editorconfig.Customization#close close} parameter instead
      *
      * @see <a target="_top" href="https://api.onlyoffice.com/editors/config/events#onRequestClose">"onRequestClose"
      * event in API ONLYOFFICE</a>
      */
+    @Deprecated
     private Boolean requestClose;
 
     /**
