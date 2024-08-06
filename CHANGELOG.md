@@ -1,6 +1,6 @@
 # Change Log
 
-##
+## 1.2.0
 ## Added
 - DocumentType - PDF
 - format repository (pdf documentType for docxf and oform, fb2 additional mime, pdf as documentType in editor)
