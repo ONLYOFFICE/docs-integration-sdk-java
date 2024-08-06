@@ -115,7 +115,7 @@ public abstract class DefaultDocumentManager implements DocumentManager {
     public DocumentType getDocumentType(final String fileName) {
         String fileExtension = getExtension(fileName);
 
-        for (Format format : this.formats) {
+        for (Format format : getFormats()) {
             if (format.getName().equals(fileExtension)) {
                 return format.getType();
             }
@@ -159,7 +159,7 @@ public abstract class DefaultDocumentManager implements DocumentManager {
             return false;
         }
 
-        for (Format format : this.formats) {
+        for (Format format : getFormats()) {
             if (format.getName().equals(fileExtension) && format.getActions().contains(action)) {
                 return true;
             }
@@ -202,6 +202,8 @@ public abstract class DefaultDocumentManager implements DocumentManager {
                 return "xlsx";
             case SLIDE:
                 return "pptx";
+            case PDF:
+                return "pdf";
             default:
                 return null;
         }
@@ -215,13 +217,10 @@ public abstract class DefaultDocumentManager implements DocumentManager {
             return null;
         }
 
-        for (Format format : this.formats) {
-            if (format.getName().equals(extension)) {
+        for (Format format : getFormats()) {
+            if (format.getType() != null && format.getName().equals(extension)) {
                 switch (format.getType()) {
                     case WORD:
-                        if (format.getName().equals("docxf") && format.getConvert().contains("pdf")) {
-                            return "pdf";
-                        }
                         if (format.getConvert().contains("docx")) {
                             return "docx";
                         }
@@ -236,6 +235,10 @@ public abstract class DefaultDocumentManager implements DocumentManager {
                             return "pptx";
                         }
                         break;
+                    case PDF:
+                        if (format.getConvert().contains("pdf")) {
+                            return "pdf";
+                        }
                     default:
                         break;
                 }
@@ -253,7 +256,7 @@ public abstract class DefaultDocumentManager implements DocumentManager {
             return null;
         }
 
-        for (Format format : formats) {
+        for (Format format : getFormats()) {
             if (format.getName().equals(extension)) {
                 return format.getConvert();
             }
@@ -278,7 +281,7 @@ public abstract class DefaultDocumentManager implements DocumentManager {
             );
         }
 
-        for (Format format : formats) {
+        for (Format format : getFormats()) {
             if (format.getActions().contains("lossy-edit")) {
                 result.put(format.getName(), formatsLossyEditList.contains(format.getName()));
             }
@@ -297,10 +300,9 @@ public abstract class DefaultDocumentManager implements DocumentManager {
 
     @Override
     public List<String> getCompareFileExtensions() {
-        List<Format> supportedFormats = formats;
         List<String> result = new ArrayList<>();
 
-        for (Format format : supportedFormats) {
+        for (Format format : getFormats()) {
             if (DocumentType.WORD.equals(format.getType())) {
                 result.add(format.getName());
             }
@@ -311,10 +313,9 @@ public abstract class DefaultDocumentManager implements DocumentManager {
 
     @Override
     public List<String> getMailMergeExtensions() {
-        List<Format> supportedFormats = formats;
         List<String> result = new ArrayList<>();
 
-        for (Format format : supportedFormats) {
+        for (Format format : getFormats()) {
             if (DocumentType.CELL.equals(format.getType())) {
                 result.add(format.getName());
             }

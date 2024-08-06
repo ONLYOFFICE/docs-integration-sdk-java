@@ -76,6 +76,11 @@ public class Callback {
     private ForcesaveType forcesavetype;
 
     /**
+     * Defines the URL to the JSON file with the submitted form data.
+     */
+    private String formsdataurl;
+
+    /**
      * Defines the object with the document changes history.
      * The object is present when the {@link Status} value is equal to 2 or 3 only.
      * It contains the object "changes" and "serverVersion",

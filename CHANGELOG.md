@@ -1,5 +1,22 @@
 # Change Log
 
+## 1.2.0
+## Added
+- DocumentType - PDF
+- format repository (pdf documentType for docxf and oform, fb2 additional mime, pdf as documentType in editor)
+- the formsdataurl parameter to the Callback
+- the model FormData
+- documenteditor/callback/ForcesaveType#SUBMIT_FORM
+- editorconfig/customization/Features#roles
+- editorconfig/Customization#close
+- error status -9 and -10 to ConvertResponse.Error
+- commands for working with forgotten files
+- sr-Cyrl-RS empty file templates
+
+## Changed
+- the editorconfig/customization/Goback#requestClose field is deprecated
+- pdf instead docxf
+
 ## 1.1.2
 ## Changed
 - fixed load properties in ConfigurationUtils

@@ -48,7 +48,12 @@ public enum ForcesaveType {
     /**
      * The force saving request is performed by timer with the settings from the server config (the type ID is 2).
      */
-    TIMER(2);
+    TIMER(2),
+
+    /**
+     * The force saving request is performed by submit form(the type ID is 3).
+     */
+    SUBMIT_FORM(3);
 
     /**
      * Defines the ID of the force saving request type.

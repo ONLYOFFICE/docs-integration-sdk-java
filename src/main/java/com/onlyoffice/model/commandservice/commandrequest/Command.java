@@ -27,6 +27,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public enum Command {
 
     /**
+     * This command allows to delete a forgotten file.
+     */
+    @JsonProperty("deleteForgotten")
+    DELETE_FORGOTTEN,
+
+    /**
      * This command allows to disconnect the specified users from the document editing service.
      */
     @JsonProperty("drop")
@@ -35,8 +41,20 @@ public enum Command {
     /**
      * This command allows to forcibly save the document being edited without closing it.
      */
-    @JsonProperty("fercesave")
+    @JsonProperty("forcesave")
     FORCESAVE,
+
+    /**
+     * This command allows to request a forgotten file.
+     */
+    @JsonProperty("getForgotten")
+    GET_FORGOTTEN,
+
+    /**
+     * This command allows to request a list of the forgotten files.
+     */
+    @JsonProperty("getForgottenList")
+    GET_FORGOTTEN_LIST,
 
     /**
      * This command allows to request a document status and the list of the identifiers
