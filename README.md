@@ -1,6 +1,6 @@
-# ONLYOFFICE Docs Integration SDK
+# ONLYOFFICE Docs Integration Java SDK
 
-ONLYOFFICE Docs Integration SDK provides common interfaces and default implementations for integrating ONLYOFFICE Document Server into your own website or application on Java.
+ONLYOFFICE Docs Integration Java SDK provides common interfaces and default implementations for integrating ONLYOFFICE Document Server into your own website or application on Java.
 
 ## Prerequisites
 * **Java**: version 11.x and higher (download from the [Oracle official website](https://www.oracle.com/java/technologies/downloads/#java11));
