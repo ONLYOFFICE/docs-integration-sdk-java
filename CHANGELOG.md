@@ -1,5 +1,8 @@
 # Change Log
 
+## Changed
+- demo server address changed
+
 ## 1.2.0
 ## Added
 - DocumentType - PDF
