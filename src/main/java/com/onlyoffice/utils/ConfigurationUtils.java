@@ -35,7 +35,7 @@ public final class ConfigurationUtils {
     private static final String PROPERTIES_PREFIX = "docs-integration-sdk";
 
     /** The demo security url. */
-    private static final String DEMO_URL = "https://onlinedocs.onlyoffice.com/";
+    private static final String DEMO_URL = "https://onlinedocs.docs.onlyoffice.com/";
     /** The demo security header. */
     private static final String DEMO_SECURITY_HEADER = "AuthorizationJWT";
     /** The demo security key. */

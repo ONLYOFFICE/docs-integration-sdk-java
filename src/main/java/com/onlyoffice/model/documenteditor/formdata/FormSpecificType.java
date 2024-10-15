@@ -16,35 +16,20 @@
  *
  */
 
-package com.onlyoffice.model.documenteditor.callback;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.onlyoffice.model.documenteditor.callback.action.Type;
+package com.onlyoffice.model.documenteditor.formdata;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-
-/**
- * Defines the object received when the user takes an action with the document.
- */
-@Getter
-@Setter
 @AllArgsConstructor
-@NoArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_ABSENT)
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Action {
-
-    /**
-     * Defines the action type.
-     */
-    private Type type;
-
-    /**
-     * Defines the user identifier.
-     */
-    private String userid;
+@Getter
+public enum FormSpecificType {
+    TEXT,
+    CHECK_BOX,
+    PICTURE,
+    COMBO_BOX,
+    DROP_DOWN_LIST,
+    DATE_TIME,
+    RADIO;
 }

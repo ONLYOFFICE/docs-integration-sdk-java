@@ -16,35 +16,25 @@
  *
  */
 
-package com.onlyoffice.model.documenteditor.callback;
+package com.onlyoffice.model.convertservice.convertrequest;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.onlyoffice.model.documenteditor.callback.action.Type;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
-/**
- * Defines the object received when the user takes an action with the document.
- */
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Action {
+public class PDF {
 
     /**
-     * Defines the action type.
+     * Defines whether the document will be converted to the pdf form (true) or to a regular pdf file (false).
      */
-    private Type type;
-
-    /**
-     * Defines the user identifier.
-     */
-    private String userid;
+    private Boolean form;
 }

@@ -113,7 +113,17 @@ public class ConvertResponse {
         /**
          * Invalid token (the error code is -8).
          */
-        TOKEN(-8, "Invalid token");
+        TOKEN(-8, "Invalid token"),
+
+        /**
+         * Error automatically determine the output file format (the error code is -9).
+         */
+        OOXML_OUTPUT_TYPE(-9, "Error automatically determine the output file format"),
+
+        /**
+         * Size limit exceeded" (the error code is -10).
+         */
+        SIZE_LIMIT_EXCEEDED(-10, "Size limit exceeded");
 
         /**
          * Defines the error code.

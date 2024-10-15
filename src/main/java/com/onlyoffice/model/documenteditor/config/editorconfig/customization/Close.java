@@ -16,35 +16,33 @@
  *
  */
 
-package com.onlyoffice.model.documenteditor.callback;
+package com.onlyoffice.model.documenteditor.config.editorconfig.customization;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.onlyoffice.model.documenteditor.callback.action.Type;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
-/**
- * Defines the object received when the user takes an action with the document.
- */
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Action {
+public class Close {
 
     /**
-     * Defines the action type.
+     * Defines if the cross button to close the editor is displayed or hidden. The default value is "true".
      */
-    private Type type;
+    private Boolean visible;
 
     /**
-     * Defines the user identifier.
+     * defines the tooltip text for a button in the editor header or the menu item text in the mobile editors
+     * and in the File menu of the web editors.
      */
-    private String userid;
+    private String text;
 }

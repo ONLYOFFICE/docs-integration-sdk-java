@@ -16,35 +16,41 @@
  *
  */
 
-package com.onlyoffice.model.documenteditor.callback;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+package com.onlyoffice.model.documenteditor;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.onlyoffice.model.documenteditor.callback.action.Type;
-import lombok.AllArgsConstructor;
+import com.onlyoffice.model.documenteditor.formdata.FormSpecificType;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 /**
- * Defines the object received when the user takes an action with the document.
+ * Defines the submitted form data.
  */
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Builder
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Action {
+public class FormData {
 
     /**
-     * Defines the action type.
+     * The form key. If the current form is a radio button, then this field contains the form group key.
      */
-    private Type type;
+    private String key;
 
     /**
-     * Defines the user identifier.
+     * The form tag.
      */
-    private String userid;
+    private String tag;
+
+    /**
+     *  The current form value.
+     */
+    private String value;
+
+    /**
+     *  The form type.
+     */
+    private FormSpecificType type;
 }
