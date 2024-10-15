@@ -18,6 +18,7 @@
 
 package com.onlyoffice.model.documenteditor.callback;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.onlyoffice.model.common.Changes;
 import lombok.AllArgsConstructor;
@@ -43,6 +44,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class History {
 
     /**
