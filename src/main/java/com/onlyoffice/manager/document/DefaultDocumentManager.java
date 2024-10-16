@@ -182,7 +182,7 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         }
 
         if (inputStream == null) {
-            path = MessageFormat.format(pathTemplate, "en", extension);
+            path = MessageFormat.format(pathTemplate, "default", extension);
             inputStream = this.getClass().getClassLoader().getResourceAsStream(path);
         }
 

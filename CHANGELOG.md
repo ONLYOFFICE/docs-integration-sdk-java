@@ -6,6 +6,8 @@
 - documenteditor/config/editorconfig/customization/Features#tabBackground
 - common/Changesa#documentSha256
 - commandservice/CommandResponse#users
+- default empty file templates
+- fi, he, no, sl empty file templates
 
 ## Changed
 - demo server address changed
