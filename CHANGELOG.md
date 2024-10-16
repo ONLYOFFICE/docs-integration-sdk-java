@@ -1,7 +1,17 @@
 # Change Log
 
+## Added
+- documenteditor/config/editorconfig/customization/Logo#imageLight
+- documenteditor/config/editorconfig/customization/Features#tabStyle
+- documenteditor/config/editorconfig/customization/Features#tabBackground
+- common/Changesa#documentSha256
+- commandservice/CommandResponse#users
+
 ## Changed
 - demo server address changed
+- address of the command service, /command instead /coauthoring/CommandService.ashx
+- deprecated documenteditor/config/EditorConfig#location
+- deprecated documenteditor/config/editorconfig/Customization#toolbarNoTabs
 
 ## 1.2.0
 ## Added
