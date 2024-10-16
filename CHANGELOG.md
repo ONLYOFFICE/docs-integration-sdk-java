@@ -1,5 +1,9 @@
 # Change Log
 
+## Added
+- default empty file templates
+- fi, he, no, sl empty file templates
+
 ## Changed
 - demo server address changed
 
