@@ -18,6 +18,7 @@
 
 package com.onlyoffice.model.documenteditor.callback;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.onlyoffice.model.documenteditor.callback.action.Type;
 import lombok.AllArgsConstructor;
@@ -34,6 +35,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Action {
 
     /**
