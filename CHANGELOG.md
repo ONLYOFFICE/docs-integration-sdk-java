@@ -7,6 +7,10 @@
 ## Changed
 - demo server address changed
 
+## 1.2.1
+## Changed
+- ignore unknown properties
+
 ## 1.2.0
 ## Added
 - DocumentType - PDF
