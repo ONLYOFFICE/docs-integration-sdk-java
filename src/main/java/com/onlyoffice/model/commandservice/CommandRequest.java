@@ -33,7 +33,7 @@ import java.util.List;
 
 
 /**
- * Defines the request parameters that are sent to the "https://documentserver/coauthoring/CommandService.ashx"
+ * Defines the request parameters that are sent to the "https://documentserver/command"
  * address where "documentserver" is the name of the server with the ONLYOFFICE Document Server installed.
  */
 @Getter

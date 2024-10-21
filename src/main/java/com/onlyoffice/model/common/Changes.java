@@ -48,4 +48,9 @@ public class Changes {
      * Defines the user who is the author of the document version.
      */
     private User user;
+
+    /**
+     * Defines the documentSha256.
+     */
+    private String documentSha256;
 }

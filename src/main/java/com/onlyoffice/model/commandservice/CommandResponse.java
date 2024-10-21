@@ -94,6 +94,13 @@ public class CommandResponse {
     private String url;
 
     /**
+     * Defines the list of the identifiers of the users who opened the document for editing.
+     * When the document has been changed, the users will return the identifier of the user who was the last to edit
+     * the document (for status 2 and status 6 replies).
+     */
+    private List<String> users;
+
+    /**
      * Defines the document version.
      */
     private String version;

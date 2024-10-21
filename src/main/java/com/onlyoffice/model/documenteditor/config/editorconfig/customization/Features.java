@@ -53,4 +53,18 @@ public class Features {
      * The default value is "true".
      */
     private Boolean spellcheck;
+
+    /**
+     * Defines the background of the top toolbar tabs. If this parameter is a string value (header or toolbar),
+     * then it is set as the initial tab background value and the tab background setting will not be hidden.
+     * The default value is "header".
+     */
+    private Object tabBackground;
+
+    /**
+     * Defines the style of the top toolbar tabs. If this parameter is a string value (fill or line), then it is set as
+     * the initial tab style value and the tab style setting will not be hidden.
+     * The default value is "fill".
+     */
+    private Object tabStyle;
 }
