@@ -1,9 +1,9 @@
 ONLYOFFICE Docs Integration SDK uses code from the following 3rd party projects:
 
 
-org.apache.httpcomponents.httpclient - HTTPClient provides an efficient, up-to-date, and feature-rich package implementing the client side of the most recent HTTP standards and recommendations. (https://www.apache.org/licenses/LICENSE-2.0.txt)
+org.apache.httpcomponents.client5.httpclient5 - HTTPClient provides an efficient, up-to-date, and feature-rich package implementing the client side of the most recent HTTP standards and recommendations. (https://www.apache.org/licenses/LICENSE-2.0.txt)
 License:              Apache License 2.0
-License File:         org.apache.httpcomponents.httpclient.license
+License File:         org.apache.httpcomponents.client5.httpclient5.license
 
 com.auth0.java-jwt  - Java implementation of JSON Web Token (JWT) (https://github.com/auth0/java-jwt/blob/master/LICENSE)
 License:              MIT License

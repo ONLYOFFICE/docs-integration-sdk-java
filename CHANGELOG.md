@@ -15,6 +15,7 @@
 - address of the command service, /command instead /coauthoring/CommandService.ashx
 - deprecated documenteditor/config/EditorConfig#location
 - deprecated documenteditor/config/editorconfig/Customization#toolbarNoTabs
+- apache httpclient 5
 
 ## 1.2.1
 ## Changed
