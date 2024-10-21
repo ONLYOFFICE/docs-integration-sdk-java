@@ -40,6 +40,7 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
@@ -52,6 +53,8 @@ import org.apache.http.util.EntityUtils;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -183,8 +186,13 @@ public class DefaultRequestManager implements RequestManager {
     }
 
     private HttpPost createPostRequest(final String url, final RequestEntity requestEntity,
-                                       final Security security) throws JsonProcessingException {
-        HttpPost request = new HttpPost(url);
+                                       final Security security) throws JsonProcessingException, URISyntaxException {
+        URI uri = URI.create(url);
+        if (requestEntity.getKey() != null && !requestEntity.getKey().isEmpty()) {
+            uri = new URIBuilder(url).addParameter("shardkey", requestEntity.getKey()).build();
+        }
+
+        HttpPost request = new HttpPost(uri);
 
         if (security.getKey() != null && !security.getKey().isEmpty()) {
             Map<String, RequestEntity> payloadMap = new HashMap<>();
