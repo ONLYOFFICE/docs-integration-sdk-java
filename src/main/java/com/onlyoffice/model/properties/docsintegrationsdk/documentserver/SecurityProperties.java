@@ -28,4 +28,5 @@ public class SecurityProperties {
     private String prefix;
     private String key;
     private Long leeway;
+    private int tokenValidityInMinutes;
 }
