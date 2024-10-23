@@ -19,4 +19,5 @@
     <suppress files="src[\\/]test[\\/]java[\\/]com[\\/]onlyoffice[\\/].*" checks="LineLength"/>
     <suppress files="src[\\/]test[\\/]java[\\/]com[\\/]onlyoffice[\\/].*" checks="OperatorWrap"/>
     <suppress files="src[\\/]test[\\/]java[\\/]com[\\/]onlyoffice[\\/].*" checks="MagicNumber"/>
+    <suppress files="src[\\/]test[\\/]java[\\/]com[\\/]onlyoffice[\\/].*" checks="MethodName"/>
 </suppressions>

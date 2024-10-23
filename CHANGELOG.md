@@ -9,6 +9,7 @@
 - default empty file templates
 - fi, he, no, sl empty file templates
 - shardkey parameter
+- manager/document/DocumentManager#isForm(InputStream inputStream)
 
 ## Changed
 - demo server address changed

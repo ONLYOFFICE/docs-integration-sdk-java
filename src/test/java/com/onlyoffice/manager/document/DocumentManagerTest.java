@@ -30,6 +30,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Locale;
 
@@ -196,5 +197,23 @@ public class DocumentManagerTest {
         Long maxConversionFileSize = documentManager.getMaxConversionFileSize();
 
         Assertions.assertEquals(104857600L, maxConversionFileSize);
+    }
+
+    @Test
+    void whenIsFormWithPdfForm_thenReturnTrue() throws IOException {
+        InputStream inputStream = ConfigurationUtils.class
+                .getClassLoader()
+                .getResourceAsStream("files/pdf-form.pdf");
+
+        Assertions.assertTrue(documentManager.isForm(inputStream));
+    }
+
+    @Test
+    void whenIsFormWithPdfSimple_thenReturnFalse() throws IOException {
+        InputStream inputStream = ConfigurationUtils.class
+                .getClassLoader()
+                .getResourceAsStream("files/pdf-simple.pdf");
+
+        Assertions.assertFalse(documentManager.isForm(inputStream));
     }
 }
