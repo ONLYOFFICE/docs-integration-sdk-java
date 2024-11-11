@@ -17,6 +17,7 @@
 - deprecated documenteditor/config/EditorConfig#location
 - deprecated documenteditor/config/editorconfig/Customization#toolbarNoTabs
 - apache httpclient 5
+- default token lifetime is 5 minutes
 
 ## 1.2.1
 ## Changed
