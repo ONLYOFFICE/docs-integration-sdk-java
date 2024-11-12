@@ -15,6 +15,7 @@
 ## Changed
 - demo server address changed
 - address of the command service, /command instead /coauthoring/CommandService.ashx
+- address of the convert service, /converter instead /ConvertService.ashx
 - deprecated documenteditor/config/EditorConfig#location
 - deprecated documenteditor/config/editorconfig/Customization#toolbarNoTabs
 - apache httpclient 5
