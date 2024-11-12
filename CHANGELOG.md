@@ -10,6 +10,7 @@
 - fi, he, no, sl empty file templates
 - shardkey parameter
 - manager/document/DocumentManager#isForm(InputStream inputStream)
+- the list of image formats available for insertion into the editor has been expanded (tiff)
 
 ## Changed
 - demo server address changed
