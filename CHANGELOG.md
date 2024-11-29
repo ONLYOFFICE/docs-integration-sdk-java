@@ -4,7 +4,6 @@
 - documenteditor/config/editorconfig/customization/Logo#imageLight
 - documenteditor/config/editorconfig/customization/Features#tabStyle
 - documenteditor/config/editorconfig/customization/Features#tabBackground
-- common/Changesa#documentSha256
 - commandservice/CommandResponse#users
 - default empty file templates
 - fi, he, no, sl empty file templates
@@ -21,6 +20,7 @@
 - deprecated documenteditor/config/editorconfig/Customization#toolbarNoTabs
 - apache httpclient 5
 - default token lifetime is 5 minutes
+- delete model common/Changes
 
 ## 1.2.1
 ## Changed
