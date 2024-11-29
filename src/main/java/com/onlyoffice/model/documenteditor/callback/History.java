@@ -20,7 +20,6 @@ package com.onlyoffice.model.documenteditor.callback;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.onlyoffice.model.common.Changes;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -55,5 +54,5 @@ public class History {
     /**
      * Defines the changes from the history object returned after saving the document.
      */
-    private List<Changes> changes;
+    private List<Object> changes;
 }
