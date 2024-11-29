@@ -349,7 +349,8 @@ public abstract class DefaultDocumentManager implements DocumentManager {
     public boolean isForm(final InputStream inputStream) {
         try {
             // CHECKSTYLE:OFF
-            byte[] bytes = inputStream.readNBytes(300);
+            byte[] bytes = new byte[300];
+            int count = inputStream.read(bytes, 0, 300);
             // CHECKSTYLE:ON
             String pBuffer = new String(bytes, Charset.forName("Windows-1252"));
 
