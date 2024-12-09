@@ -44,6 +44,7 @@ import java.util.Map;
 
 @AllArgsConstructor
 public abstract class DefaultDocumentManager implements DocumentManager {
+    private static final String DOCS_FORMATS_JSON_PATH = "assets/document-formats/onlyoffice-docs-formats.json";
 
     /**
      * Defines the default maximum file size, used if the "integration-sdk.data.filesize.editing.max"
@@ -416,7 +417,15 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         InputStream inputStream =  Thread
                 .currentThread()
                 .getContextClassLoader()
-                .getResourceAsStream("assets/document-formats/onlyoffice-docs-formats.json");
+                .getResourceAsStream(DOCS_FORMATS_JSON_PATH);
+
+        if (inputStream == null) {
+            inputStream = DefaultDocumentManager.class
+                    .getClassLoader()
+                    .getResourceAsStream(DOCS_FORMATS_JSON_PATH);
+        }
+
+
         try {
             formats = objectMapper.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true)
                     .readValue(inputStream, new TypeReference<List<Format>>() { });
