@@ -44,6 +44,9 @@ import java.util.Map;
 
 @AllArgsConstructor
 public abstract class DefaultDocumentManager implements DocumentManager {
+    /**
+     * Path to the matrix of formats supported by the ONLYOFFICE Editor.
+     */
     private static final String DOCS_FORMATS_JSON_PATH = "assets/document-formats/onlyoffice-docs-formats.json";
 
     /**
