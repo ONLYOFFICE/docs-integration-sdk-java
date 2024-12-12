@@ -1,5 +1,6 @@
 # Change Log
 
+## 1.3.0
 ## Added
 - documenteditor/config/editorconfig/customization/Logo#imageLight
 - documenteditor/config/editorconfig/customization/Features#tabStyle
