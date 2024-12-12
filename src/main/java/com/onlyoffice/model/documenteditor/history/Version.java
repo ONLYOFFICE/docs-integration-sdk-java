@@ -19,7 +19,6 @@
 package com.onlyoffice.model.documenteditor.history;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.onlyoffice.model.common.Changes;
 import com.onlyoffice.model.common.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,7 +39,7 @@ public class Version {
     /**
      * Defines the changes from the history object returned after saving the document.
      */
-    private List<Changes> changes;
+    private List<Object> changes;
 
     /**
      * Defines the document version creation date.

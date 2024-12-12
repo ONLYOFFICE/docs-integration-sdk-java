@@ -28,7 +28,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.Instant;
 import java.util.Base64;
+import java.util.Calendar;
 import java.util.Map;
 
 
@@ -61,7 +63,20 @@ public class DefaultJwtManager implements JwtManager {
     public String createToken(final Map<String, ?> payloadMap, final String key) {
         Algorithm algorithm = Algorithm.HMAC256(key);
 
+        Calendar calendar = Calendar.getInstance();
+        Instant issuedAt = calendar.toInstant();
+        calendar.add(
+                Calendar.MINUTE,
+                settingsManager.getDocsIntegrationSdkProperties()
+                        .getDocumentServer()
+                        .getSecurity()
+                        .getTokenValidityInMinutes()
+        );
+        Instant expiresAt = calendar.toInstant();
+
         String token = JWT.create()
+                .withIssuedAt(issuedAt)
+                .withExpiresAt(expiresAt)
                 .withPayload(payloadMap)
                 .sign(algorithm);
 

@@ -1,5 +1,28 @@
 # Change Log
 
+## 1.3.0
+## Added
+- documenteditor/config/editorconfig/customization/Logo#imageLight
+- documenteditor/config/editorconfig/customization/Features#tabStyle
+- documenteditor/config/editorconfig/customization/Features#tabBackground
+- commandservice/CommandResponse#users
+- default empty file templates
+- fi, he, no, sl empty file templates
+- shardkey parameter
+- manager/document/DocumentManager#isForm(InputStream inputStream)
+- the list of image formats available for insertion into the editor has been expanded (tiff)
+- support java 8
+
+## Changed
+- demo server address changed
+- address of the command service, /command instead /coauthoring/CommandService.ashx
+- address of the convert service, /converter instead /ConvertService.ashx
+- deprecated documenteditor/config/EditorConfig#location
+- deprecated documenteditor/config/editorconfig/Customization#toolbarNoTabs
+- apache httpclient 5
+- default token lifetime is 5 minutes
+- delete model common/Changes
+
 ## 1.2.1
 ## Changed
 - ignore unknown properties

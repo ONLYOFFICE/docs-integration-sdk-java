@@ -27,12 +27,14 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.hc.core5.net.URIBuilder;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URISyntaxException;
 
 
 @AllArgsConstructor
@@ -69,9 +71,28 @@ public class DefaultUrlManager implements UrlManager {
 
      @Override
      public String getDocumentServerApiUrl() {
-          return getDocumentServerUrl() + settingsManager.getDocsIntegrationSdkProperties()
-                  .getDocumentServer()
-                  .getApiUrl();
+          return getDocumentServerApiUrl(null);
+     }
+
+     @Override
+     public String getDocumentServerApiUrl(final String shardKey) {
+          try {
+               URIBuilder uriBuilder = new URIBuilder(
+                       getDocumentServerUrl() + settingsManager.getDocsIntegrationSdkProperties()
+                       .getDocumentServer()
+                       .getApiUrl()
+               );
+
+               if (shardKey != null && !shardKey.isEmpty()) {
+                    uriBuilder.addParameter("shardkey", shardKey);
+               }
+
+               return uriBuilder.build().toString();
+          } catch (URISyntaxException e) {
+               return getDocumentServerUrl() + settingsManager.getDocsIntegrationSdkProperties()
+                       .getDocumentServer()
+                       .getApiUrl();
+          }
      }
 
      @Override

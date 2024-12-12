@@ -31,31 +31,33 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpStatus;
-import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.ssl.SSLContextBuilder;
-import org.apache.http.ssl.TrustStrategy;
-import org.apache.http.util.EntityUtils;
+import org.apache.hc.client5.http.ClientProtocolException;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequest;
+import org.apache.hc.client5.http.config.ConnectionConfig;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
+import org.apache.hc.client5.http.ssl.DefaultClientTlsStrategy;
+import org.apache.hc.client5.http.ssl.TlsSocketStrategy;
+import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.HttpStatus;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.http.io.entity.StringEntity;
+import org.apache.hc.core5.net.URIBuilder;
+import org.apache.hc.core5.ssl.SSLContextBuilder;
+import org.apache.hc.core5.ssl.TrustStrategy;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLContext;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.HashMap;
 import java.util.Map;
@@ -144,31 +146,21 @@ public class DefaultRequestManager implements RequestManager {
             throws Exception {
         try (CloseableHttpClient httpClient = getHttpClient(httpClientSettings)) {
             try (CloseableHttpResponse response = httpClient.execute(request)) {
-                StatusLine statusLine = response.getStatusLine();
-                if (statusLine == null) {
-                    throw new ClientProtocolException(
-                            settingsManager.getDocsIntegrationSdkProperties().getProduct().getName()
-                                    + " URL: " + request.getURI() + " did not return a response.\n"
-                                    + "Request: " + request.toString() + "\n"
-                                    + "Response: " + response
-                    );
-                }
-
                 HttpEntity resEntity = response.getEntity();
                 if (resEntity == null) {
                     throw new ClientProtocolException(
                             settingsManager.getDocsIntegrationSdkProperties().getProduct().getName()
-                                    + " URL: " + request.getURI() + " did not return content.\n"
+                                    + " URL: " + request.getUri() + " did not return content.\n"
                                     + "Request: " + request.toString() + "\n"
                                     + "Response: " + response
                     );
                 }
 
-                int statusCode = statusLine.getStatusCode();
+                int statusCode = response.getCode();
                 if (statusCode != HttpStatus.SC_OK) {
                     throw new ClientProtocolException(
                             settingsManager.getDocsIntegrationSdkProperties().getProduct().getName()
-                                    + " URL: " + request.getURI() + " return unexpected response.\n"
+                                    + " URL: " + request.getUri() + " return unexpected response.\n"
                                     + "Request: " + request.toString() + "\n"
                                     + "Response: " + response.toString()
                     );
@@ -183,8 +175,13 @@ public class DefaultRequestManager implements RequestManager {
     }
 
     private HttpPost createPostRequest(final String url, final RequestEntity requestEntity,
-                                       final Security security) throws JsonProcessingException {
-        HttpPost request = new HttpPost(url);
+                                       final Security security) throws JsonProcessingException, URISyntaxException {
+        URI uri = URI.create(url);
+        if (requestEntity.getKey() != null && !requestEntity.getKey().isEmpty()) {
+            uri = new URIBuilder(url).addParameter("shardkey", requestEntity.getKey()).build();
+        }
+
+        HttpPost request = new HttpPost(uri);
 
         if (security.getKey() != null && !security.getKey().isEmpty()) {
             Map<String, RequestEntity> payloadMap = new HashMap<>();
@@ -252,46 +249,33 @@ public class DefaultRequestManager implements RequestManager {
             }
         }
 
-        RequestConfig config = RequestConfig
-                .custom()
-                .setConnectTimeout(connectionTimeout)
-                .setConnectionRequestTimeout(connectionRequestTimeout)
-                .setSocketTimeout(socketTimeout)
-                .build();
 
-        CloseableHttpClient httpClient;
+        PoolingHttpClientConnectionManagerBuilder poolingHttpClientConnectionManagerBuilder =
+                PoolingHttpClientConnectionManagerBuilder.create()
+                .setDefaultConnectionConfig(ConnectionConfig.custom()
+                        .setConnectTimeout(connectionTimeout, TimeUnit.MILLISECONDS)
+                        .setSocketTimeout(socketTimeout, TimeUnit.MILLISECONDS)
+                        .build()
+                );
 
         if (ignoreSSLCertificate) {
-            SSLContextBuilder builder = new SSLContextBuilder();
+            TrustStrategy acceptingTrustStrategy = (X509Certificate[] chain, String authType) -> true;
 
-            builder.loadTrustMaterial(null, new TrustStrategy() {
-                @Override
-                public boolean isTrusted(final X509Certificate[] chain, final String authType)
-                        throws CertificateException {
-                    return true;
-                }
-            });
-
-            SSLConnectionSocketFactory sslConnectionSocketFactory =
-                    new SSLConnectionSocketFactory(builder.build(), new HostnameVerifier() {
-                        @Override
-                        public boolean verify(final String hostname, final SSLSession session) {
-                            return true;
-                        }
-                    });
-
-            httpClient = HttpClients
-                    .custom()
-                    .setSSLSocketFactory(sslConnectionSocketFactory)
-                    .setDefaultRequestConfig(config)
-                    .build();
-        } else {
-            httpClient = HttpClientBuilder
+            SSLContext sslContext = SSLContextBuilder
                     .create()
-                    .setDefaultRequestConfig(config)
+                    .loadTrustMaterial(acceptingTrustStrategy)
                     .build();
+            TlsSocketStrategy tlsStrategy = new DefaultClientTlsStrategy(sslContext);
+
+            poolingHttpClientConnectionManagerBuilder.setTlsSocketStrategy(tlsStrategy);
         }
 
-        return httpClient;
+        return HttpClientBuilder.create()
+                .setDefaultRequestConfig(RequestConfig.custom()
+                        .setConnectionRequestTimeout(connectionRequestTimeout, TimeUnit.MILLISECONDS)
+                        .build()
+                )
+                .setConnectionManager(poolingHttpClientConnectionManagerBuilder.build())
+                .build();
     }
 }

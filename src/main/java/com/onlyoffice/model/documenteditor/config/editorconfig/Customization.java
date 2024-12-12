@@ -253,7 +253,10 @@ public class Customization {
     /**
      * Defines if the top toolbar tabs are distinctly displayed ("false") or only highlighted to see which one is
      * selected ("true"). The default value is "false".
+     * Deprecated since version 8.2, please use the {@link Features#tabStyle} parameter which is set
+     * to line and the {@link Features#tabBackground} parameter which is equal to toolbar.
      */
+    @Deprecated
     private Boolean toolbarNoTabs;
 
     /**

@@ -202,5 +202,13 @@ public interface DocumentManager {
      * @return The maximum file size that can be converted.
      */
     long getMaxConversionFileSize();
+
+    /**
+     * Determines whether a file is form.
+     *
+     * @param inputStream The inputStream of file.
+     * @return True if the file is form.
+     */
+    boolean isForm(InputStream inputStream);
 }
 

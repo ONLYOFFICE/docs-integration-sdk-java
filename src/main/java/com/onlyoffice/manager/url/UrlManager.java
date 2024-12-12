@@ -45,6 +45,14 @@ public interface UrlManager {
      String getDocumentServerApiUrl();
 
      /**
+      * Returns the URL to the Document Server API with shardKey.
+      *
+      * @param shardKey The shardKey parameter for insert to the URL query string.
+      * @return The URL to the Document Server API with shardKey.
+      */
+     String getDocumentServerApiUrl(String shardKey);
+
+     /**
       * Returns the URL to the Document Server Preloader API.
       *
       * @return The URL to the Document Server Preloader API.

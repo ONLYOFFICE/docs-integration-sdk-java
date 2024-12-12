@@ -32,6 +32,7 @@ import lombok.Setter;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,6 +44,10 @@ import java.util.Map;
 
 @AllArgsConstructor
 public abstract class DefaultDocumentManager implements DocumentManager {
+    /**
+     * Path to the matrix of formats supported by the ONLYOFFICE Editor.
+     */
+    private static final String DOCS_FORMATS_JSON_PATH = "assets/document-formats/onlyoffice-docs-formats.json";
 
     /**
      * Defines the default maximum file size, used if the "integration-sdk.data.filesize.editing.max"
@@ -182,7 +187,7 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         }
 
         if (inputStream == null) {
-            path = MessageFormat.format(pathTemplate, "en", extension);
+            path = MessageFormat.format(pathTemplate, "default", extension);
             inputStream = this.getClass().getClassLoader().getResourceAsStream(path);
         }
 
@@ -344,13 +349,86 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         return size > 0 ? size : DEFAULT_MAX_FILE_SIZE;
     }
 
+    @Override
+    public boolean isForm(final InputStream inputStream) {
+        try {
+            // CHECKSTYLE:OFF
+            byte[] bytes = new byte[300];
+            int count = inputStream.read(bytes, 0, 300);
+            // CHECKSTYLE:ON
+            String pBuffer = new String(bytes, Charset.forName("Windows-1252"));
+
+            int indexFirst = pBuffer.indexOf("%\315\312\322\251\015");
+            if (indexFirst == -1) {
+                return false;
+            }
+
+            // CHECKSTYLE:OFF
+            String pFirst = pBuffer.substring(indexFirst + 6);
+            // CHECKSTYLE:ON
+            if (!pFirst.startsWith("1 0 obj\012<<\012")) {
+                return false;
+            }
+
+            // CHECKSTYLE:OFF
+            pFirst = pFirst.substring(11);
+            // CHECKSTYLE:ON
+
+            int indexStream = pFirst.indexOf("stream\015\012");
+            int indexMeta = pFirst.indexOf("ONLYOFFICEFORM");
+
+            if (indexStream == -1 || indexMeta == -1 || indexStream < indexMeta) {
+                return false;
+            }
+
+            String pMeta = pFirst.substring(indexMeta);
+            // CHECKSTYLE:OFF
+            pMeta = pMeta.substring("ONLYOFFICEFORM".length() + 3);
+            // CHECKSTYLE:ON
+
+            int indexMetaLast = pMeta.indexOf(" ");
+
+            if (indexMetaLast == -1) {
+                return false;
+            }
+
+            pMeta = pMeta.substring(indexMetaLast + 1);
+
+            indexMetaLast = pMeta.indexOf(" ");
+
+            if (indexMetaLast == -1) {
+                return false;
+            }
+
+            return true;
+        } catch (IOException e) {
+            return false;
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     protected static void init() {
         ObjectMapper objectMapper = new ObjectMapper();
 
         InputStream inputStream =  Thread
                 .currentThread()
                 .getContextClassLoader()
-                .getResourceAsStream("assets/document-formats/onlyoffice-docs-formats.json");
+                .getResourceAsStream(DOCS_FORMATS_JSON_PATH);
+
+        if (inputStream == null) {
+            inputStream = DefaultDocumentManager.class
+                    .getClassLoader()
+                    .getResourceAsStream(DOCS_FORMATS_JSON_PATH);
+        }
+
+
         try {
             formats = objectMapper.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true)
                     .readValue(inputStream, new TypeReference<List<Format>>() { });

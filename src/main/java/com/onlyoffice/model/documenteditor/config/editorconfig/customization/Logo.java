@@ -56,6 +56,12 @@ public class Logo {
     private String imageDark;
 
     /**
+     * Path to the image file used for the light header (for example, in the Gray theme).
+     * The image must have the following size: 172x40.
+     */
+    private String imageLight;
+
+    /**
      * Defines the path to the image file used to show in the embedded mode
      * (see the {@link com.onlyoffice.model.documenteditor.Config} section to find out how to define the embedded
      * document type). The image must have the following size: 248 x 40.

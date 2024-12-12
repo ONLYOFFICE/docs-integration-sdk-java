@@ -87,7 +87,9 @@ public class EditorConfig {
     /**
      * Defines the default measurement units. Specify "us" or "ca" to set inches.
      * The default value is "".
+     * Deprecated since version 8.2, please use the {@link #region} parameter instead.
      */
+    @Deprecated
     private String location;
 
     /**
