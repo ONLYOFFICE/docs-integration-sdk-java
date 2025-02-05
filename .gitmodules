@@ -5,3 +5,4 @@
 [submodule "src/main/resources/assets/document-formats"]
 	path = src/main/resources/assets/document-formats
 	url = https://github.com/ONLYOFFICE/document-formats
+	branch = feature/diagram
