@@ -1,5 +1,9 @@
 # Change Log
 
+## Added
+- support hwp, hwpx, pages, numbers, key formats
+- sq-AL empty file templates
+
 ## 1.3.0
 ## Added
 - documenteditor/config/editorconfig/customization/Logo#imageLight
