@@ -3,6 +3,7 @@
 ## Added
 - documenteditor/config/editorconfig/Customization#mobile
 - documenteditor/config/editorconfig/Customization#pointerMode
+- documenteditor/config/editorconfig/Customization#slidePlayerBackground
 - deprecated documenteditor/config/editorconfig/Customization#mobileForceView
 - support hwp, hwpx, pages, numbers, key formats
 - sq-AL empty file templates
