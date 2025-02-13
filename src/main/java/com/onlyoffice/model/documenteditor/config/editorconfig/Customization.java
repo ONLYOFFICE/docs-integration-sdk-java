@@ -260,10 +260,13 @@ public class Customization {
     private Boolean spellcheck;
 
     /**
-     * Defines if the Submit button is displayed or hidden on the top toolbar. Button will only be available for the pdf
-     * format. The default value is false.
+     * Starting from version 8.3, defines the Complete &amp; Submit button settings. If this parameter is a boolean
+     * value, then it specifies whether the Complete &amp; Submit button will be displayed or hidden on the top toolbar.
+     * Button will only be available for the pdf format. The default value is true.
+     *
+     * @see com.onlyoffice.model.documenteditor.config.editorconfig.customization.SubmitForm
      */
-    private Boolean submitForm;
+    private Object submitForm;
 
     /**
      * Defines if the document title is visible on the top toolbar ("false") or hidden ("true").
