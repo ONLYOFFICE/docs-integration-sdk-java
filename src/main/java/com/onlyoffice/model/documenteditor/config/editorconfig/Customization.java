@@ -306,6 +306,11 @@ public class Customization {
     private Unit unit;
 
     /**
+     * Starting from version 8.3, defines the HEX color for the default heading styles in the document editor.
+     */
+    private String wordHeadingsColor;
+
+    /**
      * Defines the document display zoom value measured in percent. Can take values larger than "0".
      * For text documents and presentations it is possible to set this parameter to "-1" (fitting the document to page
      * option) or to "-2" (fitting the document page width to the editor page). The default value is "100".
