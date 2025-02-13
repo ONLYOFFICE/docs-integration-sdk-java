@@ -217,6 +217,12 @@ public class Customization {
     private Boolean plugins;
 
     /**
+     * Defines the pointer mode (select or hand) when the presentation editor is loaded in the viewer.
+     * The default value is select.
+     */
+    private String pointerMode;
+
+    /**
      * Contains the information about the review mode.
      */
     private Review review;
