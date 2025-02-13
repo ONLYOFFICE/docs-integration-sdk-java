@@ -1,6 +1,8 @@
 # Change Log
 
 ## Added
+- documenteditor/config/editorconfig/Customization#mobile
+- deprecated documenteditor/config/editorconfig/Customization#mobileForceView
 - support hwp, hwpx, pages, numbers, key formats
 - sq-AL empty file templates
 

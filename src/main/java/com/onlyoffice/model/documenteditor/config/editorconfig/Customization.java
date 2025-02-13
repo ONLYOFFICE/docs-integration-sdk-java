@@ -27,6 +27,7 @@ import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Fea
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Goback;
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Logo;
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.MacrosMode;
+import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Mobile;
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Review;
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.review.ReviewDisplay;
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Unit;
@@ -199,8 +200,15 @@ public class Customization {
     private Boolean mentionShare;
 
     /**
-     * Defines if the mobile document editor is opened in the view/edit mode on launch. The default value is "true".
+     * Defines the mobile document editor settings.
      */
+    private Mobile mobile;
+
+    /**
+     * Defines if the mobile document editor is opened in the view/edit mode on launch. The default value is "true".
+     * Deprecated since version 8.2. Please use the {@link Mobile mobile.forceView} parameter instead.
+     */
+    @Deprecated
     private Boolean mobileForceView;
 
     /**
