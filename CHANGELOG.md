@@ -1,5 +1,6 @@
 # Change Log
 
+## 1.4.0
 ## Added
 - documenteditor/config/editorconfig/Customization#mobile
 - documenteditor/config/editorconfig/Customization#pointerMode
