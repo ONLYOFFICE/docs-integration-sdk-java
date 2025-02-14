@@ -16,37 +16,41 @@
  *
  */
 
-package com.onlyoffice.model.settings.validation;
+package com.onlyoffice.model.documenteditor.config.editorconfig.customization;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.onlyoffice.model.common.Error;
-import com.onlyoffice.model.settings.validation.status.Status;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
 /**
- * Defines the validation result properties.
+ * Defines the mobile document editor settings.
  */
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-public class ValidationResult {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Mobile {
+    /**
+     * Defines whether the view mode is enabled on launch in the mobile document editor. The default value is true.
+     */
+    private Boolean forceView;
 
     /**
-     * Defines the validation result status.
+     * Defines whether the Document Info button is displayed or hidden in the mobile document editor.
+     * The default value is false.
      */
-    private Status status;
+    private Boolean info;
 
     /**
-     * Defines the error parameters.
+     * Defines whether the editor will be opened in Standard view instead of Mobile view. The default value is false.
      */
-    private Error error;
-
-    /**
-     * Defines the message.
-     */
-    private String message;
+    private Boolean standardView;
 }

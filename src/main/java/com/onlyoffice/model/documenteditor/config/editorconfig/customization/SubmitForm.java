@@ -16,35 +16,41 @@
  *
  */
 
-package com.onlyoffice.model.documenteditor.callback;
+package com.onlyoffice.model.documenteditor.config.editorconfig.customization;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.onlyoffice.model.documenteditor.callback.action.Type;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
 /**
- * Defines the object received when the user takes an action with the document.
+ * Starting from version 8.3, defines the Complete &amp; Submit button settings. If this parameter is a boolean value,
+ * then it specifies whether the Complete &amp; Submit button will be displayed or hidden on the top toolbar.
+ * Button will only be available for the pdf format. The default value is true.
  */
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Action {
+public class SubmitForm {
+    /**
+     * Defines whether the Complete &amp; Submit button will be displayed or hidden on the top toolbar.
+     * Button will only be available for the pdf format. The default value is true.
+     */
+    private Boolean visible;
 
     /**
-     * Defines the action type.
+     * Defines a message displayed after forms are submitted. The following values are available:
+     * "" - the message will not be displayed;
+     * null / undefined - the default message will be displayed;
+     * "text" - any text that the user specifies will be displayed.
      */
-    private Type type;
-
-    /**
-     * Defines the user identifier.
-     */
-    private String userid;
+    private String resultMessage;
 }
