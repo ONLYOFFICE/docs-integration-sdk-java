@@ -27,6 +27,7 @@ import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Fea
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Goback;
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Logo;
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.MacrosMode;
+import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Mobile;
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Review;
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.review.ReviewDisplay;
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Unit;
@@ -105,8 +106,9 @@ public class Customization {
     private Boolean compactHeader;
 
     /**
-     * Defines if the top toolbar type displayed is full ("false") or compact ("true").
-     * The default value is "false".
+     * Defines if the top toolbar type displayed is full (false) or compact (true). The default value is false.
+     * Starting from version 8.3, this setting is also available for the viewer.
+     * The default value for the view mode is true.
      */
     private Boolean compactToolbar;
 
@@ -198,14 +200,27 @@ public class Customization {
     private Boolean mentionShare;
 
     /**
-     * Defines if the mobile document editor is opened in the view/edit mode on launch. The default value is "true".
+     * Defines the mobile document editor settings.
      */
+    private Mobile mobile;
+
+    /**
+     * Defines if the mobile document editor is opened in the view/edit mode on launch. The default value is "true".
+     * Deprecated since version 8.2. Please use the {@link Mobile mobile.forceView} parameter instead.
+     */
+    @Deprecated
     private Boolean mobileForceView;
 
     /**
      * Defines if plugins will be launched and available. The default value is "true".
      */
     private Boolean plugins;
+
+    /**
+     * Defines the pointer mode (select or hand) when the presentation editor is loaded in the viewer.
+     * The default value is select.
+     */
+    private String pointerMode;
 
     /**
      * Contains the information about the review mode.
@@ -230,6 +245,12 @@ public class Customization {
     private Boolean showReviewChanges;
 
     /**
+     * Starting from version 8.3, defines the background color for the slide show in the presentation editor.
+     * Can be represented in the HEX, RGB, or RGBA formats. For example, #ff0000, rgb(255, 0, 0), rgba(255, 0, 0, 0.5).
+     */
+    private String slidePlayerBackground;
+
+    /**
      * Defines if the spell checker is automatically switched on or off when the editor is loaded.
      * Spell checker will only be available for the document editor and the presentation editor.
      * The default value is "true". Deprecated since version 7.1. Please use the {@link Features features.spellcheck}
@@ -239,10 +260,13 @@ public class Customization {
     private Boolean spellcheck;
 
     /**
-     * Defines if the Submit button is displayed or hidden on the top toolbar. Button will only be available for the pdf
-     * format. The default value is false.
+     * Starting from version 8.3, defines the Complete &amp; Submit button settings. If this parameter is a boolean
+     * value, then it specifies whether the Complete &amp; Submit button will be displayed or hidden on the top toolbar.
+     * Button will only be available for the pdf format. The default value is true.
+     *
+     * @see com.onlyoffice.model.documenteditor.config.editorconfig.customization.SubmitForm
      */
-    private Boolean submitForm;
+    private Object submitForm;
 
     /**
      * Defines if the document title is visible on the top toolbar ("false") or hidden ("true").
@@ -283,6 +307,11 @@ public class Customization {
      * The default value is centimeters ("cm").
      */
     private Unit unit;
+
+    /**
+     * Starting from version 8.3, defines the HEX color for the default heading styles in the document editor.
+     */
+    private String wordHeadingsColor;
 
     /**
      * Defines the document display zoom value measured in percent. Can take values larger than "0".
