@@ -21,6 +21,7 @@ package com.onlyoffice.manager.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onlyoffice.manager.settings.SettingsManager;
 import lombok.AccessLevel;
@@ -47,14 +48,14 @@ public class DefaultJwtManager implements JwtManager {
 
     @Override
     public String createToken(final Object object) {
-        Map<String, ?> payloadMap = objectMapper.convertValue(object, Map.class);
+        Map<String, ?> payloadMap = objectMapper.convertValue(object, new TypeReference<Map<String, ?>>() { });
 
         return createToken(payloadMap, settingsManager.getSecurityKey());
     }
 
     @Override
     public String createToken(final Object object, final String key) {
-        Map<String, ?> payloadMap = objectMapper.convertValue(object, Map.class);
+        Map<String, ?> payloadMap = objectMapper.convertValue(object, new TypeReference<Map<String, ?>>() { });
 
         return createToken(payloadMap, key);
     }
@@ -74,13 +75,11 @@ public class DefaultJwtManager implements JwtManager {
         );
         Instant expiresAt = calendar.toInstant();
 
-        String token = JWT.create()
+        return JWT.create()
                 .withIssuedAt(issuedAt)
                 .withExpiresAt(expiresAt)
                 .withPayload(payloadMap)
                 .sign(algorithm);
-
-        return token;
     }
 
     @Override
