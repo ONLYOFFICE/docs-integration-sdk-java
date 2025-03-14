@@ -63,7 +63,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-
+@Deprecated
 @AllArgsConstructor
 public class DefaultRequestManager implements RequestManager {
 
@@ -85,6 +85,7 @@ public class DefaultRequestManager implements RequestManager {
     /** {@link ObjectMapper}. */
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    @Deprecated
     @Override
     public <R> R executeGetRequest(final String url, final Callback<R> callback) throws Exception {
         HttpClientSettings httpClientSettings = HttpClientSettings.builder()
@@ -94,6 +95,7 @@ public class DefaultRequestManager implements RequestManager {
         return executeGetRequest(url, httpClientSettings, callback);
     }
 
+    @Deprecated
     @Override
     public <R> R executeGetRequest(final String url, final HttpClientSettings httpClientSettings,
                                    final Callback<R> callback)
@@ -103,6 +105,7 @@ public class DefaultRequestManager implements RequestManager {
         return executeRequest(httpGet, httpClientSettings, callback);
     }
 
+    @Deprecated
     @Override
     public <R> R executePostRequest(final RequestedService requestedService, final RequestEntity requestEntity,
                                     final Callback<R> callback) throws Exception {
@@ -117,6 +120,7 @@ public class DefaultRequestManager implements RequestManager {
          return executePostRequest(url, requestEntity, security, null, callback);
     }
 
+    @Deprecated
     @Override
     public <R> R executePostRequest(final RequestedService requestedService, final RequestEntity requestEntity,
                                     final HttpClientSettings httpClientSettings, final Callback<R> callback)
@@ -132,6 +136,7 @@ public class DefaultRequestManager implements RequestManager {
         return executePostRequest(url, requestEntity, security, httpClientSettings, callback);
     }
 
+    @Deprecated
     @Override
     public <R> R executePostRequest(final String url, final RequestEntity requestEntity, final Security security,
                                     final HttpClientSettings httpClientSettings, final Callback<R> callback)
