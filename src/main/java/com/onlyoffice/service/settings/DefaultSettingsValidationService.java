@@ -174,6 +174,11 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
         return checkConvertService(url, null, security, httpClientSettings);
     }
 
+    @Override
+    public ValidationResult checkConvertService(final String productUrl) {
+        throw new UnsupportedOperationException("Method not implemented yet");
+    }
+
 
     @Override
     public ValidationResult checkConvertService(final String url, final String productInnerUrl, final Security security,
