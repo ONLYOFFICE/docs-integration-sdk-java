@@ -25,7 +25,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Properties;
 
-@Component
 public class SettingsManagerImpl extends DefaultSettingsManager {
     private static Properties properties;
 
@@ -33,10 +32,7 @@ public class SettingsManagerImpl extends DefaultSettingsManager {
         properties = new Properties();
     }
 
-    public SettingsManagerImpl(
-            @Value("${url}") final String docServerUrl,
-            @Value("${security.key}") final String securityKey
-    ) {
+    public SettingsManagerImpl(final String docServerUrl, final String securityKey) {
         properties.put(SettingsConstants.URL, docServerUrl);
         properties.put(SettingsConstants.SECURITY_KEY, securityKey);
     }
