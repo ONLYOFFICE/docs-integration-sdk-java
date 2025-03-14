@@ -5,6 +5,7 @@
 - SettingsValidationService#checkConvertService(String productUrl)
 - DefaultSettingsValidationServiceV2 with using DocumentServerClient
 - DefaultConvertServiceV2 with using DocumentServerClient
+- DocsIntegrationSdkContext and DocsIntegrationSdkConfiguration
 
 ## Changed
 - deprecated RequestManager, DefaultRequestManager
