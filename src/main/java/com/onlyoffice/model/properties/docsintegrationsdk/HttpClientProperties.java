@@ -19,13 +19,22 @@
 package com.onlyoffice.model.properties.docsintegrationsdk;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class HttpClientProperties {
     private long connectionTimeout;
     private long connectionRequestTimeout;
     private long socketTimeout;
     private Boolean ignoreSslCertificate;
+
+    public HttpClientProperties(final HttpClientProperties httpClientProperties) {
+        this.connectionTimeout = httpClientProperties.getConnectionTimeout();
+        this.connectionRequestTimeout = httpClientProperties.getConnectionRequestTimeout();
+        this.socketTimeout = httpClientProperties.getSocketTimeout();
+        this.ignoreSslCertificate = httpClientProperties.ignoreSslCertificate;
+    }
 }
