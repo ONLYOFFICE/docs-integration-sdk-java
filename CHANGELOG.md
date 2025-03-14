@@ -2,6 +2,17 @@
 
 ## Added
 - interface DocumentServerClient and implementation ApacheHttpclientDocumentServerClient
+- SettingsValidationService#checkConvertService(String productUrl)
+- DefaultSettingsValidationServiceV2 with using DocumentServerClient
+- DefaultConvertServiceV2 with using DocumentServerClient
+
+## Changed
+- deprecated RequestManager, DefaultRequestManager
+- deprecated methods in SettingsValidationService:
+  - checkDocumentServer(String url, HttpClientSettings httpClientSettings)
+  - checkCommandService(String url, Security security, HttpClientSettings httpClientSettings)
+  - checkConvertService(String url, String productInnerUrl, Security security,
+    HttpClientSettings httpClientSettings)
 
 ## 1.4.0
 ## Added
