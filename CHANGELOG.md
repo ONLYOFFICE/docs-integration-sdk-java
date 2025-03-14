@@ -1,5 +1,8 @@
 # Change Log
 
+## Added
+- interface DocumentServerClient and implementation ApacheHttpclientDocumentServerClient
+
 ## 1.4.0
 ## Added
 - documenteditor/config/editorconfig/Customization#mobile

@@ -16,25 +16,27 @@
  *
  */
 
-package com.onlyoffice.model.properties.docsintegrationsdk;
+package com.onlyoffice.client;
 
+import com.onlyoffice.model.settings.security.Security;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
-public class HttpClientProperties {
-    private long connectionTimeout;
-    private long connectionRequestTimeout;
-    private long socketTimeout;
-    private Boolean ignoreSslCertificate;
+@Builder
+public class DocumentServerClientSettings {
+    /** The base URL for the document server. */
+    private String baseUrl;
 
-    public HttpClientProperties(final HttpClientProperties httpClientProperties) {
-        this.connectionTimeout = httpClientProperties.getConnectionTimeout();
-        this.connectionRequestTimeout = httpClientProperties.getConnectionRequestTimeout();
-        this.socketTimeout = httpClientProperties.getSocketTimeout();
-        this.ignoreSslCertificate = httpClientProperties.ignoreSslCertificate;
-    }
+    /** The security configuration for the document server. */
+    private Security security;
+
+    /** The flag indicating whether to ignore SSL certificate validation. */
+    private Boolean ignoreSSLCertificate;
 }
