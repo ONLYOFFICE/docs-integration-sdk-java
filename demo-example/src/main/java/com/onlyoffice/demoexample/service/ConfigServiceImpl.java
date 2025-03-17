@@ -26,7 +26,6 @@ import com.onlyoffice.model.documenteditor.config.document.Permissions;
 import com.onlyoffice.service.documenteditor.config.DefaultConfigService;
 import org.springframework.stereotype.Component;
 
-@Component
 public class ConfigServiceImpl extends DefaultConfigService {
     public ConfigServiceImpl(final DocumentManager documentManager, final UrlManager urlManager,
                              final JwtManager jwtManager, final SettingsManager settingsManager) {
