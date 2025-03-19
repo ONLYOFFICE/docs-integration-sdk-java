@@ -11,6 +11,7 @@
 
     <suppress files="src[\\/]main[\\/]java[\\/]com[\\/]onlyoffice[\\/]model[\\/].*" checks="MissingJavadocMethod"/>
     <suppress files="src[\\/]main[\\/]java[\\/]com[\\/]onlyoffice[\\/]model[\\/].*" checks="JavadocVariable"/>
+    <suppress files=".*Abstract.*\.java" checks="VisibilityModifier"/>
 
     <!-- TESTS -->
     <suppress files="src[\\/]test[\\/]java[\\/]com[\\/]onlyoffice[\\/].*" checks="MissingJavadocMethod"/>

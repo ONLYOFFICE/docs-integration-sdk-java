@@ -19,6 +19,7 @@
 package com.onlyoffice.demoexample.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.onlyoffice.context.DocsIntegrationSdkContext;
 import com.onlyoffice.manager.url.UrlManager;
 import com.onlyoffice.model.documenteditor.Config;
 import com.onlyoffice.model.documenteditor.config.document.Type;
@@ -33,12 +34,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MainController {
 
     @Autowired
-    private ConfigService configService;
-    @Autowired
-    private UrlManager urlManager;
+    private DocsIntegrationSdkContext docsIntegrationSdk;
 
     @GetMapping("/editor")
     public String main(final Model model) throws JsonProcessingException {
+        ConfigService configService = docsIntegrationSdk.getConfigService();
+        UrlManager urlManager = docsIntegrationSdk.getUrlManager();
 
         Config config = configService.createConfig("1", Mode.EDIT, Type.DESKTOP);
 

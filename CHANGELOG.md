@@ -1,9 +1,22 @@
 # Change Log
 
 ## Added
+- interface DocumentServerClient and implementation ApacheHttpclientDocumentServerClient
+- SettingsValidationService#checkConvertService(String productUrl)
+- DefaultSettingsValidationServiceV2 with using DocumentServerClient
+- DefaultConvertServiceV2 with using DocumentServerClient
+- DocsIntegrationSdkContext and DocsIntegrationSdkConfiguration
 - documenteditor/config/editorconfig/customization/Features#featuresTips
 - documenteditor/config/editorconfig/Customization#showHorizontalScroll
 - documenteditor/config/editorconfig/Customization#showVerticalScroll
+
+## Changed
+- deprecated RequestManager, DefaultRequestManager
+- deprecated methods in SettingsValidationService:
+  - checkDocumentServer(String url, HttpClientSettings httpClientSettings)
+  - checkCommandService(String url, Security security, HttpClientSettings httpClientSettings)
+  - checkConvertService(String url, String productInnerUrl, Security security,
+    HttpClientSettings httpClientSettings)
 
 ## 1.4.0
 ## Added
