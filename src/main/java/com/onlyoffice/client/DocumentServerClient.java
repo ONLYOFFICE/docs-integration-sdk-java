@@ -22,6 +22,8 @@ import com.onlyoffice.model.commandservice.CommandRequest;
 import com.onlyoffice.model.commandservice.CommandResponse;
 import com.onlyoffice.model.convertservice.ConvertRequest;
 import com.onlyoffice.model.convertservice.ConvertResponse;
+import com.onlyoffice.model.docbuilderservice.DocBuilderRequest;
+import com.onlyoffice.model.docbuilderservice.DocBuilderResponse;
 import com.onlyoffice.model.settings.Settings;
 
 import java.io.OutputStream;
@@ -84,4 +86,12 @@ public interface DocumentServerClient {
      * @return CommandResponse object containing the command execution result
      */
     CommandResponse command(CommandRequest commandRequest);
+
+    /**
+     * Executes a DocBuilder request to perform document processing operations.
+     *
+     * @param docBuilderRequest The request containing DocBuilder instructions and parameters
+     * @return DocBuilderResponse The response containing the result of the DocBuilder operation
+     */
+    DocBuilderResponse docbuilder(DocBuilderRequest docBuilderRequest);
 }

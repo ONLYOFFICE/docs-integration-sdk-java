@@ -28,6 +28,8 @@ import com.onlyoffice.model.common.RequestEntity;
 import com.onlyoffice.model.convertservice.ConvertRequest;
 import com.onlyoffice.model.convertservice.ConvertResponse;
 
+import com.onlyoffice.model.docbuilderservice.DocBuilderRequest;
+import com.onlyoffice.model.docbuilderservice.DocBuilderResponse;
 import com.onlyoffice.model.properties.docsintegrationsdk.HttpClientProperties;
 import com.onlyoffice.utils.ConfigurationUtils;
 import com.onlyoffice.utils.SecurityUtils;
@@ -189,6 +191,23 @@ public class ApacheHttpclientDocumentServerClient extends AbstractDocumentServer
         authorizeRequest(request, commandRequest);
 
         return executeRequest(request, CommandResponse.class);
+    }
+
+    @Override
+    public DocBuilderResponse docbuilder(final DocBuilderRequest docBuilderRequest) {
+        ClassicHttpRequest request = ClassicRequestBuilder.post(getBaseUrl())
+                .setPath(ConfigurationUtils.getDocsIntegrationSdkProperties()
+                        .getDocumentServer()
+                        .getDocbuilderService()
+                        .getUrl()
+                )
+                .addParameter("shardkey", docBuilderRequest.getKey())
+                .setEntity(createEntity(docBuilderRequest))
+                .build();
+
+        authorizeRequest(request, docBuilderRequest);
+
+        return executeRequest(request, DocBuilderResponse.class);
     }
 
     protected <T> T executeRequestWithHttpClientForSyncConvertRequest(final ClassicHttpRequest classicHttpRequest,
