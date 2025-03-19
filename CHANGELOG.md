@@ -1,5 +1,10 @@
 # Change Log
 
+## Added
+- documenteditor/config/editorconfig/customization/Features#featuresTips
+- documenteditor/config/editorconfig/Customization#showHorizontalScroll
+- documenteditor/config/editorconfig/Customization#showVerticalScroll
+
 ## 1.4.0
 ## Added
 - documenteditor/config/editorconfig/Customization#mobile
