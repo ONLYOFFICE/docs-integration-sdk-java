@@ -16,15 +16,27 @@
  *
  */
 
-package com.onlyoffice.demoexample;
+package com.onlyoffice.client;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import com.onlyoffice.model.settings.security.Security;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@SpringBootApplication
-public class DemoExampleApplication {
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class DocumentServerClientSettings {
+    /** The base URL for the document server. */
+    private String baseUrl;
 
-    public static void main(final String[] args) {
-        SpringApplication.run(DemoExampleApplication.class, args);
-    }
+    /** The security configuration for the document server. */
+    private Security security;
+
+    /** The flag indicating whether to ignore SSL certificate validation. */
+    private Boolean ignoreSSLCertificate;
 }

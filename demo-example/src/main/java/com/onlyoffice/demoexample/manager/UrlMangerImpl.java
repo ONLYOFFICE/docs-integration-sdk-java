@@ -23,12 +23,10 @@ import com.onlyoffice.manager.url.DefaultUrlManager;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
-@Component
 public class UrlMangerImpl extends DefaultUrlManager {
-    @Autowired
-    private HttpServletRequest request;
-
     public UrlMangerImpl(final SettingsManager settingsManager) {
         super(settingsManager);
     }
@@ -44,6 +42,11 @@ public class UrlMangerImpl extends DefaultUrlManager {
     }
 
     private String getServerUrl() {
+        ServletRequestAttributes attributes =
+                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+
+        HttpServletRequest request = attributes.getRequest();
+
             return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
                     + request.getContextPath();
     }

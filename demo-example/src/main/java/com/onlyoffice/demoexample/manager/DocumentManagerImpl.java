@@ -22,7 +22,6 @@ import com.onlyoffice.manager.document.DefaultDocumentManager;
 import com.onlyoffice.manager.settings.SettingsManager;
 import org.springframework.stereotype.Component;
 
-@Component
 public class DocumentManagerImpl extends DefaultDocumentManager {
     public DocumentManagerImpl(final SettingsManager settingsManager) {
         super(settingsManager);

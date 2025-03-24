@@ -23,9 +23,7 @@ import com.onlyoffice.manager.security.JwtManager;
 import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.model.documenteditor.Callback;
 import com.onlyoffice.service.documenteditor.callback.DefaultCallbackService;
-import org.springframework.stereotype.Component;
 
-@Component
 public class CallbackServiceImpl extends DefaultCallbackService {
 
     private final ObjectMapper mapper = new ObjectMapper();
