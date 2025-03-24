@@ -6,6 +6,8 @@
 - DefaultSettingsValidationServiceV2 with using DocumentServerClient
 - DefaultConvertServiceV2 with using DocumentServerClient
 - DocsIntegrationSdkContext and DocsIntegrationSdkConfiguration
+- docbuilderservice/DocBuilderRequest
+- docbuilderservice/DocBuilderResponse
 
 ## Changed
 - deprecated RequestManager, DefaultRequestManager
