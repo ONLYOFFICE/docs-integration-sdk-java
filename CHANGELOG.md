@@ -8,6 +8,9 @@
 - DocsIntegrationSdkContext and DocsIntegrationSdkConfiguration
 - docbuilderservice/DocBuilderRequest
 - docbuilderservice/DocBuilderResponse
+- documenteditor/config/editorconfig/customization/Features#featuresTips
+- documenteditor/config/editorconfig/Customization#showHorizontalScroll
+- documenteditor/config/editorconfig/Customization#showVerticalScroll
 
 ## Changed
 - deprecated RequestManager, DefaultRequestManager

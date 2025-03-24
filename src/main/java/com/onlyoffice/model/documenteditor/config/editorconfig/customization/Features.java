@@ -40,6 +40,12 @@ import lombok.Setter;
 public class Features {
 
     /**
+     * Defines if the tooltips about new editor features will be displayed or hidden on first loading.
+     * The default value is true.
+     */
+    private Boolean featuresTips;
+
+    /**
      * defines if the role settings will be disabled in the pdf forms or not. If the parameter is equal to "false",
      * then the role manager is hidden and viewing the form on behalf of a specific role is disabled.
      * In this case, the Manage Roles and View Form buttons on the Forms tab and a drop-down list for setting
