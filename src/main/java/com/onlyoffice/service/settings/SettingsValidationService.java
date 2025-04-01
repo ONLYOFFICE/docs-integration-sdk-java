@@ -73,6 +73,7 @@ public interface SettingsValidationService {
      * @return The {@link ValidationResult} object.
      * @throws Exception If the processing fails unexpectedly.
      */
+    @Deprecated
     ValidationResult checkConvertService() throws Exception;
 
     /**
