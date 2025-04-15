@@ -321,7 +321,7 @@ public class ApacheHttpclientDocumentServerClient extends AbstractDocumentServer
         HttpClientProperties httpClientProperties = getHttpClientProperties();
 
         return this.isIgnoreSSLCertificate != httpClientProperties.getIgnoreSslCertificate()
-            || !this.baseUrl.equals(getBaseUrl());
+            || !Optional.ofNullable(this.baseUrl).orElse("").equals(getBaseUrl());
     }
 
     protected void init() {
