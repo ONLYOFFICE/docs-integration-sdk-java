@@ -42,10 +42,12 @@ import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.hc.client5.http.config.ConnectionConfig;
 import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
 import org.apache.hc.client5.http.ssl.DefaultClientTlsStrategy;
 import org.apache.hc.client5.http.ssl.TlsSocketStrategy;
+import org.apache.hc.client5.http.ssl.TrustAllStrategy;
 import org.apache.hc.core5.http.ClassicHttpRequest;
 import org.apache.hc.core5.http.ContentType;
 import org.apache.hc.core5.http.HttpEntity;
@@ -55,7 +57,6 @@ import org.apache.hc.core5.http.io.entity.HttpEntities;
 import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
 import org.apache.hc.core5.http.message.StatusLine;
 import org.apache.hc.core5.ssl.SSLContextBuilder;
-import org.apache.hc.core5.ssl.TrustStrategy;
 
 import javax.net.ssl.SSLContext;
 import java.io.IOException;
@@ -66,7 +67,6 @@ import java.net.URISyntaxException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.security.cert.X509Certificate;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -359,19 +359,19 @@ public class ApacheHttpclientDocumentServerClient extends AbstractDocumentServer
                         );
 
         if (Optional.ofNullable(httpClientProperties.getIgnoreSslCertificate()).orElse(false)) {
-            TrustStrategy acceptingTrustStrategy = (X509Certificate[] chain, String authType) -> true;
-
             SSLContext sslContext = null;
             try {
-                sslContext = SSLContextBuilder
-                        .create()
-                        .loadTrustMaterial(acceptingTrustStrategy)
+                sslContext = SSLContextBuilder.create()
+                        .loadTrustMaterial(TrustAllStrategy.INSTANCE)
                         .build();
             } catch (NoSuchAlgorithmException | KeyManagementException | KeyStoreException e) {
                 throw new RuntimeException(e);
             }
 
-            TlsSocketStrategy tlsStrategy = new DefaultClientTlsStrategy(sslContext);
+            TlsSocketStrategy tlsStrategy = new DefaultClientTlsStrategy(
+                    sslContext,
+                    (hostname, sslSession) -> true
+            );
 
             poolingHttpClientConnectionManagerBuilder.setTlsSocketStrategy(tlsStrategy);
         }
