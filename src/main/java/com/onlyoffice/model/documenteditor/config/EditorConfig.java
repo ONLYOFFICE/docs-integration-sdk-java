@@ -30,7 +30,6 @@ import com.onlyoffice.model.documenteditor.config.editorconfig.Template;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.json.JSONObject;
 
 import java.util.List;
 
@@ -54,7 +53,7 @@ public class EditorConfig {
      * @see <a target="_top" href="https://api.onlyoffice.com/editors/config/events#onRequestSendNotify">
      *     onRequestSendNotify event in API ONLYOFFICE</a>
      */
-    private JSONObject actionLink;
+    private Object actionLink;
 
     /**
      * Specifies absolute URL to the document storage service
