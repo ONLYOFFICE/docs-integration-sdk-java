@@ -11,6 +11,7 @@
 - documenteditor/config/editorconfig/customization/Features#featuresTips
 - documenteditor/config/editorconfig/Customization#showHorizontalScroll
 - documenteditor/config/editorconfig/Customization#showVerticalScroll
+- ca, cs, da, hu, id, ro, sq, ur empty file templates
 
 ## Changed
 - deprecated RequestManager, DefaultRequestManager
