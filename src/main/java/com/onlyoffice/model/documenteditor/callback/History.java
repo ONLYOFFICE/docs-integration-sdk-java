@@ -35,7 +35,7 @@ import java.util.List;
  * which must be sent as properties "changes" and "serverVersion" of the object sent as the argument to the
  * "refreshHistory" method.
  *
- * @see <a target="_top" href="https://api.onlyoffice.com/editors/methods#refreshHistory">"refreshHistory"
+ * @see <a target="_top" href="https://api.onlyoffice.com/docs/docs-api/usage-api/methods/#refreshhistory">"refreshHistory"
  * method in API ONLYOFFICE</a>
  */
 @Getter

@@ -48,9 +48,9 @@ public class EditorConfig {
      * or the "onRequestSendNotify" event in "data.actionLink" parameter,
      * which contains the information about the action in the document that will be scrolled to.
      *
-     * @see <a target="_top" href="https://api.onlyoffice.com/editors/config/events#onMakeActionLink">onMakeActionLink
+     * @see <a target="_top" href="https://api.onlyoffice.com/docs/docs-api/usage-api/config/events/#onmakeactionlink">onMakeActionLink
      * event in API ONLYOFFICE</a>
-     * @see <a target="_top" href="https://api.onlyoffice.com/editors/config/events#onRequestSendNotify">
+     * @see <a target="_top" href="https://api.onlyoffice.com/docs/docs-api/usage-api/config/events/#onrequestsendnotify">
      *     onRequestSendNotify event in API ONLYOFFICE</a>
      */
     private Object actionLink;
@@ -72,7 +72,7 @@ public class EditorConfig {
      * If not specified, there will be no creation button.
      * Instead of this field, you can use the "onRequestCreateNew" event.
      *
-     * @see <a target="_top"href="https://api.onlyoffice.com/editors/config/events#onRequestCreateNew">
+     * @see <a target="_top"href="https://api.onlyoffice.com/docs/docs-api/usage-api/config/events/#onrequestcreatenew">
      * "onRequestCreateNew" event in API ONLYOFFICE</a>
      */
     private String createUrl;

@@ -52,7 +52,7 @@ public class Goback {
      * Deprecated since version 8.1. Please use
      * the {@link com.onlyoffice.model.documenteditor.config.editorconfig.Customization#close close} parameter instead
      *
-     * @see <a target="_top" href="https://api.onlyoffice.com/editors/config/events#onRequestClose">"onRequestClose"
+     * @see <a target="_top" href="https://api.onlyoffice.com/docs/docs-api/usage-api/config/events/#onrequestclose">"onRequestClose"
      * event in API ONLYOFFICE</a>
      */
     @Deprecated

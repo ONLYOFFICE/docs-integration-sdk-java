@@ -139,7 +139,7 @@ public class Permissions {
      * Defines if the "Rename..." button is displayed when using the "onRequestRename" event.
      * The default value is "false". Deprecated since version 6.0, please add the "onRequestRename" field instead.
      *
-     * @see <a target="_top" href="https://api.onlyoffice.com/editors/config/events#onRequestRename">"onRequestRename"
+     * @see <a target="_top" href="https://api.onlyoffice.com/docs/docs-api/usage-api/config/events/#onrequestrename">"onRequestRename"
      * event in API ONLYOFFICE</a>
      */
     @Deprecated

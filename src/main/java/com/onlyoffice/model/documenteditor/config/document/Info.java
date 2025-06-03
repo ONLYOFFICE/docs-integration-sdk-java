@@ -55,7 +55,7 @@ public class Info {
      * When the user clicks the icon, the "onMetaChange" event is called.
      * If the parameter is undefined, the "Favorite" icon is not displayed at the editor window header.
      *
-     * @see <a target="_top" href="https://api.onlyoffice.com/editors/config/events#onMetaChange">"onMetaChange"
+     * @see <a target="_top" href="https://api.onlyoffice.com/docs/docs-api/usage-api/config/events/#onmetachange">"onMetaChange"
      * event in API ONLYOFFICE</a>
      */
     private Boolean favorite;
