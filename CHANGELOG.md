@@ -1,5 +1,6 @@
 # Change Log
 
+## 1.5.0
 ## Added
 - interface DocumentServerClient and implementation ApacheHttpclientDocumentServerClient
 - SettingsValidationService#checkConvertService(String productUrl)
