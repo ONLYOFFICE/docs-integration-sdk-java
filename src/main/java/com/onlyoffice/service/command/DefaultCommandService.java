@@ -32,6 +32,7 @@ import org.apache.hc.core5.http.HttpEntity;
 
 import java.io.IOException;
 
+@Deprecated
 @AllArgsConstructor
 public class DefaultCommandService implements CommandService, RequestedService {
     /** {@link RequestManager}. */
@@ -42,6 +43,7 @@ public class DefaultCommandService implements CommandService, RequestedService {
     /** {@link ObjectMapper}. */
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    @Deprecated
     @Override
     public CommandResponse processCommand(final CommandRequest commandRequest, final String fileId) throws Exception {
         return requestManager.executePostRequest(this, commandRequest,

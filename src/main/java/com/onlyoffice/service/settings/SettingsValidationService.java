@@ -42,6 +42,7 @@ public interface SettingsValidationService {
      * @return The {@link ValidationResult} object.
      * @throws Exception If the processing fails unexpectedly.
      */
+    @Deprecated
     ValidationResult checkDocumentServer(String url, HttpClientSettings httpClientSettings) throws Exception;
 
     /**
@@ -62,6 +63,7 @@ public interface SettingsValidationService {
      * @return The {@link ValidationResult} object.
      * @throws Exception If the processing fails unexpectedly.
      */
+    @Deprecated
     ValidationResult checkCommandService(String url, Security security, HttpClientSettings httpClientSettings)
             throws Exception;
 
@@ -71,7 +73,16 @@ public interface SettingsValidationService {
      * @return The {@link ValidationResult} object.
      * @throws Exception If the processing fails unexpectedly.
      */
+    @Deprecated
     ValidationResult checkConvertService() throws Exception;
+
+    /**
+     * Checks the Convert Service by the Document Server URL.
+     *
+     * @param productUrl The URL to the integration product.
+     * @return The {@link ValidationResult} object.
+     */
+    ValidationResult checkConvertService(String productUrl);
 
     /**
      * Checks the Convert Service by the Document Server URL.
@@ -85,6 +96,7 @@ public interface SettingsValidationService {
      * @return The {@link ValidationResult} object.
      * @throws Exception If the processing fails unexpectedly.
      */
+    @Deprecated
     ValidationResult checkConvertService(String url, String productInnerUrl, Security security,
                                          HttpClientSettings httpClientSettings) throws Exception;
 }

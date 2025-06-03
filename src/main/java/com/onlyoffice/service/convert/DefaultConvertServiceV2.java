@@ -18,29 +18,21 @@
 
 package com.onlyoffice.service.convert;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.onlyoffice.client.DocumentServerClient;
 import com.onlyoffice.manager.document.DocumentManager;
-import com.onlyoffice.manager.request.RequestManager;
-import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.manager.url.UrlManager;
-import com.onlyoffice.model.common.RequestedService;
 import com.onlyoffice.model.convertservice.ConvertRequest;
 import com.onlyoffice.model.convertservice.ConvertResponse;
 import com.onlyoffice.model.convertservice.convertrequest.Thumbnail;
-import com.onlyoffice.model.settings.HttpClientSettings;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.io.IOUtils;
-import org.apache.hc.core5.http.HttpEntity;
-import java.io.IOException;
 import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
 
-@Deprecated
+
 @AllArgsConstructor
-public class DefaultConvertService implements ConvertService, RequestedService {
+public class DefaultConvertServiceV2 implements ConvertService {
 
     /** {@link DocumentManager}. */
     @Getter(AccessLevel.PROTECTED)
@@ -52,22 +44,14 @@ public class DefaultConvertService implements ConvertService, RequestedService {
     @Setter(AccessLevel.PROTECTED)
     private UrlManager urlManager;
 
-    /** {@link RequestManager}. */
+    /** {@link DocumentServerClient}. */
     @Getter(AccessLevel.PROTECTED)
     @Setter(AccessLevel.PROTECTED)
-    private RequestManager requestManager;
+    private DocumentServerClient documentServerClient;
 
-    /** {@link SettingsManager}. */
-    @Getter(AccessLevel.PROTECTED)
-    @Setter(AccessLevel.PROTECTED)
-    private SettingsManager settingsManager;
 
-    /** {@link ObjectMapper}. */
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
-    @Deprecated
     @Override
-    public ConvertResponse processConvert(final ConvertRequest convertRequest, final String fileId) throws Exception {
+    public ConvertResponse processConvert(final ConvertRequest convertRequest, final String fileId) {
         String fileName = documentManager.getDocumentName(fileId);
 
         if (convertRequest.getFiletype() == null || convertRequest.getFiletype().isEmpty()) {
@@ -85,8 +69,8 @@ public class DefaultConvertService implements ConvertService, RequestedService {
         if (convertRequest.getTitle() == null || convertRequest.getTitle().isEmpty()) {
             convertRequest.setTitle(
                     documentManager.getBaseName(fileName)
-                    + "."
-                    + convertRequest.getOutputtype()
+                            + "."
+                            + convertRequest.getOutputtype()
             );
         }
 
@@ -104,31 +88,7 @@ public class DefaultConvertService implements ConvertService, RequestedService {
             convertRequest.setThumbnail(thumbnail);
         }
 
-        Integer socketTimeout = (int) TimeUnit.SECONDS.toMillis(
-                settingsManager.getDocsIntegrationSdkProperties()
-                        .getDocumentServer()
-                        .getConvertService()
-                        .getSyncSocketTimeout()
-        );
-
-        HttpClientSettings httpClientSettings = null;
-
-        if (convertRequest.getAsync() == null || !convertRequest.getAsync()) {
-            httpClientSettings = HttpClientSettings.builder()
-                    .socketTimeout(socketTimeout)
-                    .build();
-        }
-
-        return requestManager.executePostRequest(this, convertRequest, httpClientSettings,
-                new RequestManager.Callback<ConvertResponse>() {
-                    public ConvertResponse doWork(final Object response) throws IOException {
-                        String content = IOUtils.toString(((HttpEntity) response).getContent(), "utf-8");
-
-                        ConvertResponse convertResponse = objectMapper.readValue(content.toString(),
-                                ConvertResponse.class);
-
-                        return convertResponse;
-                    }
-                });
+        return documentServerClient.convert(convertRequest);
     }
 }
+

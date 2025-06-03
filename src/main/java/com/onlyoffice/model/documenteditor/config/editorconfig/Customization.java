@@ -237,12 +237,24 @@ public class Customization {
     private ReviewDisplay reviewDisplay;
 
     /**
+     * Starting from version 8.3, defines if the horizontal scroll is automatically displayed or hidden when the
+     * spreadsheet editor is loaded. The default value is true.
+     */
+    private Boolean showHorizontalScroll;
+
+    /**
      * Defines if the review changes panel is automatically displayed or hidden when the editor is loaded.
      * The default value is "false". Deprecated since version 7.0. Please use the
      * {@link Review review.showReviewChanges} parameter instead.
      */
     @Deprecated
     private Boolean showReviewChanges;
+
+    /**
+     * Starting from version 8.3, defines if the vertical scroll is automatically displayed or hidden when the
+     * spreadsheet editor is loaded. The default value is true.
+     */
+    private Boolean showVerticalScroll;
 
     /**
      * Starting from version 8.3, defines the background color for the slide show in the presentation editor.

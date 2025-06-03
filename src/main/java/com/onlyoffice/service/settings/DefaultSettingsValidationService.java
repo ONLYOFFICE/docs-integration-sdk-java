@@ -46,6 +46,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
+@Deprecated
 @AllArgsConstructor
 public class DefaultSettingsValidationService implements SettingsValidationService {
 
@@ -67,6 +68,7 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
     /** {@link ObjectMapper}. */
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    @Deprecated
     @Override
     public ValidationResult checkDocumentServer() throws Exception {
         HttpClientSettings httpClientSettings = HttpClientSettings.builder()
@@ -76,6 +78,7 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
         return checkDocumentServer(urlManager.getInnerDocumentServerUrl(), httpClientSettings);
     }
 
+    @Deprecated
     @Override
     public ValidationResult checkDocumentServer(final String url, final HttpClientSettings httpClientSettings)
             throws Exception {
@@ -104,6 +107,7 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
         });
     }
 
+    @Deprecated
     @Override
     public ValidationResult checkCommandService() throws Exception {
         String url = urlManager.getInnerDocumentServerUrl();
@@ -120,6 +124,7 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
         return checkCommandService(url, security, httpClientSettings);
     }
 
+    @Deprecated
     @Override
     public ValidationResult checkCommandService(final String url, final Security security,
                                                 final HttpClientSettings httpClientSettings) throws Exception {
@@ -158,6 +163,7 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
                 });
     }
 
+    @Deprecated
     @Override
     public ValidationResult checkConvertService() throws Exception {
         String url = urlManager.getInnerDocumentServerUrl();
@@ -174,7 +180,13 @@ public class DefaultSettingsValidationService implements SettingsValidationServi
         return checkConvertService(url, null, security, httpClientSettings);
     }
 
+    @Deprecated
+    @Override
+    public ValidationResult checkConvertService(final String productUrl) {
+        throw new UnsupportedOperationException("Method not implemented yet");
+    }
 
+    @Deprecated
     @Override
     public ValidationResult checkConvertService(final String url, final String productInnerUrl, final Security security,
                                                 final HttpClientSettings httpClientSettings)

@@ -23,7 +23,7 @@ import com.onlyoffice.model.common.RequestedService;
 import com.onlyoffice.model.settings.HttpClientSettings;
 import com.onlyoffice.model.settings.security.Security;
 
-
+@Deprecated
 public interface RequestManager {
 
     /**
@@ -37,6 +37,7 @@ public interface RequestManager {
      * @return The result of the execution callback method.
      * @throws Exception If the processing fails unexpectedly.
      */
+    @Deprecated
     <R> R executeGetRequest(String url, Callback<R> callback)
             throws Exception;
 
@@ -52,6 +53,7 @@ public interface RequestManager {
      * @return The result of the execution callback method.
      * @throws Exception If the processing fails unexpectedly.
      */
+    @Deprecated
     <R> R executeGetRequest(String url, HttpClientSettings httpClientSettings, Callback<R> callback)
             throws Exception;
 
@@ -70,6 +72,7 @@ public interface RequestManager {
      * @return The result of the execution callback method.
      * @throws Exception If the processing fails unexpectedly.
      */
+    @Deprecated
     <R> R executePostRequest(RequestedService requestedService, RequestEntity requestEntity, Callback<R> callback)
             throws Exception;
 
@@ -88,6 +91,7 @@ public interface RequestManager {
      * @return The result of the execution callback method.
      * @throws Exception If the processing fails unexpectedly.
      */
+    @Deprecated
     <R> R executePostRequest(RequestedService requestedService, RequestEntity requestEntity,
                              HttpClientSettings httpClientSettings, Callback<R> callback) throws Exception;
 
@@ -107,9 +111,11 @@ public interface RequestManager {
      * @return The result of the execution callback method.
      * @throws Exception If the processing fails unexpectedly.
      */
+    @Deprecated
     <R> R executePostRequest(String url, RequestEntity requestEntity, Security security,
                              HttpClientSettings httpClientSettings, Callback<R> callback) throws Exception;
 
+    @Deprecated
     interface Callback<Result> {
 
         /**
@@ -119,6 +125,7 @@ public interface RequestManager {
          * @return The result of the execution callback method.
          * @throws Exception If the processing fails unexpectedly.
          */
+        @Deprecated
         Result doWork(Object response) throws Exception;
     }
 }

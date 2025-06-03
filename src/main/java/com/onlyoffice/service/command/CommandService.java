@@ -21,6 +21,7 @@ package com.onlyoffice.service.command;
 import com.onlyoffice.model.commandservice.CommandRequest;
 import com.onlyoffice.model.commandservice.CommandResponse;
 
+@Deprecated
 public interface CommandService {
 
     /**
@@ -32,5 +33,6 @@ public interface CommandService {
      * @return The {@link CommandResponse} object.
      * @throws Exception If the processing fails unexpectedly.
      */
+    @Deprecated
     CommandResponse processCommand(CommandRequest commandRequest, String fileId) throws Exception;
 }

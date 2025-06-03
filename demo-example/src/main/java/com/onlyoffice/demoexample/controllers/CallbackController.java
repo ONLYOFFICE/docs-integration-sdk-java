@@ -18,6 +18,7 @@
 
 package com.onlyoffice.demoexample.controllers;
 
+import com.onlyoffice.context.DocsIntegrationSdkContext;
 import com.onlyoffice.model.documenteditor.Callback;
 import com.onlyoffice.service.documenteditor.callback.CallbackService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +32,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class CallbackController {
 
     @Autowired
-    private CallbackService callbackService;
+    private DocsIntegrationSdkContext docsIntegrationSdk;
 
     @PostMapping("/callback")
     public String callback(@RequestBody final Callback callback) {
+        CallbackService callbackService = docsIntegrationSdk.getCallbackService();
+
         try {
             Callback verifiedCallback =  callbackService.verifyCallback(callback, null);
 

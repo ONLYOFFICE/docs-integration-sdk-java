@@ -43,6 +43,7 @@ import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
 import org.apache.hc.client5.http.ssl.DefaultClientTlsStrategy;
 import org.apache.hc.client5.http.ssl.TlsSocketStrategy;
+import org.apache.hc.client5.http.ssl.TrustAllStrategy;
 import org.apache.hc.core5.http.ContentType;
 import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.HttpStatus;
@@ -50,7 +51,6 @@ import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.apache.hc.core5.net.URIBuilder;
 import org.apache.hc.core5.ssl.SSLContextBuilder;
-import org.apache.hc.core5.ssl.TrustStrategy;
 
 import javax.net.ssl.SSLContext;
 import java.net.URI;
@@ -58,12 +58,11 @@ import java.net.URISyntaxException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.security.cert.X509Certificate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-
+@Deprecated
 @AllArgsConstructor
 public class DefaultRequestManager implements RequestManager {
 
@@ -85,6 +84,7 @@ public class DefaultRequestManager implements RequestManager {
     /** {@link ObjectMapper}. */
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    @Deprecated
     @Override
     public <R> R executeGetRequest(final String url, final Callback<R> callback) throws Exception {
         HttpClientSettings httpClientSettings = HttpClientSettings.builder()
@@ -94,6 +94,7 @@ public class DefaultRequestManager implements RequestManager {
         return executeGetRequest(url, httpClientSettings, callback);
     }
 
+    @Deprecated
     @Override
     public <R> R executeGetRequest(final String url, final HttpClientSettings httpClientSettings,
                                    final Callback<R> callback)
@@ -103,6 +104,7 @@ public class DefaultRequestManager implements RequestManager {
         return executeRequest(httpGet, httpClientSettings, callback);
     }
 
+    @Deprecated
     @Override
     public <R> R executePostRequest(final RequestedService requestedService, final RequestEntity requestEntity,
                                     final Callback<R> callback) throws Exception {
@@ -117,6 +119,7 @@ public class DefaultRequestManager implements RequestManager {
          return executePostRequest(url, requestEntity, security, null, callback);
     }
 
+    @Deprecated
     @Override
     public <R> R executePostRequest(final RequestedService requestedService, final RequestEntity requestEntity,
                                     final HttpClientSettings httpClientSettings, final Callback<R> callback)
@@ -132,6 +135,7 @@ public class DefaultRequestManager implements RequestManager {
         return executePostRequest(url, requestEntity, security, httpClientSettings, callback);
     }
 
+    @Deprecated
     @Override
     public <R> R executePostRequest(final String url, final RequestEntity requestEntity, final Security security,
                                     final HttpClientSettings httpClientSettings, final Callback<R> callback)
@@ -259,13 +263,14 @@ public class DefaultRequestManager implements RequestManager {
                 );
 
         if (ignoreSSLCertificate) {
-            TrustStrategy acceptingTrustStrategy = (X509Certificate[] chain, String authType) -> true;
-
-            SSLContext sslContext = SSLContextBuilder
-                    .create()
-                    .loadTrustMaterial(acceptingTrustStrategy)
+            SSLContext sslContext = SSLContextBuilder.create()
+                    .loadTrustMaterial(TrustAllStrategy.INSTANCE)
                     .build();
-            TlsSocketStrategy tlsStrategy = new DefaultClientTlsStrategy(sslContext);
+
+            TlsSocketStrategy tlsStrategy = new DefaultClientTlsStrategy(
+                    sslContext,
+                    (hostname, sslSession) -> true
+            );
 
             poolingHttpClientConnectionManagerBuilder.setTlsSocketStrategy(tlsStrategy);
         }
