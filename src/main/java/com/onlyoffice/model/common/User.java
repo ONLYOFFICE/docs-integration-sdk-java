@@ -25,6 +25,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 
 /**
  * Defines the user currently viewing or editing the document.
@@ -62,4 +64,9 @@ public class User {
      * The path to the user avatar.
      */
     private String image;
+
+    /**
+     * Used for pdf-forms, fill form with Role.
+     */
+     private List<String> roles;
 }
