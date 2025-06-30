@@ -102,8 +102,8 @@ public class DocsIntegrationSdkContext {
     public void build() {
         this.settingsManager = docsIntegrationSdkConfiguration.settingsManager();
         this.jwtManager = docsIntegrationSdkConfiguration.jwtManager(this.settingsManager);
-        this.urlManager = docsIntegrationSdkConfiguration.urlManager(this.settingsManager);
         this.documentManager = docsIntegrationSdkConfiguration.documentManager(this.settingsManager);
+        this.urlManager = docsIntegrationSdkConfiguration.urlManager(this.settingsManager);
 
         this.documentServerClient = docsIntegrationSdkConfiguration.documentServerClient(
                 this.settingsManager,

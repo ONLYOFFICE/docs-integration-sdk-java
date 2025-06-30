@@ -38,7 +38,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
-
+@Deprecated
 @AllArgsConstructor
 public class DefaultConvertService implements ConvertService, RequestedService {
 
@@ -65,6 +65,7 @@ public class DefaultConvertService implements ConvertService, RequestedService {
     /** {@link ObjectMapper}. */
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    @Deprecated
     @Override
     public ConvertResponse processConvert(final ConvertRequest convertRequest, final String fileId) throws Exception {
         String fileName = documentManager.getDocumentName(fileId);

@@ -1,14 +1,18 @@
 # Change Log
 
+## 1.5.0
 ## Added
 - interface DocumentServerClient and implementation ApacheHttpclientDocumentServerClient
 - SettingsValidationService#checkConvertService(String productUrl)
 - DefaultSettingsValidationServiceV2 with using DocumentServerClient
 - DefaultConvertServiceV2 with using DocumentServerClient
 - DocsIntegrationSdkContext and DocsIntegrationSdkConfiguration
+- docbuilderservice/DocBuilderRequest
+- docbuilderservice/DocBuilderResponse
 - documenteditor/config/editorconfig/customization/Features#featuresTips
 - documenteditor/config/editorconfig/Customization#showHorizontalScroll
 - documenteditor/config/editorconfig/Customization#showVerticalScroll
+- ca, cs, da, hu, id, ro, sq, ur empty file templates
 
 ## Changed
 - deprecated RequestManager, DefaultRequestManager

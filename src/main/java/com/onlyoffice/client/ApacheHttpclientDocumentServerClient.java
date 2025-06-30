@@ -28,6 +28,8 @@ import com.onlyoffice.model.common.RequestEntity;
 import com.onlyoffice.model.convertservice.ConvertRequest;
 import com.onlyoffice.model.convertservice.ConvertResponse;
 
+import com.onlyoffice.model.docbuilderservice.DocBuilderRequest;
+import com.onlyoffice.model.docbuilderservice.DocBuilderResponse;
 import com.onlyoffice.model.properties.docsintegrationsdk.HttpClientProperties;
 import com.onlyoffice.utils.ConfigurationUtils;
 import com.onlyoffice.utils.SecurityUtils;
@@ -44,6 +46,7 @@ import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
 import org.apache.hc.client5.http.ssl.DefaultClientTlsStrategy;
 import org.apache.hc.client5.http.ssl.TlsSocketStrategy;
+import org.apache.hc.client5.http.ssl.TrustAllStrategy;
 import org.apache.hc.core5.http.ClassicHttpRequest;
 import org.apache.hc.core5.http.ContentType;
 import org.apache.hc.core5.http.HttpEntity;
@@ -53,7 +56,6 @@ import org.apache.hc.core5.http.io.entity.HttpEntities;
 import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
 import org.apache.hc.core5.http.message.StatusLine;
 import org.apache.hc.core5.ssl.SSLContextBuilder;
-import org.apache.hc.core5.ssl.TrustStrategy;
 
 import javax.net.ssl.SSLContext;
 import java.io.IOException;
@@ -64,7 +66,6 @@ import java.net.URISyntaxException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.security.cert.X509Certificate;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -191,6 +192,23 @@ public class ApacheHttpclientDocumentServerClient extends AbstractDocumentServer
         return executeRequest(request, CommandResponse.class);
     }
 
+    @Override
+    public DocBuilderResponse docbuilder(final DocBuilderRequest docBuilderRequest) {
+        ClassicHttpRequest request = ClassicRequestBuilder.post(getBaseUrl())
+                .setPath(ConfigurationUtils.getDocsIntegrationSdkProperties()
+                        .getDocumentServer()
+                        .getDocbuilderService()
+                        .getUrl()
+                )
+                .addParameter("shardkey", docBuilderRequest.getKey())
+                .setEntity(createEntity(docBuilderRequest))
+                .build();
+
+        authorizeRequest(request, docBuilderRequest);
+
+        return executeRequest(request, DocBuilderResponse.class);
+    }
+
     protected <T> T executeRequestWithHttpClientForSyncConvertRequest(final ClassicHttpRequest classicHttpRequest,
                                                                       final Class<T> valueType) {
         prepareHttpClient();
@@ -302,7 +320,7 @@ public class ApacheHttpclientDocumentServerClient extends AbstractDocumentServer
         HttpClientProperties httpClientProperties = getHttpClientProperties();
 
         return this.isIgnoreSSLCertificate != httpClientProperties.getIgnoreSslCertificate()
-            || !this.baseUrl.equals(getBaseUrl());
+            || !Optional.ofNullable(this.baseUrl).orElse("").equals(getBaseUrl());
     }
 
     protected void init() {
@@ -340,19 +358,19 @@ public class ApacheHttpclientDocumentServerClient extends AbstractDocumentServer
                         );
 
         if (Optional.ofNullable(httpClientProperties.getIgnoreSslCertificate()).orElse(false)) {
-            TrustStrategy acceptingTrustStrategy = (X509Certificate[] chain, String authType) -> true;
-
             SSLContext sslContext = null;
             try {
-                sslContext = SSLContextBuilder
-                        .create()
-                        .loadTrustMaterial(acceptingTrustStrategy)
+                sslContext = SSLContextBuilder.create()
+                        .loadTrustMaterial(TrustAllStrategy.INSTANCE)
                         .build();
             } catch (NoSuchAlgorithmException | KeyManagementException | KeyStoreException e) {
                 throw new RuntimeException(e);
             }
 
-            TlsSocketStrategy tlsStrategy = new DefaultClientTlsStrategy(sslContext);
+            TlsSocketStrategy tlsStrategy = new DefaultClientTlsStrategy(
+                    sslContext,
+                    (hostname, sslSession) -> true
+            );
 
             poolingHttpClientConnectionManagerBuilder.setTlsSocketStrategy(tlsStrategy);
         }
