@@ -142,6 +142,12 @@ public class Customization {
     private Boolean forcesave;
 
     /**
+     * Defines if the Western (true) or Chinese (false) font size is used in the Chinese (Simplified) UI.
+     * The default value is false.
+     */
+    private Boolean forceWesternFontSize;
+
+    /**
      * Defines settings for the "Open file location" menu button and upper right corner button.
      */
     private Goback goback;
