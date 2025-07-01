@@ -7,6 +7,7 @@
 
 ## Changed
 - updated list supported formats, see [ONLYOFFICE/document-formats v3.0.0](https://github.com/ONLYOFFICE/document-formats/releases/tag/v3.0.0)
+- fix CVE-2025-27820
 
 ## 1.5.0
 ## Added
