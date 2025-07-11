@@ -54,8 +54,10 @@ public class Callback {
      * The file must be saved and its address must be sent as "changesUrl" parameter using the "setHistoryData" method
      * to show the changes corresponding to the specific document version.
      *
-     * @see <a target="_top" href="https://api.onlyoffice.com/editors/methods#setHistoryData">"setHistoryData"
-     * method in API ONLYOFFICE</a>
+     * @see
+     * <a href="https://api.onlyoffice.com/docs/docs-api/usage-api/methods/#sethistorydata">
+     *     "setHistoryData" method in API ONLYOFFICE
+     * </a>
      */
     private String changesurl;
 
@@ -64,8 +66,12 @@ public class Callback {
      * parameter. The file type is OOXML by default but if the "assemblyFormatAsOrigin" server setting is enabled,
      * the file will be saved in its original format.
      *
-     * @see <a target="_top" href="https://api.onlyoffice.com/editors/save#assemblyFormatAsOrigin">
-     *     "assemblyFormatAsOrigin" server setting in API ONLYOFFICE</a>
+     * @see
+     * <a
+     *  href="https://api.onlyoffice.com/docs/docs-api/get-started/how-it-works/saving-file/#saving-in-original-format"
+     * >
+     *     "assemblyFormatAsOrigin" server setting in API ONLYOFFICE
+     * </a>
      */
     private String filetype;
 
@@ -87,8 +93,9 @@ public class Callback {
      * which must be sent as properties "changes" and "serverVersion" of the object sent as the argument to the
      * "refreshHistory" method.
      *
-     * @see <a target="_top" href="https://api.onlyoffice.com/editors/methods#refreshHistory">"refreshHistory"
-     * method in API ONLYOFFICE</a>
+     * @see <a href="https://api.onlyoffice.com/docs/docs-api/usage-api/methods/#refreshhistory">
+     *     "refreshHistory" method in API ONLYOFFICE
+     * </a>
      */
     private History history;
 

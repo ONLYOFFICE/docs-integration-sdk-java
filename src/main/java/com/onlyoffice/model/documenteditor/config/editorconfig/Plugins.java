@@ -40,14 +40,14 @@ public class Plugins {
      * Defines an array of the identifiers (as entered in "config.json") for the plugins,
      * which will automatically start when the editor opens, and the order the plugins will run one-by-one.
      *
-     * @see <a target="_top" href="https://api.onlyoffice.com/plugin/config">"config.json" in API ONLYOFFICE</a>
+     * @see <a href="https://api.onlyoffice.com/docs/docs-api/usage-api/config/">"config.json" in API ONLYOFFICE</a>
      */
     private List<String> autostart;
 
     /**
      * Defines an array of absolute URLs to the plugin configuration files ("config.json").
      *
-     * @see <a target="_top" href="https://api.onlyoffice.com/plugin/config">"config.json" in API ONLYOFFICE</a>
+     * @see <a href="https://api.onlyoffice.com/docs/docs-api/usage-api/config/">"config.json" in API ONLYOFFICE</a>
      */
     private List<String> pluginsData;
 }

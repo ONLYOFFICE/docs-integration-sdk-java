@@ -164,7 +164,7 @@ public interface DocumentManager {
     /**
      * Returns a list of image extensions that can be inserted into the document.
      *
-     * @see <a target="_top" href="https://api.onlyoffice.com/editors/methods#insertImage">
+     * @see <a target="_top" href="https://api.onlyoffice.com/docs/docs-api/usage-api/methods/#insertimage">
      *     insertImage method in API ONLYOFFICE</a>
      * @return A list of image extensions.
      */
@@ -173,7 +173,7 @@ public interface DocumentManager {
     /**
      * Returns a list of extensions that can be used for the document comparison functions.
      *
-     * @see <a target="_top" href="https://api.onlyoffice.com/editors/methods#setRequestedDocument">
+     * @see <a target="_top" href="https://api.onlyoffice.com/docs/docs-api/usage-api/methods/#setrequesteddocument">
      *     setRequestedDocument method in API ONLYOFFICE</a>
      * @return A list of extensions for the document comparison.
      */
@@ -182,7 +182,7 @@ public interface DocumentManager {
     /**
      * Returns a list of extensions that can be used for mail merge in the document.
      *
-     * @see <a target="_top" href="https://api.onlyoffice.com/editors/methods#setRequestedSpreadsheet">
+     * @see <a target="_top" href="https://api.onlyoffice.com/docs/docs-api/usage-api/methods/#setrequestedspreadsheet">
      *     setRequestedSpreadsheet method in API ONLYOFFICE</a>
      * @return A list of extensions for mail merge.
      */

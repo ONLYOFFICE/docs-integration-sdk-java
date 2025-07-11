@@ -81,6 +81,7 @@ public class DocumentManagerTest {
         Assertions.assertEquals(DocumentType.WORD, documentManager.getDocumentType("sample.docx"));
         Assertions.assertEquals(DocumentType.CELL, documentManager.getDocumentType("sample.xlsx"));
         Assertions.assertEquals(DocumentType.SLIDE, documentManager.getDocumentType("sample.pptx"));
+        Assertions.assertEquals(DocumentType.DIAGRAM, documentManager.getDocumentType("sample.vsdx"));
         Assertions.assertEquals(null, documentManager.getDocumentType("sample.null"));
         Assertions.assertEquals(DocumentType.WORD, documentManager.getDocumentType(".docx"));
         Assertions.assertEquals(null, documentManager.getDocumentType("sample."));
