@@ -1,6 +1,6 @@
 # Change Log
 
-##
+## 1.6.0
 ## Added
 - documenteditor/config/document/DocumentType#DIAGRAM
 - documenteditor/config/editorconfig/customization#forceWesternFontSize
