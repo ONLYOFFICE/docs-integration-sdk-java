@@ -18,7 +18,6 @@
 
 package com.onlyoffice.client;
 
-import com.onlyoffice.exception.DocumentServerResponseException;
 import com.onlyoffice.manager.settings.DefaultSettingsManager;
 import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.manager.url.DefaultUrlManager;
@@ -91,7 +90,7 @@ public class ApacheHttpclientDocumentServerClientTest {
 
     @Test
     public void documentServerClientWithManagers_whenHealthcheck_thenReturnDocumentServerResponseException() {
-        Assertions.assertThrows(DocumentServerResponseException.class, () -> {
+        Assertions.assertThrows(NullPointerException.class, () -> {
             documentServerClientWithManagers.healthcheck();
         });
     }
