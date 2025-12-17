@@ -92,10 +92,37 @@ public abstract class AbstractDocumentServerClient implements DocumentServerClie
 
     protected String getBaseUrl() {
         if (documentServerClientSettings.getBaseUrl() != null && !documentServerClientSettings.getBaseUrl().isEmpty()) {
-            return documentServerClientSettings.getBaseUrl();
+            return sanitizeUrl(documentServerClientSettings.getBaseUrl());
         }
 
         return urlManager.getInnerDocumentServerUrl();
+    }
+
+    protected String stripDocumentServerUrl(final String fullUrl) {
+        String documentServerUrl;
+        if (documentServerClientSettings.getBaseUrl() != null && !documentServerClientSettings.getBaseUrl().isEmpty()) {
+            documentServerUrl = sanitizeUrl(documentServerClientSettings.getBaseUrl());
+        } else {
+            documentServerUrl = urlManager.getDocumentServerUrl();
+        }
+
+        if (fullUrl == null || documentServerUrl == null) {
+            return fullUrl;
+        }
+
+        if (!fullUrl.startsWith(documentServerUrl)) {
+            return fullUrl;
+        }
+
+        return fullUrl.substring(documentServerUrl.length());
+    }
+
+    protected String sanitizeUrl(final String url) {
+        if (url != null) {
+            return url.endsWith("/") ? url.substring(0, url.length() - 1) : url;
+        } else {
+            return null;
+        }
     }
 
     protected String getSecurityKey() {
