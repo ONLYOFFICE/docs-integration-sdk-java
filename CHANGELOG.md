@@ -1,6 +1,6 @@
 # Change Log
 
-##
+## 1.7.1
 ## Changed
 - fixed bug link generation when the document server or product URL contains a context path
 
