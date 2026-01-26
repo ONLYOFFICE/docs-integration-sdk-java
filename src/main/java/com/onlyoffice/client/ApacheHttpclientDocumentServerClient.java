@@ -1,6 +1,6 @@
 /**
  *
- * (c) Copyright Ascensio System SIA 2025
+ * (c) Copyright Ascensio System SIA 2026
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,10 +51,13 @@ import org.apache.hc.core5.http.ClassicHttpRequest;
 import org.apache.hc.core5.http.ContentType;
 import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.HttpStatus;
+import org.apache.hc.core5.http.NameValuePair;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.io.entity.HttpEntities;
 import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
+import org.apache.hc.core5.http.message.BasicNameValuePair;
 import org.apache.hc.core5.http.message.StatusLine;
+import org.apache.hc.core5.net.URIBuilder;
 import org.apache.hc.core5.ssl.SSLContextBuilder;
 
 import javax.net.ssl.SSLContext;
@@ -66,6 +69,8 @@ import java.net.URISyntaxException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -114,9 +119,14 @@ public class ApacheHttpclientDocumentServerClient extends AbstractDocumentServer
 
     @Override
     public Boolean healthcheck() {
-        ClassicHttpRequest request = ClassicRequestBuilder.get(getBaseUrl())
+        URI uri = createUri(
+                getBaseUrl(),
+                ConfigurationUtils.getDocsIntegrationSdkProperties().getDocumentServer().getHealthCheckUrl(),
+                Collections.emptyList()
+        );
+
+        ClassicHttpRequest request = ClassicRequestBuilder.get(uri)
                 .setHeader("Upgrade", "")
-                .setPath(ConfigurationUtils.getDocsIntegrationSdkProperties().getDocumentServer().getHealthCheckUrl())
                 .build();
 
         return executeRequest(request, Boolean.class);
@@ -124,15 +134,15 @@ public class ApacheHttpclientDocumentServerClient extends AbstractDocumentServer
 
     @Override
     public byte[] getFile(final String fileUrl) {
-        URI uri;
-        try {
-            uri = new URI(fileUrl);
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
+        String relativeFileUri = stripDocumentServerUrl(fileUrl);
 
-        ClassicHttpRequest request = ClassicRequestBuilder.get(getBaseUrl())
-                .setPath(uri.getRawPath() + (uri.getRawQuery() != null ? "?" + uri.getRawQuery() : ""))
+        URI uri = createUri(
+                getBaseUrl(),
+                relativeFileUri,
+                Collections.emptyList()
+        );
+
+        ClassicHttpRequest request = ClassicRequestBuilder.get(uri)
                 .build();
 
         return executeRequest(request, byte[].class);
@@ -140,15 +150,15 @@ public class ApacheHttpclientDocumentServerClient extends AbstractDocumentServer
 
     @Override
     public int getFile(final String fileUrl, final OutputStream outputStream) {
-        URI uri;
-        try {
-            uri = new URI(fileUrl);
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
+        String relativeFileUri = stripDocumentServerUrl(fileUrl);
 
-        ClassicHttpRequest request = ClassicRequestBuilder.get(getBaseUrl())
-                .setPath(uri.getRawPath() + (uri.getRawQuery() != null ? "?" + uri.getRawQuery() : ""))
+        URI uri = createUri(
+                getBaseUrl(),
+                relativeFileUri,
+                Collections.emptyList()
+        );
+
+        ClassicHttpRequest request = ClassicRequestBuilder.get(uri)
                 .build();
 
         return executeRequest(request, outputStream);
@@ -156,13 +166,16 @@ public class ApacheHttpclientDocumentServerClient extends AbstractDocumentServer
 
     @Override
     public ConvertResponse convert(final ConvertRequest convertRequest) {
-        ClassicHttpRequest request = ClassicRequestBuilder.post(getBaseUrl())
-                .setPath(ConfigurationUtils.getDocsIntegrationSdkProperties()
+        URI uri = createUri(
+                getBaseUrl(),
+                ConfigurationUtils.getDocsIntegrationSdkProperties()
                         .getDocumentServer()
                         .getConvertService()
-                        .getUrl()
-                )
-                .addParameter("shardkey", convertRequest.getKey())
+                        .getUrl(),
+                Collections.singletonList(new BasicNameValuePair("shardkey", convertRequest.getKey()))
+        );
+
+        ClassicHttpRequest request = ClassicRequestBuilder.post(uri)
                 .setEntity(createEntity(convertRequest))
                 .build();
 
@@ -177,13 +190,16 @@ public class ApacheHttpclientDocumentServerClient extends AbstractDocumentServer
 
     @Override
     public CommandResponse command(final CommandRequest commandRequest) {
-        ClassicHttpRequest request = ClassicRequestBuilder.post(getBaseUrl())
-                .setPath(ConfigurationUtils.getDocsIntegrationSdkProperties()
+        URI uri = createUri(
+                getBaseUrl(),
+                ConfigurationUtils.getDocsIntegrationSdkProperties()
                         .getDocumentServer()
                         .getCommandService()
-                        .getUrl()
-                )
-                .addParameter("shardkey", commandRequest.getKey())
+                        .getUrl(),
+                Collections.singletonList(new BasicNameValuePair("shardkey", commandRequest.getKey()))
+        );
+
+        ClassicHttpRequest request = ClassicRequestBuilder.post(uri)
                 .setEntity(createEntity(commandRequest))
                 .build();
 
@@ -194,19 +210,36 @@ public class ApacheHttpclientDocumentServerClient extends AbstractDocumentServer
 
     @Override
     public DocBuilderResponse docbuilder(final DocBuilderRequest docBuilderRequest) {
-        ClassicHttpRequest request = ClassicRequestBuilder.post(getBaseUrl())
-                .setPath(ConfigurationUtils.getDocsIntegrationSdkProperties()
+        URI uri = createUri(
+                getBaseUrl(),
+                ConfigurationUtils.getDocsIntegrationSdkProperties()
                         .getDocumentServer()
                         .getDocbuilderService()
-                        .getUrl()
-                )
-                .addParameter("shardkey", docBuilderRequest.getKey())
+                        .getUrl(),
+                Collections.singletonList(new BasicNameValuePair("shardkey", docBuilderRequest.getKey()))
+        );
+
+        ClassicHttpRequest request = ClassicRequestBuilder.post(uri)
                 .setEntity(createEntity(docBuilderRequest))
                 .build();
 
         authorizeRequest(request, docBuilderRequest);
 
         return executeRequest(request, DocBuilderResponse.class);
+    }
+
+    protected URI createUri(final String baseUrl, final String path, final List<NameValuePair> parameters) {
+        try {
+            URIBuilder pathUri = new URIBuilder(path);
+
+            return new URIBuilder(baseUrl)
+                    .appendPath(pathUri.getPath())
+                    .addParameters(pathUri.getQueryParams())
+                    .addParameters(parameters)
+                    .build();
+        } catch (URISyntaxException e) {
+            throw new IllegalArgumentException(e.getMessage(), e);
+        }
     }
 
     protected <T> T executeRequestWithHttpClientForSyncConvertRequest(final ClassicHttpRequest classicHttpRequest,

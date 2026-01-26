@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.7.1
+## Changed
+- fixed bug link generation when the document server or product URL contains a context path
+
 ## 1.7.0
 ## Changed
 - updated list supported formats, see [ONLYOFFICE/document-formats v3.1.0](https://github.com/ONLYOFFICE/document-formats/releases/tag/v3.1.0)
