@@ -1,6 +1,6 @@
 # Change Log
 
-##
+## 1.8.0
 ## Changed
 - updated list supported formats, see [ONLYOFFICE/document-formats v3.2.0](https://github.com/ONLYOFFICE/document-formats/releases/tag/v3.2.0)
 
