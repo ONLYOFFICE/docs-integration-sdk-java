@@ -94,13 +94,14 @@ public final class ConfigurationUtils {
 
     private static void init() {
         Properties properties = new Properties();
-        try {
-            InputStream stream = ConfigurationUtils.class
-                    .getClassLoader()
-                    .getResourceAsStream(PROPERTIES_PREFIX + ".properties");
-            properties.load(stream);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        try (InputStream stream = ConfigurationUtils.class
+                .getClassLoader()
+                .getResourceAsStream(PROPERTIES_PREFIX + ".properties")) {
+            if (stream != null) {
+                properties.load(stream);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load " + PROPERTIES_PREFIX + ".properties", e);
         }
 
         JavaPropsSchema javaPropsSchema = JavaPropsSchema.emptySchema().withPrefix(PROPERTIES_PREFIX);
