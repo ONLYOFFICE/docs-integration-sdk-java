@@ -18,15 +18,13 @@
 
 package com.onlyoffice.manager.document;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.model.documenteditor.config.document.DocumentType;
 import com.onlyoffice.model.common.Format;
 import com.onlyoffice.model.settings.SettingsConstants;
+import com.onlyoffice.provider.DefaultFormatsProvider;
+import com.onlyoffice.provider.FormatsProvider;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -42,12 +40,7 @@ import java.util.Locale;
 import java.util.Map;
 
 
-@AllArgsConstructor
 public abstract class DefaultDocumentManager implements DocumentManager {
-    /**
-     * Path to the matrix of formats supported by the ONLYOFFICE Editor.
-     */
-    private static final String DOCS_FORMATS_JSON_PATH = "assets/document-formats/onlyoffice-docs-formats.json";
 
     /**
      * Defines the default maximum file size, used if the "integration-sdk.data.filesize.editing.max"
@@ -60,16 +53,35 @@ public abstract class DefaultDocumentManager implements DocumentManager {
     @Setter(AccessLevel.PROTECTED)
     private SettingsManager settingsManager;
 
-    /** Defines a list containing data about supported formats. */
-    private static List<Format> formats;
+    /** {@link FormatsProvider}. */
+    @Getter(AccessLevel.PROTECTED)
+    @Setter(AccessLevel.PROTECTED)
+    private FormatsProvider formatsProvider;
 
-    static {
-        init();
+    /**
+     * Constructs a new DefaultDocumentManager with the specified settings manager.
+     * Uses {@link DefaultFormatsProvider} to supply document formats.
+     *
+     * @param settingsManager The settings manager.
+     */
+    public DefaultDocumentManager(final SettingsManager settingsManager) {
+        this(settingsManager, new DefaultFormatsProvider());
+    }
+
+    /**
+     * Constructs a new DefaultDocumentManager with the specified settings manager and formats provider.
+     *
+     * @param settingsManager The settings manager.
+     * @param formatsProvider The formats provider.
+     */
+    public DefaultDocumentManager(final SettingsManager settingsManager, final FormatsProvider formatsProvider) {
+        this.settingsManager = settingsManager;
+        this.formatsProvider = formatsProvider;
     }
 
     @Override
     public List<Format> getFormats() {
-        return this.formats;
+        return formatsProvider.getFormats();
     }
 
     @Override
@@ -414,26 +426,5 @@ public abstract class DefaultDocumentManager implements DocumentManager {
         }
     }
 
-    protected static void init() {
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        InputStream inputStream =  Thread
-                .currentThread()
-                .getContextClassLoader()
-                .getResourceAsStream(DOCS_FORMATS_JSON_PATH);
-
-        if (inputStream == null) {
-            inputStream = DefaultDocumentManager.class
-                    .getClassLoader()
-                    .getResourceAsStream(DOCS_FORMATS_JSON_PATH);
-        }
-
-
-        try {
-            formats = objectMapper.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true)
-                    .readValue(inputStream, new TypeReference<List<Format>>() { });
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }
+
