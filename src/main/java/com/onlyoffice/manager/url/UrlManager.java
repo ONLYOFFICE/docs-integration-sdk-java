@@ -18,8 +18,6 @@
 
 package com.onlyoffice.manager.url;
 
-import com.onlyoffice.model.common.RequestedService;
-
 
 public interface UrlManager {
 
@@ -90,14 +88,6 @@ public interface UrlManager {
       * @return The URL to create a new file.
       */
      String getCreateUrl(String fileId);
-
-     /**
-      * Returns the URL to the service using the requested service properties specified in the request.
-      *
-      * @param requestedService The requested service.
-      * @return The URL to ONLYOFFICE service.
-      */
-     String getServiceUrl(RequestedService requestedService);
 
      /**
       * Removes the trailing slash from the URL if it exists.
