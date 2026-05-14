@@ -18,8 +18,10 @@
 
 package com.onlyoffice.client;
 
+import com.onlyoffice.client.dto.ConfigResponse;
 import com.onlyoffice.model.commandservice.CommandRequest;
 import com.onlyoffice.model.commandservice.CommandResponse;
+import com.onlyoffice.model.common.Format;
 import com.onlyoffice.model.convertservice.ConvertRequest;
 import com.onlyoffice.model.convertservice.ConvertResponse;
 import com.onlyoffice.model.docbuilderservice.DocBuilderRequest;
@@ -27,6 +29,7 @@ import com.onlyoffice.model.docbuilderservice.DocBuilderResponse;
 import com.onlyoffice.model.settings.Settings;
 
 import java.io.OutputStream;
+import java.util.List;
 
 public interface DocumentServerClient {
     /**
@@ -94,4 +97,19 @@ public interface DocumentServerClient {
      * @return DocBuilderResponse The response containing the result of the DocBuilder operation
      */
     DocBuilderResponse docbuilder(DocBuilderRequest docBuilderRequest);
+
+    /**
+     * Retrieves the Document Server configuration from the meta config endpoint (/meta/config).
+     * The response contains authorization settings, API endpoint URLs, limits, and supported languages.
+     *
+     * @return ConfigResponse object containing the Document Server configuration
+     */
+    ConfigResponse getConfig();
+
+    /**
+     * Retrieves the list of supported document formats from the meta formats endpoint (/meta/formats).
+     *
+     * @return List of {@link Format} objects describing all supported document formats
+     */
+    List<Format> getFormats();
 }

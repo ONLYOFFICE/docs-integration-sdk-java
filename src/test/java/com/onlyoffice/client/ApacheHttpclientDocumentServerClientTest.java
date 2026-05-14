@@ -18,10 +18,12 @@
 
 package com.onlyoffice.client;
 
+import com.onlyoffice.client.dto.ConfigResponse;
 import com.onlyoffice.manager.settings.DefaultSettingsManager;
 import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.manager.url.DefaultUrlManager;
 import com.onlyoffice.manager.url.UrlManager;
+import com.onlyoffice.model.common.Format;
 import com.onlyoffice.model.convertservice.ConvertRequest;
 import com.onlyoffice.model.convertservice.ConvertResponse;
 import com.onlyoffice.model.properties.docsintegrationsdk.DocumentServerProperties;
@@ -38,6 +40,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Date;
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class ApacheHttpclientDocumentServerClientTest {
@@ -165,5 +168,27 @@ public class ApacheHttpclientDocumentServerClientTest {
         Assertions.assertEquals("pdf", convertResponse.getFileType());
         Assertions.assertEquals(true, convertResponse.getEndConvert());
         Assertions.assertEquals(100, convertResponse.getPercent());
+    }
+
+    @Test
+    public void whenGetConfig_thenReturnOk() {
+        documentServerClientWithManagers.applySettings(Settings.builder()
+                .demo(true)
+                .build());
+
+        ConfigResponse configResponse = documentServerClientWithSettings.getConfig();
+
+        System.out.println(configResponse);
+    }
+
+    @Test
+    public void whenGetFormats_thenReturnOk() {
+        documentServerClientWithManagers.applySettings(Settings.builder()
+                .demo(true)
+                .build());
+
+        List<Format> formats = documentServerClientWithSettings.getFormats();
+
+        System.out.println(formats);
     }
 }
