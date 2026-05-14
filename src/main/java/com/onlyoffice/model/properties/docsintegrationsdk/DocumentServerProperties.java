@@ -33,6 +33,8 @@ public class DocumentServerProperties {
     private String apiUrl;
     private String apiPreloaderUrl;
     private String healthCheckUrl;
+    private String configUrl;
+    private String formatsUrl;
     private SecurityProperties security;
     private EditingServiceProperties editingService;
     private ConvertServiceProperties convertService;
