@@ -1,5 +1,17 @@
 # Change Log
 
+## 
+## Removed
+- deprecated `RequestManager`, `DefaultRequestManager`
+- deprecated `CommandService`, `DefaultCommandService`
+- deprecated `DefaultConvertService`
+- deprecated `DefaultSettingsValidationService`
+- deprecated `SettingsValidationService` methods:
+  - `checkDocumentServer(String url, HttpClientSettings httpClientSettings)`
+  - `checkCommandService(String url, Security security, HttpClientSettings httpClientSettings)`
+  - `checkConvertService(String url, String productInnerUrl, Security security, HttpClientSettings httpClientSettings)`
+- deprecated `UrlManager#getServiceUrl` method
+
 ## 1.9.0
 ## Added
 - documenteditor/config/editorconfig/Plugins#disable
