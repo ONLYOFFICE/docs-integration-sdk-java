@@ -50,4 +50,12 @@ public class Plugins {
      * @see <a href="https://api.onlyoffice.com/docs/docs-api/usage-api/config/">"config.json" in API ONLYOFFICE</a>
      */
     private List<String> pluginsData;
+
+    /**
+     * Defines an array of the identifiers (as entered in "config.json") for the plugins,
+     * which will disabled when the editor opens.
+     *
+     * @see <a href="https://api.onlyoffice.com/docs/docs-api/usage-api/config/">"config.json" in API ONLYOFFICE</a>
+     */
+    private List<String> disable;
 }

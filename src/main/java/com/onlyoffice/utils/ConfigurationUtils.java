@@ -45,10 +45,12 @@ public final class ConfigurationUtils {
     /** The number of days that the demo server can be used. */
     private static final Integer DEMO_TRIAL_PERIOD = 30;
 
-    /** Flag indicating whether settings have been initialized. */
-    private static boolean isInit = false;
     /** {@link DocsIntegrationSdkProperties}. */
-    private static DocsIntegrationSdkProperties docsIntegrationSdkProperties;
+    private static final DocsIntegrationSdkProperties DOCS_INTEGRATION_SDK_PROPERTIES;
+
+    static {
+        DOCS_INTEGRATION_SDK_PROPERTIES = init();
+    }
 
     private ConfigurationUtils() { }
 
@@ -58,12 +60,7 @@ public final class ConfigurationUtils {
      * @return Docs Integration Sdk Properties.
      */
     public static DocsIntegrationSdkProperties getDocsIntegrationSdkProperties() {
-        if (!isInit) {
-            init();
-            isInit = true;
-        }
-
-        return docsIntegrationSdkProperties;
+        return DOCS_INTEGRATION_SDK_PROPERTIES;
     }
 
     /**
@@ -92,15 +89,16 @@ public final class ConfigurationUtils {
         return DEMO_TRIAL_PERIOD;
     }
 
-    private static void init() {
+    private static DocsIntegrationSdkProperties init() {
         Properties properties = new Properties();
-        try {
-            InputStream stream = ConfigurationUtils.class
-                    .getClassLoader()
-                    .getResourceAsStream(PROPERTIES_PREFIX + ".properties");
-            properties.load(stream);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        try (InputStream stream = ConfigurationUtils.class
+                .getClassLoader()
+                .getResourceAsStream(PROPERTIES_PREFIX + ".properties")) {
+            if (stream != null) {
+                properties.load(stream);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load " + PROPERTIES_PREFIX + ".properties", e);
         }
 
         JavaPropsSchema javaPropsSchema = JavaPropsSchema.emptySchema().withPrefix(PROPERTIES_PREFIX);
@@ -110,7 +108,7 @@ public final class ConfigurationUtils {
                 .build();
 
         try {
-            docsIntegrationSdkProperties = javaPropsMapper.readPropertiesAs(
+            return javaPropsMapper.readPropertiesAs(
                     properties,
                     javaPropsSchema,
                     DocsIntegrationSdkProperties.class

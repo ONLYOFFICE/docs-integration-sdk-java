@@ -12,6 +12,10 @@
   - `checkConvertService(String url, String productInnerUrl, Security security, HttpClientSettings httpClientSettings)`
 - deprecated `UrlManager#getServiceUrl` method
 
+## 1.9.0
+## Added
+- documenteditor/config/editorconfig/Plugins#disable
+
 ## 1.8.0
 ## Changed
 - updated list supported formats, see [ONLYOFFICE/document-formats v3.2.0](https://github.com/ONLYOFFICE/document-formats/releases/tag/v3.2.0)
