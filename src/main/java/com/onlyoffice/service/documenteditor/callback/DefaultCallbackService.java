@@ -63,7 +63,7 @@ public class DefaultCallbackService implements CallbackService {
                 }
             }
 
-            if (token == null || token == "") {
+            if (token == null || token.isEmpty()) {
                 throw new SecurityException("Not found authorization token");
             }
 
