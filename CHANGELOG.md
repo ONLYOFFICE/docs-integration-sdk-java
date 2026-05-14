@@ -1,6 +1,6 @@
 # Change Log
 
-##
+## 1.9.0
 ## Added
 - documenteditor/config/editorconfig/Plugins#disable
 
