@@ -1,6 +1,6 @@
 # Change Log
 
-##
+## 1.10.0
 ## Changed
 - updated project dependencies to address known security vulnerabilities.
 - updated the list of empty file templates
