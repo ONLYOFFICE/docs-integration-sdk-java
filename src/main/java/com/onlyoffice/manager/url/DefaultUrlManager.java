@@ -19,8 +19,6 @@
 package com.onlyoffice.manager.url;
 
 import com.onlyoffice.manager.settings.SettingsManager;
-import com.onlyoffice.model.common.RequestedService;
-import com.onlyoffice.model.properties.docsintegrationsdk.DocumentServerProperties;
 import com.onlyoffice.model.settings.SettingsConstants;
 import com.onlyoffice.utils.ConfigurationUtils;
 import lombok.AccessLevel;
@@ -29,11 +27,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.hc.core5.net.URIBuilder;
 
-import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 
 
@@ -100,58 +93,6 @@ public class DefaultUrlManager implements UrlManager {
           return getDocumentServerUrl() + settingsManager.getDocsIntegrationSdkProperties()
                   .getDocumentServer()
                   .getApiPreloaderUrl();
-     }
-
-     @Override
-     public String getServiceUrl(final RequestedService requestedService) {
-          String serviceUrl = null;
-
-          if (requestedService == null) {
-               return null;
-          }
-
-          String serviceName = requestedService
-                  .getClass()
-                  .getInterfaces()[0]
-                  .getSimpleName()
-                  .toLowerCase();
-
-          DocumentServerProperties documentServerProperties = settingsManager.getDocsIntegrationSdkProperties()
-                  .getDocumentServer();
-
-          try {
-               Object serviceProperties = null;
-
-               BeanInfo beanInfo = Introspector.getBeanInfo(documentServerProperties.getClass());
-               for (PropertyDescriptor propertyDescriptor : beanInfo.getPropertyDescriptors()) {
-                    if (propertyDescriptor.getName().toLowerCase().equals(serviceName)) {
-                         serviceProperties = propertyDescriptor.getReadMethod().invoke(documentServerProperties);
-                    }
-               }
-
-               if (serviceProperties == null) {
-                    return null;
-               }
-
-               beanInfo = Introspector.getBeanInfo(serviceProperties.getClass());
-               for (PropertyDescriptor propertyDescriptor : beanInfo.getPropertyDescriptors()) {
-                    if (propertyDescriptor.getName().equals("url")) {
-                         serviceUrl = propertyDescriptor.getReadMethod().invoke(serviceProperties).toString();
-                    }
-               }
-          } catch (IntrospectionException e) {
-               throw new RuntimeException(e);
-          } catch (InvocationTargetException e) {
-               throw new RuntimeException(e);
-          } catch (IllegalAccessException e) {
-               throw new RuntimeException(e);
-          }
-
-          if (serviceUrl == null) {
-               return null;
-          }
-
-          return getInnerDocumentServerUrl() + serviceUrl;
      }
 
      @Override

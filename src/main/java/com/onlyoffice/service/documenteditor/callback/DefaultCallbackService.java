@@ -19,6 +19,7 @@
 package com.onlyoffice.service.documenteditor.callback;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onlyoffice.manager.security.JwtManager;
 import com.onlyoffice.manager.settings.SettingsManager;
@@ -27,7 +28,6 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.json.JSONObject;
 
 
 @AllArgsConstructor
@@ -69,13 +69,13 @@ public class DefaultCallbackService implements CallbackService {
 
             payload = jwtManager.verify(token);
 
-            JSONObject callbackFromToken = new JSONObject(payload);
+            JsonNode callbackFromToken = objectMapper.readTree(payload);
 
             if (fromHeader) {
-                callbackFromToken = callbackFromToken.getJSONObject("payload");
+                callbackFromToken = callbackFromToken.get("payload");
             }
 
-            return objectMapper.readValue(callbackFromToken.toString(), Callback.class);
+            return objectMapper.treeToValue(callbackFromToken, Callback.class);
         }
 
         return callback;

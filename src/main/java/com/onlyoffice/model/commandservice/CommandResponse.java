@@ -24,7 +24,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
@@ -68,7 +67,7 @@ public class CommandResponse {
      * "users_view_count" - the number of users for the live viewer,
      * "users_expire" - the number of days after which the user license expires.
      */
-    private JSONObject license;
+    private Map<String, Object> license;
 
     /**
      * Defines the server characteristics: "resultType" - the license status
@@ -77,7 +76,7 @@ public class CommandResponse {
      * (0 - an open source product, 1 - the Enterprise Edition, 2 - the Developer Edition),
      * "buildDate" - the build date, "buildVersion" - the build version, "buildNumber" - the build number.
      */
-    private JSONObject server;
+    private Map<String, Object> server;
 
     /**
      * Defines the user quota value: "users" - the user quota for the user license
@@ -86,7 +85,7 @@ public class CommandResponse {
      * where "userid" - the id of the user who opened the editor,
      * "expire" - date of viewing expiration for this user.
      */
-    private JSONObject quota;
+    private Map<String, Object> quota;
 
     /**
      * Defines the link to the edited document to be saved with the document storage service.

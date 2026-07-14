@@ -19,21 +19,15 @@
 package com.onlyoffice.service.callback;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.onlyoffice.manager.request.DefaultRequestManager;
-import com.onlyoffice.manager.request.RequestManager;
 import com.onlyoffice.manager.security.DefaultJwtManager;
 import com.onlyoffice.manager.security.JwtManager;
 import com.onlyoffice.manager.settings.DefaultSettingsManager;
 import com.onlyoffice.manager.settings.SettingsManager;
-import com.onlyoffice.manager.url.DefaultUrlManager;
-import com.onlyoffice.manager.url.UrlManager;
 import com.onlyoffice.model.documenteditor.Callback;
 import com.onlyoffice.model.documenteditor.callback.Status;
 import com.onlyoffice.model.settings.SettingsConstants;
 import com.onlyoffice.service.documenteditor.callback.CallbackService;
 import com.onlyoffice.service.documenteditor.callback.DefaultCallbackService;
-import com.onlyoffice.service.settings.DefaultSettingsValidationService;
-import com.onlyoffice.service.settings.SettingsValidationService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -70,15 +64,6 @@ public class CallbackServiceTest {
 
     @InjectMocks
     private JwtManager jwtManager = new DefaultJwtManager(settingsManager);
-
-    @InjectMocks
-    private UrlManager urlManager = new DefaultUrlManager(settingsManager);
-
-    @InjectMocks
-    private RequestManager requestManager = new DefaultRequestManager(urlManager, jwtManager, settingsManager);
-
-    @InjectMocks
-    private SettingsValidationService settingsValidationService = new DefaultSettingsValidationService(requestManager, urlManager, settingsManager);
 
     @InjectMocks
     private ObjectMapper mapper = new ObjectMapper();

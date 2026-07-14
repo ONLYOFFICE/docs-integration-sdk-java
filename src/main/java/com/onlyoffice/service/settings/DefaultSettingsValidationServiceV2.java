@@ -27,8 +27,6 @@ import com.onlyoffice.model.commandservice.commandrequest.Command;
 import com.onlyoffice.model.common.CommonResponse;
 import com.onlyoffice.model.convertservice.ConvertRequest;
 import com.onlyoffice.model.convertservice.ConvertResponse;
-import com.onlyoffice.model.settings.HttpClientSettings;
-import com.onlyoffice.model.settings.security.Security;
 import com.onlyoffice.model.settings.validation.ValidationResult;
 import com.onlyoffice.model.settings.validation.status.Status;
 import lombok.AccessLevel;
@@ -131,27 +129,5 @@ public class DefaultSettingsValidationServiceV2 implements SettingsValidationSer
                     .error(commandResponse.getError())
                     .build();
         }
-    }
-
-    @Override
-    public ValidationResult checkDocumentServer(final String url, final HttpClientSettings httpClientSettings) {
-        throw new UnsupportedOperationException("Method not implemented yet");
-    }
-
-    @Override
-    public ValidationResult checkConvertService() {
-        throw new UnsupportedOperationException("Method not implemented yet");
-    }
-
-    @Override
-    public ValidationResult checkConvertService(final String url, final String productInnerUrl, final Security security,
-                                                final HttpClientSettings httpClientSettings) {
-        throw new UnsupportedOperationException("Method not implemented yet");
-    }
-
-    @Override
-    public ValidationResult checkCommandService(final String url, final Security security,
-                                                final HttpClientSettings httpClientSettings) {
-        throw new UnsupportedOperationException("Method not implemented yet");
     }
 }
