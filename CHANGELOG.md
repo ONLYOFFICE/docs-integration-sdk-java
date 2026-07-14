@@ -1,6 +1,10 @@
 # Change Log
 
-## 
+##
+## Changed
+- updated project dependencies to address known security vulnerabilities.
+- updated the list of empty file templates
+
 ## Removed
 - deprecated `RequestManager`, `DefaultRequestManager`
 - deprecated `CommandService`, `DefaultCommandService`
