@@ -1,5 +1,9 @@
 # Change Log
 
+##
+## Changed
+- updated project dependencies to address known security vulnerabilities.
+
 ## 1.10.0
 ## Changed
 - updated project dependencies to address known security vulnerabilities.
