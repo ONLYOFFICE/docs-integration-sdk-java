@@ -26,11 +26,18 @@ public interface CallbackService {
 
     /**
      * Verifies the {@link Callback} object.
+     * <p>
+     * A token with the {@code operation} claim must be for
+     * {@link com.onlyoffice.model.security.JwtOperation#CALLBACK}, so a token Document Server signed
+     * for another request, such as a file download, is refused. A token without the claim,
+     * as older Document Server versions send, is accepted.
      *
      * @param callback  The {@link Callback} object with the callback handler parameters.
      * @param authorizationHeader The authorization header from the callback request.
      * @return The verified callback object.
      * @throws JsonProcessingException An error occurred when processing the JSON data.
+     * @throws com.onlyoffice.exception.IncorrectOperationException if the {@code operation} claim
+     * of the token names another request than a callback.
      */
     Callback verifyCallback(Callback callback, String authorizationHeader) throws JsonProcessingException;
 

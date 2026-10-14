@@ -18,16 +18,20 @@
 
 package com.onlyoffice.service.callback;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.onlyoffice.exception.IncorrectOperationException;
 import com.onlyoffice.manager.security.DefaultJwtManager;
 import com.onlyoffice.manager.security.JwtManager;
 import com.onlyoffice.manager.settings.DefaultSettingsManager;
 import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.model.documenteditor.Callback;
 import com.onlyoffice.model.documenteditor.callback.Status;
+import com.onlyoffice.model.security.JwtOperation;
 import com.onlyoffice.model.settings.SettingsConstants;
 import com.onlyoffice.service.documenteditor.callback.CallbackService;
 import com.onlyoffice.service.documenteditor.callback.DefaultCallbackService;
+import com.onlyoffice.utils.SecurityUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,6 +39,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Map;
 import java.util.Properties;
 
 import static com.onlyoffice.service.callback.CallbackServiceDataTest.AUTHORIZATION_HEADER_STATUS_EDITING;
@@ -115,6 +120,48 @@ public class CallbackServiceTest {
     void verifyCallbackWithoutTokenWithAuthorizationHeaderTest() throws Exception {
         Callback callback = mapper.readValue(CALLBACK_STATUS_EDITING, Callback.class);
         Callback verifyedCallback = callbackService.verifyCallback(callback, AUTHORIZATION_HEADER_STATUS_EDITING);
+    }
+
+    @Test
+    void verifyCallbackWithCallbackOperationTest() throws Exception {
+        Callback callback = mapper.readValue(CALLBACK_STATUS_EDITING, Callback.class);
+        callback.setToken(SecurityUtils.createToken(callbackClaims(), "secret", JwtOperation.CALLBACK));
+
+        Callback verifiedCallback = callbackService.verifyCallback(callback, "");
+        Assertions.assertEquals(Status.EDITING, verifiedCallback.getStatus());
+    }
+
+    @Test
+    void verifyCallbackWithDownloadOperationTest() throws Exception {
+        Callback callback = mapper.readValue(CALLBACK_STATUS_EDITING, Callback.class);
+        callback.setToken(SecurityUtils.createToken(callbackClaims(), "secret", JwtOperation.DOWNLOAD));
+
+        Assertions.assertThrows(IncorrectOperationException.class,
+                () -> callbackService.verifyCallback(callback, ""));
+    }
+
+    @Test
+    void verifyCallbackWithCallbackOperationInAuthorizationHeaderTest() throws Exception {
+        Callback callback = mapper.readValue(CALLBACK_STATUS_EDITING, Callback.class);
+        String header = SecurityUtils.createAuthorizationHeader(callbackClaims(), "secret",
+                settingsManager.getSecurityPrefix(), JwtOperation.CALLBACK);
+
+        Callback verifiedCallback = callbackService.verifyCallback(callback, header);
+        Assertions.assertEquals(Status.EDITING, verifiedCallback.getStatus());
+    }
+
+    @Test
+    void verifyCallbackWithDownloadOperationInAuthorizationHeaderTest() throws Exception {
+        Callback callback = mapper.readValue(CALLBACK_STATUS_EDITING, Callback.class);
+        String header = SecurityUtils.createAuthorizationHeader(callbackClaims(), "secret",
+                settingsManager.getSecurityPrefix(), JwtOperation.DOWNLOAD);
+
+        Assertions.assertThrows(IncorrectOperationException.class,
+                () -> callbackService.verifyCallback(callback, header));
+    }
+
+    private Map<String, ?> callbackClaims() throws Exception {
+        return mapper.readValue(CALLBACK_STATUS_EDITING, new TypeReference<Map<String, ?>>() { });
     }
 
     @Test
