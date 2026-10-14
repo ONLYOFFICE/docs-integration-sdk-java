@@ -1,5 +1,13 @@
 # Change Log
 
+## [Unreleased]
+## Added
+- `FormatsProvider` and `DefaultFormatsProvider` for customizing the source of supported document formats
+- `DefaultDocumentManager(SettingsManager, FormatsProvider)` constructor
+
+## Removed
+- `DefaultDocumentManager#init()`, format loading moved to `DefaultFormatsProvider`
+
 ## 1.10.1
 ## Changed
 - updated project dependencies to address known security vulnerabilities.
