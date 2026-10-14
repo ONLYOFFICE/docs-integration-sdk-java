@@ -31,6 +31,7 @@ import com.onlyoffice.model.convertservice.ConvertResponse;
 import com.onlyoffice.model.docbuilderservice.DocBuilderRequest;
 import com.onlyoffice.model.docbuilderservice.DocBuilderResponse;
 import com.onlyoffice.model.properties.docsintegrationsdk.HttpClientProperties;
+import com.onlyoffice.model.security.JwtOperation;
 import com.onlyoffice.utils.ConfigurationUtils;
 import com.onlyoffice.utils.SecurityUtils;
 import lombok.AccessLevel;
@@ -309,6 +310,7 @@ public class ApacheHttpclientDocumentServerClient extends AbstractDocumentServer
 
     /**
      * Authorizes a request by adding a JWT header if security key is configured.
+     * The token carries the {@code operation} claim returned by {@link #getOperation(RequestEntity)}.
      *
      * @param request the HTTP request to authorize
      * @param requestEntity the request entity containing data for authorization
@@ -317,13 +319,43 @@ public class ApacheHttpclientDocumentServerClient extends AbstractDocumentServer
         if (isSecurityEnabled()) {
             request.setHeader(
                     getSecurityHeader(),
-                    SecurityUtils.createAuthorizationHeader(requestEntity, getSecurityKey(), getSecurityPrefix())
+                    SecurityUtils.createAuthorizationHeader(
+                            requestEntity,
+                            getSecurityKey(),
+                            getSecurityPrefix(),
+                            getOperation(requestEntity)
+                    )
             );
         }
     }
 
     /**
+     * Returns the request a token for the request entity is for, written to the {@code operation} claim.
+     * Document Server rejects a token whose {@code operation} claim names another endpoint.
+     *
+     * @param requestEntity the request entity
+     * @return the operation, or {@code null} for an unknown request entity
+     */
+    protected JwtOperation getOperation(final RequestEntity requestEntity) {
+        if (requestEntity instanceof ConvertRequest) {
+            return JwtOperation.CONVERTER;
+        }
+
+        if (requestEntity instanceof CommandRequest) {
+            return JwtOperation.COMMAND;
+        }
+
+        if (requestEntity instanceof DocBuilderRequest) {
+            return JwtOperation.DOCBUILDER;
+        }
+
+        return null;
+    }
+
+    /**
      * Creates an HTTP entity from the request entity, generating auth token if needed.
+     * The generated token carries the {@code operation} claim returned by {@link #getOperation(RequestEntity)}.
+     * A token already set on the request entity is sent as is and must carry the {@code operation} claim itself.
      *
      * @param requestEntity the request entity to convert
      * @return HttpEntity containing the JSON payload
@@ -332,7 +364,7 @@ public class ApacheHttpclientDocumentServerClient extends AbstractDocumentServer
         return HttpEntities.create(outputStream -> {
                     if (requestEntity.getToken() == null && isSecurityEnabled()) {
                         requestEntity.setToken(
-                                SecurityUtils.createToken(requestEntity, getSecurityKey())
+                                SecurityUtils.createToken(requestEntity, getSecurityKey(), getOperation(requestEntity))
                         );
                     }
 
