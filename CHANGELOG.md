@@ -1,5 +1,18 @@
 # Change Log
 
+## [Unreleased]
+## Added
+- `JwtOperation`, the `operation` claim of a token: `converter`, `command`, `docbuilder`, `download`, `callback`
+- the tokens of the requests to Document Server (`convert`, `command`, `docbuilder`) carry the `operation` claim
+- `JwtManager#verify(String token, JwtOperation operation)` and
+  `JwtManager#verifyToken(String token, String key, JwtOperation operation)` refuse a token for another request
+  with `IncorrectOperationException`; a token without the claim is accepted
+- `SecurityUtils#createToken` and `SecurityUtils#createAuthorizationHeader` overloads with `JwtOperation`,
+  `SecurityUtils#checkOperation`
+
+## Changed
+- `DefaultCallbackService#verifyCallback` refuses a token whose `operation` claim is not `callback`
+
 ## 1.10.1
 ## Changed
 - updated project dependencies to address known security vulnerabilities.
