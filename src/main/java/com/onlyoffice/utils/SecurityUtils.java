@@ -36,6 +36,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class SecurityUtils {
+    /** {@link ObjectMapper}, shared since it is thread-safe once configured. */
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
     private SecurityUtils() { }
 
     /**
@@ -60,11 +63,10 @@ public final class SecurityUtils {
      */
     public static String createAuthorizationHeader(final Object object, final String key, final String prefix,
                                                    final JwtOperation operation) {
-        ObjectMapper objectMapper = new ObjectMapper();
         Map<String, Object> data = new HashMap<>();
         data.put("payload", object);
 
-        Map<String, ?> payloadMap = objectMapper.convertValue(
+        Map<String, ?> payloadMap = OBJECT_MAPPER.convertValue(
                 data,
                 new TypeReference<Map<String, ?>>() { }
         );
@@ -96,8 +98,7 @@ public final class SecurityUtils {
      * @return Signed JWT token as string
      */
     public static String createToken(final Object object, final String key, final JwtOperation operation) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, ?> payloadMap = objectMapper.convertValue(object, new TypeReference<Map<String, ?>>() { });
+        Map<String, ?> payloadMap = OBJECT_MAPPER.convertValue(object, new TypeReference<Map<String, ?>>() { });
 
         return createToken(payloadMap, key, operation);
     }
@@ -185,7 +186,7 @@ public final class SecurityUtils {
         JsonNode claims;
 
         try {
-            claims = new ObjectMapper().readTree(payload);
+            claims = OBJECT_MAPPER.readTree(payload);
         } catch (JsonProcessingException e) {
             throw new JWTDecodeException("The payload of the token is not valid JSON", e);
         }
