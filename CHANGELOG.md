@@ -14,6 +14,9 @@
 - `DocumentServerClient#getConfig()` and `DocumentServerClient#getFormats()` methods for retrieving Document Server configuration and supported formats
 - `com.onlyoffice.cache.DocumentServerMetaCache`, a thread-safe in-memory cache of one answer of the Document Server,
   such as `/meta/config` or `/meta/formats`, with TTL, retry delay after a failure, load timeout and invalidation
+- `DocumentServerFormatsProvider` for loading supported document formats from the Document Server, cached in
+  `DocumentServerMetaCache`; the cache is reloaded when the address of the Document Server changes, and the bundled
+  formats are returned while none are loaded
 
 ## Changed
 - updated project dependencies to address known security vulnerabilities.
