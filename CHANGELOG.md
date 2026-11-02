@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 ## Added
+- `FormatsProvider` and `DefaultFormatsProvider` for customizing the source of supported document formats
+- `DefaultDocumentManager(SettingsManager, FormatsProvider)` constructor
 - `JwtOperation`, the `operation` claim of a token: `converter`, `command`, `docbuilder`, `download`, `callback`
 - the tokens of the requests to Document Server (`convert`, `command`, `docbuilder`) carry the `operation` claim
 - `JwtManager#verify(String token, JwtOperation operation)` and
@@ -11,7 +13,18 @@
   `SecurityUtils#checkOperation`
 
 ## Changed
+- updated project dependencies to address known security vulnerabilities.
 - `DefaultCallbackService#verifyCallback` refuses a token whose `operation` claim is not `callback`
+
+## Removed
+- `DefaultDocumentManager#init()`, format loading moved to `DefaultFormatsProvider`
+- deprecated documenteditor/config/editorconfig/Customization fields:
+  - `Customization#commentAuthorOnly`, use documenteditor/config/document/Permissions#editCommentAuthorOnly
+    and documenteditor/config/document/Permissions#deleteCommentAuthorOnly instead
+  - `Customization#reviewDisplay`, use documenteditor/config/editorconfig/customization/Review#reviewDisplay instead
+  - `Customization#showReviewChanges`, use documenteditor/config/editorconfig/customization/Review#showReviewChanges
+    instead
+  - `Customization#trackChanges`, use documenteditor/config/editorconfig/customization/Review#trackChanges instead
 
 ## 1.10.1
 ## Changed
