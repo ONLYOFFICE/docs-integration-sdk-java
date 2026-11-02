@@ -162,7 +162,9 @@ public final class DocumentServerMetaCache<T> {
      * Returns the cached data, or {@code null} while nothing has loaded yet. When the data is stale or missing,
      * no load runs and the last one didn't fail less than {@code retry} ago, loads the data on the calling thread
      * and returns once the load ends: the new data, or, when the load fails, the old. Otherwise returns at once.
-     * Never throws because of a failed load.
+     * Doesn't throw when the load fails with an {@link Exception}: the exception goes to {@code onError}.
+     * An {@link Error} thrown by the loader, such as {@link OutOfMemoryError}, is not caught and propagates to
+     * the caller; the load still counts as failed, so the next one waits for {@code retry}.
      *
      * <p>Every call returns the same object, so a change to it is seen by every other caller. Don't change it.
      *
