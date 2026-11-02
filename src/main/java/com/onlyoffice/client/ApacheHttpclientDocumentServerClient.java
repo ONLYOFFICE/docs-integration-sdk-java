@@ -96,8 +96,13 @@ public class ApacheHttpclientDocumentServerClient extends AbstractDocumentServer
     /** Flag indicating whether to ignore SSL certificate validation. */
     private boolean isIgnoreSSLCertificate;
 
-    /** {@link ObjectMapper}. */
-    private final ObjectMapper objectMapper;
+    /**
+     * {@link ObjectMapper} that reads the responses of the document server. Ignores the fields and enum values
+     * this SDK doesn't know yet, so that a newer document server doesn't break it.
+     */
+    private final ObjectMapper objectMapper = new ObjectMapper()
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            .enable(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL);
 
     /**
      * Constructs ApacheHttpclientDocumentServerClient with document server client settings.
@@ -106,10 +111,6 @@ public class ApacheHttpclientDocumentServerClient extends AbstractDocumentServer
      */
     public ApacheHttpclientDocumentServerClient(final DocumentServerClientSettings documentServerClientSettings) {
         super(documentServerClientSettings);
-
-        this.objectMapper = new ObjectMapper()
-                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-                .enable(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL);
 
         init();
     }
@@ -122,10 +123,6 @@ public class ApacheHttpclientDocumentServerClient extends AbstractDocumentServer
      */
     public ApacheHttpclientDocumentServerClient(final SettingsManager settingsManager, final UrlManager urlManager) {
         super(settingsManager, urlManager);
-
-        this.objectMapper = new ObjectMapper()
-                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-                .enable(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL);
 
         init();
     }
