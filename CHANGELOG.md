@@ -12,6 +12,8 @@
 - `SecurityUtils#createToken` and `SecurityUtils#createAuthorizationHeader` overloads with `JwtOperation`,
   `SecurityUtils#checkOperation`
 - `DocumentServerClient#getConfig()` and `DocumentServerClient#getFormats()` methods for retrieving Document Server configuration and supported formats
+- `com.onlyoffice.cache.DocumentServerMetaCache`, a thread-safe in-memory cache of one answer of the Document Server,
+  such as `/meta/config` or `/meta/formats`, with TTL, retry delay after a failure, load timeout and invalidation
 
 ## Changed
 - updated project dependencies to address known security vulnerabilities.
