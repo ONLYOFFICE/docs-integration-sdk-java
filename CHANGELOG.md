@@ -5,6 +5,9 @@
 - `FormatsProvider` and `DefaultFormatsProvider` for customizing the source of supported document formats
 - `DefaultDocumentManager(SettingsManager, FormatsProvider)` constructor
 
+## Changed
+- updated project dependencies to address known security vulnerabilities.
+
 ## Removed
 - `DefaultDocumentManager#init()`, format loading moved to `DefaultFormatsProvider`
 
