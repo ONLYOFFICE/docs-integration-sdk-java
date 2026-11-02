@@ -1,6 +1,6 @@
 # Change Log
 
-## [Unreleased]
+## 1.11.0
 ## Added
 - `FormatsProvider` and `DefaultFormatsProvider` for customizing the source of supported document formats
 - `DefaultDocumentManager(SettingsManager, FormatsProvider)` constructor
