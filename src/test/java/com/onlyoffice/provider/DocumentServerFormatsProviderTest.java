@@ -199,6 +199,59 @@ public class DocumentServerFormatsProviderTest {
     }
 
     @Test
+    public void whenFallbackThrowsAndUrlEmpty_thenReturnEmptyListAndReportError() {
+        url.set("");
+
+        Assertions.assertTrue(failingFallbackProvider().getFormats().isEmpty());
+        Assertions.assertEquals(1, errors.size());
+        Assertions.assertEquals("fallback", errors.get(0).getMessage());
+    }
+
+    @Test
+    public void whenFallbackThrowsAndLoadFails_thenReturnEmptyListAndReportBothErrors() {
+        when(documentServerClient.getFormats()).thenThrow(new IllegalStateException("down"));
+
+        Assertions.assertTrue(failingFallbackProvider().getFormats().isEmpty());
+        Assertions.assertEquals(2, errors.size());
+        Assertions.assertEquals("down", errors.get(0).getMessage());
+        Assertions.assertEquals("fallback", errors.get(1).getMessage());
+    }
+
+    @Test
+    public void whenFallbackThrowsAndUrlSupplierThrows_thenReturnEmptyList() {
+        DocumentServerFormatsProvider provider = DocumentServerFormatsProvider.builder(documentServerClient, () -> {
+                    throw new IllegalStateException("settings");
+                })
+                .fallback(() -> {
+                    throw new IllegalStateException("fallback");
+                })
+                .onError(errors::add)
+                .build();
+
+        Assertions.assertTrue(provider.getFormats().isEmpty());
+        Assertions.assertEquals(2, errors.size());
+    }
+
+    @Test
+    public void whenFallbackReturnsNull_thenReturnEmptyList() {
+        url.set("");
+        DocumentServerFormatsProvider provider = DocumentServerFormatsProvider.builder(documentServerClient, url::get)
+                .fallback(() -> null)
+                .build();
+
+        Assertions.assertTrue(provider.getFormats().isEmpty());
+    }
+
+    private DocumentServerFormatsProvider failingFallbackProvider() {
+        return DocumentServerFormatsProvider.builder(documentServerClient, url::get)
+                .fallback(() -> {
+                    throw new IllegalStateException("fallback");
+                })
+                .onError(errors::add)
+                .build();
+    }
+
+    @Test
     public void whenLoadFailsAndUrlChanges_thenRetryAtOnce() {
         when(documentServerClient.getFormats())
                 .thenThrow(new IllegalStateException("down"))

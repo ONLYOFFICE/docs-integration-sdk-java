@@ -109,8 +109,10 @@ public class DocumentServerFormatsProvider implements FormatsProvider {
 
     /**
      * Returns the formats of the Document Server, loading them when they are stale, missing or belong to another
-     * address. Returns the formats of the fallback provider while none are loaded. Never throws because the
-     * Document Server is unavailable.
+     * address. Returns the formats of the fallback provider while none are loaded. Doesn't throw when the
+     * Document Server is unavailable, or when the address supplier or the fallback provider throws an
+     * {@link RuntimeException}: the exception goes to {@code onError}, and when the fallback provider fails,
+     * an empty list is returned.
      *
      * @return An unmodifiable list of supported formats.
      */
@@ -123,11 +125,11 @@ public class DocumentServerFormatsProvider implements FormatsProvider {
         } catch (RuntimeException e) {
             report(e);
 
-            return fallback.getFormats();
+            return fallbackFormats();
         }
 
         if (url == null || url.isEmpty()) {
-            return fallback.getFormats();
+            return fallbackFormats();
         }
 
         String previous = cachedFor.get();
@@ -138,7 +140,7 @@ public class DocumentServerFormatsProvider implements FormatsProvider {
 
         List<Format> formats = cache.get();
 
-        return formats != null ? formats : fallback.getFormats();
+        return formats != null ? formats : fallbackFormats();
     }
 
     /**
@@ -147,6 +149,18 @@ public class DocumentServerFormatsProvider implements FormatsProvider {
      */
     public void invalidateCache() {
         cache.invalidate();
+    }
+
+    private List<Format> fallbackFormats() {
+        try {
+            List<Format> formats = fallback.getFormats();
+
+            return formats != null ? formats : Collections.emptyList();
+        } catch (RuntimeException e) {
+            report(e);
+
+            return Collections.emptyList();
+        }
     }
 
     private void report(final Exception error) {
