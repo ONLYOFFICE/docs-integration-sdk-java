@@ -1,7 +1,15 @@
 # Change Log
 
-## Unreleased
+## [Unreleased]
+## Added
+- `FormatsProvider` and `DefaultFormatsProvider` for customizing the source of supported document formats
+- `DefaultDocumentManager(SettingsManager, FormatsProvider)` constructor
+
+## Changed
+- updated project dependencies to address known security vulnerabilities.
+
 ## Removed
+- `DefaultDocumentManager#init()`, format loading moved to `DefaultFormatsProvider`
 - deprecated documenteditor/config/editorconfig/Customization fields:
   - `Customization#commentAuthorOnly`, use documenteditor/config/document/Permissions#editCommentAuthorOnly
     and documenteditor/config/document/Permissions#deleteCommentAuthorOnly instead
