@@ -10,6 +10,13 @@
 
 ## Removed
 - `DefaultDocumentManager#init()`, format loading moved to `DefaultFormatsProvider`
+- deprecated documenteditor/config/editorconfig/Customization fields:
+  - `Customization#commentAuthorOnly`, use documenteditor/config/document/Permissions#editCommentAuthorOnly
+    and documenteditor/config/document/Permissions#deleteCommentAuthorOnly instead
+  - `Customization#reviewDisplay`, use documenteditor/config/editorconfig/customization/Review#reviewDisplay instead
+  - `Customization#showReviewChanges`, use documenteditor/config/editorconfig/customization/Review#showReviewChanges
+    instead
+  - `Customization#trackChanges`, use documenteditor/config/editorconfig/customization/Review#trackChanges instead
 
 ## 1.10.1
 ## Changed
