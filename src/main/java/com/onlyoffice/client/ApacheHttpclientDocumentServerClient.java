@@ -18,12 +18,16 @@
 
 package com.onlyoffice.client;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.onlyoffice.client.dto.ConfigResponse;
 import com.onlyoffice.exception.DocumentServerResponseException;
 import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.manager.url.UrlManager;
 import com.onlyoffice.model.commandservice.CommandRequest;
 import com.onlyoffice.model.commandservice.CommandResponse;
+import com.onlyoffice.model.common.Format;
 import com.onlyoffice.model.common.RequestEntity;
 import com.onlyoffice.model.convertservice.ConvertRequest;
 import com.onlyoffice.model.convertservice.ConvertResponse;
@@ -92,8 +96,13 @@ public class ApacheHttpclientDocumentServerClient extends AbstractDocumentServer
     /** Flag indicating whether to ignore SSL certificate validation. */
     private boolean isIgnoreSSLCertificate;
 
-    /** {@link ObjectMapper}. */
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    /**
+     * {@link ObjectMapper} that reads the responses of the document server. Ignores the fields and enum values
+     * this SDK doesn't know yet, so that a newer document server doesn't break it.
+     */
+    private final ObjectMapper objectMapper = new ObjectMapper()
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            .enable(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL);
 
     /**
      * Constructs ApacheHttpclientDocumentServerClient with document server client settings.
@@ -210,6 +219,38 @@ public class ApacheHttpclientDocumentServerClient extends AbstractDocumentServer
     }
 
     @Override
+    public ConfigResponse getConfig() {
+        URI uri = createUri(
+                getBaseUrl(),
+                ConfigurationUtils.getDocsIntegrationSdkProperties()
+                        .getDocumentServer()
+                        .getConfigUrl(),
+                Collections.emptyList()
+        );
+
+        ClassicHttpRequest request = ClassicRequestBuilder.get(uri)
+                .build();
+
+        return executeRequest(request, ConfigResponse.class);
+    }
+
+    @Override
+    public List<Format> getFormats() {
+        URI uri = createUri(
+                getBaseUrl(),
+                ConfigurationUtils.getDocsIntegrationSdkProperties()
+                        .getDocumentServer()
+                        .getFormatsUrl(),
+                Collections.emptyList()
+        );
+
+        ClassicHttpRequest request = ClassicRequestBuilder.get(uri)
+                .build();
+
+        return executeRequest(request, new TypeReference<List<Format>>() { });
+    }
+
+    @Override
     public DocBuilderResponse docbuilder(final DocBuilderRequest docBuilderRequest) {
         URI uri = createUri(
                 getBaseUrl(),
@@ -268,6 +309,14 @@ public class ApacheHttpclientDocumentServerClient extends AbstractDocumentServer
         });
     }
 
+    protected <T> T executeRequest(final ClassicHttpRequest classicHttpRequest,
+                                   final TypeReference<T> typeReference) {
+        prepareHttpClient();
+
+        return executeRequest(this.httpClient, classicHttpRequest, inputStream ->
+                objectMapper.readValue(inputStream, typeReference)
+        );
+    }
 
     protected int executeRequest(final ClassicHttpRequest classicHttpRequest, final OutputStream outputStream) {
         prepareHttpClient();

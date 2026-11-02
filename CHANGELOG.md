@@ -11,6 +11,7 @@
   with `IncorrectOperationException`; a token without the claim is accepted
 - `SecurityUtils#createToken` and `SecurityUtils#createAuthorizationHeader` overloads with `JwtOperation`,
   `SecurityUtils#checkOperation`
+- `DocumentServerClient#getConfig()` and `DocumentServerClient#getFormats()` methods for retrieving Document Server configuration and supported formats
 
 ## Changed
 - updated project dependencies to address known security vulnerabilities.

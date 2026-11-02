@@ -18,13 +18,16 @@
 
 package com.onlyoffice.client;
 
+import com.onlyoffice.client.dto.ConfigResponse;
 import com.onlyoffice.exception.DocumentServerResponseException;
 import com.onlyoffice.manager.settings.DefaultSettingsManager;
 import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.manager.url.DefaultUrlManager;
 import com.onlyoffice.manager.url.UrlManager;
+import com.onlyoffice.model.common.Format;
 import com.onlyoffice.model.convertservice.ConvertRequest;
 import com.onlyoffice.model.convertservice.ConvertResponse;
+import com.onlyoffice.model.documenteditor.config.document.DocumentType;
 import com.onlyoffice.model.properties.docsintegrationsdk.DocumentServerProperties;
 import com.onlyoffice.model.settings.Settings;
 import com.onlyoffice.model.settings.security.Security;
@@ -39,6 +42,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Date;
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class ApacheHttpclientDocumentServerClientTest {
@@ -166,5 +170,36 @@ public class ApacheHttpclientDocumentServerClientTest {
         Assertions.assertEquals("pdf", convertResponse.getFileType());
         Assertions.assertEquals(true, convertResponse.getEndConvert());
         Assertions.assertEquals(100, convertResponse.getPercent());
+    }
+
+    @Test
+    public void documentServerClientWithSettings_whenGetConfig_thenReturnConfig() {
+        ConfigResponse configResponse = documentServerClientWithSettings.getConfig();
+
+        Assertions.assertNotNull(configResponse);
+        Assertions.assertNotNull(configResponse.getAuthorization());
+        Assertions.assertFalse(configResponse.getAuthorization().getHeader().isEmpty());
+        Assertions.assertNotNull(configResponse.getUrls());
+        Assertions.assertTrue(configResponse.getUrls().getApi().contains("api.js"));
+        Assertions.assertNotNull(configResponse.getUrls().getCommand());
+        Assertions.assertNotNull(configResponse.getUrls().getConverter());
+        Assertions.assertNotNull(configResponse.getLimits());
+        Assertions.assertTrue(configResponse.getLimits().getMaxFileSize() > 0);
+        Assertions.assertFalse(configResponse.getLangs().isEmpty());
+    }
+
+    @Test
+    public void documentServerClientWithSettings_whenGetFormats_thenReturnFormats() {
+        List<Format> formats = documentServerClientWithSettings.getFormats();
+
+        Format docx = formats.stream()
+                .filter(format -> "docx".equals(format.getName()))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("docx is missing in " + formats.size() + " formats"));
+
+        Assertions.assertEquals(DocumentType.WORD, docx.getType());
+        Assertions.assertTrue(docx.getActions().contains("edit"));
+        Assertions.assertTrue(docx.getConvert().contains("pdf"));
+        Assertions.assertFalse(docx.getMime().isEmpty());
     }
 }
