@@ -102,14 +102,29 @@ public interface DocumentServerClient {
      * Retrieves the Document Server configuration from the meta config endpoint (/meta/config).
      * The response contains authorization settings, API endpoint URLs, limits, and supported languages.
      *
+     * <p>The default implementation throws {@link UnsupportedOperationException}, so that implementations written
+     * before this method was added keep compiling. Override it to support the endpoint.
+     *
      * @return ConfigResponse object containing the Document Server configuration
+     * @throws UnsupportedOperationException if the implementation doesn't support the endpoint
+     * @since 1.11.0
      */
-    ConfigResponse getConfig();
+    default ConfigResponse getConfig() {
+        throw new UnsupportedOperationException("getConfig() is not supported by " + getClass().getName());
+    }
 
     /**
      * Retrieves the list of supported document formats from the meta formats endpoint (/meta/formats).
      *
+     * <p>The default implementation throws {@link UnsupportedOperationException}, so that implementations written
+     * before this method was added keep compiling. Override it to support the endpoint. When it isn't supported,
+     * {@link com.onlyoffice.provider.DocumentServerFormatsProvider} returns the formats of its fallback provider.
+     *
      * @return List of {@link Format} objects describing all supported document formats
+     * @throws UnsupportedOperationException if the implementation doesn't support the endpoint
+     * @since 1.11.0
      */
-    List<Format> getFormats();
+    default List<Format> getFormats() {
+        throw new UnsupportedOperationException("getFormats() is not supported by " + getClass().getName());
+    }
 }
