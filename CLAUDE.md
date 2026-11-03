@@ -57,9 +57,10 @@ Configuration (DocsIntegrationSdkConfiguration interface)
 | `DefaultSettingsManager` | Yes | Read/write application settings |
 | `DefaultJwtManager` | No | JWT token creation and verification |
 | `DefaultUrlManager` | No | URL construction |
-| `DefaultRequestManager` | No | HTTP requests to Document Server (deprecated since 1.5) |
 
 Integrators **must** subclass `DefaultDocumentManager` (implementing `getDocumentKey` and `getDocumentName`) and `DefaultSettingsManager` (implementing `getSetting` and `setSetting`).
+
+`RequestManager`/`DefaultRequestManager`, `CommandService`, `DefaultConvertService` and `DefaultSettingsValidationService` were removed in 1.10.0 — HTTP calls to Document Server go through `DocumentServerClient`.
 
 ### Services (`com.onlyoffice.service`)
 
@@ -72,8 +73,19 @@ Integrators **must** subclass `DefaultDocumentManager` (implementing `getDocumen
 
 ### Client (`com.onlyoffice.client`)
 
-`ApacheHttpclientDocumentServerClient` (Apache HttpComponents 5) implements `DocumentServerClient`:
-- `healthcheck()`, `getFile()`, `convert()`, `command()`, `docbuilder()`
+`ApacheHttpclientDocumentServerClient` (Apache HttpComponents 5, extends `AbstractDocumentServerClient`) implements `DocumentServerClient`:
+- `healthcheck()`, `getFile()`, `convert()`, `command()`, `docbuilder()`, `applySettings()`
+- `getConfig()` (`/meta/config`) and `getFormats()` (`/meta/formats`) — `default` methods in the interface that throw `UnsupportedOperationException`, so custom clients stay source-compatible
+
+Tokens of the requests to Document Server carry the JWT `operation` claim (`JwtOperation`: `converter`, `command`, `docbuilder`, `download`, `callback`). `JwtManager#verify(token, operation)` rejects a token issued for another operation with `IncorrectOperationException`; a token without the claim is accepted. `DefaultCallbackService#verifyCallback` expects `callback`.
+
+### Formats (`com.onlyoffice.provider`, `com.onlyoffice.cache`)
+
+`DefaultDocumentManager` gets its formats from a `FormatsProvider` (constructor `DefaultDocumentManager(SettingsManager, FormatsProvider)`):
+- `DefaultFormatsProvider` (default) — formats bundled with the SDK (`assets/document-formats/onlyoffice-docs-formats.json`), loaded once into a static field
+- `DocumentServerFormatsProvider` — formats from the Document Server (`/meta/formats`), kept in a `DocumentServerMetaCache`; reloaded when the Document Server address changes, falls back to another provider (bundled formats by default) while nothing is loaded
+
+`DocumentServerMetaCache<T>` is a thread-safe in-memory cache of one Document Server answer, with TTL, retry delay after a failure, load timeout and invalidation; `get()` propagates errors of the loader.
 
 ### Configuration and Context
 
@@ -81,18 +93,25 @@ Integrators **must** subclass `DefaultDocumentManager` (implementing `getDocumen
 - `settingsManager()` and `documentManager()` are **abstract** — must be implemented
 - All other components have `default` factory methods
 
-`DocsIntegrationSdkContext` acts as an IoC container — call `build()` to wire all components. For Spring, components can also be registered as individual beans.
+`DocsIntegrationSdkContext` acts as an IoC container — its constructor calls `build()` to wire all components, which are then available through getters (`getConfigService()`, `getUrlManager()`, ...). For Spring, components can also be registered as individual beans.
 
 ### Models
 
 Located in `com.onlyoffice.model`. All are Lombok `@Builder` POJOs:
-- `com.onlyoffice.model.documenteditor.config` — `Config`, `Document`, `EditorConfig`, `Permissions`, etc.
-- `com.onlyoffice.model.documenteditor.callback` — `Callback` (statuses 1–7)
+- `com.onlyoffice.model.documenteditor` — `Config`, `Callback` (statuses 1–7), `History`, `HistoryData`, `FormData`
+- `com.onlyoffice.model.documenteditor.config` — `Document`, `EditorConfig` and their subpackages (`document.Permissions`, `editorconfig.Customization`, ...)
 - `com.onlyoffice.model.convertservice` — `ConvertRequest`, `ConvertResponse`
+- `com.onlyoffice.model.commandservice`, `com.onlyoffice.model.docbuilderservice` — command and docbuilder requests/responses
 - `com.onlyoffice.model.common` — `Format`, `User`, `Error`
 
-Document formats are loaded from a static resource file in `DefaultDocumentManager` and cached in a static `formats` field.
+## Resources (git submodules)
+
+`src/main/resources/assets/document-formats` (supported formats) and `src/main/resources/assets/document-templates` (empty file templates) are git submodules. After cloning run `git submodule update --init --recursive`, otherwise formats and templates are missing.
+
+## Changelog
+
+Every user-visible change goes into `CHANGELOG.md` under the upcoming version (`Added` / `Changed` / `Removed`).
 
 ## Demo Application
 
-`demo-example/` is a Spring Boot 3 / Java 17 reference implementation showing how to wire the SDK into a web application. It includes concrete implementations of `SettingsManager`, `DocumentManager`, `UrlManager`, and both `CallbackService` and `ConfigService`.
+`demo-example/` is a Spring Boot 3 / Java 17 reference implementation showing how to wire the SDK into a web application. It implements `DocsIntegrationSdkConfiguration` (`DemoDocsIntegrationSdkConfiguration`), exposes `DocsIntegrationSdkContext` as a Spring bean and includes concrete implementations of `SettingsManager`, `DocumentManager`, `UrlManager`, and both `CallbackService` and `ConfigService`.
