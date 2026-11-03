@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onlyoffice.manager.security.JwtManager;
 import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.model.documenteditor.Callback;
+import com.onlyoffice.model.security.JwtOperation;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -67,7 +68,7 @@ public class DefaultCallbackService implements CallbackService {
                 throw new SecurityException("Not found authorization token");
             }
 
-            payload = jwtManager.verify(token);
+            payload = jwtManager.verify(token, JwtOperation.CALLBACK);
 
             JsonNode callbackFromToken = objectMapper.readTree(payload);
 

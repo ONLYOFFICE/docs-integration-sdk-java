@@ -18,12 +18,16 @@
 
 package com.onlyoffice.client;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.onlyoffice.client.dto.ConfigResponse;
 import com.onlyoffice.exception.DocumentServerResponseException;
 import com.onlyoffice.manager.settings.SettingsManager;
 import com.onlyoffice.manager.url.UrlManager;
 import com.onlyoffice.model.commandservice.CommandRequest;
 import com.onlyoffice.model.commandservice.CommandResponse;
+import com.onlyoffice.model.common.Format;
 import com.onlyoffice.model.common.RequestEntity;
 import com.onlyoffice.model.convertservice.ConvertRequest;
 import com.onlyoffice.model.convertservice.ConvertResponse;
@@ -31,6 +35,7 @@ import com.onlyoffice.model.convertservice.ConvertResponse;
 import com.onlyoffice.model.docbuilderservice.DocBuilderRequest;
 import com.onlyoffice.model.docbuilderservice.DocBuilderResponse;
 import com.onlyoffice.model.properties.docsintegrationsdk.HttpClientProperties;
+import com.onlyoffice.model.security.JwtOperation;
 import com.onlyoffice.utils.ConfigurationUtils;
 import com.onlyoffice.utils.SecurityUtils;
 import lombok.AccessLevel;
@@ -91,8 +96,13 @@ public class ApacheHttpclientDocumentServerClient extends AbstractDocumentServer
     /** Flag indicating whether to ignore SSL certificate validation. */
     private boolean isIgnoreSSLCertificate;
 
-    /** {@link ObjectMapper}. */
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    /**
+     * {@link ObjectMapper} that reads the responses of the document server. Ignores the fields and enum values
+     * this SDK doesn't know yet, so that a newer document server doesn't break it.
+     */
+    private final ObjectMapper objectMapper = new ObjectMapper()
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            .enable(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL);
 
     /**
      * Constructs ApacheHttpclientDocumentServerClient with document server client settings.
@@ -209,6 +219,38 @@ public class ApacheHttpclientDocumentServerClient extends AbstractDocumentServer
     }
 
     @Override
+    public ConfigResponse getConfig() {
+        URI uri = createUri(
+                getBaseUrl(),
+                ConfigurationUtils.getDocsIntegrationSdkProperties()
+                        .getDocumentServer()
+                        .getConfigUrl(),
+                Collections.emptyList()
+        );
+
+        ClassicHttpRequest request = ClassicRequestBuilder.get(uri)
+                .build();
+
+        return executeRequest(request, ConfigResponse.class);
+    }
+
+    @Override
+    public List<Format> getFormats() {
+        URI uri = createUri(
+                getBaseUrl(),
+                ConfigurationUtils.getDocsIntegrationSdkProperties()
+                        .getDocumentServer()
+                        .getFormatsUrl(),
+                Collections.emptyList()
+        );
+
+        ClassicHttpRequest request = ClassicRequestBuilder.get(uri)
+                .build();
+
+        return executeRequest(request, new TypeReference<List<Format>>() { });
+    }
+
+    @Override
     public DocBuilderResponse docbuilder(final DocBuilderRequest docBuilderRequest) {
         URI uri = createUri(
                 getBaseUrl(),
@@ -267,6 +309,14 @@ public class ApacheHttpclientDocumentServerClient extends AbstractDocumentServer
         });
     }
 
+    protected <T> T executeRequest(final ClassicHttpRequest classicHttpRequest,
+                                   final TypeReference<T> typeReference) {
+        prepareHttpClient();
+
+        return executeRequest(this.httpClient, classicHttpRequest, inputStream ->
+                objectMapper.readValue(inputStream, typeReference)
+        );
+    }
 
     protected int executeRequest(final ClassicHttpRequest classicHttpRequest, final OutputStream outputStream) {
         prepareHttpClient();
@@ -309,6 +359,7 @@ public class ApacheHttpclientDocumentServerClient extends AbstractDocumentServer
 
     /**
      * Authorizes a request by adding a JWT header if security key is configured.
+     * The token carries the {@code operation} claim returned by {@link #getOperation(RequestEntity)}.
      *
      * @param request the HTTP request to authorize
      * @param requestEntity the request entity containing data for authorization
@@ -317,13 +368,43 @@ public class ApacheHttpclientDocumentServerClient extends AbstractDocumentServer
         if (isSecurityEnabled()) {
             request.setHeader(
                     getSecurityHeader(),
-                    SecurityUtils.createAuthorizationHeader(requestEntity, getSecurityKey(), getSecurityPrefix())
+                    SecurityUtils.createAuthorizationHeader(
+                            requestEntity,
+                            getSecurityKey(),
+                            getSecurityPrefix(),
+                            getOperation(requestEntity)
+                    )
             );
         }
     }
 
     /**
+     * Returns the request a token for the request entity is for, written to the {@code operation} claim.
+     * Document Server rejects a token whose {@code operation} claim names another endpoint.
+     *
+     * @param requestEntity the request entity
+     * @return the operation, or {@code null} for an unknown request entity
+     */
+    protected JwtOperation getOperation(final RequestEntity requestEntity) {
+        if (requestEntity instanceof ConvertRequest) {
+            return JwtOperation.CONVERTER;
+        }
+
+        if (requestEntity instanceof CommandRequest) {
+            return JwtOperation.COMMAND;
+        }
+
+        if (requestEntity instanceof DocBuilderRequest) {
+            return JwtOperation.DOCBUILDER;
+        }
+
+        return null;
+    }
+
+    /**
      * Creates an HTTP entity from the request entity, generating auth token if needed.
+     * The generated token carries the {@code operation} claim returned by {@link #getOperation(RequestEntity)}.
+     * A token already set on the request entity is sent as is and must carry the {@code operation} claim itself.
      *
      * @param requestEntity the request entity to convert
      * @return HttpEntity containing the JSON payload
@@ -332,7 +413,7 @@ public class ApacheHttpclientDocumentServerClient extends AbstractDocumentServer
         return HttpEntities.create(outputStream -> {
                     if (requestEntity.getToken() == null && isSecurityEnabled()) {
                         requestEntity.setToken(
-                                SecurityUtils.createToken(requestEntity, getSecurityKey())
+                                SecurityUtils.createToken(requestEntity, getSecurityKey(), getOperation(requestEntity))
                         );
                     }
 

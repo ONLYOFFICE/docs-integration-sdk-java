@@ -29,7 +29,6 @@ import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Log
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.MacrosMode;
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Mobile;
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Review;
-import com.onlyoffice.model.documenteditor.config.editorconfig.customization.review.ReviewDisplay;
 import com.onlyoffice.model.documenteditor.config.editorconfig.customization.Unit;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -78,17 +77,6 @@ public class Customization {
      * Defines settings for the cross button to close the editor.
      */
     private Close close;
-
-    /**
-     * Defines if the user can edit and delete only his comments. The default value is "false".
-     * Deprecated since version 6.3, please use the
-     * {@link com.onlyoffice.model.documenteditor.config.document.Permissions#editCommentAuthorOnly
-     * document.permissions.editCommentAuthorOnly} and
-     * {@link com.onlyoffice.model.documenteditor.config.document.Permissions#deleteCommentAuthorOnly
-     * document.permissions.deleteCommentAuthorOnly} fields instead.
-     */
-    @Deprecated
-    private Boolean commentAuthorOnly;
 
     /**
      * Defines if the "Comments" menu button is displayed or hidden.
@@ -234,27 +222,10 @@ public class Customization {
     private Review review;
 
     /**
-     * Defines the review editing mode which will be used when the document is opened for viewing.
-     * It will only be available for the document editor if {@link Mode} is set to "view".
-     * The default value is "original" for viewer and "markup" for editor.
-     * Deprecated since version 7.0. Please use the {@link Review review.reviewDisplay} parameter instead.
-     */
-    @Deprecated
-    private ReviewDisplay reviewDisplay;
-
-    /**
      * Starting from version 8.3, defines if the horizontal scroll is automatically displayed or hidden when the
      * spreadsheet editor is loaded. The default value is true.
      */
     private Boolean showHorizontalScroll;
-
-    /**
-     * Defines if the review changes panel is automatically displayed or hidden when the editor is loaded.
-     * The default value is "false". Deprecated since version 7.0. Please use the
-     * {@link Review review.showReviewChanges} parameter instead.
-     */
-    @Deprecated
-    private Boolean showReviewChanges;
 
     /**
      * Starting from version 8.3, defines if the vertical scroll is automatically displayed or hidden when the
@@ -300,17 +271,6 @@ public class Customization {
      */
     @Deprecated
     private Boolean toolbarNoTabs;
-
-    /**
-     * Defines if the document is opened in the review editing mode ("true") or not ("false")
-     * regardless of the {@link com.onlyoffice.model.documenteditor.config.document.Permissions#review
-     * document.permissions.review} parameter (the review mode is changed only for the current user). If the parameter
-     * is undefined, the "document.permissions.review" value is used (for all the document users). Deprecated since
-     * version 7.0. Please use the {@link Review review.trackChanges}
-     * parameter instead.
-     */
-    @Deprecated
-    private Boolean trackChanges;
 
     /**
      * Defines the editor theme settings. It can be set in two ways:

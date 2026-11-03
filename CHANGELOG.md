@@ -1,5 +1,37 @@
 # Change Log
 
+## 1.11.0
+## Added
+- `FormatsProvider` and `DefaultFormatsProvider` for customizing the source of supported document formats
+- `DefaultDocumentManager(SettingsManager, FormatsProvider)` constructor
+- `JwtOperation`, the `operation` claim of a token: `converter`, `command`, `docbuilder`, `download`, `callback`
+- the tokens of the requests to Document Server (`convert`, `command`, `docbuilder`) carry the `operation` claim
+- `JwtManager#verify(String token, JwtOperation operation)` and
+  `JwtManager#verifyToken(String token, String key, JwtOperation operation)` refuse a token for another request
+  with `IncorrectOperationException`; a token without the claim is accepted
+- `SecurityUtils#createToken` and `SecurityUtils#createAuthorizationHeader` overloads with `JwtOperation`,
+  `SecurityUtils#checkOperation`
+- `DocumentServerClient#getConfig()` and `DocumentServerClient#getFormats()` methods for retrieving Document Server configuration and supported formats
+- `com.onlyoffice.cache.DocumentServerMetaCache`, a thread-safe in-memory cache of one answer of the Document Server,
+  such as `/meta/config` or `/meta/formats`, with TTL, retry delay after a failure, load timeout and invalidation
+- `DocumentServerFormatsProvider` for loading supported document formats from the Document Server, cached in
+  `DocumentServerMetaCache`; the cache is reloaded when the address of the Document Server changes, and the bundled
+  formats are returned while none are loaded
+
+## Changed
+- updated project dependencies to address known security vulnerabilities.
+- `DefaultCallbackService#verifyCallback` refuses a token whose `operation` claim is not `callback`
+
+## Removed
+- `DefaultDocumentManager#init()`, format loading moved to `DefaultFormatsProvider`
+- deprecated documenteditor/config/editorconfig/Customization fields:
+  - `Customization#commentAuthorOnly`, use documenteditor/config/document/Permissions#editCommentAuthorOnly
+    and documenteditor/config/document/Permissions#deleteCommentAuthorOnly instead
+  - `Customization#reviewDisplay`, use documenteditor/config/editorconfig/customization/Review#reviewDisplay instead
+  - `Customization#showReviewChanges`, use documenteditor/config/editorconfig/customization/Review#showReviewChanges
+    instead
+  - `Customization#trackChanges`, use documenteditor/config/editorconfig/customization/Review#trackChanges instead
+
 ## 1.10.1
 ## Changed
 - updated project dependencies to address known security vulnerabilities.

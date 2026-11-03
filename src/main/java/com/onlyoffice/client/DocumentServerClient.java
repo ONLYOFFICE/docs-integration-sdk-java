@@ -18,8 +18,10 @@
 
 package com.onlyoffice.client;
 
+import com.onlyoffice.client.dto.ConfigResponse;
 import com.onlyoffice.model.commandservice.CommandRequest;
 import com.onlyoffice.model.commandservice.CommandResponse;
+import com.onlyoffice.model.common.Format;
 import com.onlyoffice.model.convertservice.ConvertRequest;
 import com.onlyoffice.model.convertservice.ConvertResponse;
 import com.onlyoffice.model.docbuilderservice.DocBuilderRequest;
@@ -27,6 +29,7 @@ import com.onlyoffice.model.docbuilderservice.DocBuilderResponse;
 import com.onlyoffice.model.settings.Settings;
 
 import java.io.OutputStream;
+import java.util.List;
 
 public interface DocumentServerClient {
     /**
@@ -94,4 +97,34 @@ public interface DocumentServerClient {
      * @return DocBuilderResponse The response containing the result of the DocBuilder operation
      */
     DocBuilderResponse docbuilder(DocBuilderRequest docBuilderRequest);
+
+    /**
+     * Retrieves the Document Server configuration from the meta config endpoint (/meta/config).
+     * The response contains authorization settings, API endpoint URLs, limits, and supported languages.
+     *
+     * <p>The default implementation throws {@link UnsupportedOperationException}, so that implementations written
+     * before this method was added keep compiling. Override it to support the endpoint.
+     *
+     * @return ConfigResponse object containing the Document Server configuration
+     * @throws UnsupportedOperationException if the implementation doesn't support the endpoint
+     * @since 1.11.0
+     */
+    default ConfigResponse getConfig() {
+        throw new UnsupportedOperationException("getConfig() is not supported by " + getClass().getName());
+    }
+
+    /**
+     * Retrieves the list of supported document formats from the meta formats endpoint (/meta/formats).
+     *
+     * <p>The default implementation throws {@link UnsupportedOperationException}, so that implementations written
+     * before this method was added keep compiling. Override it to support the endpoint. When it isn't supported,
+     * {@link com.onlyoffice.provider.DocumentServerFormatsProvider} returns the formats of its fallback provider.
+     *
+     * @return List of {@link Format} objects describing all supported document formats
+     * @throws UnsupportedOperationException if the implementation doesn't support the endpoint
+     * @since 1.11.0
+     */
+    default List<Format> getFormats() {
+        throw new UnsupportedOperationException("getFormats() is not supported by " + getClass().getName());
+    }
 }
