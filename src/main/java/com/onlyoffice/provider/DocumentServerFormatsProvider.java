@@ -155,7 +155,7 @@ public class DocumentServerFormatsProvider implements FormatsProvider {
         try {
             List<Format> formats = fallback.getFormats();
 
-            return formats != null ? formats : Collections.emptyList();
+            return formats != null ? Collections.unmodifiableList(formats) : Collections.emptyList();
         } catch (RuntimeException e) {
             report(e);
 

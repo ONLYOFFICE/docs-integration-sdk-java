@@ -25,6 +25,7 @@ import com.onlyoffice.model.common.Format;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -62,8 +63,10 @@ public class DefaultFormatsProvider implements FormatsProvider {
         }
 
         try {
-            formats = objectMapper.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true)
-                    .readValue(inputStream, new TypeReference<List<Format>>() { });
+            formats = Collections.unmodifiableList(
+                    objectMapper.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true)
+                            .readValue(inputStream, new TypeReference<List<Format>>() { })
+            );
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

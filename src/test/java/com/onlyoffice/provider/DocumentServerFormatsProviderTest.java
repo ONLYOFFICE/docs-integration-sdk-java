@@ -151,6 +151,34 @@ public class DocumentServerFormatsProviderTest {
     }
 
     @Test
+    public void whenFallbackReturnsModifiableList_thenReturnUnmodifiableList() {
+        List<Format> source = new ArrayList<>(Collections.singletonList(format("bundled")));
+        url.set(null);
+        DocumentServerFormatsProvider provider = DocumentServerFormatsProvider.builder(documentServerClient, url::get)
+                .fallback(() -> source)
+                .build();
+
+        List<Format> formats = provider.getFormats();
+
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> formats.add(format("pptx")));
+        Assertions.assertEquals(Collections.singletonList("bundled"), names(source));
+    }
+
+    @Test
+    public void whenDefaultFallback_thenReturnUnmodifiableList() {
+        url.set(null);
+        DocumentServerFormatsProvider provider = DocumentServerFormatsProvider.builder(documentServerClient, url::get)
+                .build();
+
+        List<Format> formats = provider.getFormats();
+
+        Assertions.assertFalse(formats.isEmpty());
+        Assertions.assertThrows(UnsupportedOperationException.class, formats::clear);
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> new DefaultFormatsProvider().getFormats()
+                .clear());
+    }
+
+    @Test
     public void whenUrlEmpty_thenReturnFallbackWithoutRequest() {
         url.set("");
 
